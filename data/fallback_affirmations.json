@@ -1,0 +1,104 @@
+{
+  "fallbacks": [
+    {
+      "text": "When the heat rises mid-meeting, that's your hypothalamus recalibrating — not a sign you can't handle the room.",
+      "focus_domain": "vasomotor-temperature",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-002"]
+    },
+    {
+      "text": "Your hot flashes aren't a failure of willpower — they're a thermoregulatory signal your body is sending while it adjusts to new estrogen levels.",
+      "focus_domain": "vasomotor-temperature",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-001"]
+    },
+    {
+      "text": "Waking at 3am is your cortisol rhythm at work, not anxiety winning — your deep sleep is protecting what matters most in your brain and body.",
+      "focus_domain": "sleep-architecture-cortisol",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-003"]
+    },
+    {
+      "text": "If you're exhausted despite lying in bed for eight hours, that's your deep sleep (N3) asking for support — not evidence that rest doesn't work for you.",
+      "focus_domain": "sleep-architecture-cortisol",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-003"]
+    },
+    {
+      "text": "The irritability you're feeling isn't who you are — it's your serotonin buffer thinning as estradiol fluctuates, and that is biochemical, not a character flaw.",
+      "focus_domain": "mood-anxiety-emotional-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-007"]
+    },
+    {
+      "text": "When small things feel enormous today, your brain's emotional buffer is simply running leaner — you are not falling apart, you are in a hormonal transition.",
+      "focus_domain": "mood-anxiety-emotional-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-007"]
+    },
+    {
+      "text": "Your brain fog is real: the hippocampus and parietal cortex are among the most estrogen-sensitive areas in your nervous system, and they are adapting right now.",
+      "focus_domain": "cognitive-function-brain-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-005"]
+    },
+    {
+      "text": "When you lose a word mid-sentence, that's spatial and verbal memory navigating an estrogen shift — it is temporary, and you are still sharp.",
+      "focus_domain": "cognitive-function-brain-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-005"]
+    },
+    {
+      "text": "Your changing body composition is not a willpower problem — your metabolism is being recalibrated, and the old rules genuinely no longer apply.",
+      "focus_domain": "metabolic-health-body-composition",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-009"]
+    },
+    {
+      "text": "Visceral fat has a hormonal logic right now — your body is defending it. That means the path forward is different, not harder, than you think.",
+      "focus_domain": "metabolic-health-body-composition",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-010"]
+    },
+    {
+      "text": "Your skin's lower collagen threshold isn't aging poorly — it's estrogen-mediated dermis change, and noticing it early means you can support it intentionally.",
+      "focus_domain": "skin-hair-nails",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-012"]
+    },
+    {
+      "text": "The dryness and sensitivity your skin is showing are often the first visible signal of estrogen change — your body has been telling this story honestly.",
+      "focus_domain": "skin-hair-nails",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-012"]
+    },
+    {
+      "text": "Morning stiffness that lingers is your joints asking for time — estrogen-supported lubrication has shifted, and your pace can shift with it without judgment.",
+      "focus_domain": "musculoskeletal-bone-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-014"]
+    },
+    {
+      "text": "Your bones are silently doing hard work right now — bone remodeling speeds up in perimenopause, and how you move and nourish yourself genuinely registers.",
+      "focus_domain": "musculoskeletal-bone-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-013"]
+    },
+    {
+      "text": "GSM-related discomfort is a tissue response to estrogen withdrawal, not a permanent state — it is clinical, not personal, and it is addressable.",
+      "focus_domain": "genitourinary-sexual-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-016"]
+    },
+    {
+      "text": "If intimacy feels different right now, that is your body's estrogen-dependent tissue responding to change — not a reflection of your desirability or health.",
+      "focus_domain": "genitourinary-sexual-health",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-016"]
+    },
+    {
+      "text": "Recovery taking longer isn't weakness — mitochondrial efficiency, hormonal anabolism, and HRV all shift in menopause, and your body is recalibrating its repair timeline.",
+      "focus_domain": "cardiovascular-whole-body-energy",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-019"]
+    },
+    {
+      "text": "When your heart flutters at rest, that's your cardiovascular system registering the estrogen shift — worth noting, worth sharing, and not something to carry alone.",
+      "focus_domain": "cardiovascular-whole-body-energy",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-018"]
+    },
+    {
+      "text": "Your gut and lifestyle signals are measurable modulators of every hormone-related symptom — small, consistent choices here have disproportionate downstream effect.",
+      "focus_domain": "lifestyle-gut-health-nutrition",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-020"]
+    },
+    {
+      "text": "Screen light before sleep suppresses your melatonin by up to 50% — that's not a small thing when your melatonin is already reduced. Protecting that window is a real act of care for yourself.",
+      "focus_domain": "lifestyle-gut-health-nutrition",
+      "evidence_refs": ["empress-120-symptom-biomarker-framework-chunk-021"]
+    }
+  ]
+}

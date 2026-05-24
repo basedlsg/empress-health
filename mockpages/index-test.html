@@ -1,0 +1,4314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EmpressHealth — Smart Support for Every Stage</title>
+    <meta name="description" content="EmpressHealth — Smart Support for Every Stage — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="EmpressHealth — Smart Support for Every Stage" />
+  <meta property="og:description" content="EmpressHealth — Smart Support for Every Stage — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/mockpages/index-test.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EmpressHealth — Smart Support for Every Stage" />
+  <meta name="twitter:description" content="EmpressHealth — Smart Support for Every Stage — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root{
+    --bg:#fffaf1; --ink:#1f1b2d; --muted:#6e6a7a; --soft:#faf8ff;
+    --primary:#3f1449; --primary-600:#4b2577; --accent:#9a653e; --border:#ececf1;
+    --shadow:0 10px 30px rgba(16,16,32,.08); --radius:18px; --header-h:64px;
+    --space-1:8px; --space-2:12px; --space-3:16px; --space-4:24px; --space-5:32px; --space-6:48px;
+    --blog-arrow: 68px; --blog-gap: 12px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%; overflow-x:hidden; width:100%; margin:0; padding:0}
+  body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial; color:var(--ink); background:var(--bg); padding-top: 100px}
+  img{max-width:100%; display:block}
+  a{color:inherit; text-decoration:none}
+  .muted{color:var(--muted)}
+  .container{width:min(1120px, 100% - 2rem); margin-inline:auto}
+  /* Override container for hero section */
+  section.hero .container{width:100vw !important; max-width:100vw !important; margin:0 !important; padding:0 !important; margin-left:calc(50% - 50vw) !important; margin-right:calc(50% - 50vw) !important; margin-top:var(--header-h, 64px) !important}
+  .section{padding:var(--space-5) 0}
+  section.hero.section{padding:0 !important; margin:0 !important; margin-top:var(--header-h, 64px) !important}
+  .center{text-align:center}
+
+  /* Type scale — mobile-first, fluid */
+  h1{margin:0 0 .4rem; font:800 clamp(28px,6vw,44px)/1.1 Poppins,Inter,sans-serif}
+  h2{margin:0 0 .3rem; font:800 clamp(22px,4.8vw,34px)/1.15 Poppins,Inter,sans-serif}
+  h3{margin:0 0 .25rem; font:700 clamp(18px,4.2vw,26px)/1.2 Poppins,Inter,sans-serif}
+  h4{margin:0 0 .25rem; font:700 clamp(16px,3.6vw,20px)/1.25 Poppins,Inter,sans-serif}
+  p{margin:.5rem 0 0; font-size:clamp(14px,3.6vw,16px)}
+  .lead{max-width:700px; margin:.5rem auto 0; color:var(--muted)}
+
+  /* Buttons (pill, bold) */
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.85rem 1.15rem; border-radius:999px; font-weight:700; white-space:nowrap}
+  .btn.primary{background:var(--primary); color:#fff; box-shadow:var(--shadow)}
+  .btn.ghost{border:1px solid var(--border); background:#fff}
+
+  /* Header — sticky, airy, minimal link set */
+  header{position:fixed; top:0; left:0; right:0; z-index:9999; background:transparent; border-bottom:2px solid transparent; box-shadow: none; transition: box-shadow .2s ease, backdrop-filter .2s ease, background-color .2s ease}
+  header#site-header.is-stuck{box-shadow: 0 8px 24px rgba(0,0,0,.08); backdrop-filter: saturate(120%) blur(6px); background:rgba(255,255,255,0.85)}
+  
+  /* Ensure menu text is readable on transparent background */
+  header .links a,
+  header .menu-trigger,
+  header .brand {
+    text-shadow: 0 1px 3px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.5);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:.5rem 0}
+  .brand{display:flex; align-items:center; gap:.6rem}
+  .brand-logo{height: clamp(56px, 7vw, 80px)}
+  .links{display:none; gap:18px; font-weight:600; color:var(--muted)}
+  .cta{display:none; gap:12px}
+  .burger{width:52px; height:52px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,0.9); backdrop-filter: blur(10px); display:grid; place-items:center; cursor:pointer; font-size: 28px}
+  .burger:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+
+  /* === Desktop mega menu === */
+.main-nav{display:flex; align-items:center; gap:18px}
+.menu-item{position:relative}
+.menu-trigger{
+  background:transparent; border:0; cursor:pointer;
+  font-weight:700; color:var(--ink); padding:.6rem .5rem; border-radius:10px;
+}
+.menu-trigger:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+.menu-item[data-open="1"] .menu-trigger{color:var(--primary)}
+
+.menu-panel{
+  position:absolute; left:0;
+  top:calc(100% + 10px); z-index:1001;
+  width:min(500px, 85vw);
+  background:#fff; border:1px solid var(--border); border-radius:16px;
+  box-shadow:var(--shadow); padding:14px; display:none;
+}
+/* Right-align dropdowns for items on the right side (5th item onwards) */
+.menu-item:nth-child(n+5) .menu-panel { left:auto; right:0; }
+/* Center dropdowns for middle items */
+.menu-item:nth-child(3) .menu-panel,
+.menu-item:nth-child(4) .menu-panel { left:50%; transform:translateX(-50%); right:auto; }
+.menu-item:hover .menu-panel,
+.menu-item:focus-within .menu-panel,
+.menu-item[data-open="1"] .menu-panel{display:block}
+
+.menu-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.menu-section h5{
+  margin:0 0 6px; font:800 .95rem/1.2 Poppins,Inter,sans-serif; color:var(--primary-600)
+}
+.menu-list{list-style:none; padding:0; margin:0; display:grid; gap:8px}
+.menu-link{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:#fff;
+  transition:border-color .15s, box-shadow .15s, transform .05s;
+}
+.menu-link:hover{border-color:#e0def0; box-shadow:var(--shadow); transform:translateY(-1px)}
+.menu-desc{font-size:12.5px; color:var(--muted)}
+
+/* Divider option inside panel */
+.menu-divider{height:1px; background:var(--border); margin:8px 0}
+
+/* === Mobile drawer (accordion) === */
+.drawer { padding: 20px; }
+.drawer details{border-top:1px solid var(--border); padding:6px 0}
+.drawer summary{
+  display:flex; justify-content:space-between; align-items:center; gap:8px;
+  padding:10px 6px; font-weight:700; cursor:pointer; list-style:none;
+}
+.drawer summary::-webkit-details-marker{display:none}
+.drawer ul{list-style:none; padding-left:10px; margin:6px 0 12px; display:grid; gap:8px}
+.drawer a{color:var(--ink)}
+/* MOBILE (default): hide the horizontal nav + header CTAs */
+.links.main-nav { display: none !important; }
+.cta { display: none !important; }
+.burger { display: grid !important; }          /* show hamburger */
+
+/* DESKTOP: show the horizontal nav + header CTAs */
+@media (min-width: 1024px) {
+  .links.main-nav { display: flex !important; }
+  .cta { display: flex !important; }
+  .burger { display: none !important; }
+  #drawer { display: none !important; }
+  #nav-dim { display: none !important; }
+  
+  /* Typography enhancements */
+  h1{font-size:clamp(40px,5vw,56px); line-height:1.1}
+  h2{font-size:clamp(32px,4vw,44px); line-height:1.2}
+  h3{font-size:clamp(24px,3vw,32px); line-height:1.3}
+  p{font-size:18px; line-height:1.7}
+  .lead{font-size:18px; line-height:1.6}
+  
+  /* Container improvements */
+  .container{max-width:1200px; padding:0 var(--space-5)}
+  .section{padding:var(--space-6) 0}
+  
+  /* Hero improvements - Full viewport coverage */
+  .hero{
+    padding:0 !important;
+    margin:0 !important;
+    width:100vw;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .container{
+    padding:0 !important;
+    margin:0 !important;
+    width:100% !important;
+    max-width:100% !important;
+    height:100%;
+  }
+  .hero-card{
+    padding:0 !important;
+    border-radius:0 !important;
+    width:100vw;
+    height:calc(100vh - var(--header-h, 64px));
+    margin:0;
+    margin-top:var(--header-h, 64px);
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-card picture{
+    width:100%;
+    height:100%;
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-img{
+    width:100%;
+    height:100%;
+    object-fit:contain !important;
+    object-position:center center;
+    max-width:100%;
+    max-height:calc(100vh - var(--header-h, 64px));
+  }
+  .hero-title{font-size:clamp(44px,5.5vw,64px)}
+  .hero-sub{font-size:20px; line-height:1.6}
+  
+  /* Button improvements */
+  .btn{padding:1rem 2rem; font-size:17px}
+  
+  /* Better spacing */
+  .section .container > *:first-child{margin-top:0}
+  .section .container > *:last-child{margin-bottom:0}
+}
+
+/* ensure the drawer can appear on mobile when opened */
+#drawer { 
+  display: none; 
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 2px solid #f2eefc;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  z-index: 9998;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+#drawer.open { display: block; }
+
+  /* ===== HERO (updated) ===== */
+  section.hero{padding:0 !important; margin:0 !important; position:relative; width:100vw !important; height:100vh !important; overflow:hidden; max-width:none !important; left:50% !important; right:auto !important; margin-left:-50vw !important; margin-right:0 !important; transform:none !important; box-sizing:border-box !important}
+  section.hero .hero-card{position:relative; overflow:hidden; border-radius:0; background:var(--primary); width:100vw !important; height:100vh !important; margin:0 !important; padding:0 !important; display:flex; align-items:center; justify-content:center; max-width:none !important; box-sizing:border-box !important; transition:background-color 1s ease-in-out}
+  section.hero .hero-card picture{position:absolute; inset:0; width:100vw !important; height:100vh !important; display:flex; align-items:center; justify-content:center; max-width:none !important; box-sizing:border-box !important}
+  section.hero .hero-img{position:absolute; inset:0; width:100vw !important; height:100vh !important; object-fit:contain !important; object-position:center center; transition:transform 1s ease-in-out, opacity 1s ease-in-out; background:transparent !important; max-width:none !important; max-height:100vh !important; display:block !important; z-index:1; box-sizing:border-box !important}
+  .hero-img.slide-left{transform:translateX(-100%); opacity:0}
+  .hero-img.slide-right{transform:translateX(100%); opacity:0}
+  .hero-img.wheel-rotate{transform:translateX(100%) rotateY(180deg); opacity:0; pointer-events:none}
+  .hero-img.wheel-active{transform:translateX(0) rotateY(0deg) !important; opacity:1 !important; visibility:visible !important; z-index:2 !important; pointer-events:auto !important; display:block !important}
+  /* new headline block */
+  .hero-headline{position:absolute; left:4vw; right:4vw; bottom:4vw; z-index:2}
+  .hero-title{margin:0; color:#fff; font:800 clamp(32px,9vw,112px)/.95 Poppins,Inter,sans-serif; letter-spacing:-.02em; text-transform:uppercase; text-shadow:0 8px 30px rgba(0,0,0,.35)}
+  .hero-title em{font-style:italic}
+  .hero-accent{color:#ff4fa0} /* change to var(--accent) or your brand hex if you prefer */
+  .hero-sub{margin-top:10px; color:#f3f0fb; max-width:60ch}
+  .hero-ctas{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+  /* hide old glass overlay (kept for rollback) */
+  .overlay{display:none !important}
+
+ /*------------------------------------------------------------------------------------------------*/ 
+
+ 
+  
+  /*-------------------------------------------------------------------------------------------------*/
+ /* If you have this anywhere, REMOVE it (it hides your arrows everywhere)
+   .features-controls, .features__nav { display: none; }
+*/
+
+#features { position: relative; }
+#features .container { position: relative; }
+
+/* horizontal reel */
+#features .feature-track{
+  display:flex; gap:16px;
+  overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding:0 56px 14px;               /* room for arrows on mobile */
+}
+#features .feature-track::-webkit-scrollbar{ display:none; }
+
+/* cards */
+#features .feature-card{
+  flex:0 0 100vw; max-width:100vw;
+  scroll-snap-align:center;
+  background:#2e1944; color:#fff;
+  border-radius:18px; overflow:hidden;
+  border:6px solid #f6f1ff1a; box-shadow:var(--shadow);
+  text-decoration:none;
+}
+#features .feature-media{ padding:10px 10px 0; }
+#features .feature-media img{
+  width:100%; height:auto; display:block;
+  border-radius:14px; border:3px solid var(--accent,#9a653e);
+  background:#eee;
+}
+
+/* arrows – only show when JS adds .has-scroll */
+#features .features__nav{ display:none; }
+#features.has-scroll .features__nav{
+  display:grid;
+  position:absolute;
+  top:50%; transform:translateY(-50%);
+  width:68px; height:68px; border-radius:50%;
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  z-index:5; place-items:center; font-size:30px; line-height:1; cursor:pointer; color:#ffffff;
+}
+#features .features__nav.prev{ left:8px; }
+#features .features__nav.next{ right:8px; }
+#features .features__nav:disabled{ opacity:.35; cursor:default; }
+
+/* desktop: grid, hide arrows */
+@media (min-width:900px){
+  #features .feature-track{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:18px; overflow:visible; padding:0;
+  }
+  #features .features__nav{ display:none !important; }
+}
+
+
+
+
+/*-----------------------------------------------------------------------------------*/
+
+
+  /* Two-up splits */
+  .split{grid-template-columns:1fr; gap:18px; align-items:center}
+  .graph{border:1px solid var(--border); border-radius:14px; background:#fff; padding:12px; width:min(720px,100%); margin-left:auto; margin-right:auto}
+.graph .chart-img{display:block; width:100%; height:auto; border-radius:12px; box-shadow:var(--shadow); object-fit:contain}
+
+  /* Expert section on soft background */
+  .expert-img{border-radius:16px; height:360px; object-fit:cover; background:#eee}
+  .soft{background:var(--soft)}
+
+  /* Band/KPIs — single brand color, roomy */
+  .band{background:var(--primary); color:#ebe1ff; border-top-left-radius:22px; border-top-right-radius:22px; padding:var(--space-6) 0}
+  .kpis{grid-template-columns:1fr 1fr; gap:12px}
+  .kpi{border:1px solid rgba(255,255,255,.28); border-radius:14px; padding:16px; background:rgba(255,255,255,.06)}
+
+ 
+ 
+
+
+  /* === Care Team Horizontal Scroll === */
+.team-fullscreen {
+  position: relative;
+  width: 100vw;
+  height: 60vh;
+  overflow: hidden;
+  background: #fff9f5;
+  padding: 0;
+  margin: 0;
+}
+
+.team-fullscreen .nav-arrow {
+  color: #3f1449 !important; /* Purple color */
+  font-family: system-ui, sans-serif;
+}
+
+.team-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.person {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.person.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.person img.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+  display: block;
+  border: 4px solid #3f1449;
+  border-radius: 8px;
+}
+
+.person .info {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+}
+
+.person .info h3 {
+  font-size: 1.8rem;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.person .info p {
+  font-size: 1rem;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+/* Arrows */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  box-shadow: none;
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.nav-arrow.left {
+  left: 20px;
+}
+
+.nav-arrow.right {
+  right: 20px;
+}
+
+.nav-arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+
+
+
+
+
+
+  /* Products carousel with arrows */
+  .products-wrap{position:relative; margin-top:14px}
+  .products{display:grid; grid-auto-flow:column; grid-auto-columns:100vw; gap:0; overflow:hidden; scroll-behavior:smooth}
+  .product{border:1px solid var(--border); border-radius:16px; background:#fffaf1; box-shadow:var(--shadow); padding:14px}
+  .product img{height:150px; width:100%; object-fit:cover; border-radius:12px}
+  .prod-nav{position:absolute; top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:999px; border:none; background:transparent; color:#3f1449; box-shadow:none; display:grid; place-items:center}
+  .prod-nav.prev{left:8px}
+  .prod-nav.next{right:8px}
+
+  /* Phone + affirmations */
+  .phone-wrap{display:grid; grid-template-columns:1fr; gap:18px; align-items:center}
+  .phone{width:270px; height:540px; border-radius:32px; border:10px solid #111; margin-inline:auto; background:#fff; box-shadow:0 30px 60px rgba(0,0,0,.18); display:grid; place-items:center}
+  .phone img{width:88%; height:88%; object-fit:cover; border-radius:18px; background:#eee}
+  .aff-card-wrap{display:flex; gap:12px; justify-content:center}
+  .aff-card{width:160px; height:220px; border-radius:14px; border:1px solid var(--border); box-shadow:var(--shadow); background:#fff; display:grid; place-items:center}
+
+  /* Blog list */
+  .blog{grid-template-columns:1fr; gap:16px}
+  .post{display:grid; grid-template-columns:110px 1fr; gap:10px; border:1px solid var(--border); border-radius:12px; padding:10px; background:#fff}
+  .thumb-post{width:110px; height:86px; border-radius:8px; background:#eee}
+
+  /* Testimonials */
+  .testi{text-align:center}
+  .testi p{color:#4f4961}
+
+  
+  
+  
+  
+  
+  /* === Daily Uplift horizontal scroll === */
+/* 1) Track never scrolls vertically */
+.aff-scroll{
+  overflow-y: hidden;
+}
+
+/* 2) Give each slide a consistent, responsive height */
+.aff-card{
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  position: relative;
+  height: clamp(240px, 62svh, 520px);  /* min 240px, ~62% of viewport, max 520px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  overflow: hidden;                     /* keeps content tidy inside the box */
+  border-radius: 16px;                  /* keep your rounded look */
+}
+
+/* 3) Scale image to fit both width AND the fixed height, no cropping */
+.aff-card img{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;          /* keep aspect ratio */
+  height: auto;         /* keep aspect ratio */
+  object-fit: contain;  /* show entire photo */
+  display: block;
+  border-radius: 16px;
+}
+
+/* (optional) Title sits inside the box */
+.aff-card span{
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  padding: .5rem .9rem;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Arrows—unchanged; they won’t force extra height */
+.aff-arrow{ top: 50%; transform: translateY(-50%); }
+
+/* 1) Make the scroll row strictly horizontal */
+.aff-scroll {
+  display: flex;
+  flex-wrap: nowrap;          /* keeps all cards in one horizontal row */
+  overflow-x: auto;           /* enable horizontal scrolling */
+  overflow-y: hidden;         /* prevent vertical scroll */
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  gap: 0;
+}
+.aff-scroll::-webkit-scrollbar {
+  display: none;              /* hide scrollbar on mobile */
+}
+
+/* 2) Each slide same width, consistent height */
+.aff-card {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  position: relative;
+  height: clamp(240px, 62svh, 520px);  /* responsive fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* 3) Image fits both height & width without cropping */
+.aff-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;  /* full image, no cut */
+  border-radius: 16px;
+  display: block;
+}
+
+/* 4) Optional overlay title */
+.aff-card span {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  padding: .5rem .9rem;
+  border-radius: 10px;
+  pointer-events: none;
+  font-weight: 600;
+}
+
+/* 5) Arrows centered vertically, outside the track */
+.aff-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #3f1449;
+  display: grid;
+  place-items: center;
+  box-shadow: none;
+  cursor: pointer;
+  z-index: 5;
+}
+.aff-arrow.left { left: 12px; }
+.aff-arrow.right { right: 12px; }
+.aff-arrow:hover {
+  background: transparent;
+  color: #3f1449;
+  border-color: transparent;
+}
+
+/* Make the container a positioning context */
+.aff-container{
+  position: relative;
+  /* keep your other styles here */
+}
+
+/* Visible, tappable nav arrows */
+.aff-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: transparent;
+  color: #3f1449;
+  font-size: 2.2rem;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+/* Push arrows slightly *outside* the image area */
+.aff-arrow.left {
+  left: -22px; /* moves half the width outside */
+}
+.aff-arrow.right {
+  right: -22px;
+}
+
+/* Nice hover/tap feedback */
+.aff-arrow:hover {
+  background: transparent;
+  transform: translateY(-50%) scale(1.05);
+  color: #3f1449;
+} 
+
+.aff-arrow:focus{
+  background: transparent;
+  color: #3f1449;
+  border-color: transparent;
+  outline: none;
+}
+
+/* Ensure the scroll row only scrolls horizontally (keep if not already set) */
+.aff-scroll{
+  display:flex;
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  touch-action: pan-x;
+}
+
+@media (max-width: 600px) {
+  .aff-arrow.left  { left: -18px; }
+  .aff-arrow.right { right: -18px; }
+  .aff-arrow { width: 64px; height: 64px; font-size: 2.0rem; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Footer — calm, dense on mobile, airy on desktop */
+  footer{position: relative; z-index: 1; background:var(--primary); color:#e6ddff; border-top-left-radius:22px; border-top-right-radius:22px; width: 100%; margin-top: auto; display: block !important; visibility: visible !important;}
+  .footer-top{display:grid; grid-template-columns:1fr; gap:18px}
+  .social{display:flex; gap:10px}
+  .icon{width:34px; height:34px; border-radius:999px; border:1px solid rgba(255,255,255,.25); display:grid; place-items:center}
+  .newsletter{display:grid; gap:10px}
+  .newsletter .row{display:flex; gap:8px}
+  .newsletter input{flex:1; border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.1); color:#fff; border-radius:10px; padding:10px}
+  .newsletter button{background:var(--accent); border:none; border-radius:10px; padding:10px 14px; font-weight:700}
+  .footer-links{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.2); padding-top:12px; margin-top:12px}
+
+  /* === Full-bleed hero width (edge-to-edge) === */
+.hero .container{
+  width:100%;
+  max-width:100%;
+  margin-inline:0;
+  padding-inline:0; /* remove side padding so image hits the edges */
+}
+
+/* Remove rounding on mobile so it truly fills the screen */
+.hero-card{ border-radius:0; }
+
+/* KPI section – make them real boxes */
+.kpis{
+  display: grid;                    /* was missing */
+  grid-template-columns: 1fr;       /* 1 per row on mobile */
+  gap: 14px;
+  margin-top: 14px;
+}
+
+/* Box look: solid card with border + modest radius */
+.kpi{
+  background: #431a62;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+}
+.kpi .kpi-sub{ color: #e7defa; }
+
+
+/* Text sizing inside KPI boxes (optional but tidy) */
+.kpi .kpi-num{
+  font-weight: 800;
+  font-size: clamp(22px, 5.5vw, 32px);
+  letter-spacing: -0.01em;
+}
+.kpi .kpi-sub{
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* 2-column boxes on wider screens */
+@media (min-width: 900px){
+  .kpis{ grid-template-columns: repeat(2, 1fr); }
+}
+
+
+.ask-shot{
+  width: min(1100px, 100%);
+  margin: 10px auto 22px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(16,16,32,.14);
+}
+.ask-shot img{
+  display:block;
+  width:100%;
+  height:auto;          /* keeps aspect */
+  object-fit: cover;
+}
+
+/* Gold review section ----------------------------------------------------*/
+.reviews {
+  position: relative;
+  padding: 40px 20px;
+  background: #fffaf1;
+}
+
+.reviews__head {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.reviews__head h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.2rem);
+  font-weight: 800;
+  color: #000;
+}
+.reviews__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #000;
+  background: #F5F5DC;
+  border: 1px solid #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+.reviews__badge .badge__icon { font-weight: 900; }
+
+/* Horizontal scroll */
+.reviews__scroll {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+
+  /* room so arrows don't sit over text on mobile */
+  padding: 0 3.25rem 12px;
+}
+.reviews__scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.reviews__scroll::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+
+/* Speech bubbles */
+.bubble {
+  flex: 0 0 100vw; /* width of each bubble */
+  scroll-snap-align: center;
+  background: #D8A738; /* gold interior */
+  border: 6px solid #fffaf1;
+  border-radius: 22px;
+  padding: 16px 18px;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(16,16,32,.08);
+}
+
+.bubble::before {
+  content:"";
+  position:absolute;
+  bottom:-18px; left:40px;
+  border-width:18px 16px 0 16px;
+  border-style:solid;
+  border-color:#D8A738 transparent transparent transparent;
+}
+.bubble::after {
+  content:"";
+  position:absolute;
+  bottom:-12px; left:44px;
+  border-width:12px 12px 0 12px;
+  border-style:solid;
+  border-color:#D8A738 transparent transparent transparent;
+}
+
+.text {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: #000;
+}
+
+/* Stars */
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.star { font-size: 18px; color: #D1B3FF; }
+.star.filled { color: #4B164C; }
+.stars__label { margin-left: 6px; font-size: .85rem; color: #000; }
+
+
+.reviews-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.reviews {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  scrollbar-width: none;
+}
+.reviews::-webkit-scrollbar { display: none; }
+
+.review-card {
+  flex: 0 0 100vw;
+  background: var(--soft, #faf8ff);
+  border-radius: var(--radius, 18px);
+  box-shadow: var(--shadow, 0 10px 30px rgba(0,0,0,.08));
+  padding: 1.5rem;
+  text-align: left;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.review-card strong {
+  display: block;
+  margin-top: 1rem;
+  color: var(--primary, #5B2E90);
+}
+
+/* Transparent background arrows */
+.review-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  z-index: 5;
+  transition: none;
+  box-shadow: none;
+}
+.review-nav:hover {
+  background: transparent;
+  color: #ffffff;
+}
+.review-nav.left { left: -10px; }
+.review-nav.right { right: -10px; }
+
+@media (max-width: 768px) {
+  .review-nav {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+    opacity: 0.9;
+  }
+}
+
+
+/* overlay arrows */
+.reviews__controls{
+  pointer-events: none;                 /* don't block drag/swipe */
+}
+.reviews__nav{
+  pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: #3f1449;
+  transition: transform .15s ease, opacity .15s ease;
+  z-index: 5;
+}
+.reviews__nav:hover{ transform: translateY(-50%); }
+.reviews__nav:disabled{ opacity:.35; cursor: default; }
+
+.reviews__nav.prev{ left: 8px; }
+.reviews__nav.next{ right: 8px; }
+
+
+.reviews-wrap {
+  position: relative;
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.reviews__scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 0;
+  padding: 1rem;
+  scroll-snap-type: x mandatory;
+}
+
+.reviews__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.review-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: none;
+  transition: none;
+  z-index: 10;
+}
+
+.review-nav.left {
+  left: 10px;
+}
+
+.review-nav.right {
+  right: 10px;
+}
+
+
+
+/* Hide any unscoped review arrows by default */
+.reviews__controls, .reviews__nav { display: none; }
+
+/* === Reviews: scoped to #customer-reviews only === */
+#customer-reviews { position: relative; }
+
+#customer-reviews .reviews__scroll{
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  padding: 0 3.25rem 12px;      /* gutter for arrows on mobile */
+  scrollbar-width:none;
+}
+
+#customer-reviews .reviews__scroll::-webkit-scrollbar{ display:none; }
+#customer-reviews .reviews__scroll{ scrollbar-width:none; }
+
+#customer-reviews .bubble{
+  flex: 0 0 100vw;
+  min-width: 100vw;
+  margin: 0;                         /* kill any stray margins */
+  scroll-snap-align: center;
+  box-sizing: border-box;
+}
+
+/* overlay arrows – only in #customer-reviews */
+#customer-reviews .reviews__controls{
+  pointer-events: none;
+}
+#customer-reviews .reviews__nav{
+  pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+  font-size: 22px; line-height: 1;
+  cursor: pointer;
+  transition: transform .15s ease, opacity .15s ease;
+  color: #3f1449;
+}
+#customer-reviews .reviews__nav:hover{ transform: translateY(-50%); }
+#customer-reviews .reviews__nav:disabled{ opacity:.35; cursor: default; }
+#customer-reviews .reviews__nav.prev{ left: 8px; }
+#customer-reviews .reviews__nav.next{ right: 8px; }
+  #customer-reviews .reviews__controls{ display: none; }
+  /* edge fades (purely visual, optional) */
+#customer-reviews::before,
+#customer-reviews::after{
+  content:"";
+  position:absolute; top:0; bottom:0; width:48px; z-index:4; pointer-events:none;
+}
+#customer-reviews::before{ left:0;  background:linear-gradient(90deg, var(--bg, #fffaf1), #fffaf100); }
+#customer-reviews::after { right:0; background:linear-gradient(270deg, var(--bg, #fffaf1), #fffaf100); }
+
+/* show + style arrows ONLY here */
+#customer-reviews .reviews__controls{ display:block; pointer-events:none; }
+#customer-reviews .reviews__nav{
+  pointer-events:auto;
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:52px; height:52px; border-radius:50%;
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  display:grid; place-items:center;
+  font-size:22px; line-height:1; cursor:pointer; z-index:5;
+  color:#ffffff;
+}
+#customer-reviews .reviews__nav.prev{ left:5px; }
+#customer-reviews .reviews__nav.next{ right:5px; }
+#customer-reviews .reviews__nav:hover{ transform:translateY(-50%); }
+#customer-reviews .reviews__nav:disabled{ opacity:.35; cursor:default; }
+
+
+
+/*----------------------------------------------------------------------------*/
+
+.market-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.market {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+.market::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.item {
+  min-width: 220px;
+  background: var(--soft, #faf8ff);
+  border-radius: var(--radius, 18px);
+  box-shadow: var(--shadow, 0 10px 30px rgba(0,0,0,.08));
+  flex-shrink: 0;
+  text-align: center;
+  padding: 1rem;
+}
+
+.item img {
+  width: 100%;
+  border-radius: var(--radius, 12px);
+  margin-bottom: .5rem;
+}
+
+.item .title {
+  font-weight: 600;
+  color: var(--ink, #1f1b2d);
+  margin-bottom: .5rem;
+}
+
+.market-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary, #5B2E90);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 2.4rem;
+  width: 68px;
+  height: 68px;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.3s;
+}
+
+.market-nav:hover {
+  background: var(--primary-600, #4b2577);
+}
+
+.market-nav.left {
+  left: -10px;
+}
+
+.market-nav.right {
+  right: -10px;
+}
+
+/* === Marketplace Horizontal Scroll === */
+.market-wrap { 
+  margin-top: 24px; 
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+
+/* Mobile: don't let market-wrap interfere with Shopify scrolling */
+@media (max-width: 768px) {
+  .market-wrap {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+}
+
+/* Desktop: allow horizontal scrolling in market-wrap */
+@media (min-width: 769px) {
+  .market-wrap {
+    overflow-x: visible !important;
+  }
+}
+
+.market-wrap::-webkit-scrollbar {
+  height: 8px;
+}
+
+.market-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Shopify Collection Navigation Arrows - Purple */
+.shopify-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border: none;
+  background: transparent;
+  color: #3f1449;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: none;
+}
+
+/* Shopify collection container - horizontal scroll on all displays, one product at a time */
+.market-wrap .container {
+  overflow-x: visible !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.shopify-collection-container {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+  position: relative !important;
+}
+
+/* Main container - horizontal scroll on all displays, one product at a time */
+#collection-component-1764996700219 {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: smooth !important;
+  scroll-snap-type: x mandatory !important;
+  scrollbar-width: thin !important;
+  -webkit-overflow-scrolling: touch !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  display: block !important;
+  position: relative !important;
+}
+
+/* Show scrollbar on desktop, hide on mobile */
+#collection-component-1764996700219::-webkit-scrollbar {
+  height: 8px !important;
+}
+
+#collection-component-1764996700219::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+#collection-component-1764996700219::-webkit-scrollbar-thumb {
+  background: rgba(63, 20, 73, 0.3) !important;
+  border-radius: 4px !important;
+}
+
+#collection-component-1764996700219::-webkit-scrollbar-thumb:hover {
+  background: rgba(63, 20, 73, 0.5) !important;
+}
+
+@media (max-width: 768px) {
+  #collection-component-1764996700219 {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  
+  #collection-component-1764996700219::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+/* Product set container - horizontal flex on all displays */
+#collection-component-1764996700219 .shopify-buy-frame--product-set,
+#collection-component-1764996700219 [class*="product-set"],
+#collection-component-1764996700219 [class*="products"] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  gap: 0 !important;
+  width: max-content !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+/* Products - one product at a time on all displays */
+#collection-component-1764996700219 .shopify-buy-frame--product,
+#collection-component-1764996700219 [class*="product"]:not([class*="product-set"]):not([class*="products"]) {
+  flex: 0 0 100vw !important;
+  flex-shrink: 0 !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Chatbot popup styling - ensure it stays as popup */
+.echai-widget-popup {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  width: 400px !important;
+  height: 600px !important;
+  max-width: 90vw !important;
+  max-height: 80vh !important;
+  z-index: 9999 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+  overflow: hidden !important;
+}
+
+/* Prevent full screen behavior */
+.echai-widget-popup.fullscreen {
+  position: fixed !important;
+  top: auto !important;
+  left: auto !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  width: 400px !important;
+  height: 600px !important;
+  max-width: 90vw !important;
+  max-height: 80vh !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .echai-widget-popup {
+    width: 350px !important;
+    height: 500px !important;
+    bottom: 10px !important;
+    right: 10px !important;
+  }
+}
+
+.shopify-nav-arrow:hover {
+  background: transparent;
+  transform: translateY(-50%);
+  box-shadow: none;
+}
+
+.shopify-nav-arrow:active {
+  transform: translateY(-50%);
+}
+
+.shopify-nav-arrow.left {
+  left: 10px;
+}
+
+.shopify-nav-arrow.right {
+  right: 10px;
+}
+
+@media (max-width: 768px) {
+  .shopify-nav-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .shopify-nav-arrow.left {
+    left: 5px;
+  }
+  
+  .shopify-nav-arrow.right {
+    right: 5px;
+  }
+}
+.market {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100vw;         /* full screen coverage on mobile */
+  gap: 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 14px;
+}
+.market .item {
+  flex: 0 0 100vw;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fffaf1;
+  box-shadow: var(--shadow);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-snap-align: center;
+}
+.market .item img {
+  width: 100%;
+  height: 170px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fffaf1;
+}
+.market .title {
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+.market .price {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: .95rem;
+}
+.market .cta {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+}
+.market .cta .btn {
+  width: auto;
+  max-width: 120px;
+  padding: .6rem .8rem;
+  font-size: 0.9rem;
+}
+
+/* Centered arrows below (no overlap) */
+.market-controls{
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.market-nav{
+  width: 52px; height: 52px; border-radius: 999px;
+  border: none; background: #fffaf1; color: var(--primary);
+  box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer;
+}
+
+
+
+
+
+.expert-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+/* --- Fullscreen image on mobile --- */
+@media (max-width: 768px) {
+  .section {
+    padding: 0;
+  }
+
+  .container.grid.split {
+    display: block;
+    margin: 0;
+  }
+
+  .expert-img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    border-radius: 0;
+    display: block;
+  }
+
+  .section .container > div:not(:has(img)) {
+    display: none; /* hides the text div on mobile */
+  }
+}
+
+
+
+/* --- BLOG REEL: horizontal cards with overlay arrows --- */
+.blog-wrapper{
+  position: relative;
+  padding-left:  max(var(--blog-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--blog-gutter), env(safe-area-inset-right));
+}
+
+/* horizontal track identical to .aff-scroll */
+.blog-track{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  gap: 0;
+}
+.blog-track::-webkit-scrollbar{ display:none; }
+
+/* one card per viewport; same responsive height box as aff */
+.blog-card{
+  flex: 0 0 100vw;
+  min-width: 100vw;
+  scroll-snap-align: center;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  height: clamp(240px, 62svh, 520px);
+  border-radius: 16px;
+  overflow: visible;
+  position: relative;
+}
+
+/* inner surface fills the slide */
+.blog-inner, .blog-surface{ height: 100%; }
+
+/* image fits inside without cropping (match aff) */
+.blog-media,
+.blog-media img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;           /* show entire image */
+  border-radius: 16px;
+}
+
+/* text panel sits inside like the aff title, but larger */
+.blog-info{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 12px 14px;
+  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+  color: #fff;
+  pointer-events: none;          /* don't block swipes/taps on link */
+}
+.blog-info h3{ margin: 0 0 4px; font-size: 1.05rem; font-weight: 800; }
+.blog-info p { margin: 0; font-size: .95rem; opacity: .95; }
+
+/* arrows (mirror aff-arrow), live in the gutters */
+.blogs__nav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--blog-arrow);
+  height: var(--blog-arrow);
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 2.2rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  box-shadow: none;
+  z-index: 5;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.blogs__nav.prev { left:  max(var(--blog-gap),  env(safe-area-inset-left)); }
+.blogs__nav.next { right: max(var(--blog-gap),  env(safe-area-inset-right)); }
+.blogs__nav:hover,
+.blogs__nav:focus{ background: transparent; color:#ffffff; border-color: transparent; outline: none; }
+
+/* tiny phones: tuck arrows slightly */
+@media (max-width: 380px){
+  :root{ --blog-arrow: 60px; --blog-gap: 8px; }
+}
+
+.blog-view {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  margin-top: 1rem;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+.blog-view.active {
+  display: block;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+#blog-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.blog-back {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  background: #5B2E90;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+.blog-back:hover { background: #7B48B0; }
+
+.blog-view{
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  overflow: auto;
+  display: none;        /* <-- key */
+  z-index: 1000;        /* sits above page only when shown */
+}
+
+/* Only show when aria-hidden is false */
+.blog-view[aria-hidden="false"]{
+  display: block;
+}
+
+/* Affirmation Reader Styles */
+.aff-reader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aff-reader[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.aff-reader-content {
+  position: relative;
+  width: 85vw;
+  max-width: 500px;
+  height: 70vh;
+  max-height: 600px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.close-x-left {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.close-x-left:hover {
+  background: rgba(255, 0, 0, 0.8);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.aff-reader-image {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.aff-reader-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aff-reader-text {
+  padding: 30px;
+  text-align: center;
+  background: #fff;
+}
+
+.aff-reader-badge {
+  display: inline-block;
+  background: #3f1449;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.aff-reader-text h2 {
+  font-size: 28px;
+  color: #3f1449;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+}
+
+.aff-reader-text p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+}
+
+.aff-reader-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.aff-reader-prev,
+.aff-reader-next {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 24px;
+  color: #3f1449;
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.aff-reader-prev:hover,
+.aff-reader-next:hover {
+  background: #3f1449;
+  color: white;
+}
+
+/* Mobile responsiveness for affirmation reader */
+@media (max-width: 768px) {
+  .aff-reader-content {
+    width: 95vw;
+    height: 75vh;
+    max-height: 500px;
+  }
+  
+  .aff-reader-text {
+    padding: 20px;
+  }
+  
+  .aff-reader-text h2 {
+    font-size: 24px;
+  }
+  
+  .aff-reader-text p {
+    font-size: 16px;
+  }
+  
+  .aff-reader-prev,
+  .aff-reader-next {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
+
+/* Footer should remain clickable/visible under normal flow */
+footer.section{ position: relative; z-index: 10001; }
+
+/* Mobile adjustments only */
+@media (max-width: 768px) {
+  .expert-img {
+    height: 75% !important;
+  }
+  
+  footer {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 10001 !important;
+    margin-top: 2rem !important;
+    padding: 2rem 0 !important;
+    background: var(--primary) !important;
+    color: #e6ddff !important;
+    width: 100% !important;
+  }
+  
+  .footer-top {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    padding: 0 1rem !important;
+  }
+  
+  .footer-bottom {
+    display: flex !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    text-align: center !important;
+    padding: 1rem !important;
+  }
+  
+  .blog-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: 0 1.5rem;
+  }
+
+  .blog-track {
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+    display: flex;
+    gap: 0;
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
+  }
+
+  .blogs__nav {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: #5B2E90;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+  }
+
+  .blogs__nav:hover {
+    background: transparent;
+    color: #5B2E90;
+  }
+
+  .blogs__nav.prev {
+    left: 0.25rem;
+  }
+
+  .blogs__nav.next {
+    right: 0.25rem;
+  }
+
+  /* Make sure arrows never overlap the card text or buttons */
+  .blog-card {
+    min-width: 100vw;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+  }
+
+  .blog-reader, /* adjust selector to your reader container */
+  .article-view,
+  .post-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: #fff;
+    overflow-y: auto;
+    border-radius: 0;
+    margin: 0;
+    padding: 1.5rem;
+  }
+
+  /* Optional: make Back button float neatly */
+  .back-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: #5B2E90; /* Empress purple */
+    color: #fff;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    z-index: 10000;
+  }
+}
+
+/* Base hidden state */
+.blog-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 2rem 1rem;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* When visible (JS toggles aria-hidden) */
+.blog-view[aria-hidden="false"] {
+  display: block;
+  opacity: 1;
+}
+
+/* Back button styling */
+.blog-back {
+  position: sticky;
+  top: 1rem;
+  left: 1rem;
+  background: #5B2E90;          /* Empress purple */
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: background 0.3s ease;
+}
+
+.blog-back:hover {
+  background: #4b2577;          /* darker purple on hover */
+}
+
+/* Blog content area */
+.blog-content {
+  max-width: 720px;
+  margin: 2rem auto;
+  color: #1f1b2d;
+  line-height: 1.6;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .blog-view {
+    border-radius: 0;
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .blog-back {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .blog-content {
+    margin-top: 4rem; /* prevents overlap with back button */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width:900px){
+  #blogs .blog-track{ padding:0; }
+  #blogs .blog-card{ flex:0 0 100vw; scroll-snap-align:center; }
+  #blogs .blogs__nav{ display:none; }
+}
+
+
+
+
+
+/* Optional: keep arrows inside on very small screens */
+@media (max-width: 640px) {
+  .blogs__nav.prev { left: 4px; }
+  .blogs__nav.next { right: 4px; }
+}
+
+
+  @media (max-width: 899px){
+    /* optional: hide arrows on small screens if you want pure swipe */
+    #blog-reel .nav{ display: none; }
+    .reviews__scroll::-webkit-scrollbar{ display:none; }
+    .reviews__scroll{ scrollbar-width: none; }
+    #customer-reviews .reviews__scroll::-webkit-scrollbar{ display:none; }
+    #customer-reviews .reviews__scroll{ scrollbar-width: none; }
+    #customer-reviews .bubble{
+      flex: 0 0 100vw;
+      scroll-snap-align: center;
+    }
+  }
+
+  /* === Mobile: make hero photo fill entire viewport === */
+@media (max-width: 820px){
+  section.hero{
+    padding:0 !important;
+    margin:0 !important;
+    margin-top:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    position:relative !important;
+    overflow:hidden !important;
+    left:0 !important;
+    margin-left:0 !important;
+    z-index:1 !important;
+  }
+  section.hero .container{
+    padding:0 !important;
+    margin:0 !important;
+    width:100vw !important;
+    max-width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    margin-left:0 !important;
+  }
+  section.hero .hero-card{
+    width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    background:var(--primary);
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    max-width:100vw !important;
+    transition: background-color 1s ease-in-out !important;
+  }
+  section.hero .hero-card picture{
+    width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    position:absolute;
+    inset:0;
+    margin:0 !important;
+    padding:0 !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    max-width:100vw !important;
+  }
+  section.hero .hero-img{
+    width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    object-fit: contain !important;      /* show entire image without cropping */
+    object-position: center center !important;
+    max-width:100vw !important;
+    max-height:100vh !important;
+    position:absolute;
+    inset:0;
+    margin:0 !important;
+    padding:0 !important;
+  }
+  
+  /* Ensure hero-card background matches image (same as desktop) for side bars */
+  section.hero .hero-card {
+    transition: background-color 1s ease-in-out !important;
+  }
+  
+  /* Ensure page is scrollable on mobile */
+  html, body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+  }
+  
+  /* Remove body padding-top on mobile so hero starts at top */
+  body {
+    padding-top: 0 !important;
+  }
+  
+  /* Ensure content below hero is visible and scrollable */
+  section.hero ~ section {
+    position: relative !important;
+    z-index: 2 !important;
+  }
+}
+
+/* ===== Features: full-screen slides on mobile ===== */
+@media (max-width:640px){
+  /* kill section/container padding so slides hit the edges */
+  #features{ padding:0; }
+  #features .container{ width:100vw; max-width:100vw; margin:0; padding:0; }
+
+  /* horizontal track */
+  #features .tiles{
+    display:flex !important;
+    overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x mandatory; scroll-snap-stop:always;
+    -webkit-overflow-scrolling:touch;
+    gap:0; padding:0;
+  }
+  #features .tiles::-webkit-scrollbar{ display:none; }
+
+  /* each figure becomes a full-screen slide */
+  #features .tile{
+    position:relative;
+    flex:0 0 100vw;               /* one per viewport width */
+    min-height:100svh;            /* fill the viewport height */
+    margin:0; border:0; border-radius:0; box-shadow:none;
+    scroll-snap-align:center;
+  }
+
+  /* image fills the slide (override any global aspect ratio) */
+  #features .feature-img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    aspect-ratio:auto !important;
+    border:0; border-radius:0; box-shadow:none;
+  }
+
+  /* subtle legibility gradient */
+  #features .tile::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.6) 100%);
+  }
+
+  /* OPTIONAL: show your existing figcaption as overlay text */
+  #features figure figcaption.sr-only{
+    position:absolute !important; left:16px; right:16px; bottom:16px;
+    clip:auto; clip-path:none; width:auto; height:auto; overflow:visible;
+    white-space:normal; margin:0; padding:0; border:0;
+    color:#fff; font:800 clamp(18px,6vw,28px)/1.15 Poppins,Inter,sans-serif;
+    z-index:2;
+  }
+
+  /* arrows for this section (use the ones you already added) */
+  #features .features__controls{ pointer-events:none; }
+  #features .features__nav{
+    pointer-events:auto;
+    position:fixed; top:50%; transform:translateY(-50%);
+    width:52px; height:52px; border-radius:50%;
+    border:none;
+    background:transparent;
+    color:#ffffff; display:grid; place-items:center;
+    box-shadow:none; z-index:50;
+  }
+  #features .features__nav.prev{ left:10px; }
+  #features .features__nav.next{ right:10px; }
+}
+
+/* === Reviews: force arrows visible + one-card view on mobile === */
+#customer-reviews { position: relative; }
+
+/* track */
+#customer-reviews .reviews__scroll{
+  display:flex;
+  overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-snap-stop:always;
+  -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain;
+  padding:0 20px 12px;            /* side padding for arrows */
+  gap:0 !important;
+}
+#customer-reviews .reviews__scroll::-webkit-scrollbar{ display:none; }
+#customer-reviews .bubble{ flex:0 0 98vw; min-width:98vw; margin:0; scroll-snap-align:center; }
+
+/* edge fades (optional) */
+#customer-reviews::before, #customer-reviews::after{
+  content:""; position:absolute; top:0; bottom:0; width:48px; z-index:4; pointer-events:none;
+}
+#customer-reviews::before{ left:0;  background:linear-gradient(90deg,var(--bg,#fffaf1),#fff0); }
+#customer-reviews::after { right:0; background:linear-gradient(270deg,var(--bg,#fffaf1),#fff0); }
+
+/* SHOW the controls here, scoped to this section */
+#customer-reviews .reviews__controls{ display:block !important; pointer-events:none; }
+#customer-reviews .reviews__nav{
+  display:grid !important;        /* override any global 'display:none' */
+  pointer-events:auto;
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:52px; height:52px; border-radius:50%;
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  place-items:center; font-size:22px; line-height:1; cursor:pointer;
+  z-index:20;
+  color:#ffffff;
+}
+#customer-reviews .reviews__nav.prev{ left:5px; }
+#customer-reviews .reviews__nav.next{ right:5px; }
+#customer-reviews .reviews__nav:hover{ transform:translateY(-50%); }
+#customer-reviews .reviews__nav:disabled{ opacity:.35; cursor:default; }
+
+/* desktop: one card at a time, show arrows, professional design */
+@media (min-width:900px){
+  #customer-reviews { 
+    padding:80px 0;
+    background:var(--soft, #faf8ff);
+  }
+  #customer-reviews .reviews-container {
+    max-width:900px;
+    margin:0 auto;
+    position:relative;
+  }
+  #customer-reviews .reviews-container {
+    position:relative;
+    overflow:hidden; /* Hide cards outside viewport */
+  }
+  #customer-reviews .reviews__scroll{ 
+    padding:0 100px 40px; 
+    gap:0 !important; 
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    /* Hide scrollbar but keep functionality */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  #customer-reviews .reviews__scroll::-webkit-scrollbar {
+    display: none;
+  }
+  #customer-reviews .bubble{ 
+    flex:0 0 700px; 
+    min-width:700px;
+    max-width:700px;
+    scroll-snap-align:center; 
+    margin:0;
+    /* Professional card design - remove speech bubble */
+    background:#fff;
+    border:1px solid var(--border, #e6e2f6);
+    border-radius:20px;
+    box-shadow:0 8px 32px rgba(0,0,0,.08);
+    padding:56px 64px;
+    position:relative;
+    /* Remove speech bubble tail */
+  }
+  #customer-reviews .bubble::before,
+  #customer-reviews .bubble::after {
+    display:none !important; /* Remove speech bubble tail on desktop */
+  }
+  #customer-reviews .bubble .text {
+    font-size:1.375rem;
+    line-height:1.75;
+    color:var(--ink, #1f1b2d);
+    margin:0 0 32px;
+    font-weight:400;
+    font-style:italic;
+    text-align:center;
+  }
+  #customer-reviews .bubble .text strong {
+    font-style:normal;
+    font-weight:700;
+    color:var(--primary, #5B2E90);
+  }
+  #customer-reviews .bubble .stars {
+    margin-top:32px;
+    justify-content:center;
+  }
+  #customer-reviews .bubble .star {
+    font-size:22px;
+    color:var(--accent, #D8A738);
+  }
+  #customer-reviews .bubble .star.filled {
+    color:var(--primary, #5B2E90);
+  }
+  #customer-reviews .bubble .stars__label {
+    font-size:1rem;
+    color:var(--muted, #6e6a7a);
+    font-weight:600;
+    margin-left:12px;
+  }
+  /* Show navigation arrows on desktop */
+  #customer-reviews .reviews__controls{ display:block !important; }
+  #customer-reviews .reviews__nav{
+    display:grid !important;
+    width:56px;
+    height:56px;
+    background:#fff;
+    border:2px solid var(--border, #e6e2f6);
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    color:var(--primary, #5B2E90);
+    font-size:28px;
+    font-weight:600;
+    transition:all 0.2s ease;
+  }
+  #customer-reviews .reviews__nav:hover{
+    background:var(--primary, #5B2E90);
+    color:#fff;
+    border-color:var(--primary, #5B2E90);
+    box-shadow:0 6px 20px rgba(91,46,144,.2);
+    transform:translateY(-50%) scale(1.05);
+  }
+  #customer-reviews .reviews__nav.prev{ left:24px; }
+  #customer-reviews .reviews__nav.next{ right:24px; }
+  /* Style review-nav buttons on desktop */
+  #customer-reviews .review-nav {
+    width:56px;
+    height:56px;
+    background:#fff;
+    border:2px solid var(--border, #e6e2f6);
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    color:var(--primary, #5B2E90);
+    font-size:28px;
+    font-weight:600;
+  }
+  #customer-reviews .review-nav:hover {
+    background:var(--primary, #5B2E90);
+    color:#fff;
+    border-color:var(--primary, #5B2E90);
+    box-shadow:0 6px 20px rgba(91,46,144,.2);
+    transform:translateY(-50%) scale(1.05);
+  }
+  /* Remove edge fades on desktop */
+  #customer-reviews::before,
+  #customer-reviews::after {
+    display:none;
+  }
+  /* Professional header styling */
+  #customer-reviews .reviews__head {
+    text-align:center;
+    margin-bottom:48px;
+  }
+  #customer-reviews .reviews__head h2 {
+    font-size:2.5rem;
+    margin-bottom:16px;
+    color:var(--ink, #1f1b2d);
+  }
+  #customer-reviews .reviews__badge {
+    background:var(--soft, #faf8ff);
+    border:1px solid var(--border, #e6e2f6);
+    padding:8px 16px;
+    border-radius:999px;
+  }
+}
+
+
+
+
+.bottom-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 72px;               /* button size */
+  height: 72px;
+  background: #fff;           /* white background */
+  border: none;
+  border-radius: 12px;        /* square with soft corners */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.bottom-btn img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.bottom-btn:hover {
+  background: var(--primary, #5B2E90);
+  border-color: transparent;
+  transform: scale(1.08);
+}
+
+.bottom-btn:hover img {
+  filter: brightness(0) invert(1); /* turns white on hover */
+}
+
+
+/* ========== Launcher (you can keep your existing .bottom-btn styles) ========== */
+.bottom-btn{
+  position:fixed; bottom:24px; right:24px; width:72px; height:72px;
+  background:#fff; border:none;
+  border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.15);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000;
+  transition:.25s;
+}
+.bottom-btn:hover{ transform:scale(1.05); background:var(--primary,#5B2E90); }
+.bottom-btn:hover img{ filter:brightness(0) invert(1); }
+.bottom-btn img{ width:90%; height:90%; object-fit:contain; }
+
+
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="site-header">
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+      </a>
+
+      <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Ask Empress -->
+        <a class="menu-trigger" href="/askempress">Ask Empress</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Health Assessment</a></li>
+                  <li><a class="menu-link" href="/signup">Become a Member</a></li>
+                  <li><a class="menu-link" href="/contact">Contact Us</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Our Care -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertguidance" aria-haspopup="true" aria-expanded="false">Our Care</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Care Experiences</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/askempress">Ask Empress Chatbot</a></li>
+                  <li><a class="menu-link" href="/symptomsupport">Symptom Support</a></li>
+                  <li><a class="menu-link" href="/expertguidance">Expert Guidance</a></li>
+                  <li><a class="menu-link" href="/dailyaffirmations">Daily Affirmations</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Start Now</h5>
+                <a class="menu-link" href="/signup">Become a Member →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth" target="_blank">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                  <li><a class="menu-link" href="/communitystories">Community Stories</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What's EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder's Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Additional Features</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/comingsoon">Digital Journal</a></li>
+                  <li><a class="menu-link" href="/comingsoon">Digital Avatar</a></li>
+                  <li><a class="menu-link" href="/comingsoon">Community Pods</a></li>
+                  <li><a class="menu-link" href="/comingsoon">AI Coach</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger"
+        type="button">&#9776;</button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+      <a href="/askempress" class="home-link">Ask Empress</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Health Assessment</a></li>
+          <li><a href="/signup">Become a Member</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Our Care</summary>
+        <ul>
+          <li><a href="/askempress">Ask Empress Chatbot</a></li>
+          <li><a href="/symptomsupport">Symptom Support</a></li>
+          <li><a href="/expertguidance">Expert Guidance</a></li>
+          <li><a href="/dailyaffirmations">Daily Affirmations</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+          <li><a href="/communitystories">Community Stories</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What's EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder's Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+          <li><a href="/comingsoon">Digital Journal</a></li>
+          <li><a href="/comingsoon">Digital Avatar</a></li>
+          <li><a href="/comingsoon">Community Pods</a></li>
+          <li><a href="/comingsoon">AI Coach</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+  </header>
+
+  <div class="nav-dim" id="nav-dim" hidden></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-card">
+        <picture>
+          <source media="(max-width: 820px)" srcset="/public/titlephotos/hero1_mobile820.png 820w, /public/titlephotos/hero1_mobile1640.png 1640w" sizes="100vw">
+          <source media="(min-width: 821px)" srcset="/public/titlephotos/hero1_landscape1920.png 1920w, /public/titlephotos/hero1_landscape2560.png 2560w, /public/titlephotos/hero1_landscape3840.png 3840w" sizes="100vw">
+          <img class="hero-img wheel-active" id="hero-img-1" src="/public/titlephotos/hero1_landscape1920.png"
+            sizes="100vw"
+            alt="Hero"
+            fetchpriority="high"
+            loading="eager"
+            decoding="async" />
+        </picture>
+        <picture>
+          <source media="(max-width: 820px)" srcset="/public/titlephotos/hero2_mobile820.png 820w, /public/titlephotos/hero2_mobile1640.png 1640w" sizes="100vw">
+          <source media="(min-width: 821px)" srcset="/public/titlephotos/hero2_landscape1920.png 1920w, /public/titlephotos/hero2_landscape2560.png 2560w, /public/titlephotos/hero2_landscape3840.png 3840w" sizes="100vw">
+          <img class="hero-img wheel-rotate" id="hero-img-2" src="/public/titlephotos/hero2_landscape1920.png"
+            sizes="100vw"
+            alt="Hero"
+            loading="lazy"
+            decoding="async" />
+        </picture>
+        <picture>
+          <source media="(max-width: 820px)" srcset="/public/titlephotos/hero3_mobile820.png 820w, /public/titlephotos/hero3_mobile1640.png 1640w" sizes="100vw">
+          <source media="(min-width: 821px)" srcset="/public/titlephotos/hero3_landscape1920.png 1920w, /public/titlephotos/hero3_landscape2560.png 2560w, /public/titlephotos/hero3_landscape3840.png 3840w" sizes="100vw">
+          <img class="hero-img wheel-rotate" id="hero-img-3" src="/public/titlephotos/hero3_landscape1920.png"
+            sizes="100vw"
+            alt="Hero"
+            loading="lazy"
+            decoding="async" />
+        </picture>
+        <picture>
+          <source media="(max-width: 820px)" srcset="/public/titlephotos/hero4_mobile820.png 820w, /public/titlephotos/hero4_mobile1640.png 1640w" sizes="100vw">
+          <source media="(min-width: 821px)" srcset="/public/titlephotos/hero4_landscape1920.png 1920w, /public/titlephotos/hero4_landscape2560.png 2560w, /public/titlephotos/hero4_landscape3840.png 3840w" sizes="100vw">
+          <img class="hero-img wheel-rotate" id="hero-img-4" src="/public/titlephotos/hero4_landscape1920.png"
+            sizes="100vw"
+            alt="Hero"
+            loading="lazy"
+            decoding="async" />
+        </picture>
+        <picture>
+          <source media="(max-width: 820px)" srcset="/public/titlephotos/hero5_mobile820.png 820w, /public/titlephotos/hero5_mobile1640.png 1640w" sizes="100vw">
+          <source media="(min-width: 821px)" srcset="/public/titlephotos/hero5_landscape1920.png 1920w, /public/titlephotos/hero5_landscape2560.png 2560w, /public/titlephotos/hero5_landscape3840.png 3840w" sizes="100vw">
+          <img class="hero-img wheel-rotate" id="hero-img-5" src="/public/titlephotos/hero5_landscape1920.png"
+            sizes="100vw"
+            alt="Hero"
+            loading="lazy"
+            decoding="async" />
+        </picture>
+        <picture>
+          <source media="(max-width: 820px)" srcset="/public/titlephotos/hero6_mobile820.png 820w, /public/titlephotos/hero6_mobile1640.png 1640w" sizes="100vw">
+          <source media="(min-width: 821px)" srcset="/public/titlephotos/hero6_landscape1920.png 1920w, /public/titlephotos/hero6_landscape2560.png 2560w, /public/titlephotos/hero6_landscape3840.png 3840w" sizes="100vw">
+          <img class="hero-img wheel-rotate" id="hero-img-6" src="/public/titlephotos/hero6_landscape1920.png"
+            sizes="100vw"
+            alt="Hero"
+            loading="lazy"
+            decoding="async" />
+        </picture>
+      </div>
+  </section>
+
+
+  <section class="reviews-wrap" id="customer-reviews" data-arrow-section class="nav-hide-desktop">
+  <div class="reviews__head">
+    <h2>Verified Customer Testimonials</h2>
+    <div class="reviews__badge">
+      <span class="badge__icon" aria-hidden="true">✔</span>
+      <span class="badge__text">Real experiences from our platform</span>
+    </div>
+  </div>
+
+  <div class="reviews-container">
+      <!-- Left Arrow -->
+      <button class="review-nav left" onclick="scrollReviews(-1)" aria-label="Previous">‹</button>
+
+  <div class="reviews__scroll" data-scroller>
+    <!-- 1 -->
+    <article class="bubble speech">
+      <p class="text">"The <strong>Ask Empress</strong> chatbot felt like talking to a wise friend who actually gets what I'm going through. It guided me when I felt most confused." — <strong>Pooja</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 2 -->
+    <article class="bubble speech">
+      <p class="text">"I've tried so many platforms, but this is the first one that makes menopause care feel personalized. I finally feel seen." — <strong>Meena</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 3 -->
+    <article class="bubble speech">
+      <p class="text">“The tips and care I received completely transformed my sleep. The affirmations lifted my spirit, and the expert care gave me a path that actually works.” — <strong>Kate</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 4 -->
+    <article class="bubble speech">
+      <p class="text">"<strong>Ask Empress</strong> answered questions I was embarrassed to ask even my doctor. No judgment, just real answers." — <strong>Susie</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 5 -->
+    <article class="bubble speech">
+      <p class="text">“This platform is a game-changer for women in midlife. It combines science and compassion in a way I’ve never experienced before.” — <strong>Romano</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 6 -->
+    <article class="bubble speech">
+      <p class="text">“For years, I thought I was the only one dealing with brain fog and mood swings. Empress showed me I’m not alone — and gave me tools that actually help.” — <strong>Lauren</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 7 -->
+    <article class="bubble speech">
+      <p class="text">“The progress tracker gave me clarity. For the first time, I can see what’s helping me and what’s not.” — <strong>Rubins</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 8 -->
+    <article class="bubble speech">
+      <p class="text">“It’s like the platform was designed just for me. Every feature feels thoughtful, supportive, and personal.” — <strong>Rachel</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 9 -->
+    <article class="bubble speech">
+      <p class="text">"<strong>Ask Empress</strong> is always there — at 2 am when I can't sleep, or in the morning when I need guidance. It feels like 24/7 support in my pocket." — <strong>Patty</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 10 -->
+    <article class="bubble speech">
+      <p class="text">"I love how this platform speaks to me like a woman, not a patient. It's respectful, empowering, and uplifting." — <strong>Zaria</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 11 -->
+    <article class="bubble speech">
+      <p class="text">“The affirmations sound simple, but they’ve helped me through tough days. It feels like the platform understands more than just symptoms.” — <strong>Marina</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 12 -->
+    <article class="bubble speech">
+      <p class="text">“Finally, a menopause platform that’s not clinical or cold. Empress Health feels warm, human, and real.” — <strong>Kate</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 13 -->
+    <article class="bubble speech">
+      <p class="text">"I cried the first time I used <strong>Ask Empress</strong>. It was the first time I felt truly understood in this stage of my life." — <strong>Zaria</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 14 -->
+    <article class="bubble speech">
+      <p class="text">“The expert recommendations gave me direction I’d been searching for. I no longer feel lost in the sea of menopause advice online.” — <strong>Lima</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 15 -->
+    <article class="bubble speech">
+      <p class="text">“It feels like a safe space built just for us — women navigating midlife with strength and grace.” — <strong>Angela</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 16 -->
+    <article class="bubble speech">
+      <p class="text">“What I love most is how the platform evolves with me. It adapts to my stage, my symptoms, and even my moods.” — <strong>Sandy</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 17 -->
+    <article class="bubble speech">
+      <p class="text">"<strong>Ask Empress</strong> explained things about my body in plain language. No jargon, just care that made sense." — <strong>Sheon</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 18 -->
+    <article class="bubble speech">
+      <p class="text">"I share this platform with all my friends. We finally have something that supports us through perimenopause together." — <strong>Maggie</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 19 -->
+    <article class="bubble speech">
+      <p class="text">“Empress Health makes me feel like I have a team walking with me. I’m never alone anymore.” — <strong>Jeanette</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 20 -->
+    <article class="bubble speech">
+      <p class="text">“The community pods are amazing — I never realized how much I needed other women’s voices in this journey.” — <strong>Deandre</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 21 -->
+    <article class="bubble speech">
+      <p class="text">"This is the first time technology actually feels human. <strong>Ask Empress</strong> feels like she's holding my hand." — <strong>Stephanie</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 22 -->
+    <article class="bubble speech">
+      <p class="text">“I didn’t even know where to start with supplements or skin changes. The platform guided me gently, step by step.” — <strong>Leslie</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 23 -->
+    <article class="bubble speech">
+      <p class="text">“I was skeptical at first, but within a week I felt calmer, more informed, and more hopeful.” — <strong>Maushmi</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+
+    <!-- 24 -->
+    <article class="bubble speech">
+      <p class="text">“Menopause used to feel like a silent struggle. With Empress Health, I finally feel heard.” — <strong>Aparna</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span><span class="stars__label">4/5</span></div>
+    </article>
+
+    <!-- 25 -->
+    <article class="bubble speech">
+      <p class="text">“Every woman deserves a platform like this — one that treats us with dignity, knowledge, and care.” — <strong>Alka</strong></p>
+      <div class="stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="stars__label">5/5</span></div>
+    </article>
+  </div>
+
+  <!-- Right Arrow -->
+      <button class="review-nav right" onclick="scrollReviews(1)" aria-label="Next">›</button>
+    </div>
+
+</section>
+
+  <!-- Intro copy -->
+  <section class="section center">
+    <div class="container">
+      <div class="crown">✦</div>
+      <h2>Confidence That Grows With You</h2>
+      <p class="lead">Every woman’s journey is unique. EmpressHealth blends AI insights with trusted expertise — so your care evolves with your stage, your symptoms, and your goals.</p>
+    </div>
+  </section>
+
+  <!-- Feature tiles -->
+<section class="feature-section soft" id="features">
+  <div class="container">
+
+    <div class="feature-track" role="region" aria-label="Features">
+      <!-- Feature -->
+      <a class="feature-card" href="/askempress">
+        <div class="feature-media">
+          <img
+            src="/public/features/featureaicare.png"
+            alt="Personalized AI Care — tailored guidance for your stage"
+            loading="eager" fetchpriority="high" decoding="async">
+        </div>
+      </a>
+
+      <a class="feature-card" href="//expertguidance">
+        <div class="feature-media">
+          <img src="/public/features/featuretrustedexperts.png"
+               alt="Trusted Experts — science and compassion" loading="lazy">
+        </div>
+      </a>
+
+      <a class="feature-card" href="//wellnesshub">
+        <div class="feature-media">
+          <img src="/public/features/featureseeprogress.png"
+               alt="See Your Progress — simple insights that make sense" loading="lazy">
+        </div>
+      </a>
+
+      <a class="feature-card" href="/communitystories.html">
+        <div class="feature-media">
+          <img src="/public/features/featureuplift.png"
+               alt="Community & Daily Uplift — grounded, connected, inspired daily" loading="lazy">
+        </div>
+      </a>
+    </div><!-- /.feature-track -->
+
+    <!-- Arrows live OUTSIDE the scroller so they don’t move -->
+    <div class="features-controls" aria-hidden="true">
+      <button class="features__nav prev" type="button" aria-label="Previous">‹</button>
+      <button class="features__nav next" type="button" aria-label="Next">›</button>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Progress split -->
+  <section class="section">
+    <div class="container grid split">
+      <div>
+        <h3>See Your Progress, Feel Your Power</h3>
+        <p class="muted">Simple weekly views put insights in your hands.</p>
+      </div>
+      <div class="graph"><img src="/public/graphchart.jpg" alt="Progress chart" class="chart-img" /></div>
+    </div>
+  </section>
+
+  <!-- Metrics band -->
+  <section class="section band">
+    <div class="container center">
+      <h3>Support That Learns You</h3>
+      <p style="color:#d9d0ff">AI insights + expert guidance help you find balance, relief, and confidence — faster than ever.</p>
+      <div class="grid kpis" style="margin-top:14px">
+        <div class="kpi"><strong class="kpi-num" data-target="250" data-suffix="+" data-duration="1400">0</strong><p class="muted" style="color:#efe7ff">Early adopters testing with confidence</p></div>
+        <div class="kpi"><strong class="kpi-num" data-target="90" data-suffix="%" data-duration="1400">0</strong><p class="muted" style="color:#efe7ff">Report meaningful engagement</p></div>
+        <div class="kpi"><strong style="font-size:18px">Privacy & Confidentiality Policy</strong><p class="muted" style="color:#efe7ff"></p></div>
+        <div class="kpi"><strong style="font-size:18px">Experts</strong><p class="muted" style="color:#efe7ff">Doctors, therapists, coaches</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Care team -->
+  <section class="section team-fullscreen">
+  <div class="team-slider" data-index="0">
+    <!-- Slides -->
+    <div class="person active">
+      <img class="avatar" src="/public/sjohnsonborder.jpg" alt="Dr. Sarah Johnson" />
+      <div class="info">
+        <h3>Dr. Sarah Johnson</h3>
+        <p>Gynecologist</p>
+      </div>
+    </div>
+
+    <div class="person">
+      <img class="avatar" src="/public/mthompsonborder.jpg" alt="Dr. Maya Thompson" />
+      <div class="info">
+        <h3>Dr. Maya Thompson</h3>
+        <p>Psychologist</p>
+      </div>
+    </div>
+
+    <div class="person">
+      <img class="avatar" src="/public/amehtaborder.jpg" alt="Dr. Arjun Mehta" />
+      <div class="info">
+        <h3>Dr. Arjun Mehta</h3>
+        <p>Endocrinologist</p>
+      </div>
+    </div>
+
+    <!-- Arrows -->
+    <button class="nav-arrow left" aria-label="Previous">‹</button>
+    <button class="nav-arrow right" aria-label="Next">›</button>
+  </div>
+</section>
+
+
+  <!-- Products carousel -->
+<section class="market-wrap" style="background: #ffffff;">
+  <div class="container">
+    <h2>Curated Marketplace</h2>
+    <p class="lead">Explore curated products recommended by our team.</p>
+
+    <div class="shopify-collection-container">
+      <!-- Shopify Collection -->
+      <div id='collection-component-1764996700219'></div>
+    </div>
+    <script type="text/javascript">
+/*<![CDATA[*/
+(function () {
+  var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+  if (window.ShopifyBuy) {
+    if (window.ShopifyBuy.UI) {
+      ShopifyBuyInit();
+    } else {
+      loadScript();
+    }
+  } else {
+    loadScript();
+  }
+  function loadScript() {
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = scriptURL;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+    script.onload = ShopifyBuyInit;
+  }
+  function ShopifyBuyInit() {
+    var client = ShopifyBuy.buildClient({
+      domain: 'skincare-solutions-llc.myshopify.com',
+      storefrontAccessToken: '0ad62e12ceaec500c350dc1f4a1958c5',
+    });
+    ShopifyBuy.UI.onReady(client).then(function (ui) {
+      ui.createComponent('collection', {
+        id: '330403938462',
+        node: document.getElementById('collection-component-1764996700219'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+  "product": {
+    "styles": {
+      "product": {
+        "@media (min-width: 601px)": {
+          "max-width": "calc(50% - 12px)",
+          "margin-left": "0px",
+          "margin-bottom": "24px",
+          "width": "calc(50% - 12px)"
+        }
+      }
+    },
+    "buttonDestination": "modal",
+    "contents": {
+      "options": false
+    },
+    "text": {
+      "button": "View product"
+    }
+  },
+  "productSet": {
+    "styles": {
+      "products": {
+        "@media (min-width: 601px)": {
+          "margin-left": "0px"
+        }
+      }
+    }
+  },
+  "modalProduct": {
+    "contents": {
+      "img": false,
+      "imgWithCarousel": true,
+      "button": false,
+      "buttonWithQuantity": true
+    },
+    "styles": {
+      "product": {
+        "@media (min-width: 601px)": {
+          "max-width": "100%",
+          "margin-left": "0px",
+          "margin-bottom": "0px"
+        }
+      }
+    },
+    "text": {
+      "button": "Add to cart"
+    }
+  },
+  "option": {},
+  "cart": {
+    "text": {
+      "total": "Subtotal",
+      "button": "Checkout"
+    }
+  },
+  "toggle": {}
+},
+      });
+    });
+    
+    // Apply styles after Shopify loads - horizontal scroll on all displays
+    function applyShopifyStyles() {
+      const container = document.getElementById('collection-component-1764996700219');
+      if (!container) return;
+      
+      // Also handle parent container
+      const parentContainer = container.closest('.shopify-collection-container');
+      const marketWrap = container.closest('.market-wrap');
+      const pageContainer = container.closest('.container');
+      
+      const productSet = container.querySelector('.shopify-buy-frame--product-set') || 
+                         container.querySelector('[class*="product-set"]') ||
+                         container.querySelector('[class*="products"]');
+      if (!productSet) return;
+      
+      const isMobile = window.innerWidth <= 768;
+      
+      // Break out of parent containers on all displays for one product at a time
+      if (parentContainer) {
+        parentContainer.style.setProperty('overflow-x', 'visible', 'important');
+        parentContainer.style.setProperty('overflow-y', 'visible', 'important');
+        parentContainer.style.setProperty('width', '100vw', 'important');
+        parentContainer.style.setProperty('max-width', '100vw', 'important');
+        parentContainer.style.setProperty('margin-left', 'calc(-50vw + 50%)', 'important');
+        parentContainer.style.setProperty('margin-right', 'calc(-50vw + 50%)', 'important');
+      }
+      
+      if (pageContainer) {
+        pageContainer.style.setProperty('overflow-x', 'visible', 'important');
+        pageContainer.style.setProperty('padding-left', '0', 'important');
+        pageContainer.style.setProperty('padding-right', '0', 'important');
+      }
+      
+      if (marketWrap) {
+        marketWrap.style.setProperty('overflow-x', 'visible', 'important');
+        marketWrap.style.setProperty('overflow-y', 'visible', 'important');
+      }
+      
+      container.style.setProperty('width', '100vw', 'important');
+      container.style.setProperty('max-width', '100vw', 'important');
+      
+      if (isMobile) {
+        container.style.setProperty('scrollbar-width', 'none', 'important');
+        container.style.setProperty('-ms-overflow-style', 'none', 'important');
+      } else {
+        container.style.setProperty('scrollbar-width', 'thin', 'important');
+      }
+      
+      // Apply horizontal scrolling to all screen sizes
+      container.style.setProperty('overflow-x', 'auto', 'important');
+      container.style.setProperty('overflow-y', 'hidden', 'important');
+      container.style.setProperty('scroll-behavior', 'smooth', 'important');
+      container.style.setProperty('scroll-snap-type', 'x mandatory', 'important');
+      container.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
+      container.style.setProperty('display', 'block', 'important');
+      container.style.setProperty('position', 'relative', 'important');
+      
+      // Product set: horizontal flex on all displays, no gap for one product at a time
+      productSet.style.setProperty('display', 'flex', 'important');
+      productSet.style.setProperty('flex-direction', 'row', 'important');
+      productSet.style.setProperty('flex-wrap', 'nowrap', 'important');
+      productSet.style.setProperty('grid-template-columns', 'none', 'important');
+      productSet.style.setProperty('grid-template-rows', 'none', 'important');
+      productSet.style.setProperty('gap', '0', 'important');
+      productSet.style.setProperty('padding', '0', 'important');
+      productSet.style.setProperty('width', 'max-content', 'important');
+      productSet.style.setProperty('min-width', 'max-content', 'important');
+      productSet.style.setProperty('max-width', 'none', 'important');
+      productSet.style.setProperty('overflow', 'visible', 'important');
+      
+      // Products: one product at a time on all displays (100vw width)
+      const products = container.querySelectorAll('.shopify-buy-frame--product, [class*="product"]:not([class*="product-set"]):not([class*="products"])');
+      products.forEach(function(product) {
+        product.style.setProperty('flex', '0 0 100vw', 'important');
+        product.style.setProperty('flex-shrink', '0', 'important');
+        product.style.setProperty('width', '100vw', 'important');
+        product.style.setProperty('min-width', '100vw', 'important');
+        product.style.setProperty('max-width', '100vw', 'important');
+        product.style.setProperty('margin-left', '0', 'important');
+        product.style.setProperty('margin-right', '0', 'important');
+        product.style.setProperty('margin-bottom', '0', 'important');
+        product.style.setProperty('scroll-snap-align', 'start', 'important');
+        product.style.setProperty('scroll-snap-stop', 'always', 'important');
+        product.style.setProperty('box-sizing', 'border-box', 'important');
+        product.style.setProperty('overflow', 'visible', 'important');
+      });
+    }
+    
+    // Use MutationObserver to catch when Shopify injects content
+    const observer = new MutationObserver(function(mutations) {
+      applyShopifyStyles();
+    });
+    
+    const targetNode = document.getElementById('collection-component-1764996700219');
+    if (targetNode) {
+      observer.observe(targetNode, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class']
+      });
+    }
+    
+    setTimeout(applyShopifyStyles, 500);
+    setTimeout(applyShopifyStyles, 1000);
+    setTimeout(applyShopifyStyles, 2000);
+    setTimeout(applyShopifyStyles, 3000);
+    window.addEventListener('resize', applyShopifyStyles);
+  }
+})();
+/*]]>*/
+</script>
+  </div>
+</section>
+
+  <!-- Chat/AI section with phone -->
+  <section class="section">
+    <div class="container center">
+      <h3><strong>Ask Empress</strong> — Your 24/7 Menopause Companion</h3>
+      <p class="lead">Instant, personalized answers powered by AI + guided by experts.</p>
+      <figure class="ask-shot">
+        <picture>
+          <!-- Desktop image shown at ≥900px -->
+          <source media="(min-width: 900px)"
+                  srcset="/public/mockdesktop.png" />
+
+          <!-- Mobile fallback (<900px) -->
+          <img src="/public/mockmobileempress.jpg"
+              srcset="/public/mockmobileempress.jpg"
+              alt="<strong>Ask Empress</strong> conversation UI" loading="lazy" decoding="async" />
+        </picture>
+      </figure>
+        <div class="center" style="text-align:left">
+          <h4>Daily Affirmations for Strength & Balance</h4>
+          <p class="muted">Receive personalized affirmations drawn from our library of 30,000 expertly crafted messages across 28 emotional wellness categories — designed to uplift, empower, and restore calm through every stage of your journey.</p>
+          <section class="aff-section" id="affirmations">
+
+
+  <!-- AFFIRMATIONS -->
+<div class="aff-container">
+  <div class="aff-scroll" id="affScroll">
+
+    <!-- each card is an ARTICLE (semantic) and clickable -->
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Healing"
+             data-affirm="My body and heart know how to heal. I support them with patience.">
+      <img src="/public/affirmations/affhealing.jpg" alt="Healing" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Self-Confidence"
+             data-affirm="I trust my experience. I’ve overcome so much already.">
+      <img src="/public/affirmations/affselfconfidence.jpg" alt="Self-Confidence" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Hope"
+             data-affirm="New paths are opening for me, one step at a time.">
+      <img src="/public/affirmations/affhope.jpg" alt="Hope" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Gratitude"
+             data-affirm="I notice small gifts around me and let them brighten my day.">
+      <img src="/public/affirmations/affgratitude.jpg" alt="Gratitude" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Joy"
+             data-affirm="I welcome small sparks of joy and let them multiply.">
+      <img src="/public/affirmations/affjoy.jpg" alt="Joy" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Power"
+             data-affirm="My voice matters. My boundaries are valid.">
+      <img src="/public/affirmations/affpower.jpg" alt="Power" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Peace"
+             data-affirm="I choose a gentle pace. Peace grows with every breath.">
+      <img src="/public/affirmations/affpeace.jpg" alt="Peace" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Energy"
+             data-affirm="My energy returns as I rest, nourish, and move with care.">
+      <img src="/public/affirmations/affenergy.jpg" alt="Energy" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Balance"
+             data-affirm="I give myself permission to do less and receive more.">
+      <img src="/public/affirmations/affbalance.jpg" alt="Balance" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Purpose"
+             data-affirm="My life has meaning today. I take one aligned step.">
+      <img src="/public/affirmations/affpurpose.jpg" alt="Purpose" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Resilience"
+             data-affirm="I bend but do not break. I grow through what I go through.">
+      <img src="/public/affirmations/affresilience.jpg" alt="Resilience" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Connection"
+             data-affirm="I reach out. I am worthy of being seen, heard, and held.">
+      <img src="/public/affirmations/affconnection.jpg" alt="Connection" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Compassion"
+             data-affirm="I offer myself the same kindness I give to others.">
+      <img src="/public/affirmations/affcompassion.jpg" alt="Compassion" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Overwhelm"
+             data-affirm="I can pause, breathe, and take one small step. One thing at a time is enough.">
+      <img src="/public/affirmations/affoverwhelm.jpg" alt="Overwhelm" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Anxiety"
+             data-affirm="My breath anchors me. I am safe in this moment.">
+      <img src="/public/affirmations/affanxiety.jpg" alt="Anxiety" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Loneliness"
+             data-affirm="I am worthy of connection. I reach toward the people who care for me.">
+      <img src="/public/affirmations/afflonely.jpg" alt="Loneliness" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Helplessness"
+             data-affirm="Even small choices are powerful. I choose one helpful action now.">
+      <img src="/public/affirmations/affhelpless.jpg" alt="Helplessness" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Grief"
+             data-affirm="My feelings honor my love. I give myself time and tenderness.">
+      <img src="/public/affirmations/affgrief.jpg" alt="Grief" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Insecurity"
+             data-affirm="I am growing, learning, and enough as I am.">
+      <img src="/public/affirmations/affinsecurity.jpg" alt="Insecurity" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Fear"
+             data-affirm="Courage is showing up softly. I move forward with care and faith.">
+      <img src="/public/affirmations/afffear.jpg" alt="Fear" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Stress"
+             data-affirm="Relaxing my shoulders, I reset my pace and protect my peace.">
+      <img src="/public/affirmations/affstress.jpg" alt="Stress" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Fatigue"
+             data-affirm="Rest is productive. My body deserves gentleness today.">
+      <img src="/public/affirmations/afffatigue.jpg" alt="Fatigue" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Irritability"
+             data-affirm="I breathe before I speak. I choose calm responses.">
+      <img src="/public/affirmations/affirritability.jpg" alt="Irritability" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Mood Swings"
+             data-affirm="Feelings move like weather. I let them pass without judgment.">
+      <img src="/public/affirmations/affmoodswing.jpg" alt="Mood Swings" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Restlessness"
+             data-affirm="I ground myself with breath and gentle movement.">
+      <img src="/public/affirmations/affrestless.jpg" alt="Restlessness" />
+    </article>
+
+    <article class="aff-card" tabindex="0" role="button"
+             data-title="Self-Doubt"
+             data-affirm="I talk to myself like someone I love. I can do this.">
+      <img src="/public/affirmations/affselfdoubt.jpg" alt="Self-Doubt" />
+    </article>
+
+  </div>
+
+  <!-- arrows are siblings so swipes still work -->
+  <button class="aff-arrow left"  aria-label="Previous">‹</button>
+  <button class="aff-arrow right" aria-label="Next">›</button>
+</div>
+
+<!-- Affirmation Reader (hidden until a card is clicked) -->
+<div id="aff-reader" class="aff-reader" hidden>
+  <div class="aff-reader-content">
+    <button class="close-x-left" id="closeAffReader" aria-label="Close">×</button>
+    
+    <div class="aff-reader-image">
+      <img id="aff-reader-img" src="" alt="" />
+              </div>
+    
+    <div class="aff-reader-text">
+      <div class="aff-reader-badge" id="aff-reader-badge"></div>
+      <h2 id="aff-reader-title"></h2>
+      <p id="aff-reader-affirm"></p>
+              </div>
+    
+    <div class="aff-reader-nav">
+      <button class="aff-reader-prev" id="aff-reader-prev" aria-label="Previous">‹</button>
+      <button class="aff-reader-next" id="aff-reader-next" aria-label="Next">›</button>
+              </div>
+            </div>
+          </div>
+
+              </div>
+            </div>
+          </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- Footer -->
+  <footer class="section">
+    <div class="container">
+      
+      <div class="footer-top">
+        <small>© 2025 Empress Health. All Rights Reserved.</small>
+        <small><a href="#">Accessibility</a> · <a href="#">Cookies</a></small>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="https://backend.enterprisechai.com/chatbot/public/build/copilot/index.js"></script>
+
+  <script>
+
+    //Chat
+
+    
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const EChaiBotConfig = { 
+          botName: 'Ask Empress',
+          EChaiServer: 'https://backend.enterprisechai.com/chatbot',
+          accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiMTA1IiwibWV0YWRhdGEiOnt9LCJleHAiOjE3NzMwMTAxOTZ9.gElFrJZti24LHL9VnXp5uhaaeCVAfjVK8qTb6viPWBo',
+          theme: 'light',
+          aiMessageIconHoverText: 'Ask Empress',
+          aiMessageIconUrl: 'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/thumbnail_Inside_chatbot-2.png?v=1741293804',
+          botAvatarUrl: 'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/chatbot_icon-20.png?v=1741033477',
+          button: {
+              imageUrl:
+              'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/chatbot_icon-20.png?v=1741033477',  
+              className:
+              'w-20 h-20 bg-transparent p-0 m-0 text-primary hover:text-primary-dark hover:bg-transparent'
+          }
+      }; 
+      window.mountEChaiWidget(EChaiBotConfig);
+    });
+  
+  
+
+
+
+
+
+
+
+
+    // Keep hero exactly 100vh minus sticky header
+    const headerEl = document.getElementById('site-header');
+    const setHeaderH = () => {
+      if (headerEl) {
+        document.documentElement.style.setProperty('--header-h', headerEl.offsetHeight + 'px');
+      }
+    };
+    window.addEventListener('load', setHeaderH);
+    window.addEventListener('resize', setHeaderH);
+
+    
+
+    // Product arrows (unchanged)
+    const wrap = document.querySelector('.products-wrap');
+    if(wrap){
+      const scroller = document.getElementById('products');
+      const prev = wrap.querySelector('.prev');
+      const next = wrap.querySelector('.next');
+      const step = ()=> scroller.querySelector('.product').offsetWidth + 16;
+      const move = (dir)=> scroller.scrollBy({left: dir*step(), behavior:'smooth'});
+      prev.addEventListener('click',()=>move(-1));
+      next.addEventListener('click',()=>move(1));
+    }
+
+    // ===== Count-up numbers on scroll =====
+(function(){
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+  function animateCount(el){
+    const end = Number(el.getAttribute('data-target') || 0);
+    const dur = Number(el.getAttribute('data-duration') || 1200);
+    const prefix = el.getAttribute('data-prefix') || '';
+    const suffix = el.getAttribute('data-suffix') || '';
+    const start = 0;
+    const startTime = performance.now();
+
+    if (prefersReduced) {
+      el.textContent = `${prefix}${format(end)}${suffix}`;
+      el.dataset.done = '1';
+      return;
+    }
+
+    function frame(now){
+      const p = Math.min(1, (now - startTime) / dur);
+      const eased = easeOutCubic(p);
+      const val = Math.round(start + (end - start) * eased);
+      el.textContent = `${prefix}${format(val)}${suffix}`;
+      if (p < 1) requestAnimationFrame(frame);
+      else el.dataset.done = '1';
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function format(n){
+    // add commas for thousands
+    return n.toLocaleString('en-US');
+  }
+
+  const nums = Array.from(document.querySelectorAll('.kpi-num'));
+  if (!('IntersectionObserver' in window) || nums.length === 0){
+    nums.forEach(animateCount);
+    return;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el = entry.target;
+        if(el.dataset.done === '1') return;
+        animateCount(el);
+        io.unobserve(el);
+      }
+    });
+  }, { threshold: 0.35 });
+
+  nums.forEach(el=> io.observe(el));
+})();
+
+// Keep --header-h in sync and add a shadow once scrolled
+(function(){
+  const header = document.getElementById('site-header');
+  if(!header) return;
+
+  function setHeaderH(){
+    document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  }
+  setHeaderH();
+  window.addEventListener('resize', setHeaderH);
+
+  // Toggle shadow when scrolling
+  const onScroll = () => header.classList.toggle('is-stuck', window.scrollY > 6);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+
+
+
+ (function(){
+  const root = document.getElementById('customer-reviews');
+  if (!root) return;
+
+  const track = root.querySelector('.reviews__scroll');
+  const prev  = root.querySelector('.reviews__nav.prev');
+  const next  = root.querySelector('.reviews__nav.next');
+  if (!track || !prev || !next) return;
+
+  const isMobile = () => matchMedia('(max-width: 899px)').matches;
+
+  function step(){
+    if (isMobile()){
+      // visible width minus the left/right padding used for arrow gutters
+      const cs = getComputedStyle(track);
+      const pad = (parseFloat(cs.paddingLeft)||0) + (parseFloat(cs.paddingRight)||0);
+      return track.clientWidth - pad;
+    } else {
+      const gap  = parseFloat(getComputedStyle(track).gap || 16) || 16;
+      const card = track.querySelector('.bubble');
+      return (card ? card.getBoundingClientRect().width : 300) + gap;
+    }
+  }
+  function move(dir){ track.scrollBy({ left: dir * step(), behavior: 'smooth' }); }
+  function update(){
+    const max = track.scrollWidth - track.clientWidth - 1;
+    prev.disabled = track.scrollLeft <= 0;
+    next.disabled = track.scrollLeft >= max;
+  }
+
+  prev.addEventListener('click', () => move(-1));
+  next.addEventListener('click', () => move(1));
+  track.addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', update);
+  update();
+})();
+
+
+
+// ===== UNIFIED MENU SYSTEM =====
+// Works consistently on desktop, tablet, and mobile
+
+(function(){
+  // Desktop mega menu
+  const desktopItems = Array.from(document.querySelectorAll('.main-nav .menu-item'));
+  
+  function closeAllMenus() {
+    desktopItems.forEach(item => {
+      item.dataset.open = '0';
+      const trigger = item.querySelector('.menu-trigger');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAllMenus();
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.main-nav')) {
+      closeAllMenus();
+    }
+  });
+
+  // Toggle menu on trigger click
+  desktopItems.forEach(item => {
+    const trigger = item.querySelector('.menu-trigger');
+    if (!trigger) return;
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = item.dataset.open === '1';
+      closeAllMenus(); // close all first
+      
+      if (!isOpen) {
+        // open this one
+        item.dataset.open = '1';
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // Mobile drawer (keep simple)
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+  const dim = document.getElementById('nav-dim');
+
+  function toggleDrawer(open) {
+    if (!drawer || !burger) return;
+    drawer.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    if (dim) {
+      dim.hidden = !open;
+    }
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  burger?.addEventListener('click', () => {
+    const isOpen = drawer.classList.contains('open');
+    toggleDrawer(!isOpen);
+  });
+
+  dim?.addEventListener('click', () => toggleDrawer(false));
+
+  // Close drawer on link click
+  drawer?.addEventListener('click', (e) => {
+    if (e.target instanceof HTMLElement && e.target.tagName === 'A') {
+      toggleDrawer(false);
+    }
+  });
+
+  // Close drawer on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer?.classList.contains('open')) {
+      toggleDrawer(false);
+    }
+  });
+
+  // Auto-close menus when resizing to desktop
+  const mq = window.matchMedia('(min-width: 1024px)');
+  mq.addEventListener('change', (e) => {
+    if (e.matches) {
+      // switched to desktop: close drawer
+      toggleDrawer(false);
+    } else {
+      // switched to mobile: close menus
+      closeAllMenus();
+    }
+  });
+})();
+
+
+
+
+
+
+  (function(){
+    const mq = window.matchMedia('(min-width: 1024px)');
+    mq.addEventListener('change', e => { if (e.matches) {
+      const drawer = document.getElementById('drawer');
+      const burger = document.getElementById('burger');
+      const dim = document.getElementById('nav-dim');
+      drawer?.classList.remove('open');
+      burger?.setAttribute('aria-expanded','false');
+      if (dim){ dim.hidden = true; dim.classList.remove('show'); }
+      document.body.style.overflow = '';
+    }});
+  })();
+
+
+
+
+(function(){
+    const track   = document.getElementById('affScroll');
+    const prevBtn = document.querySelector('.aff-arrow.left');
+    const nextBtn = document.querySelector('.aff-arrow.right');
+
+    function cardWidth(){
+      const first = track.querySelector('.aff-card');
+      return first ? first.getBoundingClientRect().width : track.clientWidth;
+    }
+
+    prevBtn?.addEventListener('click', () => {
+      track.scrollBy({ left: -cardWidth(), behavior: 'smooth' });
+    });
+    nextBtn?.addEventListener('click', () => {
+      track.scrollBy({ left:  cardWidth(), behavior: 'smooth' });
+    });
+  })();
+
+  // Affirmation Reader Functionality
+  (function(){
+    const cards = document.querySelectorAll('.aff-card');
+    const reader = document.getElementById('aff-reader');
+    const closeBtn = document.getElementById('closeAffReader');
+    const prevBtn = document.getElementById('aff-reader-prev');
+    const nextBtn = document.getElementById('aff-reader-next');
+    const readerImg = document.getElementById('aff-reader-img');
+    const readerBadge = document.getElementById('aff-reader-badge');
+    const readerTitle = document.getElementById('aff-reader-title');
+    const readerAffirm = document.getElementById('aff-reader-affirm');
+    
+    let currentIndex = 0;
+
+    function openReader(index) {
+      currentIndex = (index + cards.length) % cards.length;
+      const card = cards[currentIndex];
+      const title = card.dataset.title || 'Affirmation';
+      const affirm = card.dataset.affirm || '';
+      const img = card.querySelector('img')?.getAttribute('src') || '';
+
+      readerImg.src = img;
+      readerImg.alt = title;
+      readerBadge.textContent = title;
+      readerTitle.textContent = title;
+      readerAffirm.textContent = affirm;
+
+      reader.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReader() {
+      console.log('Closing reader...'); // Debug log
+      reader.hidden = true;
+      reader.style.display = 'none'; // Additional fallback
+      document.body.style.overflow = '';
+      document.body.style.pointerEvents = ''; // Ensure page is interactive
+    }
+
+    function nextAffirmation(direction) {
+      openReader(currentIndex + direction);
+    }
+
+    // Add click event listeners to cards
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => openReader(index));
+      card.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openReader(index);
+        }
+      });
+    });
+
+    // Reader controls
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Close button clicked'); // Debug log
+        closeReader();
+      });
+    }
+    
+    // Additional close button for emergency (double-click to close)
+    if (reader) {
+      let clickCount = 0;
+      reader.addEventListener('click', (e) => {
+        if (e.target === reader) {
+          clickCount++;
+          if (clickCount === 2) {
+            console.log('Double-clicked background to close'); // Debug log
+            closeReader();
+            clickCount = 0;
+          }
+          setTimeout(() => clickCount = 0, 500);
+        }
+      });
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => nextAffirmation(-1));
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => nextAffirmation(1));
+    }
+
+    // Keyboard controls
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        console.log('Escape key pressed'); // Debug log
+        closeReader();
+      }
+      if (reader.hidden) return;
+      if (e.key === 'ArrowRight') nextAffirmation(1);
+      if (e.key === 'ArrowLeft') nextAffirmation(-1);
+    });
+
+    // Close on background click (but not on the reader content)
+    reader.addEventListener('click', (e) => {
+      if (e.target === reader || e.target.classList.contains('aff-reader-content')) {
+        closeReader();
+      }
+    });
+    
+    // Global emergency close function (can be called from browser console)
+    window.closeAffirmationReader = function() {
+      console.log('Emergency close called');
+      const reader = document.getElementById('aff-reader');
+      if (reader) {
+        reader.hidden = true;
+        reader.style.display = 'none';
+        document.body.style.overflow = '';
+        document.body.style.pointerEvents = '';
+      }
+    };
+  })();
+
+
+
+
+
+
+  
+// ===== Reel arrows (optional) =====
+// ===== BLOG CAROUSEL FIX =====
+(function(){
+  const wrapper = document.querySelector('.blog-wrapper');
+  if (!wrapper) return;
+
+  const track = wrapper.querySelector('.blog-track');
+  const prevBtn = wrapper.querySelector('.blogs__nav.prev');
+  const nextBtn = wrapper.querySelector('.blogs__nav.next');
+
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const getScrollAmount = () => track.clientWidth * 0.9;
+
+  prevBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+  });
+
+  nextBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+  });
+
+  const updateButtons = () => {
+    prevBtn.disabled = track.scrollLeft <= 1;
+    nextBtn.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+  };
+
+  track.addEventListener('scroll', updateButtons, { passive: true });
+  window.addEventListener('resize', updateButtons);
+  updateButtons();
+})();
+
+
+
+
+
+
+
+
+(() => {
+  const slides = document.querySelectorAll('.person');
+  const left = document.querySelector('.nav-arrow.left');
+  const right = document.querySelector('.nav-arrow.right');
+  let current = 0;
+
+  function showSlide(index) {
+    slides.forEach((s, i) => s.classList.toggle('active', i === index));
+  }
+
+  left.addEventListener('click', () => {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
+  });
+
+  right.addEventListener('click', () => {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  });
+  })();
+
+
+
+
+(function(){
+  const section = document.getElementById('features');
+  if(!section) return;
+  const track = section.querySelector('.feature-track');
+  const prev  = section.querySelector('.features__nav.prev');
+  const next  = section.querySelector('.features__nav.next');
+  if(!track || !prev || !next) return;
+
+  function updateArrows(){
+    const canScroll = track.scrollWidth > track.clientWidth + 1;
+    section.classList.toggle('has-scroll', canScroll);
+    prev.disabled = track.scrollLeft <= 0;
+    next.disabled = Math.ceil(track.scrollLeft + track.clientWidth) >= track.scrollWidth;
+  }
+
+  prev.addEventListener('click', () => {
+    track.scrollBy({ left: -track.clientWidth, behavior:'smooth' });
+  });
+  next.addEventListener('click', () => {
+    track.scrollBy({ left:  track.clientWidth, behavior:'smooth' });
+  });
+
+  track.addEventListener('scroll', updateArrows, { passive:true });
+  window.addEventListener('resize', updateArrows);
+  window.addEventListener('load', updateArrows);
+  updateArrows();
+})();
+
+
+
+(function(){
+  function attachArrows(section){
+    const scroller = section.querySelector('[data-scroller]');
+    const prev = section.querySelector('.nav-arrow.left');
+    const next = section.querySelector('.nav-arrow.right');
+    if(!scroller || !prev || !next) return;
+
+    // how far to move each click (one card or ~90% viewport)
+    const cardWidth = () => (scroller.firstElementChild?.getBoundingClientRect().width || 280) + 16;
+    const step = () => Math.max(cardWidth(), scroller.clientWidth * 0.9);
+
+    function update(){
+      const canScroll = scroller.scrollWidth > scroller.clientWidth + 2;
+      prev.style.display = next.style.display = canScroll ? 'grid' : 'none';
+      prev.disabled = scroller.scrollLeft <= 0;
+      next.disabled = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 1;
+    }
+
+    prev.addEventListener('click', () => scroller.scrollBy({left: -step(), behavior:'smooth'}));
+    next.addEventListener('click', () => scroller.scrollBy({left:  step(), behavior:'smooth'}));
+    scroller.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-arrow-section]').forEach(attachArrows);
+  });
+})();
+
+
+
+
+
+
+function scrollReviews(direction) {
+  const scroller = document.querySelector('[data-scroller]');
+  if (!scroller) return;
+  
+  // On desktop, scroll by one card width (700px + gap)
+  // On mobile, scroll by viewport width
+  const isDesktop = window.innerWidth >= 900;
+  let scrollAmount;
+  
+  if (isDesktop) {
+    // Get the actual card width including padding
+    const card = scroller.querySelector('.bubble');
+    if (card) {
+      const cardRect = card.getBoundingClientRect();
+      scrollAmount = cardRect.width + 0; // No gap on desktop
+    } else {
+      scrollAmount = 700; // Fallback
+    }
+  } else {
+    scrollAmount = window.innerWidth;
+  }
+  
+  scroller.scrollBy({
+    left: direction * scrollAmount,
+    behavior: 'smooth'
+  });
+}
+
+// Function already defined above, but keep this as backup/override
+if (!window.scrollShopifyCollection) {
+  window.scrollShopifyCollection = function(direction) {
+    const mainContainer = document.getElementById('collection-component-1764996700219');
+    if (!mainContainer) return false;
+    
+    let scrollable = mainContainer.querySelector('.shopify-buy-frame--product-set');
+    if (!scrollable) {
+      const products = mainContainer.querySelectorAll('.shopify-buy-frame--product');
+      if (products.length > 0) {
+        scrollable = products[0].parentElement;
+      } else if (mainContainer.firstElementChild) {
+        scrollable = mainContainer.firstElementChild;
+      } else {
+        scrollable = mainContainer;
+      }
+    }
+    
+    if (scrollable) {
+      scrollable.style.overflowX = 'auto';
+      scrollable.style.display = 'flex';
+      scrollable.style.flexDirection = 'row';
+      const containerWidth = scrollable.clientWidth || window.innerWidth;
+      const newScroll = Math.max(0, Math.min(
+        (scrollable.scrollLeft || 0) + (direction * containerWidth),
+        Math.max(0, (scrollable.scrollWidth || 0) - containerWidth)
+      ));
+      scrollable.scrollTo({ left: newScroll, behavior: 'smooth' });
+      return true;
+    }
+    return false;
+  };
+}
+
+// Global test function - can be called from browser console
+window.testShopifyScroll = function(direction = 1) {
+  console.log('Testing Shopify scroll with direction:', direction);
+  scrollShopifyCollection(direction);
+};
+
+// Global function to inspect the container
+window.inspectShopifyContainer = function() {
+  const container = document.getElementById('collection-component-1764996700219');
+  if (container) {
+    console.log('=== SHOPIFY CONTAINER INSPECTION ===');
+    console.log('Container:', container);
+    console.log('HTML:', container.innerHTML);
+    console.log('scrollWidth:', container.scrollWidth);
+    console.log('clientWidth:', container.clientWidth);
+    console.log('scrollLeft:', container.scrollLeft);
+    
+    const children = container.querySelectorAll('*');
+    console.log('Child elements count:', children.length);
+    children.forEach((child, index) => {
+      console.log(`Child ${index}:`, {
+        tagName: child.tagName,
+        className: child.className,
+        scrollWidth: child.scrollWidth,
+        clientWidth: child.clientWidth,
+        scrollLeft: child.scrollLeft
+      });
+    });
+  } else {
+    console.log('Container not found!');
+  }
+};
+
+
+
+
+
+// ===== IMPROVED CAROUSEL SCROLLING =====
+// Uses native scroll-snap instead of manual calculations
+
+(function(){
+  // Generic carousel handler for any scrollable section
+  function attachScrolling(section) {
+    const scroller = section.querySelector('[data-scroller]');
+    const prevBtn = section.querySelector('[data-prev]') || section.querySelector('.nav-arrow.left, .aff-arrow.left, .blogs__nav.prev');
+    const nextBtn = section.querySelector('[data-next]') || section.querySelector('.nav-arrow.right, .aff-arrow.right, .blogs__nav.next');
+    
+    if (!scroller || !prevBtn || !nextBtn) return;
+
+    // Simple: scroll by the scroller's visible width
+    const getScrollAmount = () => scroller.clientWidth * 0.9; // 90% of visible area
+
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      scroller.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      scroller.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    });
+
+    // Update button disabled state
+    const updateButtons = () => {
+      prevBtn.disabled = scroller.scrollLeft <= 1;
+      nextBtn.disabled = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 1;
+    };
+
+    scroller.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+    updateButtons();
+  }
+
+  // Apply to all carousel sections
+  document.querySelectorAll('[data-arrow-section]').forEach(attachScrolling);
+
+  // Fallback for older named carousels
+  const affSection = document.getElementById('affScroll')?.parentElement;
+  if (affSection && !affSection.dataset.arrowSection) {
+    attachScrolling(affSection);
+  }
+
+  const blogSection = document.querySelector('.blog-wrapper')?.parentElement;
+  if (blogSection && !blogSection.dataset.arrowSection) {
+    attachScrolling(blogSection);
+  }
+})();
+
+// ===== FEATURES CAROUSEL (special handling) =====
+(function(){
+  const section = document.getElementById('features');
+  if(!section) return;
+  
+  const track = section.querySelector('.feature-track');
+  const prev = section.querySelector('.features__nav.prev');
+  const next = section.querySelector('.features__nav.next');
+  
+  if(!track || !prev || !next) return;
+
+  const scrollStep = () => track.clientWidth * 0.85; // scroll most of viewport
+
+  prev.addEventListener('click', () => {
+    track.scrollBy({ left: -scrollStep(), behavior: 'smooth' });
+  });
+
+  next.addEventListener('click', () => {
+    track.scrollBy({ left: scrollStep(), behavior: 'smooth' });
+  });
+
+  const updateArrows = () => {
+    const atStart = track.scrollLeft <= 1;
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+    
+    prev.disabled = atStart;
+    next.disabled = atEnd;
+    
+    // Show/hide arrows based on whether scrolling is possible
+    const hasScroll = track.scrollWidth > track.clientWidth + 2;
+    section.classList.toggle('has-scroll', hasScroll);
+  };
+
+  track.addEventListener('scroll', updateArrows, { passive: true });
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+})();
+
+// ===== HERO IMAGE WHEEL ROTATION =====
+(function() {
+  // Color mapping for each hero image background
+  const heroBackgroundColors = {
+    'hero-img-1': '#D9D4D1',  // Light gray/beige
+    'hero-img-2': '#ECE7E2',  // Warm off-white
+    'hero-img-3': '#F1DCC7',  // Peach/beige
+    'hero-img-4': '#D0D5DC',  // Cool light gray
+    'hero-img-5': '#B9B2B7',  // Gray-lavender
+    'hero-img-6': '#F3EFE5'   // Cream
+  };
+  
+  // Function to update hero-card background to match active image
+  function updateHeroBackground() {
+    const activeImg = document.querySelector('.hero-img.wheel-active');
+    if (!activeImg) return;
+    
+    const heroCard = document.querySelector('.hero-card');
+    if (!heroCard) return;
+    
+    const imgId = activeImg.id;
+    const bgColor = heroBackgroundColors[imgId];
+    
+    if (bgColor) {
+      heroCard.style.backgroundColor = bgColor;
+    }
+  }
+  
+  // Get all hero images
+  const images = [];
+  for (let i = 1; i <= 6; i++) {
+    const img = document.getElementById(`hero-img-${i}`);
+    if (img) images.push(img);
+  }
+  
+  if (images.length < 2) return;
+  
+  let currentIndex = 0;
+  
+  function wheelRotate() {
+    // Get current and next image indices
+    const currentImg = images[currentIndex];
+    currentIndex = (currentIndex + 1) % images.length;
+    const nextImg = images[currentIndex];
+    
+    // Rotate current image out
+    currentImg.classList.add('wheel-rotate');
+    currentImg.classList.remove('wheel-active');
+    
+    // Rotate next image in
+    nextImg.classList.remove('wheel-rotate');
+    nextImg.classList.add('wheel-active');
+    
+    // Update background color to match new active image
+    updateHeroBackground();
+  }
+  
+  // Reset wheel positions after transition completes
+  function resetWheelPositions() {
+    images.forEach((img, index) => {
+      if (index === currentIndex) {
+        img.classList.remove('wheel-rotate');
+        img.classList.add('wheel-active');
+      } else {
+        img.classList.remove('wheel-active');
+        img.classList.add('wheel-rotate');
+      }
+    });
+    // Update background after reset
+    updateHeroBackground();
+  }
+  
+  // Initialize: first image active, others rotated
+  images.forEach((img, index) => {
+    if (index === 0) {
+      img.classList.add('wheel-active');
+      img.classList.remove('wheel-rotate');
+    } else {
+      img.classList.add('wheel-rotate');
+      img.classList.remove('wheel-active');
+    }
+  });
+  
+  // Set initial background color after images load
+  function initializeBackground() {
+    // Wait for images to load
+    const activeImg = document.querySelector('.hero-img.wheel-active');
+    if (activeImg && activeImg.complete) {
+      updateHeroBackground();
+    } else if (activeImg) {
+      activeImg.addEventListener('load', updateHeroBackground, { once: true });
+    }
+    // Also try after a short delay to ensure everything is ready
+    setTimeout(updateHeroBackground, 100);
+  }
+  
+  // Initialize background on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeBackground);
+  } else {
+    initializeBackground();
+  }
+  
+  // Start continuous wheel rotation after 5 seconds
+  setInterval(() => {
+    wheelRotate();
+    // Reset positions after transition completes (1 second)
+    setTimeout(resetWheelPositions, 1000);
+  }, 5000);
+})();
+
+  </script>
+</body>
+</html>

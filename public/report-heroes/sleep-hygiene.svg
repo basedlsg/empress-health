@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <!-- Empress Health report hero — Sleep Hygiene interlude -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3f1449"/>
+      <stop offset="60%" stop-color="#4b2577"/>
+      <stop offset="100%" stop-color="#2a0e30"/>
+    </linearGradient>
+    <radialGradient id="moonGlow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0%" stop-color="#D8A738" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#D8A738" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pillow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4E5C8"/>
+      <stop offset="100%" stop-color="#E0CFA8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <!-- Stars -->
+  <g fill="#fffaf1" opacity="0.85">
+    <circle cx="240" cy="120" r="3"/>
+    <circle cx="420" cy="80" r="2"/>
+    <circle cx="640" cy="180" r="3"/>
+    <circle cx="980" cy="80" r="2"/>
+    <circle cx="1180" cy="160" r="3"/>
+    <circle cx="1340" cy="100" r="2"/>
+    <circle cx="180" cy="280" r="2"/>
+    <circle cx="500" cy="240" r="2"/>
+    <circle cx="1480" cy="240" r="2"/>
+    <circle cx="80" cy="160" r="2"/>
+  </g>
+  <!-- Moon glow + crescent -->
+  <circle cx="1200" cy="260" r="220" fill="url(#moonGlow)"/>
+  <g transform="translate(1200 260)">
+    <circle r="120" fill="#fffaf1"/>
+    <circle r="120" fill="#3f1449" transform="translate(38 -22)"/>
+  </g>
+  <!-- "Z" sleep marks rising -->
+  <g fill="#D8A738" font-family="'Poppins', system-ui, sans-serif" font-weight="700" opacity="0.85">
+    <text x="780" y="220" font-size="64">z</text>
+    <text x="850" y="280" font-size="80">z</text>
+    <text x="940" y="360" font-size="100">Z</text>
+  </g>
+  <!-- Bed silhouette -->
+  <g transform="translate(0 620)">
+    <!-- Mattress -->
+    <rect x="120" y="120" width="1360" height="120" rx="20" fill="#fffaf1" opacity="0.92"/>
+    <!-- Headboard -->
+    <rect x="120" y="40" width="160" height="200" rx="14" fill="#fffaf1" opacity="0.7"/>
+    <!-- Pillow -->
+    <rect x="200" y="80" width="280" height="80" rx="20" fill="url(#pillow)"/>
+    <!-- Blanket -->
+    <path d="M120 200 Q400 230 800 210 T1480 200 L1480 280 L120 280 Z" fill="#C0392B" opacity="0.55"/>
+    <!-- Body lump under blanket -->
+    <path d="M340 200 Q500 160 700 200 L700 240 L340 240 Z" fill="#C0392B" opacity="0.75"/>
+    <!-- Head on pillow -->
+    <circle cx="340" cy="120" r="34" fill="#3f1449" opacity="0.85"/>
+  </g>
+  <!-- Floor line -->
+  <line x1="0" y1="860" x2="1600" y2="860" stroke="#fffaf1" stroke-opacity="0.18" stroke-width="2"/>
+  <g transform="translate(80 60)" font-family="'Poppins', system-ui, sans-serif">
+    <text font-size="18" font-weight="700" letter-spacing="5" fill="#D8A738" fill-opacity="0.85">EMPRESS HEALTH · SLEEP HYGIENE</text>
+  </g>
+</svg>

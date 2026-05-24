@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Empress — Blog</title>
+    <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Empress — Blog" />
+  <meta property="og:description" content="Empress — Blog — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/public/blog-redesigned.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Empress — Blog" />
+  <meta name="twitter:description" content="Empress — Blog — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+  <meta name="description" content="Empress Health blog - Expert insights on menopause, wellness, and women's health." />
+
+  <style>
+    :root{
+      /* Modern Empress theme colors */
+      --bg: #0a0612;
+      --card: #ffffff;
+      --text: #2d1b3d;
+      --muted: #8b7d9b;
+      --brand: #7c4dff;
+      --brand-2: #f2c94c;
+      --accent: #ff6b9d;
+      --success: #4ecdc4;
+      --warning: #ffe66d;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --shadow-soft: 0 10px 40px rgba(0,0,0,0.1);
+      --shadow-medium: 0 20px 60px rgba(0,0,0,0.15);
+      --shadow-strong: 0 30px 80px rgba(0,0,0,0.2);
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+      --radius-xl: 48px;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html, body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(124, 77, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(242, 201, 76, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 107, 157, 0.05) 0%, transparent 50%);
+      z-index: -1;
+      animation: backgroundShift 20s ease-in-out infinite;
+    }
+
+    @keyframes backgroundShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--brand);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-1);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Main content */
+    .main {
+      margin-top: 80px;
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .content-wrapper {
+      max-width: 1000px;
+      width: 100%;
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .content-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--gradient-1);
+    }
+
+    /* Blog content */
+    .blog-container {
+      padding: 4rem 3rem;
+    }
+
+    .blog-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .blog-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: var(--gradient-1);
+      color: white;
+      border-radius: var(--radius-xl);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .blog-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .blog-date {
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .blog-reading-time {
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: rgba(139, 125, 155, 0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .blog-content {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .blog-content h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 3rem 0 1.5rem;
+      color: var(--text);
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .blog-content h2::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 2rem;
+      background: var(--gradient-1);
+      border-radius: 2px;
+    }
+
+    .blog-content h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2.5rem 0 1rem;
+      color: var(--text);
+    }
+
+    .blog-content p {
+      margin-bottom: 2rem;
+      text-align: justify;
+    }
+
+    .blog-content ul {
+      margin: 2rem 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .blog-content li {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .blog-content li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .blog-content strong {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .blog-content blockquote {
+      border-left: 4px solid var(--brand);
+      padding-left: 2rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--muted);
+      background: rgba(124, 77, 255, 0.05);
+      padding: 1.5rem 2rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Loading and error states */
+    .loading, .not-found {
+      text-align: center;
+      padding: 6rem 2rem;
+    }
+
+    .loading h1 {
+      color: var(--text);
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--brand);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+      margin-left: 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .not-found h1 {
+      color: var(--text);
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .not-found p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--gradient-1);
+      color: white;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--card);
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+
+    .footer p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .main {
+        padding: 1rem;
+      }
+
+      .blog-container {
+        padding: 2rem 1.5rem;
+      }
+
+      .blog-title {
+        font-size: 2rem;
+      }
+
+      .blog-content {
+        font-size: 1rem;
+      }
+
+      .blog-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .blog-content h3 {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-up {
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/public/EmpressHealthlogo.png" alt="Empress Health"/>
+        <span>Empress Health</span>
+      </a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="expertblogs-mobile-fixed.html" class="nav-link">Blog</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="content-wrapper">
+      <div class="blog-container">
+        <div id="loading" class="loading fade-in">
+          <h1>Loading Article</h1>
+        </div>
+        
+        <div id="blog-content" style="display: none;">
+          <!-- Dynamic content will be inserted here -->
+        </div>
+        
+        <div id="not-found" class="not-found" style="display: none;">
+          <h1>Article Not Found</h1>
+          <p>Sorry, we couldn't find the article you're looking for.</p>
+          <a href="expertblogs-mobile-fixed.html" class="btn btn-primary">← Back to All Articles</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> Empress Health. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Blog loading functionality
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const slug = urlParams.get('slug');
+      
+      if (!slug) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('not-found').style.display = 'block';
+        return;
+      }
+
+      // Fetch blogs.json
+      fetch('/public/blogs.json')
+        .then(response => response.json())
+        .then(data => {
+          const post = data.posts.find(p => p.slug === slug);
+          
+          if (!post) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('not-found').style.display = 'block';
+            return;
+          }
+
+          // Update page title
+          document.title = `${post.title} — Empress Health`;
+          
+          // Calculate reading time (average 200 words per minute)
+          const wordCount = post.content.split(' ').length;
+          const readingTime = Math.ceil(wordCount / 200);
+          
+          // Create blog content
+          const blogContent = document.getElementById('blog-content');
+          blogContent.innerHTML = `
+            <div class="blog-header slide-up">
+              <div class="blog-badge">Expert Insights</div>
+              <h1 class="blog-title">${post.title}</h1>
+              <div class="blog-meta">
+                <span class="blog-date">${new Date(post.date).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}</span>
+                <span class="blog-reading-time">${readingTime} min read</span>
+              </div>
+            </div>
+            <div class="blog-content">
+              ${post.content}
+            </div>
+          `;
+          
+          // Hide loading and show content
+          document.getElementById('loading').style.display = 'none';
+          blogContent.style.display = 'block';
+        })
+        .catch(error => {
+          console.error('Error loading blog:', error);
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('not-found').style.display = 'block';
+        });
+    })();
+  </script>
+</body>
+</html>

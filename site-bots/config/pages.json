@@ -1,0 +1,207 @@
+{
+  "pages": [
+    {
+      "key": "home",
+      "url": "/",
+      "name": "Home Page",
+      "expectedSelectors": ["header", "footer", "section.hero"],
+      "critical": true
+    },
+    {
+      "key": "team",
+      "url": "/team",
+      "name": "Team Page",
+      "expectedSelectors": ["header", "footer", ".team-grid"],
+      "critical": true
+    },
+    {
+      "key": "contact",
+      "url": "/contact",
+      "name": "Contact Page",
+      "expectedSelectors": ["header", "footer", "form"],
+      "critical": false
+    },
+    {
+      "key": "whyempress",
+      "url": "/whyempress",
+      "name": "Why Empress Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "dailyaffirmations",
+      "url": "/dailyaffirmations",
+      "name": "Daily Affirmations Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "selfcaretools",
+      "url": "/selfcaretools",
+      "name": "Self-Care Tools Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "communitystories",
+      "url": "/communitystories",
+      "name": "Community Stories Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "supplements",
+      "url": "/supplements",
+      "name": "Supplements Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "expertblogs",
+      "url": "/expertblogs",
+      "name": "Expert Blogs Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "events",
+      "url": "/events",
+      "name": "Events Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "privacypolicy",
+      "url": "/privacypolicy",
+      "name": "Privacy Policy Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "skincare",
+      "url": "/skincare",
+      "name": "Skincare Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "haircare",
+      "url": "/haircare",
+      "name": "Haircare Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "wellnesshub",
+      "url": "/wellnesshub",
+      "name": "Wellness Hub Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "bundlesandkits",
+      "url": "/bundlesandkits",
+      "name": "Bundles and Kits Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "ebookguides",
+      "url": "/ebookguides",
+      "name": "E-Book Guides Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "expertguidance",
+      "url": "/expertguidance",
+      "name": "Expert Guidance Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "menopausemonth",
+      "url": "/menopausemonth",
+      "name": "Menopause Month Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "betaversion",
+      "url": "/betaversion",
+      "name": "Beta Version Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "betacomingsoon",
+      "url": "/betacomingsoon",
+      "name": "Beta Coming Soon Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "symptomsupport",
+      "url": "/symptomsupport",
+      "name": "Symptom Support Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "membershipoptions",
+      "url": "/membershipoptions",
+      "name": "Membership Options Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "howitworks",
+      "url": "/howitworks",
+      "name": "How It Works Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "founderstory",
+      "url": "/founderstory",
+      "name": "Founder Story Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "signup",
+      "url": "/signup",
+      "name": "Sign Up Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "askempress",
+      "url": "/askempress",
+      "name": "Ask Empress Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "ourstory",
+      "url": "/ourstory",
+      "name": "Our Story Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "membershipsurvey",
+      "url": "/membershipsurvey",
+      "name": "Membership Survey Page",
+      "expectedSelectors": ["header", "footer"],
+      "critical": false
+    },
+    {
+      "key": "assessment",
+      "url": "/assessment/",
+      "name": "Peri+ Health Assessment (SPA)",
+      "expectedSelectors": ["#root"],
+      "critical": false
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+[
+  {
+    "id": "nams_certified_mp",
+    "label": "NAMS-Certified Menopause Practitioner",
+    "abbreviation": "MSCP",
+    "when_to_refer": "First-line referral for moderate-to-severe vasomotor symptoms, mood or sleep changes, genitourinary symptoms, or any symptom cluster suggesting hormone therapy candidacy. The baseline specialist for peri, meno, and post-menopausal care.",
+    "domain_ids": [1, 2, 4, 8],
+    "category_slugs": [
+      "vasomotor-temperature",
+      "sleep-architecture-cortisol",
+      "mood-anxiety-emotional-health",
+      "genitourinary-sexual-health"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-000",
+      "empress-120-symptom-biomarker-framework-chunk-001"
+    ],
+    "find_provider_url": "https://menopause.org/for-women/find-a-menopause-practitioner",
+    "priority": 1,
+    "urgent_questions": []
+  },
+  {
+    "id": "endocrinologist",
+    "label": "Endocrinologist",
+    "abbreviation": "MD/DO Endo",
+    "when_to_refer": "Indicated for early or premature ovarian insufficiency (POI), suspected thyroid dysfunction (cold extremities + hair thinning + fatigue cluster), significant insulin resistance, adrenal or thyroid co-pathology, or metabolic syndrome emerging alongside menopause symptoms.",
+    "domain_ids": [5, 6, 7, 1],
+    "category_slugs": [
+      "metabolic-health-body-composition",
+      "skin-hair-nails",
+      "musculoskeletal-bone-health",
+      "vasomotor-temperature"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-013",
+      "empress-120-symptom-biomarker-framework-chunk-009"
+    ],
+    "find_provider_url": "https://www.endocrine.org/patient-engagement/find-an-endocrinologist",
+    "priority": 2,
+    "urgent_questions": [2]
+  },
+  {
+    "id": "pelvic_floor_pt",
+    "label": "Pelvic Floor Physical Therapist",
+    "abbreviation": "PFPT",
+    "when_to_refer": "Stress urinary incontinence, urgency or frequency changes, pelvic organ prolapse symptoms, pain with intercourse attributable to pelvic floor tension, or any GSM symptom that has not resolved with over-the-counter vaginal moisturisers.",
+    "domain_ids": [8],
+    "category_slugs": [
+      "genitourinary-sexual-health"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-015",
+      "empress-120-symptom-biomarker-framework-chunk-016"
+    ],
+    "find_provider_url": "https://www.pelvicrehab.com/practitioners/",
+    "priority": 3,
+    "urgent_questions": [86]
+  },
+  {
+    "id": "urogynecologist",
+    "label": "Urogynecologist",
+    "abbreviation": "Urogyn",
+    "when_to_refer": "Severe pelvic floor dysfunction, recurrent UTIs in the setting of GSM, pain with intercourse refractory to conservative measures, or suspected pelvic organ prolapse requiring surgical evaluation.",
+    "domain_ids": [8],
+    "category_slugs": [
+      "genitourinary-sexual-health"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-016",
+      "empress-120-symptom-biomarker-framework-chunk-017"
+    ],
+    "find_provider_url": "https://www.augs.org/patient-services/find-a-provider/",
+    "priority": 4,
+    "urgent_questions": []
+  },
+  {
+    "id": "cardiologist",
+    "label": "Cardiologist",
+    "abbreviation": "MD Cardio",
+    "when_to_refer": "URGENT: palpitations at rest or during exertion, unexplained dyspnea, chest tightness, or exercise intolerance — particularly when cardiac symptoms co-occur with flash events. Cardiovascular risk rises sharply in the two years post-final menstrual period.",
+    "domain_ids": [9],
+    "category_slugs": [
+      "cardiovascular-whole-body-energy"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-018",
+      "empress-120-symptom-biomarker-framework-chunk-019"
+    ],
+    "find_provider_url": "https://www.acc.org/find-a-doctor",
+    "priority": 5,
+    "urgent_questions": [99, 104, 105]
+  },
+  {
+    "id": "mental_health_professional",
+    "label": "Mental Health Professional (Therapist / Psychiatrist)",
+    "abbreviation": "MHP",
+    "when_to_refer": "URGENT: score 3–4 on PHQ-9 equivalent items, acute panic attacks, clinical depression, suicidal ideation, or a feeling of profound identity disconnection. Hormone-driven mood disorders require coordinated psychiatric and menopause specialist co-management.",
+    "domain_ids": [4],
+    "category_slugs": [
+      "mood-anxiety-emotional-health"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-006",
+      "empress-120-symptom-biomarker-framework-chunk-007"
+    ],
+    "find_provider_url": "https://www.psychologytoday.com/us/therapists",
+    "priority": 6,
+    "urgent_questions": [41, 43, 48]
+  },
+  {
+    "id": "sleep_medicine_specialist",
+    "label": "Sleep Medicine Specialist (CBT-I Provider)",
+    "abbreviation": "Sleep MD",
+    "when_to_refer": "Severe sleep fragmentation unresponsive to sleep hygiene (>3 nocturnal wakings every night, total sleep <5 h), suspected sleep apnoea (snoring + witnessed apnoeas + morning headaches), or where CBT-I delivery is indicated before pharmacological intervention.",
+    "domain_ids": [2],
+    "category_slugs": [
+      "sleep-architecture-cortisol"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-003",
+      "empress-120-symptom-biomarker-framework-chunk-004"
+    ],
+    "find_provider_url": "https://www.sleepeducation.org/sleep-center-locator/",
+    "priority": 7,
+    "urgent_questions": []
+  },
+  {
+    "id": "sports_medicine_physiatrist",
+    "label": "Sports Medicine Physician / Physiatrist",
+    "abbreviation": "PhysMed",
+    "when_to_refer": "Joint pain, myalgia, or movement limitations that impair resistance training compliance; pre-DEXA evaluation of fracture risk; management of tendinopathies that worsen with estrogen decline (e.g. frozen shoulder, plantar fasciitis).",
+    "domain_ids": [7],
+    "category_slugs": [
+      "musculoskeletal-bone-health"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-013",
+      "empress-120-symptom-biomarker-framework-chunk-014"
+    ],
+    "find_provider_url": "https://www.amssm.org/Find-a-Sports-Medicine-Doctor.php",
+    "priority": 8,
+    "urgent_questions": []
+  },
+  {
+    "id": "dermatologist",
+    "label": "Dermatologist",
+    "abbreviation": "Derm",
+    "when_to_refer": "Diffuse hair thinning or shedding that may indicate thyroid-adjacent alopecia, severe nodulocystic acne in perimenopause (androgen-shift driven), or skin conditions (rosacea, lichen sclerosus) requiring prescription-level management.",
+    "domain_ids": [6],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-011",
+      "empress-120-symptom-biomarker-framework-chunk-012"
+    ],
+    "find_provider_url": "https://www.aad.org/public/tools/find-a-dermatologist",
+    "priority": 9,
+    "urgent_questions": []
+  },
+  {
+    "id": "registered_dietitian",
+    "label": "Registered Dietitian / Nutritionist",
+    "abbreviation": "RD/RDN",
+    "when_to_refer": "Metabolic syndrome, significant weight gain around menopause transition, gut symptoms (bloating, irregular bowels, histamine reactions), or where the gut estrobolome and dietary fibre strategy need personalised clinical-grade planning.",
+    "domain_ids": [5, 10],
+    "category_slugs": [
+      "metabolic-health-body-composition",
+      "lifestyle-gut-health-nutrition"
+    ],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-009",
+      "empress-120-symptom-biomarker-framework-chunk-021"
+    ],
+    "find_provider_url": "https://www.eatright.org/find-a-nutrition-expert",
+    "priority": 10,
+    "urgent_questions": []
+  }
+]

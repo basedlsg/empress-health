@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up — EmpressHealth</title>
+    <meta name="description" content="Join Empress Health to unlock personalized menopause support, expert content, and your peri+ wellness toolkit." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Sign Up — EmpressHealth" />
+  <meta property="og:description" content="Join Empress Health to unlock personalized menopause support, expert content, and your peri+ wellness toolkit." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/signup.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sign Up — EmpressHealth" />
+  <meta name="twitter:description" content="Join Empress Health to unlock personalized menopause support, expert content, and your peri+ wellness toolkit." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root{
+    --bg:#fffaf1; --ink:#1f1b2d; --muted:#6e6a7a; --soft:#faf8ff;
+    --primary:#3f1449; --primary-600:#4b2577; --accent:#9a653e; --border:#ececf1;
+    --shadow:0 10px 30px rgba(16,16,32,.08); --radius:18px; --header-h:64px;
+    --space-1:8px; --space-2:12px; --space-3:16px; --space-4:24px; --space-5:32px; --space-6:48px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial; color:#fff; background:#3F144A; padding:var(--space-5) 0}
+  img{max-width:100%; display:block}
+  a{color:inherit; text-decoration:none}
+  .muted{color:rgba(255,255,255,0.7)}
+  .container{width:min(600px, 100% - 2rem); margin-inline:auto; padding:var(--space-4)}
+  
+  /* Logo Section */
+  .logo-section{text-align:center; margin-bottom:var(--space-5)}
+  .logo-section img{height:clamp(80px, 10vw, 120px); margin:0 auto var(--space-3)}
+  .logo-section h4{margin:0; font:600 clamp(18px,4vw,24px)/1.3 Poppins,Inter,sans-serif; color:#fff}
+  
+  /* Type scale */
+  h1{margin:0 0 .4rem; font:800 clamp(28px,6vw,44px)/1.1 Poppins,Inter,sans-serif; text-align:center; color:#fff}
+  h2{margin:0 0 1rem; font:800 clamp(22px,4.8vw,34px)/1.15 Poppins,Inter,sans-serif; color:#fff}
+  h3{margin:0 0 .5rem; font:700 clamp(18px,4.2vw,26px)/1.2 Poppins,Inter,sans-serif; color:#fff}
+  h4{margin:0; font:600 clamp(18px,4vw,24px)/1.3 Poppins,Inter,sans-serif; color:#fff}
+  p{margin:.5rem 0 0; font-size:clamp(14px,3.6vw,16px); color:#fff}
+  .lead{max-width:700px; margin:.5rem auto 2rem; color:rgba(255,255,255,0.8); text-align:center}
+
+  /* Buttons */
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:1rem 2rem; border-radius:999px; font-weight:700; white-space:nowrap; cursor:pointer; border:none; font-size:16px; transition:all 0.2s ease; width:100%}
+  .btn.primary{background:var(--primary); color:#fff; box-shadow:var(--shadow)}
+  .btn.primary:hover{background:var(--primary-600); transform:translateY(-2px); box-shadow:0 12px 40px rgba(16,16,32,.12)}
+  .btn:disabled{opacity:0.5; cursor:not-allowed; transform:none !important}
+
+  /* Signup Container */
+  .signup-container{background:#472052; border-radius:var(--radius); box-shadow:var(--shadow); padding:var(--space-5); margin:var(--space-4) 0}
+
+  /* Form Elements */
+  .form-group{margin-bottom:var(--space-4)}
+  .form-group label{display:block; margin-bottom:var(--space-2); font-weight:600; color:#fff; font-size:16px}
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="tel"],
+  .form-group input[type="password"]{
+    width:100%; padding:12px 16px; border:2px solid rgba(255,255,255,0.3); border-radius:12px; font-size:16px; font-family:inherit; transition:border-color 0.2s ease; background:rgba(255,255,255,0.1); color:#fff
+  }
+  .form-group input::placeholder{color:rgba(255,255,255,0.5)}
+  .form-group input:focus{outline:none; border-color:rgba(255,255,255,0.6); background:rgba(255,255,255,0.15)}
+  .form-group small{display:block; margin-top:var(--space-1); color:rgba(255,255,255,0.7); font-size:14px}
+
+  /* Checkbox */
+  .checkbox-group{display:flex; align-items:flex-start; gap:var(--space-2); margin-top:var(--space-3); padding:12px 16px; border:2px solid rgba(255,255,255,0.3); border-radius:12px; background:rgba(255,255,255,0.1)}
+  .checkbox-group:hover{border-color:rgba(255,255,255,0.5)}
+  .checkbox-group input[type="checkbox"]{width:20px; height:20px; cursor:pointer; accent-color:#fff; margin-top:2px; flex-shrink:0}
+  .checkbox-group label{cursor:pointer; flex:1; margin:0; font-weight:400; font-size:14px; color:#fff}
+  .checkbox-group:has(input:checked){border-color:rgba(255,255,255,0.6); background:rgba(255,255,255,0.15)}
+  .checkbox-group a{color:#fff; text-decoration:underline; opacity:0.9}
+  .checkbox-group a:hover{opacity:1}
+
+  /* Error Message */
+  .error-message{display:none; padding:12px 16px; background:rgba(255,200,200,0.2); border:2px solid rgba(255,150,150,0.5); border-radius:12px; color:#ffcccc; margin-bottom:var(--space-3)}
+  .error-message.active{display:block}
+
+  /* Success Message */
+  .success-message{display:none; padding:12px 16px; background:rgba(200,255,200,0.2); border:2px solid rgba(150,255,150,0.5); border-radius:12px; color:#ccffcc; margin-bottom:var(--space-3)}
+  .success-message.active{display:block}
+
+  /* "Already have an account?" line — mirrors login.html's alt-action */
+  .alt-action{text-align:center; margin-top:var(--space-4); color:rgba(255,255,255,0.8); font-size:15px}
+  .alt-action a{color:#fff; font-weight:700; text-decoration:underline; text-underline-offset:3px}
+  .alt-action a:hover{color:rgba(255,255,255,0.85)}
+
+  /* Header */
+  header{position:fixed; top:0; left:0; right:0; z-index:9999; background:#efe1d3; border-bottom:2px solid #f2eefc; box-shadow: 0 4px 12px rgba(0,0,0,.1)}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:.5rem var(--space-3)}
+  .brand{display:flex; align-items:center; gap:.6rem}
+  .brand-logo{height: clamp(56px, 7vw, 80px)}
+  .brand a{display:flex; align-items:center}
+  
+  /* Desktop Navigation Menu */
+  .links{display:none; gap:18px; font-weight:600; color:var(--muted)}
+  /* MOBILE (default): hide the horizontal nav + header CTAs */
+  .links.main-nav { display: none !important; } /* Hidden by default, shown on desktop */
+  nav.links.main-nav { display: none !important; } /* More specific selector */
+  .menu-item{position:relative}
+  .menu-trigger{
+    background:transparent; border:0; cursor:pointer;
+    font-weight:700; color:var(--ink); padding:.6rem .5rem; border-radius:10px;
+    text-decoration:none; white-space:nowrap;
+  }
+  .menu-trigger:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+  .menu-item[data-open="1"] .menu-trigger{color:var(--primary)}
+  .menu-panel{
+    position:absolute; left:0;
+    top:calc(100% + 10px); z-index:1001;
+    width:min(500px, 85vw);
+    background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:16px;
+    box-shadow:var(--shadow); padding:14px; display:none;
+  }
+  /* Right-align dropdowns for items on the right side (5th item onwards) */
+  .menu-item:nth-child(n+5) .menu-panel { left:auto; right:0; }
+  /* Center dropdowns for middle items */
+  .menu-item:nth-child(3) .menu-panel,
+  .menu-item:nth-child(4) .menu-panel { left:50%; transform:translateX(-50%); right:auto; }
+  .menu-item:hover .menu-panel,
+  .menu-item:focus-within .menu-panel,
+  .menu-item[data-open="1"] .menu-panel{display:block}
+  .menu-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .menu-section h5{margin:0 0 6px; font-weight:800; font-size:.95rem; color:var(--primary)}
+  .menu-list{list-style:none; padding:0; margin:0; display:grid; gap:8px}
+  .menu-link{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 10px; border:1px solid rgba(0,0,0,.06); border-radius:10px; background:#fff;
+    transition:all .15s; color:var(--ink); text-decoration:none;
+  }
+  .menu-link:hover{border-color:#e0def0; box-shadow:var(--shadow); transform:translateY(-1px)}
+  .menu-desc{font-size:12.5px; color:var(--muted)}
+  
+  /* Hamburger Menu Button */
+  .burger{
+    display:none; /* Hidden by default (desktop) */
+    background:none;
+    border:none;
+    font-size:28px;
+    cursor:pointer;
+    padding:8px;
+    color:var(--ink);
+    line-height:1;
+  }
+  .burger:hover{opacity:0.7}
+  
+  /* Mobile Drawer */
+  .drawer{
+    display:none;
+    position:fixed;
+    top:80px;
+    left:0;
+    right:0;
+    background:#fff;
+    border-top:2px solid #f2eefc;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    z-index:9998;
+    max-height:calc(100vh - 80px);
+    overflow-y:auto;
+    padding:20px;
+  }
+  .drawer.open{display:block}
+  .drawer details{
+    border-top:1px solid var(--border);
+    padding:6px 0;
+  }
+  .drawer summary{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    padding:10px 6px;
+    font-weight:700;
+    cursor:pointer;
+    list-style:none;
+    color:var(--ink);
+  }
+  .drawer summary::-webkit-details-marker{display:none}
+  .drawer ul{
+    list-style:none;
+    padding-left:10px;
+    margin:6px 0 12px;
+    display:grid;
+    gap:8px;
+  }
+  .drawer a{
+    color:var(--ink);
+    text-decoration:none;
+    padding:8px 0;
+    display:block;
+  }
+  .drawer a:hover{color:var(--primary)}
+  .drawer .home-link{
+    font-weight:700;
+    padding:10px 6px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:10px;
+  }
+  .drawer .logout-link{
+    display:block;
+    padding:16px 20px;
+    border-top:1px solid var(--border);
+    color:#c33;
+    font-weight:600;
+    margin-top:8px;
+  }
+  .drawer .logout-link:hover{
+    background:var(--soft);
+    color:#a00;
+  }
+  
+  /* Nav Dim Overlay */
+  .nav-dim{
+    display:none;
+    position:fixed;
+    top:80px;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,0.5);
+    z-index:9997;
+  }
+  .nav-dim:not([hidden]){display:block}
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    body{padding:var(--space-4) 0; padding-top:100px}
+    .signup-container{padding:var(--space-4)}
+    .form-group input{font-size:16px} /* Prevent zoom on iOS */
+    .logo-section{margin-bottom:var(--space-4)}
+    .burger{display:grid} /* Show hamburger on mobile */
+    .links.main-nav{display:none} /* Hide desktop menu on mobile */
+    .form-row{display:block} /* Stack form fields on mobile */
+  }
+
+  /* Desktop Optimizations */
+  /* DESKTOP: show the horizontal nav + header CTAs */
+  @media (min-width: 1024px) {
+    .links.main-nav { display: flex !important; }
+    nav.links.main-nav { display: flex !important; }
+    .main-nav{display:flex; align-items:center; gap:18px; flex-wrap: nowrap; overflow: visible;}
+    .container{max-width:750px; padding:var(--space-6)}
+    body{padding:var(--space-6) 0}
+    
+    /* Typography improvements */
+    h1{font-size:clamp(36px,4vw,48px)}
+    h2{font-size:clamp(28px,3.5vw,36px)}
+    p{font-size:18px; line-height:1.6}
+    .lead{font-size:18px; margin-bottom:var(--space-5)}
+    
+    /* Signup container */
+    .signup-container{padding:var(--space-6); margin:var(--space-6) 0}
+    
+    /* Form layout - two columns for name fields */
+    .form-row{display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4)}
+    .form-group{margin-bottom:var(--space-5)}
+    
+    /* Input fields - better sizing */
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group input[type="password"]{
+      padding:14px 18px; font-size:16px
+    }
+    
+    /* Buttons - auto width, centered */
+    .btn{width:auto; min-width:200px; padding:1rem 2.5rem; font-size:17px}
+    
+    /* Checkbox group */
+    .checkbox-group{padding:16px 20px}
+    
+    /* Logo section */
+    .logo-section{margin-bottom:var(--space-6)}
+    .logo-section img{height:120px}
+    
+    /* Hide hamburger, show navigation */
+    .burger{display:none !important}
+    .links.main-nav{display:flex !important}
+    header .nav{justify-content:space-between; padding:1rem var(--space-5)}
+  }
+  
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+<body>
+  <header id="site-header">
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+      </a>
+
+      <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey" aria-haspopup="true" aria-expanded="false">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Menopause Assessment</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Stories -->
+        <a class="menu-trigger" href="/communitystories">Community Stories</a>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder&#39;s Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger"
+        type="button">&#9776;</button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Menopause Assessment</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+        </ul>
+      </details>
+
+      <a href="/communitystories" class="home-link">Community Stories</a>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder&#39;s Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+  </header>
+
+  <!-- Mobile drawer (secondary) -->
+  <div class="drawer" id="drawer-mobile" role="navigation" aria-label="Mobile menu">
+    <a href="/" class="home-link">Home</a>
+    <a href="/askempress" class="home-link">Ask Empress</a>
+    <details>
+      <summary>Our Care</summary>
+      <ul>
+        <li><a href="/askempress">Ask Empress Chatbot</a></li>
+        <li><a href="/symptomsupport">Symptom Support</a></li>
+        <li><a href="/expertguidance">Expert Guidance</a></li>
+      </ul>
+    </details>
+    <details>
+      <summary>Our Program</summary>
+      <ul>
+        <li><a href="/howitworks">How It Works</a></li>
+        <li><a href="/betacomingsoon">Beta Version</a></li>
+        <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+        <li><a href="/membershipoptions">Membership Options</a></li>
+      </ul>
+    </details>
+    <details>
+      <summary>Education</summary>
+      <ul>
+        <li><a href="/menopausemonth">Menopause Health Month</a></li>
+        <li><a href="/expertblogs">Expert Articles & Blogs</a></li>
+        <li><a href="/ebookguides">E-Books & Guides</a></li>
+        <li><a href="/communitystories">Community Stories</a></li>
+      </ul>
+    </details>
+    <details>
+      <summary>Curated Marketplace</summary>
+      <ul>
+        <li><a href="/haircare">Haircare & Hairtools</a></li>
+        <li><a href="/skincare">Skincare & Wellness</a></li>
+        <li><a href="/selfcaretools">Self-Care Tools</a></li>
+        <li><a href="/bundlesandkits">Bundles & Kits</a></li>
+      </ul>
+    </details>
+    <details>
+      <summary>Get your Health Assessment</summary>
+      <ul>
+        <li><a href="/assessment/">Peri+ Health Assessment</a></li>
+        <li><a href="/signup">Become a Member</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </details>
+    <details>
+      <summary>About Us</summary>
+      <ul>
+        <li><a href="/ourstory">Our Story</a></li>
+        <li><a href="/whyempresshealth">What's EmpressHealth.ai</a></li>
+        <li><a href="/founderstory">Founder's Letter</a></li>
+        <li><a href="/team">Team</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/privacypolicy">Privacy & Data Protection Policy</a></li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Additional Features (Work in Progress)</summary>
+      <ul>
+        <li><a href="/betacomingsoon">Digital Journal</a></li>
+        <li><a href="/betacomingsoon">Digital Avatar</a></li>
+        <li><a href="/betacomingsoon">Community Pods</a></li>
+        <li><a href="/betacomingsoon">AI Coach</a></li>
+      </ul>
+    </details>
+    <a href="#" id="logout-btn" class="logout-link" style="display: none;">Logout</a>
+  </div>
+
+  <div class="nav-dim" id="nav-dim" hidden></div>
+
+  <div class="container">
+    <div class="logo-section">
+      <img src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+      <h4>Start your journey with Empress Health</h4>
+    </div>
+
+    <div class="signup-container">
+      <h1>Create Your Account</h1>
+      <p class="lead">Sign up to begin your membership journey</p>
+
+      <div class="error-message" id="error-message"></div>
+      <div class="success-message" id="success-message"></div>
+
+      <form id="signup-form">
+        <input type="hidden" id="_csrf" name="_csrf" value="">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first_name">First Name *</label>
+            <input type="text" id="first_name" name="first_name" required autocomplete="given-name">
+          </div>
+
+          <div class="form-group">
+            <label for="last_name">Last Name *</label>
+            <input type="text" id="last_name" name="last_name" required autocomplete="family-name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel">
+          <small>Optional</small>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <small id="password-hint" class="field-hint" style="display:block; margin-bottom:var(--space-1); color:#fff; font-weight:600">At least 8 characters with letters and numbers</small>
+          <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8" aria-describedby="password-hint">
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms_accepted" name="terms_accepted" required>
+          <label for="terms_accepted">
+            I agree to the <a href="/privacypolicy" target="_blank">terms of use and privacy policy</a> *
+          </label>
+        </div>
+
+        <div style="text-align:center; margin-top:var(--space-5)">
+          <button type="submit" class="btn primary" id="submit-btn">
+            Create Account
+          </button>
+        </div>
+      </form>
+
+      <p class="alt-action">
+        Already have an account? <a href="/login">Log in</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    /* ── CSRF helpers ─────────────────────────────────────────────────────── */
+    function getCookie(name) {
+      const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+      return match ? decodeURIComponent(match[1]) : null;
+    }
+    function refreshCsrfToken() {
+      const t = getCookie('csrf_token');
+      if (t) {
+        window.__csrfToken = t;
+        const hidden = document.getElementById('_csrf');
+        if (hidden) hidden.value = t;
+      }
+    }
+    function fetchWithCsrf(url, opts) {
+      opts = opts || {};
+      opts.headers = opts.headers || {};
+      const token = window.__csrfToken || getCookie('csrf_token') || '';
+      if (token) opts.headers['X-CSRF-Token'] = token;
+      opts.credentials = opts.credentials || 'include';
+      return fetch(url, opts);
+    }
+    // Populate from cookie on load (may exist from a previous session).
+    refreshCsrfToken();
+    /* ─────────────────────────────────────────────────────────────────────── */
+
+    const form = document.getElementById('signup-form');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.classList.add('active');
+      successMessage.classList.remove('active');
+    }
+
+    function showSuccess(message) {
+      successMessage.textContent = message;
+      successMessage.classList.add('active');
+      errorMessage.classList.remove('active');
+    }
+
+    function hideMessages() {
+      errorMessage.classList.remove('active');
+      successMessage.classList.remove('active');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideMessages();
+
+      // Client-side password complexity (mirrors server-side rules).
+      const pwVal = document.getElementById('password').value;
+      if (pwVal.length < 8 || !/[a-zA-Z]/.test(pwVal) || !/[0-9]/.test(pwVal)) {
+        showError('Password must be at least 8 characters with letters and numbers');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating Account...';
+
+      const formData = {
+        first_name: document.getElementById('first_name').value.trim(),
+        last_name: document.getElementById('last_name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        password: pwVal,
+        terms_accepted: document.getElementById('terms_accepted').checked
+      };
+
+      try {
+        // /api/signup is CSRF-exempt (pre-session), but include token if available.
+        const response = await fetchWithCsrf('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          console.log('✅ Signup successful, waiting for session establishment...');
+          console.log('🔍 Response data:', { redirect: data.redirect, hasToken: !!data.token });
+
+          // Refresh CSRF token from the csrf_token cookie set by the server.
+          refreshCsrfToken();
+
+          // Store token in localStorage for client-side access
+          if (data.token) {
+            localStorage.setItem('authToken', data.token);
+            console.log('✅ Auth token stored in localStorage');
+          } else {
+            console.warn('⚠️  No token received in signup response');
+          }
+
+          // Wait a brief moment to ensure session cookie is set
+          // Then redirect using the redirect URL from server response
+          setTimeout(() => {
+            const redirectUrl = data.redirect || '/membershipsurvey';
+            console.log('🔄 Redirecting to:', redirectUrl);
+            window.location.href = redirectUrl;
+          }, 100); // Small delay to ensure session cookie is set
+        } else {
+          showError(data.error || 'Failed to create account. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account';
+        }
+      } catch (err) {
+        console.error('Signup error:', err);
+        showError('Network error. Please check your connection and try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
+      }
+    });
+
+    // Mobile drawer functionality
+    const burger = document.getElementById('burger');
+    const drawer = document.getElementById('drawer');
+    const dim = document.getElementById('nav-dim');
+
+    function toggleDrawer(open) {
+      if (!drawer || !burger) return;
+      drawer.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      if (dim) {
+        dim.hidden = !open;
+      }
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    burger?.addEventListener('click', () => {
+      const isOpen = drawer.classList.contains('open');
+      toggleDrawer(!isOpen);
+    });
+
+    dim?.addEventListener('click', () => toggleDrawer(false));
+
+    // Close drawer on link click
+    drawer?.addEventListener('click', (e) => {
+      if (e.target instanceof HTMLElement && e.target.tagName === 'A') {
+        toggleDrawer(false);
+      }
+    });
+
+    // Close drawer on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer?.classList.contains('open')) {
+        toggleDrawer(false);
+      }
+    });
+
+    // Auto-close drawer when resizing to desktop
+    const mq = window.matchMedia('(min-width: 769px)');
+    mq.addEventListener('change', (e) => {
+      if (e.matches) {
+        // Switched to desktop: close drawer
+        toggleDrawer(false);
+      }
+    });
+
+    // Check authentication status and show/hide logout button
+    async function checkAuthStatus() {
+      try {
+        const response = await fetch('/api/auth/status', {
+          credentials: 'include'
+        });
+        
+        // Read response as text first to check content-type
+        const text = await response.text();
+        
+        // Check content-type before parsing
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          console.warn('⚠️  Auth status endpoint returned non-JSON response:', contentType);
+          console.warn('  Response status:', response.status);
+          console.warn('  Response preview:', text.substring(0, 200));
+          return; // Exit silently, logout button will remain hidden
+        }
+        
+        // Parse JSON from text
+        const data = JSON.parse(text);
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        if (data.authenticated && logoutBtn) {
+          logoutBtn.style.display = 'block';
+        } else if (logoutBtn) {
+          logoutBtn.style.display = 'none';
+        }
+      } catch (err) {
+        console.error('Error checking auth status:', err);
+        // Don't show error to user, just log it
+        // Logout button will remain hidden if there's an error
+      }
+    }
+
+    // Handle logout
+    async function handleLogout(e) {
+      e.preventDefault();
+      const logoutBtn = document.getElementById('logout-btn');
+      
+      if (logoutBtn) {
+        logoutBtn.textContent = 'Logging out...';
+        logoutBtn.style.pointerEvents = 'none';
+      }
+
+      try {
+        const response = await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Hide logout button
+          if (logoutBtn) {
+            logoutBtn.style.display = 'none';
+          }
+          
+          // Close drawer
+          toggleDrawer(false);
+          
+          // Redirect to homepage
+          window.location.href = '/';
+        } else {
+          console.error('Logout failed:', data.error);
+          if (logoutBtn) {
+            logoutBtn.textContent = 'Logout';
+            logoutBtn.style.pointerEvents = 'auto';
+          }
+          alert('Failed to logout. Please try again.');
+        }
+      } catch (err) {
+        console.error('Logout error:', err);
+        if (logoutBtn) {
+          logoutBtn.textContent = 'Logout';
+          logoutBtn.style.pointerEvents = 'auto';
+        }
+        alert('An error occurred during logout. Please try again.');
+      }
+    }
+
+    // Add logout button click handler
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', handleLogout);
+    }
+
+    // Check auth status on page load
+    checkAuthStatus();
+
+    // Desktop menu interactions
+    if (window.innerWidth >= 900) {
+      const desktopItems = Array.from(document.querySelectorAll('.main-nav .menu-item'));
+      
+      function closeAllMenus() {
+        desktopItems.forEach(item => {
+          item.dataset.open = '0';
+          const trigger = item.querySelector('.menu-trigger');
+          if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      // Desktop menu interactions
+      desktopItems.forEach(item => {
+        const trigger = item.querySelector('.menu-trigger');
+        
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isOpen = item.dataset.open === '1';
+          closeAllMenus();
+          if (!isOpen) {
+            item.dataset.open = '1';
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      // Close menus when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.menu-item')) {
+          closeAllMenus();
+        }
+      });
+
+      // Close menus on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeAllMenus();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

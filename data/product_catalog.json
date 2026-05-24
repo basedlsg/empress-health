@@ -1,0 +1,452 @@
+[
+  {
+    "id": "prod_magnesium_glycinate",
+    "name": "Magnesium Glycinate 400mg",
+    "shopify_handle": "magnesium-glycinate-400mg",
+    "shopify_url": null,
+    "category_slugs": ["sleep-architecture-cortisol", "mood-anxiety-emotional-health", "musculoskeletal-bone-health"],
+    "domain_ids": [2, 4, 7],
+    "system_tags": ["C", "N", "B"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["magnesium", "sleep", "cortisol"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-014",
+      "empress-120-symptom-biomarker-framework-chunk-015"
+    ],
+    "price_tier": "essential",
+    "blurb": "Magnesium glycinate supports GABA-A receptor activity for deeper sleep onset, dampens HPA-axis cortisol surges, and maintains bone mineral density — three systems that decline in tandem with progesterone during perimenopause.",
+    "contraindications": "Consult provider if on antibiotics or if kidney function is impaired."
+  },
+  {
+    "id": "prod_vitamin_d3_k2",
+    "name": "Vitamin D3 + K2 (D3 5000 IU / K2 MK-7 200mcg)",
+    "shopify_handle": "vitamin-d3-k2",
+    "shopify_url": null,
+    "category_slugs": ["musculoskeletal-bone-health", "metabolic-health-body-composition", "cardiovascular-whole-body-energy"],
+    "domain_ids": [7, 5, 9],
+    "system_tags": ["B", "M"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["DEXA", "calcium", "bone density"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-014",
+      "empress-120-symptom-biomarker-framework-chunk-015"
+    ],
+    "price_tier": "essential",
+    "blurb": "D3 + K2 together direct calcium into bone rather than arterial walls — critical during estrogen decline when osteoclast activity outpaces formation, reducing fracture risk shown on DEXA.",
+    "contraindications": "Consult provider if on warfarin (K2 interaction) or hypercalcaemia."
+  },
+  {
+    "id": "prod_omega3_epa_dha",
+    "name": "Omega-3 EPA/DHA 2g Daily",
+    "shopify_handle": "omega-3-epa-dha",
+    "shopify_url": null,
+    "category_slugs": ["cardiovascular-whole-body-energy", "mood-anxiety-emotional-health", "metabolic-health-body-composition", "skin-hair-nails"],
+    "domain_ids": [9, 4, 5, 6],
+    "system_tags": ["C", "M", "N"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["omega-3", "HRV", "inflammation"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-022",
+      "empress-120-symptom-biomarker-framework-chunk-014"
+    ],
+    "price_tier": "essential",
+    "blurb": "Omega-3s lower triglycerides, reduce systemic inflammation, and support neuronal membrane fluidity — all pathways implicated in mood volatility and cardiovascular risk that rise as estradiol withdraws.",
+    "contraindications": "Consult provider if on anticoagulants or before surgery."
+  },
+  {
+    "id": "prod_adaptogen_blend",
+    "name": "Adaptogen Blend (Ashwagandha KSM-66 + Rhodiola 3%)",
+    "shopify_handle": "adaptogen-blend-ashwagandha-rhodiola",
+    "shopify_url": null,
+    "category_slugs": ["mood-anxiety-emotional-health", "sleep-architecture-cortisol", "vasomotor-temperature"],
+    "domain_ids": [4, 2, 1],
+    "system_tags": ["C", "N"],
+    "stage_relevance": ["perimenopause", "menopause"],
+    "clinical_topics": ["cortisol", "HPA axis", "progesterone"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-002",
+      "empress-120-symptom-biomarker-framework-chunk-006"
+    ],
+    "price_tier": "core",
+    "blurb": "KSM-66 ashwagandha blunts the HPA-axis cortisol surge that amplifies vasomotor events and displaces progesterone; rhodiola supports adrenal resilience during the stress-flash cycle documented in Category 1 and 2.",
+    "contraindications": "Avoid if pregnant. Consult provider if on thyroid medication or immunosuppressants."
+  },
+  {
+    "id": "prod_phytoestrogen",
+    "name": "Phytoestrogen Complex (Red Clover Isoflavones 80mg + Soy Isoflavones)",
+    "shopify_handle": "phytoestrogen-complex",
+    "shopify_url": null,
+    "category_slugs": ["vasomotor-temperature", "lifestyle-gut-health-nutrition", "genitourinary-sexual-health"],
+    "domain_ids": [1, 10, 8],
+    "system_tags": ["E", "G"],
+    "stage_relevance": ["perimenopause", "menopause"],
+    "clinical_topics": ["phytoestrogen", "estrobolome", "GSM"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-020",
+      "empress-120-symptom-biomarker-framework-chunk-022"
+    ],
+    "price_tier": "core",
+    "blurb": "Red clover isoflavones bind ERβ receptors to modestly buffer the thermoregulatory instability of estradiol decline; efficacy depends on gut estrobolome converting them to active equol.",
+    "contraindications": "Not recommended with estrogen-sensitive cancers. Confirm with oncologist or NAMS practitioner before use."
+  },
+  {
+    "id": "prod_collagen_peptides",
+    "name": "Marine Collagen Peptides 10g",
+    "shopify_handle": "marine-collagen-peptides",
+    "shopify_url": null,
+    "category_slugs": ["skin-hair-nails", "musculoskeletal-bone-health"],
+    "domain_ids": [6, 7],
+    "system_tags": ["B", "E"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["collagen", "skin elasticity", "joint cartilage"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-011",
+      "empress-120-symptom-biomarker-framework-chunk-013"
+    ],
+    "price_tier": "core",
+    "blurb": "Estrogen directly stimulates dermal fibroblast collagen synthesis; marine collagen peptides provide the substrate to partially offset the 30% collagen loss seen in the first five years post-menopause.",
+    "contraindications": "Fish allergy — use plant-based alternative."
+  },
+  {
+    "id": "prod_probiotic_estrobolome",
+    "name": "Women's Probiotic + Prebiotic (Lactobacillus reuteri + rhamnosus, 50B CFU)",
+    "shopify_handle": "womens-probiotic-prebiotic",
+    "shopify_url": null,
+    "category_slugs": ["lifestyle-gut-health-nutrition", "metabolic-health-body-composition", "mood-anxiety-emotional-health"],
+    "domain_ids": [10, 5, 4],
+    "system_tags": ["G", "E", "N"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["estrobolome", "gut microbiome", "serotonin"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-009",
+      "empress-120-symptom-biomarker-framework-chunk-022"
+    ],
+    "price_tier": "core",
+    "blurb": "The gut estrobolome — beta-glucuronidase-producing bacteria — controls circulating estrogen recycling; Lactobacillus strains with beta-glucuronidase activity support estrogen reactivation and reduce mood-disrupting metabolite accumulation.",
+    "contraindications": "Consult provider if immunocompromised or recovering from acute GI illness."
+  },
+  {
+    "id": "prod_calcium_citrate",
+    "name": "Calcium Citrate 500mg (with Boron 3mg)",
+    "shopify_handle": "calcium-citrate-boron",
+    "shopify_url": null,
+    "category_slugs": ["musculoskeletal-bone-health"],
+    "domain_ids": [7],
+    "system_tags": ["B"],
+    "stage_relevance": ["menopause", "post_menopause"],
+    "clinical_topics": ["DEXA", "calcium", "bone density"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-014",
+      "empress-120-symptom-biomarker-framework-chunk-015"
+    ],
+    "price_tier": "essential",
+    "blurb": "Calcium citrate is absorbed independent of stomach acid — critical for peri/post-menopausal women on PPIs; boron slows bone resorption and supports estradiol recycling when ovarian output is declining.",
+    "contraindications": "Do not exceed 1200mg calcium daily from all sources. Kidney stone history — discuss with provider."
+  },
+  {
+    "id": "prod_b_complex",
+    "name": "Active B-Complex (Methylfolate + P5P + Methylcobalamin)",
+    "shopify_handle": "active-b-complex",
+    "shopify_url": null,
+    "category_slugs": ["mood-anxiety-emotional-health", "cognitive-function-brain-health", "cardiovascular-whole-body-energy"],
+    "domain_ids": [4, 3, 9],
+    "system_tags": ["N", "C", "M"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["methylation", "homocysteine", "BDNF"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-005",
+      "empress-120-symptom-biomarker-framework-chunk-007"
+    ],
+    "price_tier": "essential",
+    "blurb": "Active B vitamins drive the methylation cycle that recycles serotonin, dopamine, and norepinephrine; methylcobalamin and P5P support BDNF expression which declines with estradiol and underpins cognitive sharpness.",
+    "contraindications": "High-dose B6 (>100mg) can cause peripheral neuropathy — avoid megadoses."
+  },
+  {
+    "id": "prod_resistance_bands",
+    "name": "Resistance Band Set (5-Level, Loop + Long Bands)",
+    "shopify_handle": "resistance-band-set-5-level",
+    "shopify_url": null,
+    "category_slugs": ["musculoskeletal-bone-health", "metabolic-health-body-composition", "cardiovascular-whole-body-energy"],
+    "domain_ids": [7, 5, 9],
+    "system_tags": ["B", "M"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["resistance training", "testosterone", "bone density"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-009",
+      "empress-120-symptom-biomarker-framework-chunk-010"
+    ],
+    "price_tier": "essential",
+    "blurb": "Progressive resistance training is the single highest-evidence intervention for preserving bone mineral density post-menopause — equivalent to bisphosphonate-level protection in meta-analyses; bands enable safe progressive overload at home.",
+    "contraindications": null
+  },
+  {
+    "id": "prod_cooling_pillow_pad",
+    "name": "Cooling Pillow Protector / Mattress Pad (Phase-Change Material)",
+    "shopify_handle": "cooling-pillow-mattress-pad",
+    "shopify_url": null,
+    "category_slugs": ["vasomotor-temperature", "sleep-architecture-cortisol"],
+    "domain_ids": [1, 2],
+    "system_tags": ["E", "C"],
+    "stage_relevance": ["perimenopause", "menopause"],
+    "clinical_topics": ["vasomotor", "sleep", "night sweats"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-000",
+      "empress-120-symptom-biomarker-framework-chunk-003"
+    ],
+    "price_tier": "essential",
+    "blurb": "Phase-change material absorbs body heat during nocturnal vasomotor events, keeping skin surface temperature below the 1°C flash threshold — a non-pharmacological intervention that measurably reduces night waking frequency.",
+    "contraindications": null
+  },
+  {
+    "id": "prod_silk_pillowcase",
+    "name": "Mulberry Silk Pillowcase (22 Momme)",
+    "shopify_handle": "silk-pillowcase-22-momme",
+    "shopify_url": null,
+    "category_slugs": ["skin-hair-nails", "sleep-architecture-cortisol"],
+    "domain_ids": [6, 2],
+    "system_tags": ["E"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["skin elasticity", "hair breakage", "sleep"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-011",
+      "empress-120-symptom-biomarker-framework-chunk-012"
+    ],
+    "price_tier": "essential",
+    "blurb": "Silk generates 43% less friction than cotton against estrogen-thinned hair and reduced-collagen skin — preventing mechanical breakage at the follicle neck and sleep-crease wrinkles that worsen as dermal collagen falls.",
+    "contraindications": null
+  },
+  {
+    "id": "prod_vaginal_moisturiser",
+    "name": "Non-Hormonal Vaginal Moisturiser (Hyaluronic Acid + Vitamin E, pH-matched)",
+    "shopify_handle": "vaginal-moisturiser-ha-vitamin-e",
+    "shopify_url": null,
+    "category_slugs": ["genitourinary-sexual-health"],
+    "domain_ids": [8],
+    "system_tags": ["E"],
+    "stage_relevance": ["menopause", "post_menopause"],
+    "clinical_topics": ["GSM", "vaginal dryness", "lubrication"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-016",
+      "empress-120-symptom-biomarker-framework-chunk-017"
+    ],
+    "price_tier": "essential",
+    "blurb": "Estrogen loss halts glycogen secretion from vaginal epithelium, raising pH and thinning mucosa; daily hyaluronic acid moisturiser restores moisture barrier and reduces microtrauma without systemic hormone exposure.",
+    "contraindications": null
+  },
+  {
+    "id": "prod_pelvic_floor_trainer",
+    "name": "Pelvic Floor Biofeedback Trainer (App-Connected)",
+    "shopify_handle": "pelvic-floor-biofeedback-trainer",
+    "shopify_url": null,
+    "category_slugs": ["genitourinary-sexual-health"],
+    "domain_ids": [8],
+    "system_tags": ["E"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["GSM", "pelvic floor", "stress incontinence"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-015",
+      "empress-120-symptom-biomarker-framework-chunk-016"
+    ],
+    "price_tier": "core",
+    "blurb": "Biofeedback-guided pelvic floor training reduces stress urinary incontinence episodes by up to 70% in randomised trials — first-line before pharmacology for GSM-related leakage as urethral collagen thins post-menopause.",
+    "contraindications": "Contraindicated in acute pelvic infection or post-surgical healing. Confirm with urogynecologist."
+  },
+  {
+    "id": "prod_topical_retinoid",
+    "name": "Topical Retinol Serum 0.3% (Encapsulated, Buffered)",
+    "shopify_handle": "topical-retinol-serum-03",
+    "shopify_url": null,
+    "category_slugs": ["skin-hair-nails"],
+    "domain_ids": [6],
+    "system_tags": ["E"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["collagen", "skin elasticity", "retinoid"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-011",
+      "empress-120-symptom-biomarker-framework-chunk-013"
+    ],
+    "price_tier": "core",
+    "blurb": "Retinol stimulates fibroblast collagen I and III synthesis and accelerates keratinocyte turnover — directly compensating for the estrogen-withdrawal collagen deficit at the dermal level.",
+    "contraindications": "Avoid during pregnancy. Use SPF daily. Start 2x weekly to assess tolerance."
+  },
+  {
+    "id": "prod_spf_moisturiser",
+    "name": "SPF 30+ Daily Moisturiser (Mineral, Ceramide-Enhanced)",
+    "shopify_handle": "spf30-daily-moisturiser-mineral",
+    "shopify_url": null,
+    "category_slugs": ["skin-hair-nails"],
+    "domain_ids": [6],
+    "system_tags": ["E"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["skin elasticity", "UV protection", "ceramide"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-011",
+      "empress-120-symptom-biomarker-framework-chunk-012"
+    ],
+    "price_tier": "essential",
+    "blurb": "Daily SPF prevents UV-driven collagen degradation that compounds the estrogen-loss collagen deficit; ceramides replenish the impaired skin barrier function seen as sebaceous gland activity declines with androgens.",
+    "contraindications": null
+  },
+  {
+    "id": "prod_berberine",
+    "name": "Berberine HCl 500mg",
+    "shopify_handle": "berberine-hcl-500mg",
+    "shopify_url": null,
+    "category_slugs": ["metabolic-health-body-composition", "lifestyle-gut-health-nutrition"],
+    "domain_ids": [5, 10],
+    "system_tags": ["M", "G"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["berberine", "insulin resistance", "estrobolome"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-009",
+      "empress-120-symptom-biomarker-framework-chunk-018"
+    ],
+    "price_tier": "core",
+    "blurb": "Berberine activates AMPK — the same target as metformin — improving insulin sensitivity and reducing visceral adiposity that accelerates with the metabolic shift of estrogen withdrawal; also modulates gut microbiome beta-glucuronidase.",
+    "contraindications": "Consult provider if on metformin, diabetes medications, or statins. Not for use in pregnancy."
+  },
+  {
+    "id": "prod_creatine_monohydrate",
+    "name": "Creatine Monohydrate 5g",
+    "shopify_handle": "creatine-monohydrate-5g",
+    "shopify_url": null,
+    "category_slugs": ["musculoskeletal-bone-health", "metabolic-health-body-composition", "cognitive-function-brain-health"],
+    "domain_ids": [7, 5, 3],
+    "system_tags": ["B", "M", "N"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["creatine", "resistance training", "BDNF"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-009",
+      "empress-120-symptom-biomarker-framework-chunk-005"
+    ],
+    "price_tier": "essential",
+    "blurb": "Creatine supplementation in peri/menopausal women increases lean mass, bone density, and phosphocreatine-dependent cognitive processing speed — all domains that see accelerated decline with estrogen loss.",
+    "contraindications": "Consult provider if chronic kidney disease. Ensure adequate hydration."
+  },
+  {
+    "id": "prod_mct_oil",
+    "name": "MCT Oil C8/C10 (Brain & Energy Support)",
+    "shopify_handle": "mct-oil-c8-c10",
+    "shopify_url": null,
+    "category_slugs": ["cognitive-function-brain-health", "metabolic-health-body-composition"],
+    "domain_ids": [3, 5],
+    "system_tags": ["N", "M"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["MCT oil", "BDNF", "brain fog"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-004",
+      "empress-120-symptom-biomarker-framework-chunk-005"
+    ],
+    "price_tier": "core",
+    "blurb": "C8 MCT converts rapidly to ketones that bypass glucose metabolism, providing an alternative brain fuel when estradiol-dependent glucose uptake declines — directly targeting the brain fog and processing speed loss of perimenopause.",
+    "contraindications": "Start with 1 tsp to assess GI tolerance. Not appropriate as sole fat source."
+  },
+  {
+    "id": "prod_evening_primrose_oil",
+    "name": "Evening Primrose Oil 1000mg (GLA 8%)",
+    "shopify_handle": "evening-primrose-oil-1000mg",
+    "shopify_url": null,
+    "category_slugs": ["skin-hair-nails", "vasomotor-temperature"],
+    "domain_ids": [6, 1],
+    "system_tags": ["E", "C"],
+    "stage_relevance": ["perimenopause", "menopause"],
+    "clinical_topics": ["GLA", "skin dryness", "inflammation"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-012",
+      "empress-120-symptom-biomarker-framework-chunk-001"
+    ],
+    "price_tier": "essential",
+    "blurb": "Gamma-linolenic acid in evening primrose oil is a prostaglandin E1 precursor that supports the skin moisture barrier and has modest evidence for reducing hot flash intensity when sebaceous output drops with androgens.",
+    "contraindications": "Consult provider if on anticoagulants or anti-platelet drugs."
+  },
+  {
+    "id": "prod_melatonin_low_dose",
+    "name": "Low-Dose Melatonin 0.5mg (Prolonged Release)",
+    "shopify_handle": "low-dose-melatonin-05mg",
+    "shopify_url": null,
+    "category_slugs": ["sleep-architecture-cortisol"],
+    "domain_ids": [2],
+    "system_tags": ["C", "N"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["melatonin", "sleep onset", "cortisol"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-003",
+      "empress-120-symptom-biomarker-framework-chunk-002"
+    ],
+    "price_tier": "essential",
+    "blurb": "Low-dose melatonin (0.5mg) reduces sleep onset latency without next-day grogginess — physiological replacement as menopause-related cortisol elevation suppresses endogenous pineal melatonin secretion in the evening window.",
+    "contraindications": "May potentiate sedative medications. Consult provider if on antidepressants."
+  },
+  {
+    "id": "prod_zinc_copper_ratio",
+    "name": "Zinc Picolinate 15mg + Copper 1mg Balance",
+    "shopify_handle": "zinc-picolinate-copper-balance",
+    "shopify_url": null,
+    "category_slugs": ["skin-hair-nails", "mood-anxiety-emotional-health", "lifestyle-gut-health-nutrition"],
+    "domain_ids": [6, 4],
+    "system_tags": ["E", "N", "T"],
+    "stage_relevance": ["perimenopause", "menopause", "post_menopause"],
+    "clinical_topics": ["zinc", "hair loss", "testosterone"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-012",
+      "empress-120-symptom-biomarker-framework-chunk-013"
+    ],
+    "price_tier": "essential",
+    "blurb": "Zinc is a co-factor in 5-alpha reductase regulation and keratinocyte proliferation — deficiency accelerates the androgenic alopecia pattern that emerges when testosterone-to-estradiol ratio shifts in perimenopause.",
+    "contraindications": "Always pair with copper to prevent copper depletion. Do not exceed 40mg zinc daily."
+  },
+  {
+    "id": "prod_electrolyte_blend",
+    "name": "Electrolyte Replenishment Blend (Low-Sugar, Sodium + Potassium + Magnesium)",
+    "shopify_handle": "electrolyte-replenishment-blend",
+    "shopify_url": null,
+    "category_slugs": ["vasomotor-temperature", "cardiovascular-whole-body-energy", "lifestyle-gut-health-nutrition"],
+    "domain_ids": [1, 9, 10],
+    "system_tags": ["E", "C", "M"],
+    "stage_relevance": ["perimenopause", "menopause"],
+    "clinical_topics": ["electrolytes", "vasomotor", "HRV"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-018",
+      "empress-120-symptom-biomarker-framework-chunk-019"
+    ],
+    "price_tier": "essential",
+    "blurb": "Drenching night sweats and daytime flashes create a recurring electrolyte deficit that compounds HRV decline and amplifies palpitations; low-sugar electrolyte replacement stabilises autonomic tone throughout the day.",
+    "contraindications": "Consult provider if on blood pressure medications or have renal impairment."
+  },
+  {
+    "id": "prod_vitex_chaste_tree",
+    "name": "Vitex (Chaste Tree Berry) 400mg Standardised Extract",
+    "shopify_handle": "vitex-chaste-tree-berry-400mg",
+    "shopify_url": null,
+    "category_slugs": ["mood-anxiety-emotional-health", "sleep-architecture-cortisol"],
+    "domain_ids": [4, 2],
+    "system_tags": ["E", "N"],
+    "stage_relevance": ["perimenopause"],
+    "clinical_topics": ["progesterone", "allopregnanolone", "luteal phase"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-006",
+      "empress-120-symptom-biomarker-framework-chunk-003"
+    ],
+    "price_tier": "core",
+    "blurb": "Vitex acts on pituitary dopamine receptors to support luteal-phase progesterone output — directly targeting the progesterone deficiency that drives sleep fragmentation, cyclical anxiety, and mood instability in early perimenopause.",
+    "contraindications": "Not for use with hormone therapy or dopaminergic drugs. Do not use in post-menopause."
+  },
+  {
+    "id": "prod_black_cohosh",
+    "name": "Black Cohosh Extract 40mg (Standardised Triterpene Glycosides)",
+    "shopify_handle": "black-cohosh-extract-40mg",
+    "shopify_url": null,
+    "category_slugs": ["vasomotor-temperature", "mood-anxiety-emotional-health"],
+    "domain_ids": [1, 4],
+    "system_tags": ["E", "N"],
+    "stage_relevance": ["perimenopause", "menopause"],
+    "clinical_topics": ["vasomotor", "estradiol", "serotonin"],
+    "evidence_refs": [
+      "empress-120-symptom-biomarker-framework-chunk-000",
+      "empress-120-symptom-biomarker-framework-chunk-007"
+    ],
+    "price_tier": "core",
+    "blurb": "Black cohosh triterpene glycosides interact with serotonin 5-HT7 receptors in the hypothalamic thermoregulatory centre, reducing hot flash frequency and intensity without estrogenic signalling — clinically studied for up to 12 months.",
+    "contraindications": "Avoid with hepatotoxic medications. Consult provider if history of liver disease or estrogen-sensitive conditions."
+  }
+]

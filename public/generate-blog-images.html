@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Image Generator</title>
+      <meta name="description" content="Blog Image Generator — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Blog Image Generator" />
+  <meta property="og:description" content="Blog Image Generator — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/public/generate-blog-images.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blog Image Generator" />
+  <meta name="twitter:description" content="Blog Image Generator — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .image-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .blog-image {
+            width: 400px;
+            height: 225px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-image h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        
+        .blog-image p {
+            margin: 0;
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        
+        .empress-logo {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        /* Background gradients for different topics */
+        .nutrition { background: linear-gradient(135deg, #4CAF50, #2E7D32); }
+        .hormones { background: linear-gradient(135deg, #E91E63, #C2185B); }
+        .sleep { background: linear-gradient(135deg, #2196F3, #1976D2); }
+        .skincare { background: linear-gradient(135deg, #FF9800, #F57C00); }
+        .anti-aging { background: linear-gradient(135deg, #9C27B0, #7B1FA2); }
+        .natural { background: linear-gradient(135deg, #4CAF50, #388E3C); }
+        .wellness { background: linear-gradient(135deg, #00BCD4, #0097A7); }
+        .menopause { background: linear-gradient(135deg, #3F144A, #6A1B9A); }
+        
+        /* Decorative elements */
+        .blog-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            z-index: 1;
+        }
+        
+        .blog-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.3), transparent);
+            z-index: 2;
+        }
+        
+        .download-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #3F144A;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .download-btn:hover {
+            background: #4b2577;
+        }
+    </style>
+</head>
+<body>
+    <h1>Empress Health Blog Image Generator</h1>
+    <p>Click "Download" on each image to save it as blog001.png, blog002.png, etc.</p>
+    
+    <div class="image-container" id="imageContainer">
+        <!-- Images will be generated here -->
+    </div>
+
+    <script>
+        // Blog post data with themes
+        const blogPosts = [
+            { title: "Essential Nutrition Guide for Menopause", theme: "nutrition", icon: "🥗" },
+            { title: "Natural Remedies for Hormone Balance", theme: "hormones", icon: "⚖️" },
+            { title: "Sleep Solutions for Menopause", theme: "sleep", icon: "😴" },
+            { title: "Why Argan Oil is the Wonder Oil", theme: "skincare", icon: "🫒" },
+            { title: "Natural Skincare Routine for Women Over 40", theme: "skincare", icon: "🧴" },
+            { title: "What Do You Mean by Organic Skincare?", theme: "natural", icon: "🌿" },
+            { title: "Amazing Facts About Rosehip Seed Oil", theme: "skincare", icon: "🌹" },
+            { title: "Benefits of Using the Right Anti-Aging Products", theme: "anti-aging", icon: "✨" },
+            { title: "Why Sustainable Skincare is the Right Choice", theme: "natural", icon: "🌍" },
+            { title: "A Comprehensive Guide to Clean Skincare", theme: "skincare", icon: "🧽" },
+            { title: "How to Get Ageless Skin Naturally", theme: "anti-aging", icon: "💎" },
+            { title: "Best Ways to Treat Itchy Skin Due to Sunburn", theme: "wellness", icon: "☀️" },
+            { title: "How to Choose the Best Rosehip Seed Oil", theme: "skincare", icon: "🔍" },
+            { title: "The Incredible Benefits of Organic Rosehip Seed Oil", theme: "skincare", icon: "🌟" },
+            { title: "Is Rosehip Seed Oil Safe During Pregnancy?", theme: "wellness", icon: "🤱" },
+            { title: "How Rosehip Seed Oil Helps Heal Acne-Prone Skin", theme: "skincare", icon: "💆" },
+            { title: "A Comprehensive Guide to Rosehip Seed Oil", theme: "skincare", icon: "📚" },
+            { title: "Best Ways to Use Rosehip Seed Oil on Your Skin", theme: "skincare", icon: "👐" },
+            { title: "Best Ways to Use Prickly Pear Oil on Your Skin", theme: "skincare", icon: "🌵" },
+            { title: "How to Choose the Best Prickly Pear Seed Oil", theme: "skincare", icon: "🎯" },
+            { title: "Menopause Do's and Don'ts: Itchy Skin", theme: "menopause", icon: "🤔" },
+            { title: "Reverse Signs of Skin Aging Due to Menopause", theme: "anti-aging", icon: "🔄" },
+            { title: "All You Need to Know About Perimenopausal Skin", theme: "menopause", icon: "👩" },
+            { title: "The 10 Best Clean Skincare Products for Menopause", theme: "skincare", icon: "🏆" },
+            { title: "How to Fight Skin Pigmentation Issues", theme: "wellness", icon: "🎨" },
+            { title: "Natural Ways to Avoid Wrinkles Due to Menopause", theme: "anti-aging", icon: "🚫" },
+            { title: "How Menopause Affects Skin and Natural Remedies", theme: "menopause", icon: "🌱" }
+        ];
+
+        // Generate images
+        function generateImages() {
+            const container = document.getElementById('imageContainer');
+            
+            blogPosts.forEach((post, index) => {
+                const imageNumber = String(index + 1).padStart(3, '0');
+                
+                const imageDiv = document.createElement('div');
+                imageDiv.className = `blog-image ${post.theme}`;
+                imageDiv.innerHTML = `
+                    <h3>${post.icon} ${post.title}</h3>
+                    <p>Empress Health Wellness Guide</p>
+                    <div class="empress-logo">Empress Health</div>
+                `;
+                
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'download-btn';
+                downloadBtn.textContent = `Download blog${imageNumber}.png`;
+                downloadBtn.onclick = () => downloadImage(imageDiv, `blog${imageNumber}.png`);
+                
+                const wrapper = document.createElement('div');
+                wrapper.appendChild(imageDiv);
+                wrapper.appendChild(downloadBtn);
+                
+                container.appendChild(wrapper);
+            });
+        }
+
+        // Download image function
+        function downloadImage(element, filename) {
+            // Create a canvas to capture the image
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = 400;
+            canvas.height = 225;
+            
+            // Use html2canvas library would be needed for full functionality
+            // For now, we'll provide instructions
+            alert(`To download ${filename}:\n1. Right-click on the image above\n2. Select "Save image as..."\n3. Save as ${filename}\n\nOr use a browser extension like "Save image as" to download the styled image.`);
+        }
+
+        // Generate images when page loads
+        window.onload = generateImages;
+    </script>
+</body>
+</html>
+

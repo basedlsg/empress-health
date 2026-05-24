@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expert Blogs | Empress Health.AI</title>
+      <meta name="description" content="Expert-written articles on menopause, hormones, sleep, mood, and whole-body wellness — from the Empress Health clinical network." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Expert Blogs | Empress Health.AI" />
+  <meta property="og:description" content="Expert-written articles on menopause, hormones, sleep, mood, and whole-body wellness — from the Empress Health clinical network." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/expertblogs.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Expert Blogs | Empress Health.AI" />
+  <meta name="twitter:description" content="Expert-written articles on menopause, hormones, sleep, mood, and whole-body wellness — from the Empress Health clinical network." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3f1449;
+            --primary-600: #4b2577;
+            --accent: #9a653e;
+            --empress-gold: #D8A738;
+            --light: #F5F5DC;
+            --ink: #1f1b2d;
+            --muted: #6e6a7a;
+            --soft: #faf8ff;
+            --white: #ffffff;
+            --border: #ececf1;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow: 0 10px 30px rgba(16, 16, 32, .08);
+            --container-width: 1200px;
+            --header-h: 100px;
+
+            /* Spacing Scale */
+            --space-xs: 16px;
+            --space-sm: 24px;
+            --space-md: 32px;
+            --space-lg: 60px;
+            --space-xl: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            line-height: 1.6;
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+            padding-top: var(--header-h);
+            min-height: -webkit-fill-available;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            margin-top: 0;
+            line-height: 1.2;
+            color: var(--primary-600);
+            font-weight: 700;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .page-container {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-container {
+                padding-left: 60px;
+                padding-right: 60px;
+            }
+        }
+
+        /* =========================
+       HEADER / NAV (CLONED FROM INDEX.HTML)
+       ========================= */
+        header#site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background: #efe1d3;
+            border-bottom: 2px solid transparent;
+            transition: box-shadow .2s ease, backdrop-filter .2s ease, background-color .2s ease;
+        }
+
+        header#site-header.is-stuck {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+            backdrop-filter: saturate(120%) blur(6px);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .5rem 1rem;
+        }
+
+        @media (min-width: 821px) {
+            .nav {
+                justify-content: center;
+                gap: 40px;
+            }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .brand-logo {
+            height: clamp(56px, 7vw, 80px);
+        }
+
+        .main-nav {
+            display: none;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .menu-item {
+            position: relative;
+            z-index: 20000;
+        }
+
+        .menu-trigger {
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--ink);
+            padding: .6rem .5rem;
+            border-radius: 10px;
+            white-space: nowrap;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .menu-panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            z-index: 1001;
+            width: min(500px, 85vw);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 14px;
+            display: none;
+        }
+
+        .menu-item:hover .menu-panel,
+        .menu-item:focus-within .menu-panel {
+            display: block;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .menu-section h5 {
+            margin: 0 0 6px;
+            font: 800 .95rem/1.2 Poppins, Inter, sans-serif;
+            color: var(--primary-600);
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 8px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+            transition: border-color .15s, box-shadow .15s, transform .05s;
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .menu-link:hover {
+            border-color: #e0def0;
+            box-shadow: var(--shadow);
+            transform: translateY(-1px);
+        }
+
+        .burger {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            font-size: 28px;
+        }
+
+        /* Mobile drawer */
+        #drawer {
+            display: none;
+            position: fixed;
+            top: var(--header-h);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 2px solid #f2eefc;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            z-index: 9998;
+            max-height: calc(100svh - var(--header-h));
+            overflow-y: auto;
+        }
+
+        #drawer.open {
+            display: block;
+        }
+
+        .drawer {
+            padding: 20px;
+        }
+
+        .drawer details {
+            border-top: 1px solid var(--border);
+            padding: 6px 0;
+        }
+
+        .drawer summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 6px;
+            font-weight: 700;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .drawer ul {
+            list-style: none;
+            padding-left: 10px;
+            margin: 6px 0 12px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .drawer a {
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+        }
+
+        @media (min-width: 821px) {
+            .main-nav {
+                display: flex;
+            }
+
+            .burger {
+                display: none !important;
+            }
+        }
+
+        /* =========================
+       HERO / HEADER SECTION (PRD 5.2)
+       ========================= */
+        .expert-blogs-header {
+            padding: var(--space-xl) 0 var(--space-lg);
+            text-align: center;
+            background: radial-gradient(circle at 50% 100%, rgba(91, 46, 144, 0.04) 0%, transparent 100%);
+        }
+
+        .expert-blogs-header h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: var(--space-xs);
+            color: var(--primary);
+        }
+
+        .expert-blogs-header p {
+            font-size: 1.125rem;
+            color: var(--muted);
+            max-width: 60ch;
+            margin: 0 auto;
+        }
+
+        header {
+            z-index: 1000;
+        }
+
+        /* =========================
+       BLOG GRID (PRD 5.4)
+       ========================= */
+        .blogs-grid {
+            display: grid;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        @media (min-width: 768px) {
+            .blogs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .blogs-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* =========================
+       BLOG CARD (PRD 5.3)
+       ========================= */
+        .blog-card {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+
+        .blog-inner {
+            height: 100%;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+            background: #fff;
+        }
+
+        .blog-surface {
+            position: relative;
+        }
+
+        .blog-media {
+            background: #fff;
+            border-radius: 16px;
+
+        }
+
+        .blog-media img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        /* =========================
+       FOOTER (CLONED PATTERN)
+       ========================= */
+        footer {
+            background: var(--soft);
+            padding: var(--space-lg) 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* Focus States */
+        .blog-card:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 4px;
+        }
+
+        /* =========================
+           READER MODAL (From dailyaffirmations.html)
+           ========================= */
+        .reader {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1005;
+            height: 100%;
+            width: 100%;
+            margin-left: auto;
+            pointer-events: none;
+        }
+
+        .reader[open] {
+            display: flex;
+        }
+
+        .sheet {
+            position: relative;
+            width: 100%;
+            max-height: 100vh;
+            border-radius: 0px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sheet .cover {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .sheet .cover {
+            flex: 0 0 45vh;
+            min-height: 180px;
+        }
+
+        .sheet .cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            background: var(--soft);
+        }
+
+        .sheet .body {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .sheet .body h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 16px;
+        }
+
+        .sheet .body .content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--ink);
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .sheet .body .content p {
+            margin-bottom: 1em;
+        }
+
+        .sheet .body .content h3 {
+            margin-top: 1.5em;
+            color: var(--primary-600);
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            background: var(--white);
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--ink);
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            border-color: var(--empress-gold);
+            transform: translateY(-2px);
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            color: var(--white);
+            border-color: transparent;
+        }
+
+        .close-x-left {
+            position: absolute;
+            right: 100px;
+            top: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--ink);
+            z-index: 100000;
+            transition: transform 0.2s;
+        }
+
+        button.close-button {
+            position: fixed;
+            right: 10%;
+            top: 13%;
+            z-index: 1000;
+            width: 150px;
+            pointer-events: all;
+        }
+
+        @media screen and (max-width: 500px) {
+            button.close-button {
+                position: fixed;
+                right: 10%;
+                top: 13%;
+                z-index: 1000;
+                width: 30%;
+            }
+
+            .sheet {
+                max-height: 95vh;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .sheet {
+                max-height: 87vh;
+            }
+        }
+
+        .close-x-right {
+            position: absolute;
+            right: 100px;
+            top: 16px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--ink);
+            z-index: 100000;
+            transition: transform 0.2s;
+        }
+
+        .close-x-left:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .nav-arrows button {
+            pointer-events: auto;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--primary);
+            font-size: 2rem;
+            display: grid;
+            place-items: center;
+            transition: background 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-arrows button:hover {
+            background: var(--white);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrows .prev {
+            left: 16px;
+        }
+
+        .nav-arrows .next {
+            right: 16px;
+        }
+
+        img.hero-img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        div.conformitytableofcontents {
+            overflow: auto;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            margin-right: auto;
+            width: 20%;
+            margin-top: 100px;
+
+            height: 100%;
+
+            pointer-events: all;
+        }
+
+        div .conformity {
+            overflow: auto;
+            background-color: white;
+            margin-left: auto;
+            height: 100%;
+            width: 80%;
+            margin-top: 100px;
+            z-index: 10;
+            pointer-events: all;
+        }
+
+        @media screen and (max-width: 960px) {
+            div .conformity {
+                margin-top: 75px;
+                width: 100%;
+            }
+            div.conformitytableofcontents {
+                margin-top: 75px;
+                width: 0px;
+            }
+        }
+
+        img.read-more-blog-image {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        div.blog-card-within-blog {
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0px 0px 15px #1f1b2d;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        div.blog-card-within {
+            padding: 15px;
+        }
+
+        .blog-card-within-blog-text {
+            margin: 20px;
+        }
+
+        h3.inner-blog-link {
+            margin-left: 20px;
+            text-decoration: underline;
+            font-size: 16px;
+        }
+
+    
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+
+<body>
+
+    <header id="site-header">
+        <div class="nav">
+            <a href="/" class="brand">
+                <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="Empress Health"/>
+            </a>
+            <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey" aria-haspopup="true" aria-expanded="false">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Menopause Assessment</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Stories -->
+        <a class="menu-trigger" href="/communitystories">Community Stories</a>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder&#39;s Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+            <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger"
+                type="button">☰</button>
+        </div>
+        <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Menopause Assessment</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+        </ul>
+      </details>
+
+      <a href="/communitystories" class="home-link">Community Stories</a>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder&#39;s Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+    </header>
+
+    <main class="expert-blogs">
+        <section class="expert-blogs-header">
+            <div class="page-container">
+                <h1>Explore our blogs</h1>
+                <p>Tap a card to open the article in a new tab. Browse the grid below.</p>
+            </div>
+        </section>
+
+        <section class="page-container">
+            <div class="blogs-grid" id="blogs-grid">
+                <!-- Blogs will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="page-container">
+            <p class="footer-text">© Empress Health · Wellness with wisdom</p>
+        </div>
+    </footer>
+
+    <!-- Reader Modal -->
+    <section class="reader" id="reader" aria-modal="true" role="dialog" hidden>
+        <div class="sheet">
+                    <button class="btn primary close-button" id="closeXLeft">Close Blog</button>
+                    <div class="conformitytableofcontents">
+                        <h2 style="margin-left: auto; margin-right: auto;">Read more</h2>
+                        <div id="blog-within-1-expand" class="blog-card blog-card-within">
+                            <img id="image-within-1"class="read-more-blog-image"/>
+                            <h3 id="blog-within-1" class="blog-card-within-blog-text"></h3>
+                            <h3 class="inner-blog-link">Expand</h3>
+                        </div>
+                        <div id="blog-within-2-expand" class="blog-card blog-card-within">
+                            <img id="image-within-2"class="read-more-blog-image"/>
+                            <h3 id="blog-within-2" class="blog-card-within-blog-text"></h3>
+                             <h3 class="inner-blog-link">Expand</h3>
+                        </div>
+                        <div id="blog-within-3-expand" class="blog-card blog-card-within">
+                            <img id="image-within-3"class="read-more-blog-image"/>
+                            <h3 id="blog-within-3" class="blog-card-within-blog-text"></h3>
+                             <h3 class="inner-blog-link">Expand</h3>
+                        </div>
+                        <div id="blog-within-4-expand" class="blog-card blog-card-within">
+                            <img id="image-within-4"class="read-more-blog-image"/>
+                            <h3 id="blog-within-4" class="blog-card-within-blog-text"></h3>
+                             <h3 class="inner-blog-link">Expand</h3>
+                        </div>
+                        <div id="blog-within-5-expand" class="blog-card blog-card-within">
+                            <img id="image-within-5"class="read-more-blog-image"/>
+                            <h3 id="blog-within-5" class="blog-card-within-blog-text"></h3>
+                             <h3 class="inner-blog-link">Expand</h3>
+                        </div>
+
+                        <div class="blog-card-within-blog" style="margin-top: 115px;">
+                        </div>
+                    </div>
+                        <div class="conformity">
+                        <div class="body">
+                        <!--
+                            <picture class="full-image">
+                                <source id="pic3840" media="(min-width: 3840px)">
+                                <source id="pic2560" media="(min-width: 2560px)">
+                                <source id="pic1920" media="(min-width: 1920px)">
+                                <source id="pic1640" media="(min-width: 1640px)">
+                                <source id="pic820" media="(min-width: 820px)">
+                                <img 
+                                    id="img"
+                                    alt="Skincare & Wellness"
+                                    class="hero-img"
+                                />
+                            </picture>
+                        -->
+                            <img 
+                                    id="rImage"
+                                    alt="Skincare & Wellness"
+                                    class="hero-img"
+                            />
+                            <h2 style="padding-left: 20px; padding-right: 20px; padding-top: 20px;" id="rTitle">Title</h2>
+                        <div id="rContent" class="content">
+                    </div>
+                <div class="controls">
+                    <button class="btn" id="copyBtn">Copy Link</button>
+                    <button class="btn primary" id="navPrev" style="margin-left: auto; margin-right: 5px;">Previous Article</button>
+                    <button class="btn primary" id="navNext">Next Article</button>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // --- Header & Burger Logic (Kept as is) ---
+    const header = document.getElementById('site-header');
+    const reader = document.getElementById('reader');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) header.classList.add('is-stuck');
+        else header.classList.remove('is-stuck');
+    });
+
+    const burgerBtn = document.getElementById('burger');
+    const drawer = document.getElementById('drawer');
+    burgerBtn?.addEventListener('click', () => {
+        drawer.classList.toggle('open');
+        burgerBtn.textContent = drawer.classList.contains('open') ? '✕' : '☰';
+    });
+
+    const browserSupportsClipboard = "clipboard" in navigator
+    const copyBtn = document.getElementById('copyBtn');
+    const originalText = copyBtn.innerHTML
+    const timeoutTime = 1500
+    copyBtn.addEventListener("click", async ()=>{
+
+        if (!browserSupportsClipboard){
+        copyBtn.innerHTML = "Not supported!"
+        setTimeout(() => copyBtn.textContent = originalText, timeoutTime);
+        return
+        }
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+        } catch (error) {
+            console.error(error.message);
+        }
+        copyBtn.innerHTML = "Copied!"
+        setTimeout(() => copyBtn.textContent = originalText, timeoutTime);
+        
+       /*
+    const returnURL = async () => {
+            return window.location.href
+    };
+
+    const clipboardItem = new ClipboardItem({
+	'text/plain': returnURL().then((result) => {
+        
+        const type_for_blob = {"type": "text/plain"}
+
+	    if (!result) {
+            console.log("NOTHING!")
+	        return new Promise(async (resolve) => {
+	            resolve(new Blob([``], type_for_blob)())
+	        })
+	    }
+	 
+	    //const copyText = window.location.href
+	    return new Promise(async (resolve) => {
+            console.log("RETURNED: "+result);
+            const blob_to_return = new Blob([result], type_for_blob);
+	        resolve(blob_to_return)
+	    })
+	    }),
+	})
+        
+	// Now, we can write to the clipboard in Safari
+	navigator.clipboard.write([clipboardItem])
+    copyBtn.innerHTML = "Copied!"
+    setTimeout(() => copyBtn.textContent = originalText, 1500);
+    */
+    })
+
+    let posts = [];
+    let blog_images_all = [];
+    const image_to_use_number = 2;
+    let currentIdx = 0;
+
+    let posts_on_left_id_value_store = [];
+    let post_images = [];
+    let random_numbers = [];
+
+
+    const string_addition = `/expertblogs.html#`;
+
+    const number_of_posts_on_left = 5;
+
+    function insertBeforeChar(originalString, charToFind, textToInsert) {
+        const index = originalString.indexOf(charToFind);
+        if (index === -1) {
+           return originalString; // Character not found, return original string
+        }
+        // Combine the part before the character, the new text, and the rest of the string
+        return originalString.slice(0, index) + textToInsert + originalString.slice(index);
+    }
+
+    function uniqueNumberGeneration(){
+        for (let i = 0; i<number_of_posts_on_left; i++){
+            let random_value = 0;
+            do {
+                random_value = Math.round(Math.random() * (posts.length-1));
+            } while(posts_on_left_id_value_store.includes(random_value));
+            posts_on_left_id_value_store[i] = random_value;
+            //console.log("ANOTHER CHECK: "+random_value)
+        }
+    }
+
+    function openReader(index, 
+        //newStr_820, newStr_1640,
+         //_blog_image_string_to_use
+        //, newStr_2560, newStr_3840
+        ) {
+            currentIdx = index;
+            if (posts == undefined){
+                console.log("posts undefined")
+                return
+            }
+            const post = posts[index];
+            if (!post) return;
+            //console.log(post["slug"])
+
+            const blog_image_string_to_use = insertBeforeChar(post.image, ".", "_1920").replace("png", "jpg").replace("blogs", "blogsv2");
+            
+
+            window.location.href = `#`+post.slug;
+            /*
+
+            for (let i = 0; i<number_of_posts_on_left; i++){
+                /*
+                while(random_numbers.length < number_of_posts_on_left){
+                    let r = Math.floor(Math.random() * 29) + 1;
+                    if(random_numbers.indexOf(r) === -1){
+                        random_numbers.push(r);
+                    } else {
+                        console.log("Same number!")
+                        console.log(random_numbers)
+                    }
+                }
+                
+                random_numbers[i] = Math.floor(Math.random() * 29) + 1;
+                //comment the above line and uncomment the block of while loop to demonstrate lagginess with unique number generation
+                posts_on_left_id_value_store[i] = random_numbers[i];
+
+                post_images[i] = insertBeforeChar(posts[random_numbers[i]]["image"], ".", "_1920").replace("png", "jpg").replace("blogs", "blogsv2");
+                
+                console.log(post_images[i])
+                console.log(posts[random_numbers[i]])
+                console.log(random_numbers[i])
+                
+            }
+            */
+
+            /*
+            console.log(random_numbers[0])
+            console.log(post_images[0])
+            console.log(posts[0])
+
+
+            console.log(random_numbers)
+            console.log(post_images)
+            */
+
+        
+            /*
+            for (let i = 1; i<= number_of_posts_on_left; i++){
+                const blogLeftCardOpen = (e) => {
+                    e.preventDefault()
+                    openReader(random_numbers[i-1], post_images[i-1]);
+                    console.log("LOOK: ",random_numbers[i-1], post_images[i-1])
+                    //window.location.href = string_addition+posts[random_numbers[i-1]]["slug"];
+                }
+
+                document.getElementById('blog-within-'+i).innerHTML = posts[random_numbers[i-1]]["title"];
+                document.getElementById('image-within-'+i).src = post_images[i-1];
+                document.getElementById('blog-within-'+i+'-expand').removeEventListener('click',blogLeftCardOpen);
+                document.getElementById('blog-within-'+i+'-expand').addEventListener('click', blogLeftCardOpen);
+            }
+                */
+               /*
+            while(posts_on_left_id_value_store.length < number_of_posts_on_left){
+                let r = Math.floor(Math.random() * 29) + 1;
+                if(posts_on_left_id_value_store.indexOf(r) === -1){
+                    posts_on_left_id_value_store.push(r);
+                }
+            }
+                */
+
+            uniqueNumberGeneration();
+
+            for (let i = 1; i<=number_of_posts_on_left;i++){
+                const i_minus = i - 1;
+                
+                //posts_on_left_id_value_store[i_minus] = Math.round(Math.random() * (posts.length-1));
+                //post_images[i] = insertBeforeChar(posts[posts_on_left_id_value_store[i_minus]]["image"], ".", "_1920").replace("png", "jpg").replace("blogs", "blogsv2");
+                // Fill with placeholder values
+                /*
+                console.log("PostImages: "+i+" "+post_images[i_minus])
+                console.log("PostsOnLeft: "+i+" "+posts_on_left_id_value_store[i_minus])
+                */
+
+                const imageOnLeft = insertBeforeChar(posts[posts_on_left_id_value_store[i_minus]]["image"], ".", "_1920").replace("png", "jpg").replace("blogs", "blogsv2");
+
+                document.getElementById('blog-within-'+i).innerHTML = posts[posts_on_left_id_value_store[i_minus]]["title"];
+                document.getElementById('image-within-'+i).src = imageOnLeft//post_images[i_minus];
+            }
+
+            document.getElementById('rImage').src = blog_image_string_to_use
+            document.getElementById('rTitle').textContent = post.title;
+            document.getElementById('rContent').innerHTML = post.content; 
+
+            document.getElementById('rTitle').scrollIntoView()
+            
+            reader.hidden = false;
+            reader.setAttribute('open', '');
+            document.body.style.overflow = 'hidden'; 
+
+            //console.log("Opened!")
+    }
+
+    const url_link_in_bar = window.location.href
+    const href_end = url_link_in_bar.substr(url_link_in_bar.indexOf("#")).slice(1)
+
+    const renderBlogsFunction = async () => {
+        const grid = document.getElementById('blogs-grid');
+
+        // 1. Fetch Data
+        try {
+            const res = await fetch('/public/blogs.json');
+            const data = await res.json();
+            posts = data.posts || [];
+            renderGrid(posts);
+        } catch (err) {
+            console.error('Failed to load blogs:', err);
+            grid.innerHTML = '<p style="text-align:center;">Unable to load blogs at this time.</p>';
+        }
+
+        // 4. Close Logic
+        document.getElementById('closeXLeft').addEventListener('click', () => {
+            reader.hidden = true;
+            reader.removeAttribute('open');
+            document.body.style.overflow = ''; 
+            window.location.href = string_addition 
+        });
+
+        // 5. Navigation Logic
+        const navNext = document.getElementById('navNext')
+        const navNextFunction = (e) => {
+            e.stopPropagation();
+            currentIdx = (currentIdx + 1) % posts.length;
+            openReader(currentIdx//, blog_images_all[currentIdx][image_to_use_number]
+            );
+        }
+        navNext.addEventListener('click', navNextFunction);
+
+        const navPrev = document.getElementById('navPrev')
+        const navPrevFunction = (e) => {
+            e.stopPropagation();
+            currentIdx = (currentIdx - 1 + posts.length) % posts.length;
+            openReader(currentIdx//, blog_images_all[currentIdx][image_to_use_number]
+            );
+        }
+        navPrev.addEventListener('click', navPrevFunction);
+
+
+        /*
+        document.getElementById('navPrev').addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIdx = (currentIdx - 1 + posts.length) % posts.length;
+            openReader(currentIdx);
+        });
+        */
+
+        // Also wire up the "Next Article" button at the bottom of the modal
+        /*
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            currentIdx = (currentIdx + 1) % posts.length;
+            openReader(currentIdx);
+        });
+        */
+
+        // 2. Render Grid
+        function renderGrid(blogPosts) {
+            grid.innerHTML = ''; 
+            blogPosts.forEach((post, index) => {
+                const blogCard = document.createElement('a');
+                blogCard.className = 'blog-card';
+                blogCard.href = `#`+post.slug; 
+                
+                // <img src="${post.image}" alt="${post.title}" loading="lazy" />
+
+                
+                let blog_images = []
+
+                blog_images[0] = insertBeforeChar(post.image, ".", "_820").replace("png", "jpg").replace("blogs", "blogsv2");
+                blog_images[1] = insertBeforeChar(post.image, ".", "_1640").replace("png", "jpg").replace("blogs", "blogsv2");
+                blog_images[2] = insertBeforeChar(post.image, ".", "_1920").replace("png", "jpg").replace("blogs", "blogsv2");
+                blog_images[3] = insertBeforeChar(post.image, ".", "_2560").replace("png", "jpg").replace("blogs", "blogsv2");
+                blog_images[4] = insertBeforeChar(post.image, ".", "_3840").replace("png", "jpg").replace("blogs", "blogsv2");
+
+                blog_images_all[index] = blog_images
+                //console.log("index: "+index)
+
+                blogCard.innerHTML = `
+                    <div class="blog-inner">
+                        <div class="blog-media">
+                            <picture>
+                                <source srcset="${blog_images[4]}" media="(min-width: 3840px)">
+                                <source srcset="${blog_images[3]}" media="(min-width: 2560px)">
+                                <source srcset="${blog_images[2]}" media="(min-width: 1920px)">
+                                <source srcset="${blog_images[1]}" media="(min-width: 1640px)">
+                                <source srcset="${blog_images[0]}" media="(min-width: 820px)">
+                                <img 
+                                    src="${blog_images[0]}" src
+                                    alt="Skincare & Wellness"
+                                    class="hero-img"
+                                />
+                            </picture>
+                        </div>
+                        <div style="padding: 20px;">
+                            <h3 style="margin-bottom:10px;">${post.title}</h3>
+                            <p style="color: var(--muted); font-size: 0.9rem; margin-bottom:10px;">
+                                ${post.date}
+                            </p>
+                            <p>${post.excerpt || ''}</p>
+                        </div>
+                    </div>
+                `;
+
+                blogCard.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openReader(index, 
+                    //newStr_820, newStr_1640, 
+                    //blog_images[image_to_use_number]
+                    //, newStr_2560, newStr_3840
+                    );
+                    window.location.href = blogCard.href;
+                });
+                grid.appendChild(blogCard);
+            });
+        }
+        /*
+        for (let i = 0; i<number_of_posts_on_left;i++){
+            
+            posts_on_left_id_value_store[i] = Math.round(Math.random() * (posts.length-1));
+            //post_images[i] = insertBeforeChar(posts[posts_on_left_id_value_store[i]]["image"], ".", "_1920").replace("png", "jpg").replace("blogs", "blogsv2");
+            // Fill with placeholder values
+        }
+        */
+        uniqueNumberGeneration();
+
+        for (let i = 1; i<= number_of_posts_on_left; i++){
+            const i_minus = i - 1;
+            /*
+
+            console.log(posts)
+            console.log(posts_on_left_id_value_store)
+            console.log(random_numbers)
+            */
+
+            document.getElementById('blog-within-'+i).innerHTML = posts[posts_on_left_id_value_store[i_minus]]["title"];
+            //document.getElementById('image-within-'+i).src = post_images[i-1];
+            document.getElementById('blog-within-'+i+'-expand').addEventListener('click', (e) => {
+                e.preventDefault()
+                openReader(posts_on_left_id_value_store[i_minus]
+                //, post_images[i_minus]
+                // comment out confusing above line
+                );
+                //console.log("LOOK: ",random_numbers[posts_on_left_id_value_store[i_minus]], post_images[i_minus])
+                //window.location.href = string_addition+posts[random_numbers[i-1]]["slug"];
+            });
+        }
+
+        if (url_link_in_bar.includes("#") && href_end.length > 1){
+            //console.log("CHECK: " + href_end)
+            for (const post of posts){
+                if (post["slug"] == href_end){
+                    let postIndex = posts.indexOf(post)
+                    let postImage = insertBeforeChar(post.image, ".", "_1920").replace("png", "jpg").replace("blogs", "blogsv2");
+                    openReader(postIndex
+                    //, postImage
+                    )
+                    break
+                }
+            }
+        }
+    }
+    
+    // --- Cleaned Blog & Modal Logic ---
+    
+    renderBlogsFunction();
+    </script>
+</body>
+
+</html>

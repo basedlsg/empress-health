@@ -1,0 +1,121 @@
+question_id,category_id,category_slug,category_title,short_label,prompt,min_label,max_label
+1,1,vasomotor-temperature,Vasomotor & Temperature,HOT FLASH FREQUENCY,How many times per day do you experience a sudden surge of heat?,Never,10+ times/day
+2,1,vasomotor-temperature,Vasomotor & Temperature,HOT FLASH SEVERITY,"When a hot flash hits, how intense is it?",None,Disabling
+3,1,vasomotor-temperature,Vasomotor & Temperature,NIGHT SWEAT FREQUENCY,How many nights per week do you wake drenched in sweat?,Never,Every night
+4,1,vasomotor-temperature,Vasomotor & Temperature,HOT FLASH DURATION,How long does a typical hot flash last?,Under 1 min,Over 5 minutes
+5,1,vasomotor-temperature,Vasomotor & Temperature,PALPITATIONS DURING FLASHES,Do you feel your heart racing during or after a hot flash?,Never,Every flash
+6,1,vasomotor-temperature,Vasomotor & Temperature,CHILLS AFTER FLASH,"After a hot flash ends, do you immediately feel intensely cold?",Never,Every flash
+7,1,vasomotor-temperature,Vasomotor & Temperature,COLD HANDS & FEET,Do your hands and feet feel chronically cold even when flushing?,No change,Constantly cold
+8,1,vasomotor-temperature,Vasomotor & Temperature,HEAT INTOLERANCE,Have you become significantly more sensitive to heat?,No change,Cannot tolerate normal temperatures
+9,1,vasomotor-temperature,Vasomotor & Temperature,ALCOHOL AS FLASH TRIGGER,Does alcohol reliably trigger a hot flash within 1–2 hours?,No effect,Always triggers
+10,1,vasomotor-temperature,Vasomotor & Temperature,STRESS-TRIGGERED FLASHES,Do emotional stress episodes reliably intensify hot flashes?,No connection,Every stressful moment
+11,1,vasomotor-temperature,Vasomotor & Temperature,CAFFEINE AS FLASH TRIGGER,Does caffeine reliably worsen or trigger hot flashes?,No effect,Any caffeine triggers immediately
+12,1,vasomotor-temperature,Vasomotor & Temperature,FACIAL FLUSHING,Do you experience facial redness or flushing separate from hot flashes?,Never,Daily persistent redness
+13,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,SLEEP ONSET LATENCY,How long does it take to fall asleep after getting into bed?,Under 15 mins,Over 2 hours
+14,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,NIGHT WAKINGS FREQUENCY,How many times do you wake after initially falling asleep?,None,Cannot count
+15,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,2–4AM WAKING PATTERN,Do you specifically wake between 2am and 4am and can't return to sleep?,Never,Every single night
+16,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,WIRED-BUT-TIRED PARADOX,Do you feel exhausted during the day yet wired and alert at bedtime?,Never,Every night
+17,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,SLEEP SATISFACTION ON WAKING,How rested do you feel when you wake up?,Fully rested,Exhausted — as if I never slept
+18,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,MORNING BODY LAG,How long after waking does your body feel physically functional?,Within 15 mins,Never functional until afternoon
+19,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,DREAM INTENSITY & NIGHTMARES,Have you noticed significantly more vivid or disturbing dreams?,No change,Nightly nightmares
+20,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,RESTLESS LEGS AT NIGHT,"Do you experience crawling, tingling, or urge to move legs at night?",Never,"Every night, severely disrupts sleep"
+21,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,SLEEP ENVIRONMENT SENSITIVITY,"Have you become newly sensitive to noise, light, or temperature during sleep?",No change,Any minor disruption wakes me
+22,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,DAYTIME SLEEPINESS,Do you feel irresistibly sleepy during the day even after a full night in bed?,Rarely,Constant debilitating sleepiness
+23,2,sleep-architecture-cortisol,Sleep Architecture & Cortisol,NAP DEPENDENCY,Do you feel you NEED to nap to function? — and does missing a nap significantly impair your afternoon capacity,Never nap,Daily nap non-negotiable
+24,3,cognitive-function-brain-health,Cognitive Function & Brain Health,WORD-FINDING DIFFICULTY,How often do you struggle to retrieve the right word mid-sentence?,Never,Impacts every conversation
+25,3,cognitive-function-brain-health,Cognitive Function & Brain Health,SHORT-TERM MEMORY LAPSES,How often do you forget things you just did or said?,Occasional/Normal,Severe and frightening
+26,3,cognitive-function-brain-health,Cognitive Function & Brain Health,CONCENTRATION SPAN,How long can you hold focused attention before your mind wanders?,45+ mins as before,Under 5 mins
+27,3,cognitive-function-brain-health,Cognitive Function & Brain Health,MENTAL PROCESSING SPEED,Does your thinking feel measurably slower than 2–3 years ago?,No change,"Significantly slower, affects work daily"
+28,3,cognitive-function-brain-health,Cognitive Function & Brain Health,SPATIAL MEMORY LOSS,Do you frequently misplace everyday objects in obvious places?,No more than before,Multiple times per day
+29,3,cognitive-function-brain-health,Cognitive Function & Brain Health,MULTI-TASKING CAPACITY,Has your ability to manage multiple tasks declined significantly?,No change,Can barely manage one task
+30,3,cognitive-function-brain-health,Cognitive Function & Brain Health,DECISION FATIGUE,Do even minor decisions feel disproportionately exhausting?,Not at all,Simple decisions feel paralyzing
+31,3,cognitive-function-brain-health,Cognitive Function & Brain Health,READING RE-READING,Do you need to re-read the same paragraph multiple times for it to register?,Never,Almost every time I try to read
+32,3,cognitive-function-brain-health,Cognitive Function & Brain Health,MENTAL CLARITY ON WAKING,How quickly does your mind feel genuinely clear and sharp after waking?,Within 30 mins,Never feels clear all day
+33,3,cognitive-function-brain-health,Cognitive Function & Brain Health,NUMBER & CALCULATION DIFFICULTY,Have you noticed new difficulty with mental arithmetic or financial tasks?,No change,Significant new difficulty
+34,3,cognitive-function-brain-health,Cognitive Function & Brain Health,PROFESSIONAL CONFIDENCE DECLINE,Has your confidence in your professional ability declined in the last 12 months?,No change,Considering stepping back
+35,3,cognitive-function-brain-health,Cognitive Function & Brain Health,MENTAL ENDURANCE,How long can you sustain demanding intellectual work before hitting a wall?,Full day as before,Under 1 hour before shutdown
+36,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",BASELINE ANXIETY LEVEL,Describe the resting background anxiety you carry through your day without a specific trigger.,None,Severe near-constant dread
+37,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",FEELING OF DREAD OR DOOM,Do you experience unexplained feelings of dread — particularly on waking or at dusk?,Never,"Daily, specifically upon waking"
+38,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",IRRITABILITY THRESHOLD,How quickly do you become irritated by minor annoyances that previously wouldn't have affected you?,No change,Hair-trigger irritability constantly
+39,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",RAGE EPISODES,Have you experienced sudden explosive anger completely disproportionate to the situation?,Never,Weekly explosive episodes
+40,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",EMOTIONAL VOLATILITY,Do your emotions swing dramatically within a single day without proportionate triggers?,Emotionally stable,Severe unpredictable swings every day
+41,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",DEPRESSIVE EPISODES,Do you experience periods of low mood or loss of interest new or worse during this transition?,None,"Severe, impairs all functioning"
+42,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",EMOTIONAL NUMBNESS,Do you feel emotionally flat or disconnected — unable to feel joy as before?,Fully emotionally present,"Persistent flatness, disconnected"
+43,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",PANIC ATTACKS,Have you experienced sudden episodes of intense fear or breathlessness without a clear trigger?,Never,Weekly or more frequently
+44,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",AFTERNOON LOW / FLAT SPELL,Do you experience a pronounced afternoon emotional low that lifts somewhat by evening?,No pattern,Every afternoon 2–5pm feels dark
+45,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",LOSS OF MOTIVATION / DRIVE,Have you lost the motivation or drive that previously defined you?,No change,Complete motivational flatness
+46,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",CRYING EASILY / TEARFULNESS,Do you cry far more easily than before — or cry without knowing why?,No change,"Crying multiple times daily, unprovoked"
+47,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",SOCIAL WITHDRAWAL,Have you been withdrawing from social activities from internal discomfort — not circumstance?,No change,Significant self-imposed isolation
+48,4,mood-anxiety-emotional-health,"Mood, Anxiety & Emotional Health",IDENTITY DISCONNECTION,Do you feel fundamentally unrecognisable from the person you were 3–5 years ago?,I recognise myself fully,I have completely lost who I was
+49,5,metabolic-health-body-composition,Metabolic Health & Body Composition,UNEXPLAINED WEIGHT GAIN,Have you gained weight in the past 1–3 years unexplained by diet or activity changes?,No change,Over 20 lbs despite no lifestyle change
+50,5,metabolic-health-body-composition,Metabolic Health & Body Composition,ABDOMINAL BLOATING,Do you experience abdominal distension or bloating particularly after meals?,No change,"Daily severe bloating, visible distension"
+51,5,metabolic-health-body-composition,Metabolic Health & Body Composition,SUGAR & CARB CRAVINGS,Have sugar and carbohydrate cravings significantly increased?,No change,Intense hard-to-resist cravings daily
+52,5,metabolic-health-body-composition,Metabolic Health & Body Composition,LOSS OF MUSCLE TONE,Have you noticed loss of muscle tone even with the same exercise?,No change,Significant visible muscle loss
+53,5,metabolic-health-body-composition,Metabolic Health & Body Composition,INABILITY TO LOSE WEIGHT,Have strategies that previously worked for weight loss become ineffective now?,Normal response,Complete resistance — nothing moves
+54,5,metabolic-health-body-composition,Metabolic Health & Body Composition,ENERGY CRASHES AFTER EATING,Do you experience significant energy crashes within 1–2 hours of eating?,No effect,Every carb meal causes hours-long crash
+55,5,metabolic-health-body-composition,Metabolic Health & Body Composition,FLUID RETENTION / PUFFINESS,"Do you experience puffiness or fluid retention — face, hands, ankles?",No change,"Daily puffiness, visible and uncomfortable"
+56,5,metabolic-health-body-composition,Metabolic Health & Body Composition,INCREASED HUNGER,Do you feel hungry more frequently or do meals fail to satisfy you?,Normal appetite,Constant hunger regardless of how much I eat
+57,5,metabolic-health-body-composition,Metabolic Health & Body Composition,WAIST CIRCUMFERENCE CHANGE,Has your waist circumference increased comparing to 2–3 years ago?,No change,Over 4 inches increase
+58,5,metabolic-health-body-composition,Metabolic Health & Body Composition,EXERCISE INTOLERANCE,Has your exercise tolerance declined — requiring much longer recovery?,No change,Exercise leaves me bedridden for 1–2 days
+59,5,metabolic-health-body-composition,Metabolic Health & Body Composition,AFTERNOON ENERGY COLLAPSE,Do you experience a severe biochemical-feeling energy crash in early-to-mid afternoon?,Normal afternoon energy,2–4pm is a total write-off every day
+60,5,metabolic-health-body-composition,Metabolic Health & Body Composition,PERCEIVED METABOLIC SLOWDOWN,Does it seem like your body burns calories far more slowly than before?,No perceived change,Metabolism seems to have completely stopped
+61,6,skin-hair-nails,"Skin, Hair & Nails",HAIR SHEDDING / THINNING,Have you noticed increased hair shedding or reduced hair volume?,No change,Severe visible thinning
+62,6,skin-hair-nails,"Skin, Hair & Nails",HAIR TEXTURE CHANGE,"Has your hair become significantly drier, coarser, or more brittle?",No change,Dramatic texture deterioration
+63,6,skin-hair-nails,"Skin, Hair & Nails",EYEBROW THINNING,"Have your eyebrows thinned noticeably, especially at the outer edges?",No change,Significant visible thinning
+64,6,skin-hair-nails,"Skin, Hair & Nails",SKIN DRYNESS,Has your skin become significantly drier no matter what products you use?,No change,Constant severe dryness
+65,6,skin-hair-nails,"Skin, Hair & Nails",LOSS OF SKIN ELASTICITY,Have you noticed a rapid loss of skin firmness or elasticity?,No change,Dramatic accelerated sagging
+66,6,skin-hair-nails,"Skin, Hair & Nails",THIN / CREPEY SKIN,"Has the skin on arms, chest, knees, or hands become thinner or crepey?",No change,Severe widespread crepiness
+67,6,skin-hair-nails,"Skin, Hair & Nails",ADULT ACNE / BREAKOUTS,Have you developed new acne or jawline breakouts?,None,Severe ongoing breakouts
+68,6,skin-hair-nails,"Skin, Hair & Nails",FACIAL HAIR GROWTH,"Have you noticed increased facial hair growth on chin, lip, or jaw?",No change,Significant coarse hair growth
+69,6,skin-hair-nails,"Skin, Hair & Nails",NAIL BRITTLENESS,"Have your nails become weaker, thinner, or prone to peeling/breaking?",No change,Constant splitting and breakage
+70,6,skin-hair-nails,"Skin, Hair & Nails",BRUISING / SKIN FRAGILITY,Do you bruise more easily or feel your skin is more fragile than before?,No change,Constant bruising and skin fragility
+71,6,skin-hair-nails,"Skin, Hair & Nails",WOUND HEALING SLOWDOWN,"Have cuts, blemishes, or skin irritation started healing much more slowly?",No change,Extremely delayed healing
+72,6,skin-hair-nails,"Skin, Hair & Nails",ITCHING / CRAWLING SKIN,"Do you experience unexplained itching, tingling, or crawling skin sensations?",Never,Daily severe symptoms
+73,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,JOINT PAIN / STIFFNESS,Have you developed new joint pain or stiffness without an obvious injury?,None,Severe daily pain in multiple joints
+74,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,MORNING STIFFNESS DURATION,How long does stiffness last after waking before your body loosens up?,None,Over 2 hours
+75,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,MUSCLE ACHES / HEAVINESS,"Do your muscles feel unusually achy, heavy, or weak for no clear reason?",Never,Constant and debilitating
+76,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,LOSS OF STRENGTH,Have you noticed a real drop in physical strength despite normal effort?,No change,Dramatic strength loss
+77,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,EXERCISE RECOVERY PAIN,Does exercise cause disproportionate soreness or delayed recovery now?,Normal recovery,Recovery takes many days
+78,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,FOOT / HEEL PAIN,"Have you developed new heel pain, plantar-type pain, or foot stiffness?",None,Severe daily pain walking
+79,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,SHOULDER / NECK TENSION,Do you carry marked tension or pain in the neck / shoulders that wasn't typical before?,No change,Constant severe tension/pain
+80,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,LOWER BACK / HIP PAIN,Have lower back or hip pain become significantly more common?,No change,Severe daily pain
+81,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,GRIP STRENGTH DECLINE,"Have you noticed weaker grip strength opening jars, carrying items, or training?",No change,Severe noticeable weakness
+82,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,BODY FRAILTY FEELING,Do you feel physically more fragile or breakable than you used to?,Never,Constantly feel physically fragile
+83,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,HEIGHT / POSTURE CHANGE,Have you noticed worsened posture or a sense that you've lost height?,No change,Definite posture collapse / height loss
+84,7,musculoskeletal-bone-health,Musculoskeletal & Bone Health,FEAR OF FUTURE FRACTURE,Are you concerned your bones or body integrity are declining beneath the surface?,Not concerned,Deeply concerned and often think about it
+85,8,genitourinary-sexual-health,Genitourinary & Sexual Health,VAGINAL DRYNESS,Have you developed vaginal dryness or lack of natural lubrication?,No change,Severe daily dryness
+86,8,genitourinary-sexual-health,Genitourinary & Sexual Health,PAIN WITH INTERCOURSE,"Do you experience pain, burning, or tearing during intimacy?",None,Intercourse not possible due to pain
+87,8,genitourinary-sexual-health,Genitourinary & Sexual Health,LOSS OF LIBIDO,Has your sexual desire declined significantly from your previous baseline?,No change,Complete loss of desire
+88,8,genitourinary-sexual-health,Genitourinary & Sexual Health,REDUCED AROUSAL RESPONSE,Does it take much longer to become physically aroused even when mentally interested?,No change,Arousal response almost absent
+89,8,genitourinary-sexual-health,Genitourinary & Sexual Health,ORGASM CHANGES,"Have orgasms become weaker, harder to reach, or less satisfying?",No change,Major loss of orgasm function
+90,8,genitourinary-sexual-health,Genitourinary & Sexual Health,BLADDER URGENCY,Do you experience sudden urgent need to urinate with little warning?,Never,Frequent urgent near-accidents
+91,8,genitourinary-sexual-health,Genitourinary & Sexual Health,URINARY FREQUENCY,Are you needing to urinate far more often than before — day or night?,No change,Constant frequent urination
+92,8,genitourinary-sexual-health,Genitourinary & Sexual Health,RECURRENT UTIs / IRRITATION,"Have you had recurrent UTIs, bladder irritation, or burning without clear infection?",Never,Recurrent / ongoing problem
+93,8,genitourinary-sexual-health,Genitourinary & Sexual Health,STRESS INCONTINENCE,"Do you leak urine when coughing, sneezing, laughing, or exercising?",Never,Frequent / severe leakage
+94,8,genitourinary-sexual-health,Genitourinary & Sexual Health,NOCTURIA,How often does needing to urinate wake you at night?,Never,Multiple times every night
+95,8,genitourinary-sexual-health,Genitourinary & Sexual Health,GENITAL DISCOMFORT / IRRITATION,"Do you experience daily vulvar irritation, itching, or discomfort?",Never,Severe daily discomfort
+96,8,genitourinary-sexual-health,Genitourinary & Sexual Health,IMPACT ON RELATIONSHIPS / SELF-IMAGE,"Have these intimate or urinary changes affected your relationship, confidence, or self-image?",Not at all,Profound emotional impact
+97,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,BASELINE ENERGY LEVEL,"Compared to 2–3 years ago, how much baseline daily energy have you lost?",No meaningful loss,Energy feels almost completely gone
+98,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,STAIRS / EXERTION TOLERANCE,Has climbing stairs or normal exertion become noticeably harder?,No change,Significantly breathless from mild exertion
+99,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,HEART PALPITATIONS,"Do you experience skipped beats, pounding heartbeat, or fluttering sensations?",Never,Daily / disruptive
+100,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,DIZZINESS / LIGHTHEADEDNESS,"Do you experience dizziness, lightheadedness, or a floaty feeling on standing?",Never,Frequent / interferes with daily life
+101,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,AFTERNOON ENERGY DROP,Do you experience a predictable afternoon collapse in physical energy?,No pattern,Severe daily collapse
+102,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,EXHAUSTION DESPITE REST,Do you still feel physically drained even after a full night's sleep or time off?,Rarely,Constantly exhausted regardless of rest
+103,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,BODY BATTERY RECOVERY,How well does your energy recover after a quiet day or restful weekend?,Recovers normally,Barely recovers at all
+104,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,SHORTNESS OF BREATH AWARENESS,Have you become more aware of your breathing or shortness of breath without clear explanation?,No change,Frequent unexplained breathlessness
+105,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,EXERCISE HEART RATE RESPONSE,Does your heart rate feel exaggerated or abnormal for the level of exercise you're doing?,Feels normal,Very abnormal / concerning
+106,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,HEAVY LIMBS / BODY DRAG,Do your legs or body feel unusually heavy — like you're moving through mud?,Never,Daily severe heaviness
+107,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,BLOOD PRESSURE / FLUSHING SWINGS,"Do you feel internal surges, pounding, pressure swings, or flushing episodes beyond standard hot flashes?",Never,Frequent intense episodes
+108,9,cardiovascular-whole-body-energy,Cardiovascular & Whole-Body Energy,CAPACITY FOR FULL DAY,Can your body still sustain a full productive day without biochemical shutdown?,"Yes, fully",No — body crashes before day ends
+109,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",ALCOHOL TOLERANCE DECLINE,Has alcohol become much less tolerable than it used to be?,No change,Even 1 drink causes major symptoms
+110,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",HANGOVER / RECOVERY INTENSITY,"Does alcohol now trigger sleep disruption, anxiety, flushing, or next-day crashes?",No effect,Severe reaction every time
+111,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",BLOATED AFTER HEALTHY MEALS,Do you bloat even after meals you consider clean or healthy?,Never,Almost every meal
+112,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",DIGESTIVE SLOWDOWN / CONSTIPATION,"Have you developed constipation, sluggish digestion, or incomplete bowel movements?",No change,Severe ongoing issue
+113,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",FOOD SENSITIVITY ESCALATION,Have you become newly reactive to foods you used to tolerate fine?,No change,Many foods now trigger symptoms
+114,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",STRESS RECOVERY TIME,"Once stressed, how quickly does your body return to baseline?",Recovers quickly,Stays activated for hours or all day
+115,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",MORNING RECOVERY FEELING,Does a full night's sleep actually reset your system by morning?,"Yes, reliably",No reset at all
+116,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",CAFFEINE TOLERANCE CHANGE,"Has caffeine started causing anxiety, palpitations, or crash symptoms more than before?",No change,Very reactive now
+117,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",HYDRATION / ELECTROLYTE DEPENDENCE,Do you feel disproportionately worse when slightly dehydrated or under-fuelled?,No change,Small dips hit me hard
+118,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",RESILIENCE TO BUSY DAYS,Can your body still handle a full busy day without needing major recovery after?,"Yes, easily",No — any full day wipes me out
+119,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",OVERALL SYSTEM INFLAMMATION FEEL,"Does your body feel more inflamed, reactive, puffy, or sensitive than before?",No change,Constantly inflamed / reactive
+120,10,lifestyle-gut-health-nutrition,"Lifestyle, Gut Health & Nutrition",LOSS OF PHYSIOLOGIC RESILIENCE,"Overall, how much has your body's ability to “bounce back” declined?",No decline,Bounce-back ability feels gone

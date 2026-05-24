@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Wellness Hub | EmpressHealth</title>
+    <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Your Wellness Hub | EmpressHealth" />
+  <meta property="og:description" content="Your Empress Health wellness hub — tools, resources, and daily support for every stage of menopause." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/wellnesshub.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Your Wellness Hub | EmpressHealth" />
+  <meta name="twitter:description" content="Your Empress Health wellness hub — tools, resources, and daily support for every stage of menopause." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<meta name="description" content="Your All-in-One Wellness Hub. Access Ask Empress 24/7, personalized protocols, progress tracking, curated marketplace, clinician access, and community support."/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary: #5B2E90;         /* deep purple */
+      --primary-600: #4b2577;
+      --accent: #D8A738;          /* gold */
+      --light: #F5F5DC;           /* light beige */
+      --ink: #1f1b2d;
+      --muted: #6e6a7a;
+      --soft: #f6f2ff;
+      --white: #ffffff;
+      --border: #e6e2f6;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(16,16,32,.08);
+      --header-h: 80px;
+      --space-xs: 12px;
+      --space-sm: 24px;
+      --space-md: 32px;
+      --space-lg: 60px;
+      --space-xl: 80px;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body { 
+      margin: 0; 
+      font-family: 'Inter', sans-serif; 
+      color: var(--ink); 
+      line-height: 1.6; 
+      background: var(--white); 
+      -webkit-font-smoothing: antialiased;
+      padding-top: var(--header-h);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+      margin-top: 0;
+      line-height: 1.2;
+      color: var(--primary-600);
+    }
+
+    p { margin: 0 0 1.5rem; }
+
+    /* ===== Header / Nav (from index.html) ===== */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      transition: box-shadow .2s ease, backdrop-filter .2s ease, background-color .2s ease;
+    }
+    header#site-header.is-stuck {
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      backdrop-filter: saturate(120%) blur(6px);
+      background: rgba(255,255,255,0.85);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .5rem 0;
+    }
+    @media (min-width: 821px) {
+      .nav { justify-content: center; gap: 40px; }
+    }
+    .brand { display: flex; align-items: center; gap: .6rem; }
+    .brand-logo { height: clamp(56px, 7vw, 80px); }
+    header .links a,
+    header .menu-trigger,
+    header .brand { text-shadow: 0 1px 3px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.5); }
+    .main-nav { display: none; align-items: center; gap: 18px; }
+    .menu-item { position: relative; }
+    .menu-trigger {
+      background: transparent; border: 0; cursor: pointer; font-weight: 700; color: var(--ink);
+      padding: .6rem .5rem; border-radius: 10px; white-space: nowrap;
+    }
+    .menu-trigger:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .menu-item[data-open="1"] .menu-trigger { color: var(--primary); }
+    .menu-panel {
+      position: absolute; top: calc(100% + 10px); left: 0; z-index: 1001;
+      width: min(500px, 85vw); background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; box-shadow: var(--shadow); padding: 14px; display: none;
+    }
+    .menu-item:hover .menu-panel,
+    .menu-item:focus-within .menu-panel,
+    .menu-item[data-open="1"] .menu-panel { display: block; }
+    .menu-item:nth-child(n+5) .menu-panel { left: auto; right: 0; }
+    .menu-item:nth-child(3) .menu-panel,
+    .menu-item:nth-child(4) .menu-panel { left: 50%; transform: translateX(-50%); right: auto; }
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .menu-section h5 { margin: 0 0 6px; font: 800 .95rem/1.2 Poppins, Inter, sans-serif; color: var(--primary-600); }
+    .menu-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .menu-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: #fff;
+      transition: border-color .15s, box-shadow .15s, transform .05s; text-decoration: none; color: var(--ink);
+    }
+    .menu-link:hover { border-color: #e0def0; box-shadow: var(--shadow); transform: translateY(-1px); }
+    .menu-desc { font-size: 12.5px; color: var(--muted); }
+    .burger {
+      width: 52px; height: 52px; border-radius: 14px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+      display: grid; place-items: center; cursor: pointer; font-size: 28px;
+    }
+    .burger:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    #drawer {
+      display: none; position: fixed; top: var(--header-h); left: 0; right: 0;
+      background: #fff; border-top: 2px solid #f2eefc; box-shadow: 0 4px 12px rgba(0,0,0,.1);
+      z-index: 9998; max-height: calc(100svh - var(--header-h)); overflow-y: auto;
+    }
+    #drawer.open { display: block; }
+    .drawer { padding: 20px; }
+    .drawer details { border-top: 1px solid var(--border); padding: 6px 0; }
+    .drawer summary {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      padding: 10px 6px; font-weight: 700; cursor: pointer; list-style: none;
+    }
+    .drawer summary::-webkit-details-marker { display: none; }
+    .drawer ul { list-style: none; padding-left: 10px; margin: 6px 0 12px; display: grid; gap: 8px; }
+    .drawer a { color: var(--ink); text-decoration: none; }
+    @media (max-width: 820px) { :root { --header-h: 80px; } .main-nav { display: none !important; } .burger { display: grid !important; } }
+    @media (min-width: 821px) {
+      :root { --header-h: 100px; }
+      header#site-header {
+        height: var(--header-h); background: #efe1d3; border-bottom: 1px solid var(--border);
+        text-shadow: none;
+      }
+      header#site-header .links a,
+      header#site-header .menu-trigger,
+      header#site-header .brand { text-shadow: none; }
+      body { padding-top: var(--header-h) !important; }
+      .main-nav { display: flex; }
+      .burger { display: none; }
+    }
+
+    /* ===== Layout Containers ===== */
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    @media (min-width: 768px) { .container { padding: 0 40px; } }
+    @media (min-width: 1024px) { .container { padding: 0 60px; } }
+
+    /* ===== Hero Section – 100% viewport minus menu, full image, blended sidebars ===== */
+    .hero-section {
+      min-height: calc(100vh - var(--header-h));
+      max-height: calc(100vh - var(--header-h));
+      height: calc(100vh - var(--header-h));
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+      background: #f4f2ef;
+    }
+
+    .hero-image-wrap {
+      flex: 1;
+      position: relative;
+      min-height: 0;
+      background: #f4f2ef;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    /* Hero text below image */
+    .hero-intro {
+      padding: var(--space-lg) 24px;
+      text-align: center;
+      background: var(--white);
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    .hero-description {
+      font-size: clamp(1.1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ===== Dashboard Section ===== */
+    .dashboard-section {
+      padding: var(--space-lg) 0;
+      background-color: var(--white);
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-600);
+      margin-bottom: 16px;
+    }
+
+    .dashboard-subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Modules Grid */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 767px) {
+      .modules-grid {
+        display: flex;
+        grid-template-columns: unset;
+        gap: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        padding-bottom: 8px;
+      }
+      .modules-grid::-webkit-scrollbar { height: 8px; }
+      .modules-grid::-webkit-scrollbar-track { background: var(--border); border-radius: 10px; }
+      .modules-grid::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 10px; }
+      .modules-grid .module-card {
+        flex: 0 0 100vw;
+        width: 100vw;
+        min-width: 100vw;
+        box-sizing: border-box;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+      }
+      .modules-scroll-wrap {
+        position: relative;
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+      }
+      .modules-scroll-wrap .scroll-nav-arrows {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0 0;
+        margin-top: 8px;
+      }
+      .modules-scroll-wrap .scroll-nav-arrows button {
+        width: 48px;
+        height: 48px;
+        min-height: 44px;
+        min-width: 44px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        background: rgba(91, 46, 144, 0.85);
+        color: #fff;
+        font-size: 1.75rem;
+        line-height: 1;
+        display: grid;
+        place-items: center;
+        transition: background 0.2s;
+      }
+      .modules-scroll-wrap .scroll-nav-arrows button:hover { background: var(--primary-600); }
+      .modules-scroll-wrap .scroll-nav-arrows button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    }
+
+    @media (min-width: 768px) {
+      .modules-scroll-wrap { margin-left: 0; width: auto; }
+      .modules-scroll-wrap .scroll-nav-arrows { display: none; }
+      .modules-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .modules-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .module-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .module-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(16,16,32,.12);
+    }
+
+    .module-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .module-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .module-status {
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding: 4px 12px;
+      border-radius: 12px;
+      background: var(--light);
+      display: inline-block;
+    }
+
+    /* Dashboard Visual */
+    .dashboard-visual {
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-visual::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .visual-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .visual-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-600);
+      margin: 0;
+    }
+
+    .visual-date {
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .visual-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    @media (min-width: 1024px) {
+      .visual-content {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    .main-panel {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .main-panel h3 {
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+      color: var(--ink);
+    }
+
+    .focus-item {
+      background: var(--light);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+    
+    .focus-item:last-child { margin-bottom: 0; }
+
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .side-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .side-item-title {
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .side-item-value {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* ===== Footer (Preserved) ===== */
+    .footer{ 
+      background: #3f1449; 
+      border-top: 1px solid #5a2a6b; 
+      padding: 48px 0 24px; 
+      color: #ffffff; 
+      font-size: .95rem;
+    }
+    
+    .footer-bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      text-align: center;
+    }
+    
+    .footer-bottom small {
+      color: #ffffff;
+      font-size: 0.9rem;
+    }
+    
+    .footer-bottom a {
+      color: #ffffff;
+      text-decoration: none;
+      opacity: 0.8;
+    }
+    
+    .footer-bottom a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+  
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+<body>
+
+  <!-- ===== Header / Navigation ===== -->
+  <header id="site-header">
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+      </a>
+
+      <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey" aria-haspopup="true" aria-expanded="false">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Menopause Assessment</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Stories -->
+        <a class="menu-trigger" href="/communitystories">Community Stories</a>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder&#39;s Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger"
+        type="button">&#9776;</button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Menopause Assessment</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+        </ul>
+      </details>
+
+      <a href="/communitystories" class="home-link">Community Stories</a>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder&#39;s Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+  </header>
+
+  <!-- ===== Main Content ===== -->
+  <main>
+    
+    <!-- Hero Section – image fills viewport minus menu; text below -->
+    <section class="hero-section">
+      <div class="hero-image-wrap">
+        <picture>
+          <source
+            media="(max-width: 820px)"
+            srcset="
+              /public/coverphotos/wellnesshubcover_mobile820.jpg 820w,
+              /public/coverphotos/wellnesshubcover_mobile1640.jpg 1640w
+            "
+            sizes="100vw"
+          />
+          <source
+            media="(min-width: 821px)"
+            srcset="
+              /public/coverphotos/wellnesshubcover_landscape1920.jpg 1920w,
+              /public/coverphotos/wellnesshubcover_landscape2560.jpg 2560w,
+              /public/coverphotos/wellnesshubcover_landscape3840.jpg 3840w
+            "
+            sizes="100vw"
+          />
+          <img
+            class="hero-image"
+            src="/public/coverphotos/wellnesshubcover_landscape1920.jpg"
+            alt="Your Wellness Hub – woman meditating on beach"
+          />
+        </picture>
+      </div>
+    </section>
+
+    <!-- Hero text below image -->
+    <section class="hero-intro">
+      <div class="container">
+        <h1 class="hero-title">Your Wellness Hub</h1>
+        <p class="hero-description">Everything You Need, One Login. Your dashboard centralizes symptom logs, protocols, appointments, community, and orders—so you always know what to do next and why.</p>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+      <div class="container">
+        <div class="dashboard-header">
+          <h2 class="dashboard-title">Your Wellness Dashboard</h2>
+          <p class="dashboard-subtitle">All your health tools and insights in one centralized location</p>
+        </div>
+        
+        <!-- Modules Grid -->
+        <div class="modules-scroll-wrap">
+        <div class="modules-grid" id="modules-grid">
+          <div class="module-card">
+            <div class="module-icon">📅</div>
+            <h3 class="module-title">Today's Plan</h3>
+            <div class="module-status">3 tasks</div>
+          </div>
+          
+          <div class="module-card">
+            <div class="module-icon">📊</div>
+            <h3 class="module-title">Symptom Trends</h3>
+            <div class="module-status">Improving</div>
+          </div>
+          
+          <div class="module-card">
+            <div class="module-icon">📅</div>
+            <h3 class="module-title">Appointments</h3>
+            <div class="module-status">Next: Dec 15</div>
+          </div>
+          
+          <div class="module-card">
+            <div class="module-icon">💬</div>
+            <h3 class="module-title">Messages</h3>
+            <div class="module-status">2 new</div>
+          </div>
+          
+          <div class="module-card">
+            <div class="module-icon">💾</div>
+            <h3 class="module-title">Saved Protocols</h3>
+            <div class="module-status">5 active</div>
+          </div>
+          
+          <div class="module-card">
+            <div class="module-icon">🛍️</div>
+            <h3 class="module-title">Shop Recommendations</h3>
+            <div class="module-status">3 items</div>
+          </div>
+          
+          <div class="module-card">
+            <div class="module-icon">📚</div>
+            <h3 class="module-title">Learning Library</h3>
+            <div class="module-status">New content</div>
+          </div>
+        </div>
+        <div class="scroll-nav-arrows" aria-hidden="true">
+          <button type="button" class="scroll-prev" aria-label="Previous module">‹</button>
+          <button type="button" class="scroll-next" aria-label="Next module">›</button>
+        </div>
+        </div>
+        
+        <!-- Dashboard Visual -->
+        <div class="dashboard-visual">
+          <div class="visual-header">
+            <h2 class="visual-title">Your Health Overview</h2>
+            <div class="visual-date">December 2024</div>
+          </div>
+          
+          <div class="visual-content">
+            <div class="main-panel">
+              <h3>Today's Focus</h3>
+              <div class="focus-item">
+                <strong>Sleep Quality:</strong> 7.5/10 ⬆️ +0.5 from last week
+              </div>
+              <div class="focus-item">
+                <strong>Energy Level:</strong> 6/10 ⬆️ +1 from yesterday
+              </div>
+              <div class="focus-item">
+                <strong>Hot Flashes:</strong> 2/10 ⬇️ -1 from last week
+              </div>
+            </div>
+            
+            <div class="side-panel">
+              <div class="side-item">
+                <div class="side-item-title">Next Appointment</div>
+                <div class="side-item-value">Dec 15, 2:00 PM<br>Dr. Sarah Johnson</div>
+              </div>
+              <div class="side-item">
+                <div class="side-item-title">New Messages</div>
+                <div class="side-item-value">2 unread</div>
+              </div>
+              <div class="side-item">
+                <div class="side-item-title">Recommended Products</div>
+                <div class="side-item-value">3 items in cart</div>
+              </div>
+              <div class="side-item">
+                <div class="side-item-title">Learning Progress</div>
+                <div class="side-item-value">75% complete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <small>© 2025 Empress Health. All Rights Reserved.</small>
+        <small><a href="#">Accessibility</a> · <a href="#">Cookies</a></small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header height + is-stuck (from index.html)
+    (function(){
+      const header = document.getElementById('site-header');
+      function updateHeader() {
+        if (header) {
+          const h = Math.ceil(header.getBoundingClientRect().height);
+          document.documentElement.style.setProperty('--header-h', h + 'px');
+        } else {
+          document.documentElement.style.setProperty('--header-h', '80px');
+        }
+        header?.classList.toggle('is-stuck', window.scrollY > 6);
+      }
+      window.addEventListener('resize', updateHeader, { passive: true });
+      window.addEventListener('scroll', updateHeader, { passive: true });
+      window.addEventListener('load', updateHeader);
+      updateHeader();
+    })();
+
+    // Mobile drawer (from index.html)
+    (function(){
+      const burger = document.getElementById('burger');
+      const drawer = document.getElementById('drawer');
+      function toggleDrawer(open) {
+        if (!drawer || !burger) return;
+        drawer.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+      burger?.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('open')));
+      drawer?.addEventListener('click', (e) => { if (e.target.tagName === 'A') toggleDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer?.classList.contains('open')) toggleDrawer(false); });
+      window.matchMedia('(min-width: 821px)').addEventListener('change', (e) => { if (e.matches) toggleDrawer(false); });
+    })();
+
+    // Desktop menu (from index.html)
+    (function(){
+      const items = Array.from(document.querySelectorAll('.main-nav .menu-item'));
+      const closeAll = () => items.forEach(i => { i.dataset.open = '0'; i.querySelector('.menu-trigger')?.setAttribute('aria-expanded', 'false'); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+      document.addEventListener('click', (e) => { if (!e.target.closest('.main-nav')) closeAll(); });
+      items.forEach(item => {
+        const trigger = item.querySelector('.menu-trigger');
+        if (!trigger) return;
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = item.dataset.open === '1';
+          closeAll();
+          if (!isOpen) { item.dataset.open = '1'; trigger.setAttribute('aria-expanded', 'true'); }
+        });
+      });
+    })();
+
+    (function(){
+      const grid = document.getElementById('modules-grid');
+      const prev = document.querySelector('.modules-scroll-wrap .scroll-prev');
+      const next = document.querySelector('.modules-scroll-wrap .scroll-next');
+      if (!grid || !prev || !next) return;
+      function step(dir) {
+        if (window.matchMedia('(min-width: 768px)').matches) return;
+        const card = grid.querySelector('.module-card');
+        if (!card) return;
+        const w = card.getBoundingClientRect().width;
+        grid.scrollBy({ left: dir * w, behavior: 'smooth' });
+      }
+      prev.addEventListener('click', () => step(-1));
+      next.addEventListener('click', () => step(1));
+    })();
+  </script>
+</body>
+</html>

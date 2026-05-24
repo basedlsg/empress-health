@@ -1,0 +1,28 @@
+[
+  {
+    "id": "file-1779611663958-02jqo",
+    "user_id": 9999,
+    "email": "test-daily-aff@empress-health-test.invalid",
+    "profile_json": {
+      "user_id": 9999,
+      "email": "test-daily-aff@empress-health-test.invalid",
+      "firstName": "Synthia",
+      "stage": "perimenopause",
+      "priorityCategorySlugs": [
+        "vasomotor-temperature",
+        "sleep-architecture-cortisol",
+        "mood-anxiety-emotional-health"
+      ],
+      "topConcernDomainIds": [],
+      "mhtActive": false,
+      "age": 47,
+      "timezone": "UTC"
+    },
+    "cadence": "daily",
+    "next_send_at": "2026-05-24T08:34:22.981Z",
+    "unsubscribe_token": "525a28cdd552c4a2d69ca2ffac3b31f90fab1580368c6681ee29257ebe33a818",
+    "last_focus_domain": "sleep-architecture-cortisol",
+    "active": false,
+    "created_at": "2026-05-24T08:34:23.958Z"
+  }
+]

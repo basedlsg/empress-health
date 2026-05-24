@@ -1,0 +1,58 @@
+name: Site Test Automation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * *' # Run daily at midnight
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run Site Tests
+        run: npm run test:site -- --baseUrl=https://empresshealth.ai
+        # Replace baseUrl with your production or staging URL if needed
+
+      - name: Upload Report Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: site-test-report
+          path: |
+            artifacts/reports/
+            artifacts/screenshots/
+          retention-days: 30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

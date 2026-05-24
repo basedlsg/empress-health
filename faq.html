@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empress — Frequently Asked Questions</title>
+    <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Empress — Frequently Asked Questions" />
+  <meta property="og:description" content="Answers to your questions about Empress Health, our membership, our experts, and your peri+ menopause journey." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/faq.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Empress — Frequently Asked Questions" />
+  <meta name="twitter:description" content="Answers to your questions about Empress Health, our membership, our experts, and your peri+ menopause journey." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<meta name="description" content="Everything you need to know about your peri+ menopause journey with Empress Health.ai." />
+  <style>
+:root {
+  --primary: #3F1449;
+  --primary-600: #4b2577;
+  --accent: #D8A738;
+  --ivory: #D8D1CA;
+  --ivory-light: #f5f2ef;
+  --ink: #1a1520;
+  --muted: #5c5668;
+  --white: #ffffff;
+  --border: rgba(63, 20, 73, 0.12);
+  --shadow: 0 8px 24px rgba(0,0,0,.06);
+  --shadow-gold: 0 8px 32px rgba(216, 167, 56, 0.35);
+  --gradient-gold: linear-gradient(135deg, #c49a3f 0%, #D8A738 100%);
+  --radius: 10px;
+  --radius-lg: 24px;
+  --header-h: 100px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { margin:0; padding:0; width:100%; min-height:100%; overflow-x:hidden; }
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--white);
+  padding-top: var(--header-h);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 0.5rem; }
+h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); margin: 0 0 0.5rem; color: var(--primary); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); margin: 0; line-height: 1.3; color: var(--ink); }
+p { margin: 0 0 1.5rem; line-height: 1.75; }
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.2s ease;
+}
+header.is-stuck { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1200px; margin: 0 auto; padding: 0.75rem 24px;
+}
+@media (min-width: 821px) { .nav { justify-content: center; gap: 32px; padding: 0.5rem 64px; } }
+.brand { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.brand-logo { height: clamp(52px, 6vw, 70px); }
+.main-nav { display: none; align-items: center; gap: 14px; }
+.menu-item { position: relative; }
+.menu-trigger {
+  background: transparent; border: 0; cursor: pointer;
+  font-weight: 600; font-size: 0.9375rem; color: var(--ink);
+  padding: 0.5rem 0.4rem; border-radius: 8px; white-space: nowrap;
+  transition: color 0.15s;
+}
+.menu-trigger:hover { color: var(--primary); }
+.menu-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.menu-item[data-open="1"] .menu-trigger { color: var(--primary); }
+.menu-panel {
+  position: absolute; top: calc(100% + 10px); left: 0; z-index: 1001;
+  width: min(480px, 85vw); background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 16px; display: none;
+}
+.menu-item:hover .menu-panel, .menu-item:focus-within .menu-panel, .menu-item[data-open="1"] .menu-panel { display: block; }
+.menu-item:nth-child(n+5) .menu-panel { left: auto; right: 0; }
+.menu-item:nth-child(3) .menu-panel, .menu-item:nth-child(4) .menu-panel { left: 50%; transform: translateX(-50%); right: auto; }
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.menu-section h5 { margin: 0 0 8px; font-weight: 700; font-size: 0.875rem; color: var(--primary); font-family: system-ui, sans-serif; }
+.menu-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.menu-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--white); transition: all 0.15s; font-size: 0.875rem;
+}
+.menu-link:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); }
+.menu-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.menu-desc { font-size: 0.75rem; color: var(--muted); }
+.burger { width: 52px; height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--white); display: grid; place-items: center; cursor: pointer; font-size: 28px; color: var(--ink); }
+.burger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#drawer { display: none; position: fixed; top: var(--header-h); left: 0; right: 0; background: var(--white); border-top: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); z-index: 9998; max-height: calc(100vh - var(--header-h)); overflow-y: auto; }
+#drawer.open { display: block; }
+.drawer { padding: 20px 24px; }
+.home-link { display: block; padding: 14px 0; font-weight: 700; font-size: 1rem; color: var(--primary); border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.drawer details { border-top: 1px solid var(--border); padding: 8px 0; }
+.drawer summary { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-weight: 700; cursor: pointer; list-style: none; }
+.drawer summary::-webkit-details-marker { display: none; }
+.drawer summary::after { content: '›'; font-size: 20px; transition: transform 0.2s; }
+.drawer details[open] summary::after { transform: rotate(90deg); }
+.drawer ul { list-style: none; padding: 8px 0 8px 16px; margin: 0; display: grid; gap: 10px; }
+.drawer a { color: var(--muted); font-size: 0.9375rem; display: block; padding: 6px 0; }
+.drawer a:hover { color: var(--primary); }
+@media (max-width: 820px) { :root { --header-h: 72px; } }
+@media (min-width: 821px) { .main-nav { display: flex; } .burger { display: none; } #drawer { display: none !important; } }
+
+/* CONTAINER */
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+@media (min-width: 821px) { .container { padding: 0 64px; } }
+
+/* PAGE HEADER */
+.page-header {
+  background: linear-gradient(135deg, rgba(63, 20, 73, 0.06) 0%, rgba(216, 167, 56, 0.08) 100%);
+  padding: 56px 0 48px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.page-header .eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.page-header h1 { margin: 0 0 0.5rem; }
+.page-header .lead { margin: 0 auto; max-width: 640px; font-size: 1.0625rem; color: var(--muted); font-style: italic; }
+
+/* FAQ LAYOUT */
+.faq-wrap { padding: 40px 0 64px; }
+.faq-shell { max-width: 820px; margin: 0 auto; }
+
+/* Search */
+.search-bar { position: relative; margin-bottom: 28px; }
+.search-bar input {
+  width: 100%; padding: 16px 48px 16px 48px;
+  border: 1px solid var(--border); border-radius: 14px;
+  background: var(--white); font-size: 0.9375rem; color: var(--ink);
+  font-family: inherit; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-bar input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(63, 20, 73, 0.12); }
+.search-bar .icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 18px; pointer-events: none; }
+.search-bar .clear {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: rgba(63, 20, 73, 0.08); border: 0; border-radius: 50%;
+  width: 28px; height: 28px; cursor: pointer; color: var(--primary); font-size: 16px;
+  display: none;
+}
+.search-bar.has-query .clear { display: grid; place-items: center; }
+
+/* Category chips */
+.cat-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  margin-bottom: 28px;
+}
+.cat-tab {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.cat-tab:hover { color: var(--primary); border-color: rgba(63, 20, 73, 0.25); }
+.cat-tab.active {
+  background: var(--primary); color: var(--white); border-color: var(--primary);
+  box-shadow: 0 4px 14px rgba(63, 20, 73, 0.25);
+}
+.cat-tab .tab-icon { margin-right: 6px; }
+
+/* FAQ panel */
+.faq-panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.faq-panel-header {
+  padding: 24px 28px;
+  background: linear-gradient(135deg, rgba(63, 20, 73, 0.04) 0%, rgba(216, 167, 56, 0.06) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.faq-panel-header .icon { font-size: 1.75rem; display: block; margin-bottom: 4px; }
+.faq-panel-header .name { font-family: Georgia, serif; font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-item:last-child { border-bottom: 0; }
+.faq-item .q-btn {
+  width: 100%; text-align: left;
+  background: transparent; border: 0; cursor: pointer;
+  padding: 20px 28px; display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 16px;
+  font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--ink);
+  transition: background 0.15s;
+}
+.faq-item .q-btn:hover { background: rgba(63, 20, 73, 0.035); }
+.faq-item.open .q-btn { background: rgba(63, 20, 73, 0.05); color: var(--primary); }
+.faq-item .plus {
+  color: var(--accent); font-size: 1.5rem; line-height: 1; flex-shrink: 0;
+  transform: rotate(0deg); transition: transform 0.25s;
+}
+.faq-item.open .plus { transform: rotate(45deg); }
+.faq-item .a-body {
+  display: none;
+  padding: 0 28px 24px 28px;
+  margin-left: 16px; margin-right: 28px;
+  padding-left: 16px;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+.faq-item.open .a-body { display: block; }
+
+/* Search results */
+.search-results { margin-bottom: 28px; }
+.search-results .count {
+  font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 700; color: var(--primary); margin-bottom: 12px;
+}
+.search-results .empty {
+  background: var(--ivory-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px; text-align: center;
+  color: var(--muted); font-style: italic;
+}
+.search-results mark { background: rgba(216, 167, 56, 0.35); padding: 0 2px; border-radius: 2px; color: inherit; }
+
+/* Contact strip */
+.contact-strip {
+  margin-top: 36px; padding: 24px 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(63, 20, 73, 0.06) 0%, rgba(216, 167, 56, 0.08) 100%);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.contact-strip .text-block .title {
+  font-family: Georgia, serif; font-size: 1.125rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;
+}
+.contact-strip .text-block .sub { font-size: 0.875rem; color: var(--muted); }
+.contact-strip .cta {
+  background: var(--gradient-gold); color: var(--ink);
+  padding: 12px 22px; border-radius: 10px; font-weight: 700;
+  box-shadow: var(--shadow-gold); font-size: 0.9375rem; letter-spacing: 0.02em;
+}
+.contact-strip .cta:hover { filter: brightness(1.05); }
+
+/* FOOTER */
+footer { background: var(--primary); color: var(--white); padding: 48px 0 32px; text-align: center; }
+.footer-content { font-size: 0.875rem; color: rgba(255, 255, 255, 0.9); }
+@media (max-width: 820px) { footer { padding: 40px 0 28px; } }
+
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="nav">
+    <a href="/" class="brand">
+      <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+    </a>
+
+    <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey" aria-haspopup="true" aria-expanded="false">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Menopause Assessment</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Stories -->
+        <a class="menu-trigger" href="/communitystories">Community Stories</a>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder&#39;s Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+
+    <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger" type="button">☰</button>
+  </div>
+
+  <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Menopause Assessment</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+        </ul>
+      </details>
+
+      <a href="/communitystories" class="home-link">Community Stories</a>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder&#39;s Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+</header>
+
+<main>
+  <!-- PAGE HEADER -->
+  <section class="page-header" aria-label="Page header">
+    <div class="container">
+      <div class="eyebrow">Empress Health.ai</div>
+      <h1>Frequently Asked Questions</h1>
+      <p class="lead">Everything you need to know about your peri+ menopause journey with Empress.</p>
+    </div>
+  </section>
+
+  <section class="faq-wrap">
+    <div class="container">
+      <div class="faq-shell">
+
+        <!-- Search bar -->
+        <div class="search-bar" id="searchBar">
+          <span class="icon" aria-hidden="true">⌕</span>
+          <input id="faqSearch" type="search" placeholder="Search any question… e.g. 'refund', 'chatbot', 'insurance'" aria-label="Search FAQs" />
+          <button class="clear" id="clearSearch" type="button" aria-label="Clear search">×</button>
+        </div>
+
+        <!-- Search results (hidden when no query) -->
+        <div class="search-results" id="searchResults" hidden></div>
+
+        <!-- Category tabs -->
+        <div class="cat-tabs" id="catTabs" role="tablist"></div>
+
+        <!-- Active FAQ panel -->
+        <div class="faq-panel" id="faqPanel" aria-live="polite"></div>
+
+        <!-- Contact strip -->
+        <div class="contact-strip">
+          <div class="text-block">
+            <div class="title">Still have questions?</div>
+            <div class="sub">Our team typically replies within 1 business day.</div>
+          </div>
+          <a class="cta" href="mailto:hello@empresshealth.ai">hello@empresshealth.ai</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer aria-label="Site footer">
+  <div class="container">
+    <div class="footer-content">
+      © <span id="footer-year"></span> Empress. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script id="faq-data" type="application/json">
+[
+  {
+    "category": "Getting Started",
+    "icon": "✿",
+    "questions": [
+      {
+        "q": "What is Empress Health.ai?",
+        "a": "Empress Health.ai is the clinical intelligence platform built specifically for every woman 35+ navigating peri+ menopause. We combine specialized AI agents, expert-validated knowledge, symptom-based clinician matching, an AI coaching chatbot, and a curated clean marketplace — all in one place. Think of us as the system your doctor never had time to build for you."
+      },
+      {
+        "q": "Who is Empress Health.ai for?",
+        "a": "Any woman 35+ who is in perimenopause, menopause, or post-menopause — or who suspects she might be. If you've been told your labs are 'normal' but you feel anything but, if you've been dismissed, or if you're simply trying to get ahead of what's coming — Empress was built for you. All 60 million women in America navigating this transition deserve a system that actually sees them."
+      },
+      {
+        "q": "How is Empress Health.ai different from my regular doctor?",
+        "a": "Your regular doctor has an average of 7 minutes per visit and was not trained in menopause medicine. Empress was purpose-built for this transition. We assess 120 biomarkers across 10 body systems, match you to the right specialist for your exact symptom profile, provide a personalized protocol, and support you 24/7 — not just at your annual physical."
+      }
+    ]
+  },
+  {
+    "category": "The $199 Health Intelligence Report",
+    "icon": "◈",
+    "questions": [
+      {
+        "q": "What do I get for $199?",
+        "a": "Your $199 Health Intelligence Report includes: a detailed 20-page clinical assessment across all 10 body systems, expert-led clinician matching for your exact profile, your full menopause hormonal panel decoded against your symptoms, a personalized anti-inflammation diet plan, a targeted supplement stack, a suggested exercise protocol, daily uplifting messages to your phone, expert-backed product recommendations from our curated marketplace, a full-size complimentary luxury product from Empress Naturals (a $60 value), 24/7 access to Ask Empress chatbot, and invitations to live talks by leading menopause specialists."
+      },
+      {
+        "q": "Can I get a refund once I receive my Health Intelligence Report?",
+        "a": "No. Because your Health Intelligence Report is a personalized, clinical-grade document built specifically for your biomarker profile and symptom data, we are unable to offer refunds once the report has been delivered. Please review the report details and FAQs carefully before purchasing to ensure Empress is the right fit for you."
+      },
+      {
+        "q": "How long does it take to receive my report?",
+        "a": "Your Health Intelligence Report is typically delivered within 5–7 business days after you complete your health questionnaire and submit your lab panel. You will be notified by email as soon as it is ready."
+      },
+      {
+        "q": "Is the $199 a one-time payment or a subscription?",
+        "a": "The Health Intelligence Report is a one-time payment of $199 — no recurring charges, no subscription required. We also offer an ongoing membership plan for women who want continuous access to the platform, updated protocols, and unlimited chatbot support."
+      }
+    ]
+  },
+  {
+    "category": "The Ask Empress Chatbot",
+    "icon": "✦",
+    "questions": [
+      {
+        "q": "Can I get full access to the Ask Empress chatbot?",
+        "a": "Access depends on your plan. Free members can use Ask Empress once per day for up to 5 minutes — enough to ask a quick question about a symptom or supplement. Customers who purchase the $199 Health Intelligence Report or an ongoing subscription get unlimited 24/7 access to Ask Empress, trained on 5,000 expert-validated peri+ menopause Q&As."
+      },
+      {
+        "q": "What can I ask the chatbot?",
+        "a": "Anything related to peri+ menopause. Hot flashes, brain fog, sleep disruption, hormonal panels, supplement interactions, HRT questions, cycle changes, weight shifts, mood, libido — Ask Empress has been trained on clinical protocols and expert-validated knowledge specifically for this transition. It does not replace your doctor, but it's the knowledgeable friend you've always needed."
+      },
+      {
+        "q": "Is Ask Empress a real doctor?",
+        "a": "No. Ask Empress is an AI coaching assistant trained on expert-validated menopause knowledge. It provides information, context, and guidance — not medical diagnoses or prescriptions. For clinical care, Empress will match you with a licensed specialist who is right for your profile."
+      }
+    ]
+  },
+  {
+    "category": "Clinician Matching",
+    "icon": "❋",
+    "questions": [
+      {
+        "q": "How does clinician matching work?",
+        "a": "After completing your Health Intelligence Report, Empress analyzes your biomarker profile, symptom data, and health history to recommend the exact type of specialist most relevant to you — whether that's a menopause-certified OB/GYN, a functional medicine doctor, an endocrinologist, or a naturopathic physician. We don't give you a generic list; we give you a targeted match."
+      },
+      {
+        "q": "Does Empress replace my primary care provider?",
+        "a": "No. Empress is designed to complement your existing care team, not replace it. We specialize in the peri+ menopause transition and provide the deep, personalized intelligence your primary care provider often doesn't have the time or training to deliver. We're happy to share your Care Plan with your other providers to keep everyone on the same page."
+      },
+      {
+        "q": "What if I already have a gynecologist?",
+        "a": "That's great — keep them. Empress gives you the clinical intelligence layer on top of your existing care. Many women find that their Empress Health Intelligence Report opens more productive conversations with their existing doctors, because they arrive with data, a protocol, and the right questions."
+      }
+    ]
+  },
+  {
+    "category": "Insurance & Pricing",
+    "icon": "❖",
+    "questions": [
+      {
+        "q": "Does Empress Health.ai accept insurance?",
+        "a": "Not at this time. The $199 Health Intelligence Report is a direct-pay, out-of-pocket purchase. However, it may be eligible for reimbursement through your HSA or FSA account — we recommend checking with your plan. We are actively working toward insurance partnerships and will update our community as soon as this changes."
+      },
+      {
+        "q": "Can I use my HSA or FSA to pay?",
+        "a": "Many of our customers successfully submit Empress Health Intelligence Reports for HSA/FSA reimbursement. We can provide an itemized receipt upon request to support your submission. Please check with your specific plan, as eligibility varies."
+      },
+      {
+        "q": "Is there a free version?",
+        "a": "Free members get one Ask Empress chatbot session per day (up to 5 minutes), so you can try the platform before purchasing. A free symptom self-assessment is on our roadmap and will return soon — for now, the $199 Health Intelligence Report is the way to get a full personalized picture."
+      }
+    ]
+  },
+  {
+    "category": "Privacy & Data",
+    "icon": "◆",
+    "questions": [
+      {
+        "q": "Is my health data confidential?",
+        "a": "Absolutely. Empress Health.ai is built with full HIPAA compliance. Your data is securely encrypted and never shared with any third parties, advertisers, or external organizations. Your health information is yours — period."
+      },
+      {
+        "q": "Who owns my data?",
+        "a": "You do. You have full ownership and control of your health data at all times. You can request to download or delete your data at any point by contacting our support team."
+      },
+      {
+        "q": "Will my information be shared with pharmaceutical companies or advertisers?",
+        "a": "Never. Empress Health.ai does not sell, share, or monetize your personal health data. Any product recommendations you receive through our curated marketplace are based solely on your clinical profile — not advertiser payments."
+      }
+    ]
+  },
+  {
+    "category": "Empress Naturals & Marketplace",
+    "icon": "❀",
+    "questions": [
+      {
+        "q": "What is Empress Naturals?",
+        "a": "Empress Naturals is our established clean beauty and wellness brand with 21,000+ paying customers. Every product is formulated by our founder — a professional cosmetic formulator with deep expertise in Ayurvedic wellness and peri+ skin health. Report customers receive a full-size Empress Naturals product (a $60 value) complimentary with their $199 purchase."
+      },
+      {
+        "q": "How are marketplace products selected?",
+        "a": "Every brand in the Empress marketplace is vetted against our Empress Curation Standard — a 100-point practitioner-reviewed rubric covering ingredient integrity, clinical efficacy, clean beauty standards, and brand ethics. We do not accept payment from brands for placement. Recommendations are based entirely on your clinical profile."
+      },
+      {
+        "q": "Can I trust the supplement recommendations?",
+        "a": "Yes. All supplement recommendations are based on your specific biomarker results and symptom profile, and are reviewed against current clinical evidence. Our supplement stack — including CoQ10, NAD, Omega-3, Lion's Mane, Vitamin D3, Collagen, and Magnesium Glycinate — is curated by menopause specialists, not marketers."
+      }
+    ]
+  },
+  {
+    "category": "Contact & Support",
+    "icon": "✉",
+    "questions": [
+      {
+        "q": "How do I get in touch with the Empress team?",
+        "a": "We're here for you. Reach us at support@empresshealth.ai for general questions, billing, or report inquiries. For medical questions, the best route is through your patient portal or the Ask Empress chatbot. We aim to respond to all emails within 1 business day."
+      },
+      {
+        "q": "What if I have a medical emergency?",
+        "a": "Empress Health.ai is not an emergency service. If you are experiencing a medical emergency, please call 911 or go to your nearest emergency room immediately."
+      },
+      {
+        "q": "How do I access my report after purchase?",
+        "a": "Once your Health Intelligence Report is ready, you will receive an email notification with a secure link to your personal Empress dashboard. All your results, protocols, and recommendations are stored there and accessible any time."
+      }
+    ]
+  }
+]
+</script>
+
+<script>
+(function() {
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  // --- Header interactivity (matches other pages) ---
+  const desktopItems = Array.from(document.querySelectorAll('.main-nav .menu-item'));
+  function closeAllMenus() {
+    desktopItems.forEach(item => {
+      item.dataset.open = '0';
+      const trigger = item.querySelector('.menu-trigger');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    });
+  }
+  desktopItems.forEach(item => {
+    const trigger = item.querySelector('.menu-trigger');
+    trigger?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = item.dataset.open === '1';
+      closeAllMenus();
+      if (!isOpen) {
+        item.dataset.open = '1';
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+    item.addEventListener('mouseleave', () => {
+      item.dataset.open = '0';
+      const t = item.querySelector('.menu-trigger');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    });
+  });
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+  function toggleDrawer(open) {
+    if (!drawer || !burger) return;
+    drawer.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  burger?.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('open')));
+  drawer?.addEventListener('click', (e) => { if (e.target.tagName === 'A') toggleDrawer(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') toggleDrawer(false); });
+  window.matchMedia('(min-width: 821px)').addEventListener('change', (e) => { if (e.matches) toggleDrawer(false); });
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('is-stuck', window.scrollY > 10);
+  }, { passive: true });
+
+  // --- FAQ widget ---
+  const faqs = JSON.parse(document.getElementById('faq-data').textContent);
+  const catTabs = document.getElementById('catTabs');
+  const faqPanel = document.getElementById('faqPanel');
+  const searchInput = document.getElementById('faqSearch');
+  const searchBar = document.getElementById('searchBar');
+  const clearBtn = document.getElementById('clearSearch');
+  const searchResults = document.getElementById('searchResults');
+
+  let activeCategory = 0;
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[ch]);
+  }
+
+  function highlight(text, query) {
+    if (!query) return escapeHtml(text);
+    const esc = escapeHtml(text);
+    const q = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return esc.replace(new RegExp('(' + q + ')', 'ig'), '<mark>$1</mark>');
+  }
+
+  function renderTabs() {
+    catTabs.innerHTML = faqs.map((cat, i) => (
+      '<button class="cat-tab' + (i === activeCategory ? ' active' : '') + '" data-cat="' + i + '" role="tab" aria-selected="' + (i === activeCategory) + '">' +
+      '<span class="tab-icon" aria-hidden="true">' + escapeHtml(cat.icon) + '</span>' +
+      escapeHtml(cat.category) +
+      '</button>'
+    )).join('');
+  }
+
+  function renderPanel() {
+    const cat = faqs[activeCategory];
+    const items = cat.questions.map((qa, i) => (
+      '<div class="faq-item" data-idx="' + i + '">' +
+      '<button class="q-btn" type="button" aria-expanded="false">' +
+      '<span class="q-text">' + escapeHtml(qa.q) + '</span>' +
+      '<span class="plus" aria-hidden="true">+</span>' +
+      '</button>' +
+      '<div class="a-body">' + escapeHtml(qa.a) + '</div>' +
+      '</div>'
+    )).join('');
+    faqPanel.innerHTML = (
+      '<div class="faq-panel-header">' +
+      '<span class="icon" aria-hidden="true">' + escapeHtml(cat.icon) + '</span>' +
+      '<span class="name">' + escapeHtml(cat.category) + '</span>' +
+      '</div>' + items
+    );
+  }
+
+  function renderSearch(query) {
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) {
+      searchResults.hidden = true;
+      searchResults.innerHTML = '';
+      faqPanel.hidden = false;
+      catTabs.hidden = false;
+      return;
+    }
+    const all = faqs.flatMap((cat, catIdx) =>
+      cat.questions.map((qa, qIdx) => ({ ...qa, catIdx, qIdx, category: cat.category, icon: cat.icon }))
+    );
+    const matches = all.filter(item =>
+      item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q)
+    );
+    faqPanel.hidden = true;
+    catTabs.hidden = true;
+    searchResults.hidden = false;
+    if (matches.length === 0) {
+      searchResults.innerHTML = '<div class="empty">No results for "' + escapeHtml(query) + '" — try different keywords or browse categories below.</div>';
+      return;
+    }
+    searchResults.innerHTML = (
+      '<div class="count">' + matches.length + ' result' + (matches.length === 1 ? '' : 's') + ' found</div>' +
+      '<div class="faq-panel">' +
+      matches.map((item, i) => (
+        '<div class="faq-item" data-search-idx="' + i + '">' +
+        '<button class="q-btn" type="button" aria-expanded="false">' +
+        '<span><span style="display:block; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--primary); margin-bottom:4px;">' + escapeHtml(item.icon) + ' ' + escapeHtml(item.category) + '</span>' +
+        '<span class="q-text">' + highlight(item.q, query) + '</span></span>' +
+        '<span class="plus" aria-hidden="true">+</span>' +
+        '</button>' +
+        '<div class="a-body">' + highlight(item.a, query) + '</div>' +
+        '</div>'
+      )).join('') +
+      '</div>'
+    );
+  }
+
+  // Delegated click to toggle any faq-item
+  function handleToggle(e) {
+    const btn = e.target.closest('.q-btn');
+    if (!btn) return;
+    const item = btn.closest('.faq-item');
+    if (!item) return;
+    const isOpen = item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  faqPanel.addEventListener('click', handleToggle);
+  searchResults.addEventListener('click', handleToggle);
+
+  catTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('.cat-tab');
+    if (!btn) return;
+    activeCategory = Number(btn.dataset.cat);
+    renderTabs();
+    renderPanel();
+  });
+
+  searchInput.addEventListener('input', (e) => {
+    const q = e.target.value;
+    searchBar.classList.toggle('has-query', q.length > 0);
+    renderSearch(q);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    searchBar.classList.remove('has-query');
+    renderSearch('');
+    searchInput.focus();
+  });
+
+  // Initial render
+  renderTabs();
+  renderPanel();
+})();
+</script>
+
+</body>
+</html>

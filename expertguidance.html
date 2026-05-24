@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Expert Guidance | Empress Health</title>
+    <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Expert Guidance | Empress Health" />
+  <meta property="og:description" content="Get expert guidance on menopause from board-certified clinicians and specialists at Empress Health." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/expertguidance.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Expert Guidance | Empress Health" />
+  <meta name="twitter:description" content="Get expert guidance on menopause from board-certified clinicians and specialists at Empress Health." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<meta name="description" content="Real Experts. Real Answers. Connect with clinicians and menopause-savvy practitioners for personalized guidance and support." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+/* =========================
+   PRD Brand Design System
+   ========================= */
+:root {
+  --plum: #3F1449;
+  --royal: #5A1E66;
+  --gold: #D8A738;
+  --ivory: #F5EFE8;
+  --neutral: #D8D1CA;
+  --white: #FFFFFF;
+  --ink: #1a1520;
+  --muted: #5c5668;
+  --border: rgba(63, 20, 73, 0.12);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-gold: 0 8px 32px rgba(216, 167, 56, 0.2);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --header-h: 100px;
+}
+@media (max-width: 820px) { :root { --header-h: 72px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding-top: var(--header-h);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--ivory);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 24px;
+  padding: 12px 16px;
+  background: var(--plum);
+  color: var(--white);
+  font-weight: 600;
+  z-index: 99999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 12px; }
+
+/* =========================
+   Typography
+   ========================= */
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  margin: 0 0 0.5rem;
+  color: var(--plum);
+}
+h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  margin: 0 0 1rem;
+  color: var(--plum);
+}
+p { margin: 0 0 1rem; line-height: 1.75; }
+
+/* =========================
+   Header / Nav
+   ========================= */
+#site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.2s ease;
+}
+#site-header.is-stuck { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 24px;
+}
+@media (min-width: 821px) {
+  .nav { justify-content: center; gap: 32px; padding: 0.5rem 64px; }
+}
+.brand { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.brand-logo { height: clamp(52px, 6vw, 70px); display: block; }
+.main-nav { display: none; align-items: center; gap: 14px; }
+.menu-item { position: relative; }
+.menu-trigger {
+  background: transparent; border: 0; cursor: pointer; font-weight: 600;
+  font-size: 0.9375rem; color: var(--ink); padding: 0.5rem 0.4rem;
+  border-radius: 8px; white-space: nowrap; transition: color 0.15s;
+}
+.menu-trigger:hover { color: var(--plum); }
+.menu-item[data-open="1"] .menu-trigger { color: var(--plum); }
+.menu-panel {
+  position: absolute; top: calc(100% + 10px); left: 0; z-index: 1001;
+  width: min(480px, 85vw); background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow);
+  padding: 16px; display: none;
+}
+.menu-item:hover .menu-panel, .menu-item:focus-within .menu-panel, .menu-item[data-open="1"] .menu-panel { display: block; }
+.menu-item:nth-child(n+5) .menu-panel { left: auto; right: 0; }
+.menu-item:nth-child(3) .menu-panel, .menu-item:nth-child(4) .menu-panel { left: 50%; transform: translateX(-50%); right: auto; }
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.menu-section h5 { margin: 0 0 8px; font-weight: 700; font-size: 0.875rem; color: var(--plum); }
+.menu-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.menu-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--white); transition: all 0.15s; font-size: 0.875rem;
+}
+.menu-link:hover { border-color: var(--gold); box-shadow: 0 2px 8px rgba(0,0,0,.06); transform: translateY(-2px); }
+.menu-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.menu-desc { font-size: 0.75rem; color: var(--muted); }
+.burger {
+  width: 52px; height: 52px; min-height: 44px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--white); display: grid; place-items: center; cursor: pointer;
+  font-size: 28px; color: var(--ink);
+}
+.burger:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+#drawer {
+  display: none; position: fixed; top: var(--header-h); left: 0; right: 0;
+  background: var(--white); border-top: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 9998;
+  max-height: calc(100vh - var(--header-h)); overflow-y: auto;
+}
+#drawer.open { display: block; }
+.drawer { padding: 20px 24px; }
+.home-link { display: block; padding: 14px 0; font-weight: 700; font-size: 1rem; color: var(--plum); border-bottom: 1px solid var(--border); margin-bottom: 8px; min-height: 44px; display: flex; align-items: center; }
+.drawer details { border-top: 1px solid var(--border); padding: 8px 0; }
+.drawer summary { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-weight: 700; cursor: pointer; list-style: none; min-height: 44px; }
+.drawer summary::-webkit-details-marker { display: none; }
+.drawer summary::after { content: '›'; font-size: 20px; transition: transform 0.2s; }
+.drawer details[open] summary::after { transform: rotate(90deg); }
+.drawer ul { list-style: none; padding: 8px 0 8px 16px; margin: 0; display: grid; gap: 10px; }
+.drawer a { color: var(--muted); font-size: 0.9375rem; padding: 10px 0; min-height: 44px; display: flex; align-items: center; }
+.drawer a:hover { color: var(--plum); }
+@media (min-width: 821px) { .main-nav { display: flex; } .burger { display: none; } #drawer { display: none !important; } }
+
+/* =========================
+   Hero (PRD 5.1)
+   ========================= */
+.hero {
+  width: 100%;
+  height: calc(100vh - var(--header-h));
+  position: relative;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Text below hero image */
+.hero-text {
+  width: 100%;
+  padding: 48px 24px 40px;
+  text-align: center;
+  background: var(--ivory);
+}
+@media (max-width: 768px) { .hero-text { padding: 32px 20px 36px; } }
+.hero-text h1 {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+.hero-text h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.hero-text .hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--muted);
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* =========================
+   Main Container
+   ========================= */
+.main-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+@media (max-width: 768px) { .main-wrap { padding: 0 20px 48px; } }
+
+/* Expert Content Blocks (PRD 5.2) */
+.expert-section {
+  margin-bottom: 48px;
+}
+@media (max-width: 768px) { .expert-section { margin-bottom: 40px; } }
+.expert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+@media (max-width: 768px) { .expert-grid { grid-template-columns: 1fr; } }
+.expert-card {
+  background: var(--white);
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--gold);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.expert-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+.expert-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 16px;
+  border: 4px solid var(--plum);
+}
+.expert-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.expert-title {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.4;
+  font-family: 'Inter', sans-serif;
+}
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 239, 232, 0.9);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--plum);
+}
+.badge-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Content Card (PRD 5.2) - Intro */
+.intro-callout {
+  background: var(--royal);
+  color: var(--white);
+  padding: 32px 32px 36px;
+  border-radius: var(--radius);
+  border: 2px solid var(--gold);
+  box-shadow: var(--shadow-gold);
+  margin-bottom: 48px;
+}
+@media (max-width: 768px) { .intro-callout { padding: 24px 20px 28px; margin-bottom: 40px; } }
+.intro-callout p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--white);
+}
+
+/* Content Card (PRD 5.2) - What You Get */
+.content-card {
+  background: var(--white);
+  padding: 32px 32px 36px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--gold);
+}
+@media (max-width: 768px) { .content-card { padding: 24px 20px 28px; } }
+.content-card .card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+.content-card .card-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.7;
+  font-size: 17px;
+}
+.content-card .card-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 0.5em;
+}
+
+/* =========================
+   Footer (PRD)
+   ========================= */
+.site-footer {
+  background: var(--plum);
+  color: var(--white);
+  padding: 48px 24px 24px;
+  text-align: center;
+  border-top: 1px solid rgba(90, 30, 102, 0.5);
+}
+@media (max-width: 768px) { .site-footer { padding: 32px 20px 20px; } }
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+.site-footer small {
+  font-size: 0.9rem;
+  color: var(--white);
+}
+.site-footer a {
+  color: var(--white);
+  opacity: 0.9;
+}
+.site-footer a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+  
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header id="site-header">
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+      </a>
+
+      <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey" aria-haspopup="true" aria-expanded="false">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Menopause Assessment</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Stories -->
+        <a class="menu-trigger" href="/communitystories">Community Stories</a>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder&#39;s Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger"
+        type="button">&#9776;</button>
+    </div>
+    <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Menopause Assessment</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+        </ul>
+      </details>
+
+      <a href="/communitystories" class="home-link">Community Stories</a>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder&#39;s Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="Expert Guidance cover">
+    <img
+      class="hero-bg"
+      src="/public/coverphotos/expertguidancecover_landscape1920.jpg"
+      srcset="
+        /public/coverphotos/expertguidancecover_mobile820.jpg 820w,
+        /public/coverphotos/expertguidancecover_mobile1640.jpg 1640w,
+        /public/coverphotos/expertguidancecover_landscape1920.jpg 1920w,
+        /public/coverphotos/expertguidancecover_landscape2560.jpg 2560w,
+        /public/coverphotos/expertguidancecover_landscape3840.jpg 3840w
+      "
+      sizes="100vw"
+      alt="Expert Guidance"
+    />
+  </section>
+
+  <section class="hero-text" aria-label="Expert Guidance">
+    <h1>Expert Guidance</h1>
+    <p class="hero-sub">Real Experts. Real Answers. Connect with clinicians and menopause-savvy practitioners for personalized guidance and support.</p>
+  </section>
+
+  <main id="main-content" class="main-wrap">
+    <section class="expert-section" aria-labelledby="experts-heading">
+      <h2 id="experts-heading" class="sr-only">Our Experts</h2>
+      <div class="expert-grid">
+        <div class="expert-card">
+          <img src="/public/trustedexpert1.jpg" alt="Dr. Sarah Johnson" class="expert-photo" />
+          <div class="expert-name">Dr. Sarah Johnson</div>
+          <div class="expert-title">OB/GYN & Menopause Specialist</div>
+          <div class="trust-badges">
+            <div class="badge">
+              <div class="badge-icon"></div>
+              Board Certified
+            </div>
+            <div class="badge">
+              <div class="badge-icon"></div>
+              15+ Years
+            </div>
+          </div>
+        </div>
+        <div class="expert-card">
+          <img src="/public/trustedexpert2.jpg" alt="Dr. Maria Rodriguez" class="expert-photo" />
+          <div class="expert-name">Dr. Maria Rodriguez</div>
+          <div class="expert-title">Endocrinologist & Hormone Expert</div>
+          <div class="trust-badges">
+            <div class="badge">
+              <div class="badge-icon"></div>
+              Board Certified
+            </div>
+            <div class="badge">
+              <div class="badge-icon"></div>
+              12+ Years
+            </div>
+          </div>
+        </div>
+        <div class="expert-card">
+          <img src="/public/trustedexpert3.png" alt="Dr. Jennifer Chen" class="expert-photo" />
+          <div class="expert-name">Dr. Jennifer Chen</div>
+          <div class="expert-title">Integrative Medicine & Wellness</div>
+          <div class="trust-badges">
+            <div class="badge">
+              <div class="badge-icon"></div>
+              Board Certified
+            </div>
+            <div class="badge">
+              <div class="badge-icon"></div>
+              10+ Years
+            </div>
+          </div>
+        </div>
+        <div class="expert-card">
+          <img src="/public/smilingdoctor.jpg" alt="Dr. Amanda Williams" class="expert-photo" />
+          <div class="expert-name">Dr. Amanda Williams</div>
+          <div class="expert-title">Family Medicine & Women's Health</div>
+          <div class="trust-badges">
+            <div class="badge">
+              <div class="badge-icon"></div>
+              Board Certified
+            </div>
+            <div class="badge">
+              <div class="badge-icon"></div>
+              8+ Years
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro-callout">
+      <p>Empress Health.ai blends intelligent technology with human empathy to help women 35–65 navigate hormonal transitions with confidence. Our platform turns data into action—translating symptoms, habits, and goals into personalized protocols, expert guidance, and daily momentum.</p>
+    </section>
+
+    <section class="content-card" aria-labelledby="what-you-get-heading">
+      <h3 id="what-you-get-heading">What You Get:</h3>
+      <ul class="card-list">
+        <li><strong>On-demand Q&A via Ask Empress (AI concierge)</strong></li>
+        <li><strong>Bookable sessions with vetted experts</strong></li>
+        <li><strong>Care notes summarized into action steps</strong></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <small>© 2025 Empress Health. All Rights Reserved.</small>
+      <small><a href="#">Accessibility</a> · <a href="#">Cookies</a></small>
+    </div>
+  </footer>
+
+  <style>
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  </style>
+
+  <script>
+    (function(){
+      const header = document.getElementById('site-header');
+      function setHeaderH(){ document.documentElement.style.setProperty('--header-h', header ? header.offsetHeight + 'px' : '100px'); }
+      function onScroll(){ if (header) header.classList.toggle('is-stuck', window.scrollY > 6); }
+      setHeaderH(); onScroll();
+      window.addEventListener('resize', setHeaderH);
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+
+    (function(){
+      const burger = document.getElementById('burger');
+      const drawer = document.getElementById('drawer');
+      function toggleDrawer(open) {
+        if (!drawer || !burger) return;
+        drawer.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+      burger?.addEventListener('click', () => {
+        const isOpen = drawer?.classList.contains('open');
+        toggleDrawer(!isOpen);
+      });
+      drawer?.addEventListener('click', (e) => {
+        if (e.target instanceof HTMLElement && e.target.tagName === 'A') toggleDrawer(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer?.classList.contains('open')) toggleDrawer(false);
+      });
+      const mq = window.matchMedia('(min-width: 821px)');
+      mq.addEventListener('change', (e) => { if (e.matches) toggleDrawer(false); });
+    })();
+  </script>
+</body>
+</html>

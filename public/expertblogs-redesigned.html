@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Expert Insights · Empress Health</title>
+    <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Expert Insights · Empress Health" />
+  <meta property="og:description" content="Expert Insights · Empress Health — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/public/expertblogs-redesigned.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Expert Insights · Empress Health" />
+  <meta name="twitter:description" content="Expert Insights · Empress Health — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<meta name="description" content="Explore Empress Health blog posts — expert insights on menopause, wellness, and women's health." />
+  <style>
+    :root{
+      /* Modern Empress theme colors */
+      --bg: #0a0612;
+      --card: #ffffff;
+      --text: #2d1b3d;
+      --muted: #8b7d9b;
+      --brand: #7c4dff;
+      --brand-2: #f2c94c;
+      --accent: #ff6b9d;
+      --success: #4ecdc4;
+      --warning: #ffe66d;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --shadow-soft: 0 10px 40px rgba(0,0,0,0.1);
+      --shadow-medium: 0 20px 60px rgba(0,0,0,0.15);
+      --shadow-strong: 0 30px 80px rgba(0,0,0,0.2);
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+      --radius-xl: 48px;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html, body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(124, 77, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(242, 201, 76, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 107, 157, 0.05) 0%, transparent 50%);
+      z-index: -1;
+      animation: backgroundShift 20s ease-in-out infinite;
+    }
+
+    @keyframes backgroundShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--brand);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-1);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Main content */
+    .main {
+      margin-top: 80px;
+      min-height: calc(100vh - 80px);
+      padding: 4rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: var(--gradient-1);
+      color: white;
+      border-radius: var(--radius-xl);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Blog grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .blog-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .blog-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-1);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .blog-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .blog-card-header {
+      padding: 2rem 2rem 1rem;
+    }
+
+    .blog-card-category {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(124, 77, 255, 0.1);
+      color: var(--brand);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .blog-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .blog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .blog-card-date {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .blog-card-reading-time {
+      color: var(--muted);
+      font-size: 0.8rem;
+      background: rgba(139, 125, 155, 0.1);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .blog-card-excerpt {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .blog-card-footer {
+      padding: 1rem 2rem 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--brand);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: gap 0.3s ease;
+    }
+
+    .blog-card:hover .read-more {
+      gap: 0.75rem;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 6rem 2rem;
+      color: var(--muted);
+    }
+
+    .loading h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--brand);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+      margin-left: 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--card);
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+
+    .footer p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-up {
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .main {
+        padding: 2rem 1rem;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .blog-card-header,
+      .blog-card-footer {
+        padding: 1.5rem;
+      }
+
+      .blog-card-title {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/public/EmpressHealthlogo.png" alt="Empress Health"/>
+        <span>Empress Health</span>
+      </a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="expertblogs-mobile-fixed.html" class="nav-link">Blog</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="container">
+      <div class="hero fade-in">
+        <div class="hero-badge">Expert Insights</div>
+        <h1>Wellness & Health Blog</h1>
+        <p>Discover expert insights, practical tips, and evidence-based guidance for your menopause and wellness journey.</p>
+      </div>
+
+      <div id="loading" class="loading">
+        <h2>Loading Articles</h2>
+      </div>
+
+      <div id="blog-grid" class="blog-grid" style="display: none;">
+        <!-- Dynamic blog posts will be loaded here -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> Empress Health. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Dynamic blog loading
+    (function() {
+      const blogGrid = document.getElementById('blog-grid');
+      const loading = document.getElementById('loading');
+
+      // Fetch blogs.json
+      fetch('/public/blogs.json')
+        .then(response => response.json())
+        .then(data => {
+          // Clear loading message
+          loading.style.display = 'none';
+          
+          // Create blog cards
+          data.posts.forEach((post, index) => {
+            const blogCard = document.createElement('a');
+            blogCard.className = 'blog-card';
+            blogCard.href = `blog-redesigned.html?slug=${post.slug}`;
+            blogCard.style.animationDelay = `${index * 0.1}s`;
+            blogCard.classList.add('slide-up');
+            
+            // Calculate reading time
+            const wordCount = post.content.split(' ').length;
+            const readingTime = Math.ceil(wordCount / 200);
+            
+            blogCard.innerHTML = `
+              <div class="blog-card-header">
+                <div class="blog-card-category">Wellness</div>
+                <h3 class="blog-card-title">${post.title}</h3>
+                <div class="blog-card-meta">
+                  <span class="blog-card-date">${new Date(post.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}</span>
+                  <span class="blog-card-reading-time">${readingTime} min read</span>
+                </div>
+                <p class="blog-card-excerpt">${post.excerpt}</p>
+              </div>
+              <div class="blog-card-footer">
+                <span class="read-more">
+                  Read Article →
+                </span>
+              </div>
+            `;
+            
+            blogGrid.appendChild(blogCard);
+          });
+          
+          // Show the grid
+          blogGrid.style.display = 'grid';
+        })
+        .catch(error => {
+          console.error('Error loading blogs:', error);
+          loading.innerHTML = '<h2 style="color: #ff6b6b;">Error loading articles. Please try again later.</h2>';
+        });
+    })();
+  </script>
+</body>
+</html>

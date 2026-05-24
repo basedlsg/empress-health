@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1200" preserveAspectRatio="xMidYMid slice">
+  <!-- Empress Health report hero — 07 Recommended Products
+       Brand placeholder: product-bottle flatlay. -->
+  <defs>
+    <linearGradient id="bgProd" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4E5C8"/>
+      <stop offset="100%" stop-color="#E0CFA8"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8A738"/>
+      <stop offset="100%" stop-color="#A07A2A"/>
+    </linearGradient>
+    <linearGradient id="plumGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4b2577"/>
+      <stop offset="100%" stop-color="#3f1449"/>
+    </linearGradient>
+  </defs>
+  <rect width="1800" height="1200" fill="url(#bgProd)"/>
+  <!-- Surface line -->
+  <line x1="120" y1="900" x2="1680" y2="900" stroke="#3f1449" stroke-opacity="0.18" stroke-width="2"/>
+  <!-- Soft scatter texture -->
+  <g fill="#3f1449" opacity="0.06">
+    <circle cx="200" cy="200" r="6"/>
+    <circle cx="1500" cy="240" r="5"/>
+    <circle cx="240" cy="1000" r="4"/>
+    <circle cx="1620" cy="980" r="5"/>
+  </g>
+  <!-- Bottle 1 — amber serum -->
+  <g transform="translate(420 380)">
+    <ellipse cx="100" cy="540" rx="120" ry="20" fill="#3f1449" opacity="0.18"/>
+    <rect x="60" y="80" width="80" height="40" fill="#3f1449" rx="6"/>
+    <path d="M70 120 L130 120 L160 200 L40 200 Z" fill="url(#amber)"/>
+    <rect x="40" y="200" width="120" height="340" rx="14" fill="url(#amber)" stroke="#3f1449" stroke-opacity="0.4" stroke-width="2"/>
+    <rect x="60" y="320" width="80" height="120" rx="8" fill="#fffaf1" opacity="0.95"/>
+    <g font-family="'Poppins', system-ui, sans-serif" text-anchor="middle">
+      <text x="100" y="360" font-size="13" font-weight="700" letter-spacing="2" fill="#3f1449">EMPRESS</text>
+      <text x="100" y="384" font-size="11" font-weight="700" letter-spacing="2" fill="#3f1449">ANTI-AGING</text>
+      <text x="100" y="404" font-size="9" letter-spacing="2" fill="#3f1449" fill-opacity="0.6">SERUM</text>
+      <text x="100" y="424" font-size="8" letter-spacing="2" fill="#C0392B">01</text>
+    </g>
+  </g>
+  <!-- Bottle 2 — plum tall slim -->
+  <g transform="translate(720 320)">
+    <ellipse cx="100" cy="600" rx="130" ry="22" fill="#3f1449" opacity="0.18"/>
+    <rect x="80" y="40" width="40" height="50" rx="6" fill="#D8A738"/>
+    <rect x="60" y="90" width="80" height="20" rx="4" fill="url(#plumGrad)"/>
+    <rect x="40" y="110" width="120" height="490" rx="14" fill="url(#plumGrad)" stroke="#fffaf1" stroke-opacity="0.2" stroke-width="2"/>
+    <rect x="60" y="260" width="80" height="180" rx="8" fill="#fffaf1" opacity="0.9"/>
+    <g font-family="'Poppins', system-ui, sans-serif" text-anchor="middle">
+      <text x="100" y="300" font-size="13" font-weight="700" letter-spacing="2" fill="#3f1449">EMPRESS</text>
+      <text x="100" y="328" font-size="11" font-weight="700" letter-spacing="2" fill="#3f1449">RELAXING</text>
+      <text x="100" y="348" font-size="11" font-weight="700" letter-spacing="2" fill="#3f1449">BODY OIL</text>
+      <text x="100" y="382" font-size="9" letter-spacing="2" fill="#3f1449" fill-opacity="0.6">100 ML</text>
+      <text x="100" y="408" font-size="8" letter-spacing="2" fill="#C0392B">02</text>
+    </g>
+  </g>
+  <!-- Bottle 3 — squat jar, ivory -->
+  <g transform="translate(1020 460)">
+    <ellipse cx="100" cy="460" rx="130" ry="22" fill="#3f1449" opacity="0.18"/>
+    <rect x="20" y="60" width="160" height="40" rx="8" fill="url(#amber)"/>
+    <rect x="10" y="100" width="180" height="360" rx="14" fill="#fffaf1" stroke="#3f1449" stroke-opacity="0.3" stroke-width="2"/>
+    <rect x="40" y="180" width="120" height="180" rx="8" fill="url(#amber)" opacity="0.18"/>
+    <g font-family="'Poppins', system-ui, sans-serif" text-anchor="middle">
+      <text x="100" y="220" font-size="14" font-weight="700" letter-spacing="2" fill="#3f1449">MAGNESIUM</text>
+      <text x="100" y="246" font-size="12" font-weight="700" letter-spacing="2" fill="#3f1449">GLYCINATE</text>
+      <text x="100" y="278" font-size="11" letter-spacing="2" fill="#3f1449" fill-opacity="0.6">300–400 MG</text>
+      <text x="100" y="320" font-size="9" letter-spacing="2" fill="#3f1449" fill-opacity="0.45">60 CAPSULES</text>
+      <text x="100" y="346" font-size="9" letter-spacing="2" fill="#C0392B">03</text>
+    </g>
+  </g>
+  <!-- Bottle 4 — slim supplement tube -->
+  <g transform="translate(1320 380)">
+    <ellipse cx="80" cy="540" rx="110" ry="20" fill="#3f1449" opacity="0.18"/>
+    <rect x="60" y="60" width="40" height="40" rx="5" fill="#3f1449"/>
+    <rect x="30" y="100" width="100" height="440" rx="14" fill="#fffaf1" stroke="#3f1449" stroke-opacity="0.3" stroke-width="2"/>
+    <rect x="50" y="180" width="60" height="240" rx="6" fill="#27AE60" opacity="0.18"/>
+    <g font-family="'Poppins', system-ui, sans-serif" text-anchor="middle">
+      <text x="80" y="220" font-size="12" font-weight="700" letter-spacing="2" fill="#3f1449">VITAMIN D3</text>
+      <text x="80" y="246" font-size="12" font-weight="700" letter-spacing="2" fill="#3f1449">+ K2</text>
+      <text x="80" y="284" font-size="10" letter-spacing="2" fill="#3f1449" fill-opacity="0.6">2000 IU</text>
+      <text x="80" y="318" font-size="8" letter-spacing="2" fill="#C0392B">04</text>
+    </g>
+  </g>
+  <!-- Small leaves / botanical accents -->
+  <g stroke="#27AE60" stroke-width="3" fill="#27AE60">
+    <path d="M340 880 q40 -30 80 -10 q-30 30 -80 10 z" opacity="0.7"/>
+    <path d="M1480 880 q-40 -30 -80 -10 q30 30 80 10 z" opacity="0.6"/>
+  </g>
+  <g transform="translate(140 1080)" font-family="'Poppins', system-ui, sans-serif">
+    <text font-size="22" font-weight="700" letter-spacing="4" fill="#3f1449" fill-opacity="0.45">EMPRESS HEALTH · RECOMMENDED PRODUCTS</text>
+  </g>
+</svg>

@@ -1,0 +1,45 @@
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Build and report artifacts
+artifacts/
+prds/dist/
+*.log
+
+# Dev artifact dumps
+build_out*.txt
+status.txt
+screenshot-*.png
+*-screenshot.png
+*_snap.png
+
+# Project specific ignores
+tsconfig.json
+shopify.ts
+
+# Large or unnecessary public files
+public/*.zip
+public/**/*.zip
+public/Canva AI - Canva_files/
+public/Canva AI - Canva.html
+# Scraped third-party blog content (NatGeo etc.) — not Empress source
+public/blogs/blogsymptoms_files/
+public/blogs/*.zip
+
+# Snapshot screenshots can rebuild via `npm run design:snapshot`
+# (leaving them in the repo so Claude Design sees the visual ground truth)
+# Uncomment to exclude:
+# design-references/screenshots/*.png
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.cursor/
+.vscode/

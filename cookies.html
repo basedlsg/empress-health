@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cookie Policy | Empress Health</title>
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Cookie Policy | Empress Health" />
+  <meta property="og:description" content="How Empress Health uses cookies and similar technologies." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta name="description" content="How Empress Health uses cookies and similar technologies." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1520;
+      --muted: #5c5668;
+      --primary: #3F1449;
+      --primary-600: #4b2577;
+      --accent: #D8A738;
+      --border: rgba(0,0,0,.1);
+      --bg: #ffffff;
+      --bg-soft: #f8f7f5;
+      --header-h: 100px;
+      --radius-lg: 16px;
+      --shadow: 0 8px 24px rgba(0,0,0,.06);
+      --space-6: 48px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      padding-top: var(--header-h);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute; top: -100px; left: 24px; padding: 12px 16px;
+      background: var(--primary); color: #fff; font-weight: 600; z-index: 9999; transition: top 0.2s;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .container { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: 1rem; }
+
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: transparent; border-bottom: 2px solid transparent;
+      transition: box-shadow .2s ease, backdrop-filter .2s ease, background-color .2s ease;
+    }
+    header#site-header.is-stuck {
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      backdrop-filter: saturate(120%) blur(6px);
+      background: rgba(255,255,255,0.85);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: .5rem 0; }
+    @media (min-width: 821px) { .nav { justify-content: center; gap: 40px; } }
+    .brand { display: flex; align-items: center; gap: .6rem; }
+    .brand-logo { height: clamp(56px, 7vw, 80px); }
+    .main-nav { display: none; align-items: center; gap: 18px; }
+    .menu-trigger {
+      background: transparent; border: 0; cursor: pointer; font-weight: 700;
+      color: var(--ink); padding: .6rem .5rem; border-radius: 10px; white-space: nowrap;
+    }
+    .burger {
+      width: 52px; height: 52px; border-radius: 14px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+      display: grid; place-items: center; cursor: pointer; font-size: 28px;
+    }
+    #drawer {
+      display: none; position: fixed; top: var(--header-h); left: 0; right: 0;
+      background: #fff; border-top: 2px solid #f2eefc;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1); z-index: 9998;
+      max-height: calc(100svh - var(--header-h)); overflow-y: auto;
+    }
+    #drawer.open { display: block; }
+    .drawer { padding: 20px; }
+    .drawer details { border-top: 1px solid var(--border); padding: 6px 0; }
+    .drawer summary {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      padding: 10px 6px; font-weight: 700; cursor: pointer; list-style: none;
+    }
+    .drawer summary::-webkit-details-marker { display: none; }
+    .drawer ul { list-style: none; padding-left: 10px; margin: 6px 0 12px; display: grid; gap: 8px; }
+    .drawer a { color: var(--ink); }
+    .home-link { display: block; padding: 14px 0; font-weight: 700; font-size: 1rem; color: var(--primary); border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+    @media (max-width: 820px) {
+      :root { --header-h: 80px; }
+      .main-nav { display: none !important; }
+      .burger { display: grid !important; }
+    }
+    @media (min-width: 821px) {
+      :root { --header-h: 100px; }
+      header#site-header { height: var(--header-h); background: #efe1d3; border-bottom: 1px solid var(--border); }
+      body { padding-top: var(--header-h) !important; }
+      .main-nav { display: flex; }
+      .burger { display: none; }
+      #drawer { display: none !important; }
+    }
+
+    .page-wrap { max-width: 960px; margin: 0 auto; padding: 48px 24px 64px; }
+    .page-wrap h1 { font-size: 32px; font-weight: 700; color: var(--ink); margin: 0 0 24px; }
+    .page-wrap p { margin: 0 0 16px; }
+
+    footer.site-footer {
+      margin-top: 48px; background: var(--primary); color: #e6ddff;
+      padding: var(--space-6) 0; text-align: center;
+    }
+    footer.site-footer .footer-content { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    footer.site-footer .footer-content a { color: rgba(255,255,255,0.9); }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header id="site-header">
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth" />
+      </a>
+      <nav class="links main-nav" aria-label="Primary">
+        <a class="menu-trigger" href="/">Home</a>
+        <a class="menu-trigger" href="/howitworks">Our Program</a>
+        <a class="menu-trigger" href="/membershipsurvey">Get your Health Assessment</a>
+        <a class="menu-trigger" href="/bundlesandkits">Curated Marketplace</a>
+        <a class="menu-trigger" href="/expertblogs">Education</a>
+        <a class="menu-trigger" href="/ourstory">About Us</a>
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger" type="button">&#9776;</button>
+    </div>
+
+    <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+      <a href="/howitworks" class="home-link">Our Program</a>
+      <a href="/membershipsurvey" class="home-link">Get your Health Assessment</a>
+      <a href="/bundlesandkits" class="home-link">Curated Marketplace</a>
+      <a href="/expertblogs" class="home-link">Education</a>
+      <a href="/ourstory" class="home-link">About Us</a>
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="page-wrap">
+      <nav aria-label="Breadcrumb" style="font-size:14px;color:var(--muted);margin-bottom:16px;">
+        <a href="/" style="color:var(--muted)">Home</a> / Cookie Policy
+      </nav>
+      <h1>Cookie Policy</h1>
+      <p>Empress Health uses cookies and similar technologies to provide core platform functionality, remember your preferences, and understand how our site is used so we can continue to improve it.</p>
+      <p>You can control or disable cookies at any time through your browser settings. Disabling certain cookies may affect the functionality of some features on this site.</p>
+      <p>For questions about how we use cookies, please contact us at <a href="mailto:support@empresshealth.ai">support@empresshealth.ai</a>. A full cookie policy is coming soon.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <small>&copy; 2025 Empress Health. All Rights Reserved.</small>
+        <small><a href="/accessibility">Accessibility</a> &middot; <a href="/cookies">Cookies</a> &middot; <a href="/privacypolicy">Privacy</a></small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var header = document.getElementById('site-header');
+    if (header) {
+      var upd = function() {
+        var isDesktop = window.innerWidth >= 821;
+        document.documentElement.style.setProperty('--header-h', isDesktop ? Math.ceil(header.getBoundingClientRect().height) + 'px' : '80px');
+        header.classList.toggle('is-stuck', window.scrollY > 6);
+      };
+      window.addEventListener('resize', upd, { passive: true });
+      window.addEventListener('scroll', upd, { passive: true });
+      window.addEventListener('load', upd);
+      upd();
+    }
+    var burger = document.getElementById('burger');
+    var drawer = document.getElementById('drawer');
+    function toggleDrawer(open) {
+      if (!drawer || !burger) return;
+      drawer.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    burger && burger.addEventListener('click', function() { toggleDrawer(!drawer.classList.contains('open')); });
+    drawer && drawer.addEventListener('click', function(e) { if (e.target.tagName === 'A') toggleDrawer(false); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && drawer && drawer.classList.contains('open')) toggleDrawer(false); });
+    window.matchMedia('(min-width: 821px)').addEventListener('change', function(e) { if (e.matches) toggleDrawer(false); });
+  </script>
+</body>
+</html>

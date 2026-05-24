@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1200" preserveAspectRatio="xMidYMid slice">
+  <!-- Empress Health report hero — 03 Top Priority Areas
+       Brand placeholder. Anatomy silhouette with three priority callouts. -->
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4E5C8"/>
+      <stop offset="100%" stop-color="#EBD9B3"/>
+    </linearGradient>
+    <radialGradient id="hl" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0%" stop-color="#C0392B" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#C0392B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1800" height="1200" fill="url(#bg3)"/>
+  <!-- Body silhouette, simplified -->
+  <g transform="translate(900 600)" stroke="#3f1449" stroke-width="3" fill="none">
+    <!-- head -->
+    <ellipse cx="0" cy="-380" rx="62" ry="78" fill="#fffaf1" fill-opacity="0.55"/>
+    <!-- neck -->
+    <path d="M-22 -302 L-22 -270 L22 -270 L22 -302"/>
+    <!-- torso -->
+    <path d="M-110 -260 Q-130 -120 -90 60 L-30 220 L30 220 L90 60 Q130 -120 110 -260 Z" fill="#fffaf1" fill-opacity="0.55"/>
+    <!-- arms -->
+    <path d="M-110 -250 Q-180 -120 -200 80" stroke-linecap="round"/>
+    <path d="M110 -250 Q180 -120 200 80" stroke-linecap="round"/>
+    <!-- legs -->
+    <path d="M-30 220 L-50 480" stroke-linecap="round"/>
+    <path d="M30 220 L50 480" stroke-linecap="round"/>
+    <!-- center line -->
+    <line x1="0" y1="-270" x2="0" y2="220" stroke-dasharray="2 8" stroke-opacity="0.4"/>
+  </g>
+  <!-- Priority hotspots -->
+  <g>
+    <!-- Brain / head -->
+    <circle cx="900" cy="220" r="64" fill="url(#hl)"/>
+    <circle cx="900" cy="220" r="22" fill="#C0392B"/>
+    <!-- Chest / vasomotor -->
+    <circle cx="900" cy="500" r="72" fill="url(#hl)"/>
+    <circle cx="900" cy="500" r="22" fill="#C0392B"/>
+    <!-- Pelvis / GSM -->
+    <circle cx="900" cy="780" r="68" fill="url(#hl)"/>
+    <circle cx="900" cy="780" r="22" fill="#C0392B"/>
+  </g>
+  <!-- Callout labels with connecting lines -->
+  <g font-family="'Poppins', system-ui, sans-serif" stroke="#3f1449" stroke-width="2" fill="#fffaf1">
+    <!-- Cognitive callout -->
+    <line x1="922" y1="220" x2="1280" y2="180" stroke-opacity="0.65"/>
+    <rect x="1280" y="148" width="320" height="74" rx="14" stroke="#3f1449" stroke-width="2"/>
+    <text x="1300" y="184" font-size="20" font-weight="700" letter-spacing="2" fill="#C0392B" stroke="none">PRIORITY · 5/100</text>
+    <text x="1300" y="208" font-size="22" font-weight="700" fill="#3f1449" stroke="none">Cognitive Function</text>
+    <!-- Vasomotor callout -->
+    <line x1="922" y1="500" x2="1280" y2="500" stroke-opacity="0.65"/>
+    <rect x="1280" y="468" width="320" height="74" rx="14" stroke="#3f1449" stroke-width="2"/>
+    <text x="1300" y="504" font-size="20" font-weight="700" letter-spacing="2" fill="#C0392B" stroke="none">PRIORITY · 12/100</text>
+    <text x="1300" y="528" font-size="22" font-weight="700" fill="#3f1449" stroke="none">Vasomotor &amp; Temperature</text>
+    <!-- GSM callout -->
+    <line x1="922" y1="780" x2="1280" y2="820" stroke-opacity="0.65"/>
+    <rect x="1280" y="788" width="320" height="74" rx="14" stroke="#3f1449" stroke-width="2"/>
+    <text x="1300" y="824" font-size="20" font-weight="700" letter-spacing="2" fill="#C0392B" stroke="none">PRIORITY · 3/100</text>
+    <text x="1300" y="848" font-size="22" font-weight="700" fill="#3f1449" stroke="none">Genitourinary &amp; Sexual</text>
+  </g>
+  <g transform="translate(140 1080)" font-family="'Poppins', system-ui, sans-serif">
+    <text font-size="22" font-weight="700" letter-spacing="4" fill="#3f1449" fill-opacity="0.45">EMPRESS HEALTH · TOP PRIORITY AREAS</text>
+  </g>
+</svg>

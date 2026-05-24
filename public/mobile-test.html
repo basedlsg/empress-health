@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+  <title>Mobile Test - Empress Health</title>
+    <meta name="description" content="Mobile Test - Empress Health — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Mobile Test - Empress Health" />
+  <meta property="og:description" content="Mobile Test - Empress Health — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/public/mobile-test.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mobile Test - Empress Health" />
+  <meta name="twitter:description" content="Mobile Test - Empress Health — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<style>
+    :root{
+      --bg:#fffaf1; --ink:#1f1b2d; --muted:#6e6a7a; --soft:#faf8ff;
+      --primary:#3f1449; --primary-600:#4b2577; --accent:#9a653e; --border:#ececf1;
+      --shadow:0 10px 30px rgba(16,16,32,.08); --radius:18px; --header-h:64px;
+      --space-1:8px; --space-2:12px; --space-3:16px; --space-4:24px; --space-5:32px; --space-6:48px;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body {
+      font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    
+    body { padding-top: 100px; }
+    
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: #efe1d3;
+      border-bottom: 2px solid #f2eefc;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+    
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    
+    .brand-logo {
+      height: 50px;
+    }
+    
+    .burger {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 28px;
+    }
+    
+    /* Mobile Menu */
+    #drawer {
+      display: none;
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fff;
+      border-top: 2px solid #f2eefc;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+      z-index: 10000;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    #drawer.open {
+      display: block;
+    }
+    
+    .nav-dim {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .nav-dim.show {
+      opacity: 1;
+    }
+    
+    .nav-dim[hidden] {
+      display: none !important;
+    }
+    
+    /* Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    
+    .intro {
+      padding: 20px 0;
+      text-align: center;
+    }
+    
+    .intro h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 16px;
+    }
+    
+    .intro .lead {
+      font-size: 16px;
+      color: var(--muted);
+      margin: 0 0 40px;
+    }
+    
+    /* Blog Grid */
+    .blog-track {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 0;
+    }
+    
+    .blog-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      transition: transform 0.2s ease;
+    }
+    
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    }
+    
+    .blog-content {
+      padding: 1.5rem;
+    }
+    
+    .blog-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      color: var(--ink);
+    }
+    
+    .blog-date {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0 0 1rem;
+    }
+    
+    .blog-excerpt {
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+    
+    /* Desktop */
+    @media (min-width: 768px) {
+      .blog-track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+      .intro h2 {
+        font-size: 32px;
+      }
+      .intro {
+        padding: 40px 0;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .blog-track {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    
+    /* Footer */
+    footer {
+      padding: 26px 16px 48px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+  
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="nav">
+      <div class="brand">
+        <img src="/public/EmpressHealthlogo.png" alt="Empress Health" class="brand-logo"/>
+        <span>Empress Health</span>
+      </div>
+      <button class="burger" aria-label="Open menu" id="burger">☰</button>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="nav-dim" id="nav-dim" hidden></div>
+  <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+    <a href="/" class="home-link">Home</a>
+    <a href="/public/expertblogs.html">Blog</a>
+    <a href="/public/events.html">Events</a>
+    <a href="/public/contact.html">Contact</a>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container intro">
+    <h2>Mobile Test Page</h2>
+    <p class="lead">This page tests mobile functionality. Try the menu button and blog loading.</p>
+    
+    <div class="blog-track" id="blog-track">
+      <div id="loading" style="text-align: center; color: var(--muted); padding: 2rem;">
+        <p>Loading blog posts...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Empress. All rights reserved.
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Navigation functionality
+    (function(){
+      const burger = document.getElementById('burger');
+      const drawer = document.getElementById('drawer');
+      const navDim = document.getElementById('nav-dim');
+
+      function toggleDrawer(open) {
+        if (!drawer || !burger) return;
+        drawer.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        if (navDim) {
+          navDim.hidden = !open;
+          navDim.classList.toggle('show', open);
+        }
+        document.body.style.overflow = open ? 'hidden' : '';
+        document.body.style.position = open ? 'fixed' : '';
+        document.body.style.width = open ? '100%' : '';
+      }
+
+      if (burger) {
+        burger.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isOpen = drawer.classList.contains('open');
+          toggleDrawer(!isOpen);
+        });
+      }
+
+      navDim?.addEventListener('click', () => toggleDrawer(false));
+
+      // Close drawer on link click
+      drawer?.addEventListener('click', (e) => {
+        if (e.target instanceof HTMLElement && e.target.tagName === 'A') {
+          toggleDrawer(false);
+        }
+      });
+
+      // Close drawer on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer?.classList.contains('open')) {
+          toggleDrawer(false);
+        }
+      });
+    })();
+
+    // Dynamic blog loading
+    (function() {
+      const blogTrack = document.getElementById('blog-track');
+      const loading = document.getElementById('loading');
+
+      // Fetch blogs.json
+      fetch('/public/blogs.json')
+        .then(response => response.json())
+        .then(data => {
+          // Clear loading message
+          loading.style.display = 'none';
+          
+          // Create blog cards
+          data.posts.forEach(post => {
+            const blogCard = document.createElement('a');
+            blogCard.className = 'blog-card';
+            blogCard.href = `/public/blog.html?slug=${post.slug}`;
+            
+            blogCard.innerHTML = `
+              <div class="blog-content">
+                <h3 class="blog-title">${post.title}</h3>
+                <p class="blog-date">${new Date(post.date).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}</p>
+                <p class="blog-excerpt">${post.excerpt}</p>
+              </div>
+            `;
+            
+            blogTrack.appendChild(blogCard);
+          });
+        })
+        .catch(error => {
+          console.error('Error loading blogs:', error);
+          loading.innerHTML = '<p style="color: #ff6b6b;">Error loading blog posts. Please try again later.</p>';
+        });
+    })();
+  </script>
+</body>
+</html>
+

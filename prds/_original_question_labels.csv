@@ -1,0 +1,121 @@
+id,shortLabel,original_0_label_was,original_10_label_was
+1,HOT FLASH FREQUENCY,Never,10+ times/day
+2,HOT FLASH SEVERITY,None,Disabling
+3,NIGHT SWEAT FREQUENCY,Never,Every night
+4,HOT FLASH DURATION,Under 1 min,Over 5 minutes
+5,PALPITATIONS DURING FLASHES,Never,Every flash
+6,CHILLS AFTER FLASH,Never,Every flash
+7,COLD HANDS & FEET,No change,Constantly cold
+8,HEAT INTOLERANCE,No change,Cannot tolerate normal temperatures
+9,ALCOHOL AS FLASH TRIGGER,No effect,Always triggers
+10,STRESS-TRIGGERED FLASHES,No connection,Every stressful moment
+11,CAFFEINE AS FLASH TRIGGER,No effect,Any caffeine triggers immediately
+12,FACIAL FLUSHING,Never,Daily persistent redness
+13,SLEEP ONSET LATENCY,Under 15 mins,Over 2 hours
+14,NIGHT WAKINGS FREQUENCY,None,Cannot count
+15,2–4AM WAKING PATTERN,Never,Every single night
+16,WIRED-BUT-TIRED PARADOX,Never,Every night
+17,SLEEP SATISFACTION ON WAKING,Fully rested,Exhausted — as if I never slept
+18,MORNING BODY LAG,Within 15 mins,Never functional until afternoon
+19,DREAM INTENSITY & NIGHTMARES,No change,Nightly nightmares
+20,RESTLESS LEGS AT NIGHT,Never,"Every night, severely disrupts sleep"
+21,SLEEP ENVIRONMENT SENSITIVITY,No change,Any minor disruption wakes me
+22,DAYTIME SLEEPINESS,Rarely,Constant debilitating sleepiness
+23,NAP DEPENDENCY,Never nap,Daily nap non-negotiable
+24,WORD-FINDING DIFFICULTY,Never,Impacts every conversation
+25,SHORT-TERM MEMORY LAPSES,Occasional/Normal,Severe and frightening
+26,CONCENTRATION SPAN,45+ mins as before,Under 5 mins
+27,MENTAL PROCESSING SPEED,No change,"Significantly slower, affects work daily"
+28,SPATIAL MEMORY LOSS,No more than before,Multiple times per day
+29,MULTI-TASKING CAPACITY,No change,Can barely manage one task
+30,DECISION FATIGUE,Not at all,Simple decisions feel paralyzing
+31,READING RE-READING,Never,Almost every time I try to read
+32,MENTAL CLARITY ON WAKING,Within 30 mins,Never feels clear all day
+33,NUMBER & CALCULATION DIFFICULTY,No change,Significant new difficulty
+34,PROFESSIONAL CONFIDENCE DECLINE,No change,Considering stepping back
+35,MENTAL ENDURANCE,Full day as before,Under 1 hour before shutdown
+36,BASELINE ANXIETY LEVEL,None,Severe near-constant dread
+37,FEELING OF DREAD OR DOOM,Never,"Daily, specifically upon waking"
+38,IRRITABILITY THRESHOLD,No change,Hair-trigger irritability constantly
+39,RAGE EPISODES,Never,Weekly explosive episodes
+40,EMOTIONAL VOLATILITY,Emotionally stable,Severe unpredictable swings every day
+41,DEPRESSIVE EPISODES,None,"Severe, impairs all functioning"
+42,EMOTIONAL NUMBNESS,Fully emotionally present,"Persistent flatness, disconnected"
+43,PANIC ATTACKS,Never,Weekly or more frequently
+44,AFTERNOON LOW / FLAT SPELL,No pattern,Every afternoon 2–5pm feels dark
+45,LOSS OF MOTIVATION / DRIVE,No change,Complete motivational flatness
+46,CRYING EASILY / TEARFULNESS,No change,"Crying multiple times daily, unprovoked"
+47,SOCIAL WITHDRAWAL,No change,Significant self-imposed isolation
+48,IDENTITY DISCONNECTION,I recognise myself fully,I have completely lost who I was
+49,UNEXPLAINED WEIGHT GAIN,No change,Over 20 lbs despite no lifestyle change
+50,ABDOMINAL BLOATING,No change,"Daily severe bloating, visible distension"
+51,SUGAR & CARB CRAVINGS,No change,Intense hard-to-resist cravings daily
+52,LOSS OF MUSCLE TONE,No change,Significant visible muscle loss
+53,INABILITY TO LOSE WEIGHT,Normal response,Complete resistance — nothing moves
+54,ENERGY CRASHES AFTER EATING,No effect,Every carb meal causes hours-long crash
+55,FLUID RETENTION / PUFFINESS,No change,"Daily puffiness, visible and uncomfortable"
+56,INCREASED HUNGER,Normal appetite,Constant hunger regardless of how much I eat
+57,WAIST CIRCUMFERENCE CHANGE,No change,Over 4 inches increase
+58,EXERCISE INTOLERANCE,No change,Exercise leaves me bedridden for 1–2 days
+59,AFTERNOON ENERGY COLLAPSE,Normal afternoon energy,2–4pm is a total write-off every day
+60,PERCEIVED METABOLIC SLOWDOWN,No perceived change,Metabolism seems to have completely stopped
+61,HAIR SHEDDING / THINNING,No change,Severe visible thinning
+62,HAIR TEXTURE CHANGE,No change,Dramatic texture deterioration
+63,EYEBROW THINNING,No change,Significant visible thinning
+64,SKIN DRYNESS,No change,Constant severe dryness
+65,LOSS OF SKIN ELASTICITY,No change,Dramatic accelerated sagging
+66,THIN / CREPEY SKIN,No change,Severe widespread crepiness
+67,ADULT ACNE / BREAKOUTS,None,Severe ongoing breakouts
+68,FACIAL HAIR GROWTH,No change,Significant coarse hair growth
+69,NAIL BRITTLENESS,No change,Constant splitting and breakage
+70,BRUISING / SKIN FRAGILITY,No change,Constant bruising and skin fragility
+71,WOUND HEALING SLOWDOWN,No change,Extremely delayed healing
+72,ITCHING / CRAWLING SKIN,Never,Daily severe symptoms
+73,JOINT PAIN / STIFFNESS,None,Severe daily pain in multiple joints
+74,MORNING STIFFNESS DURATION,None,Over 2 hours
+75,MUSCLE ACHES / HEAVINESS,Never,Constant and debilitating
+76,LOSS OF STRENGTH,No change,Dramatic strength loss
+77,EXERCISE RECOVERY PAIN,Normal recovery,Recovery takes many days
+78,FOOT / HEEL PAIN,None,Severe daily pain walking
+79,SHOULDER / NECK TENSION,No change,Constant severe tension/pain
+80,LOWER BACK / HIP PAIN,No change,Severe daily pain
+81,GRIP STRENGTH DECLINE,No change,Severe noticeable weakness
+82,BODY FRAILTY FEELING,Never,Constantly feel physically fragile
+83,HEIGHT / POSTURE CHANGE,No change,Definite posture collapse / height loss
+84,FEAR OF FUTURE FRACTURE,Not concerned,Deeply concerned and often think about it
+85,VAGINAL DRYNESS,No change,Severe daily dryness
+86,PAIN WITH INTERCOURSE,None,Intercourse not possible due to pain
+87,LOSS OF LIBIDO,No change,Complete loss of desire
+88,REDUCED AROUSAL RESPONSE,No change,Arousal response almost absent
+89,ORGASM CHANGES,No change,Major loss of orgasm function
+90,BLADDER URGENCY,Never,Frequent urgent near-accidents
+91,URINARY FREQUENCY,No change,Constant frequent urination
+92,RECURRENT UTIs / IRRITATION,Never,Recurrent / ongoing problem
+93,STRESS INCONTINENCE,Never,Frequent / severe leakage
+94,NOCTURIA,Never,Multiple times every night
+95,GENITAL DISCOMFORT / IRRITATION,Never,Severe daily discomfort
+96,IMPACT ON RELATIONSHIPS / SELF-IMAGE,Not at all,Profound emotional impact
+97,BASELINE ENERGY LEVEL,No meaningful loss,Energy feels almost completely gone
+98,STAIRS / EXERTION TOLERANCE,No change,Significantly breathless from mild exertion
+99,HEART PALPITATIONS,Never,Daily / disruptive
+100,DIZZINESS / LIGHTHEADEDNESS,Never,Frequent / interferes with daily life
+101,AFTERNOON ENERGY DROP,No pattern,Severe daily collapse
+102,EXHAUSTION DESPITE REST,Rarely,Constantly exhausted regardless of rest
+103,BODY BATTERY RECOVERY,Recovers normally,Barely recovers at all
+104,SHORTNESS OF BREATH AWARENESS,No change,Frequent unexplained breathlessness
+105,EXERCISE HEART RATE RESPONSE,Feels normal,Very abnormal / concerning
+106,HEAVY LIMBS / BODY DRAG,Never,Daily severe heaviness
+107,BLOOD PRESSURE / FLUSHING SWINGS,Never,Frequent intense episodes
+108,CAPACITY FOR FULL DAY,"Yes, fully",No — body crashes before day ends
+109,ALCOHOL TOLERANCE DECLINE,No change,Even 1 drink causes major symptoms
+110,HANGOVER / RECOVERY INTENSITY,No effect,Severe reaction every time
+111,BLOATED AFTER HEALTHY MEALS,Never,Almost every meal
+112,DIGESTIVE SLOWDOWN / CONSTIPATION,No change,Severe ongoing issue
+113,FOOD SENSITIVITY ESCALATION,No change,Many foods now trigger symptoms
+114,STRESS RECOVERY TIME,Recovers quickly,Stays activated for hours or all day
+115,MORNING RECOVERY FEELING,"Yes, reliably",No reset at all
+116,CAFFEINE TOLERANCE CHANGE,No change,Very reactive now
+117,HYDRATION / ELECTROLYTE DEPENDENCE,No change,Small dips hit me hard
+118,RESILIENCE TO BUSY DAYS,"Yes, easily",No — any full day wipes me out
+119,OVERALL SYSTEM INFLAMMATION FEEL,No change,Constantly inflamed / reactive
+120,LOSS OF PHYSIOLOGIC RESILIENCE,No decline,Bounce-back ability feels gone

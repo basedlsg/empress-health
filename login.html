@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log In — EmpressHealth</title>
+  <meta name="description" content="Log in to your Empress Health account to access your personalized menopause support, expert content, and your peri+ wellness toolkit." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Log In — EmpressHealth" />
+  <meta property="og:description" content="Log in to your Empress Health account." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/login" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Log In — EmpressHealth" />
+  <meta name="twitter:description" content="Log in to your Empress Health account." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #fffaf1; --ink: #1f1b2d; --muted: #6e6a7a; --soft: #faf8ff;
+      --primary: #3f1449; --primary-600: #4b2577; --accent: #9a653e; --border: #ececf1;
+      --shadow: 0 10px 30px rgba(16,16,32,.08); --radius: 18px;
+      --space-1: 8px; --space-2: 12px; --space-3: 16px; --space-4: 24px; --space-5: 32px; --space-6: 48px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: #fff;
+      background: #3F144A;
+      padding: var(--space-5) 0;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { width: min(480px, 100% - 2rem); margin-inline: auto; padding: var(--space-4); }
+
+    .logo-section { text-align: center; margin-bottom: var(--space-5); }
+    .logo-section img { height: clamp(80px, 10vw, 120px); margin: 0 auto var(--space-3); }
+    .logo-section h4 { margin: 0; font: 600 clamp(18px,4vw,24px)/1.3 Poppins,Inter,sans-serif; color: #fff; }
+
+    h1 { margin: 0 0 .4rem; font: 800 clamp(28px,6vw,40px)/1.1 Poppins,Inter,sans-serif; text-align: center; color: #fff; }
+    p.lead { max-width: 700px; margin: .5rem auto 2rem; color: rgba(255,255,255,0.8); text-align: center; font-size: clamp(14px,3.6vw,16px); }
+
+    .login-container {
+      background: #472052; border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: var(--space-5); margin: var(--space-4) 0;
+    }
+
+    .form-group { margin-bottom: var(--space-4); }
+    .form-group label { display: block; margin-bottom: var(--space-2); font-weight: 600; color: #fff; font-size: 16px; }
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+      width: 100%; padding: 12px 16px; border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 12px; font-size: 16px; font-family: inherit;
+      transition: border-color 0.2s ease;
+      background: rgba(255,255,255,0.1); color: #fff;
+    }
+    .form-group input::placeholder { color: rgba(255,255,255,0.5); }
+    .form-group input:focus {
+      outline: none; border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.15);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: 1rem 2rem; border-radius: 999px; font-weight: 700;
+      cursor: pointer; border: none; font-size: 16px;
+      transition: all 0.2s ease; width: 100%;
+    }
+    .btn.primary { background: var(--primary); color: #fff; box-shadow: var(--shadow); }
+    .btn.primary:hover { background: var(--primary-600); transform: translateY(-2px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+    .btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+    .error-message {
+      display: none; padding: 12px 16px;
+      background: rgba(255,200,200,0.2); border: 2px solid rgba(255,150,150,0.5);
+      border-radius: 12px; color: #ffcccc; margin-bottom: var(--space-3);
+    }
+    .error-message.active { display: block; }
+
+    .success-message {
+      display: none; padding: 12px 16px;
+      background: rgba(200,255,200,0.2); border: 2px solid rgba(150,255,150,0.5);
+      border-radius: 12px; color: #ccffcc; margin-bottom: var(--space-3);
+    }
+    .success-message.active { display: block; }
+
+    .alt-action {
+      text-align: center; margin-top: var(--space-4);
+      color: rgba(255,255,255,0.8); font-size: 15px;
+    }
+    .alt-action a {
+      color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px;
+    }
+    .alt-action a:hover { color: rgba(255,255,255,0.85); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-section">
+      <a href="/" aria-label="Empress Health home">
+        <img src="/public/EmpressHealthlogo.png" alt="Empress Health" />
+      </a>
+      <h4>Welcome back to Empress Health</h4>
+    </div>
+
+    <div class="login-container">
+      <h1>Log In</h1>
+      <p class="lead">Sign in to access your personalized menopause support.</p>
+
+      <div class="error-message" id="error-message" role="alert" aria-live="polite"></div>
+      <div class="success-message" id="success-message" role="status" aria-live="polite"></div>
+
+      <form id="login-form" novalidate>
+        <input type="hidden" id="_csrf" name="_csrf" value="">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" placeholder="you@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Your password" />
+        </div>
+
+        <button type="submit" class="btn primary" id="submit-btn">Log In</button>
+      </form>
+
+      <p class="alt-action">
+        Don't have an account? <a href="/signup">Create one</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    /* ── CSRF helpers ─────────────────────────────────────────────────────── */
+    function getCookie(name) {
+      const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+      return match ? decodeURIComponent(match[1]) : null;
+    }
+    function refreshCsrfToken() {
+      const t = getCookie('csrf_token');
+      if (t) {
+        window.__csrfToken = t;
+        const hidden = document.getElementById('_csrf');
+        if (hidden) hidden.value = t;
+      }
+    }
+    function fetchWithCsrf(url, opts) {
+      opts = opts || {};
+      opts.headers = opts.headers || {};
+      const token = window.__csrfToken || getCookie('csrf_token') || '';
+      if (token) opts.headers['X-CSRF-Token'] = token;
+      opts.credentials = opts.credentials || 'include';
+      return fetch(url, opts);
+    }
+    // Populate from cookie on load (may exist from a previous session).
+    refreshCsrfToken();
+    /* ─────────────────────────────────────────────────────────────────────── */
+
+    const form = document.getElementById('login-form');
+    const errorEl = document.getElementById('error-message');
+    const successEl = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.classList.add('active');
+      successEl.classList.remove('active');
+    }
+    function showSuccess(msg) {
+      successEl.textContent = msg;
+      successEl.classList.add('active');
+      errorEl.classList.remove('active');
+    }
+    function hideMessages() {
+      errorEl.classList.remove('active');
+      successEl.classList.remove('active');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideMessages();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        showError('Please enter your email and password.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in...';
+
+      try {
+        // /api/login is CSRF-exempt (pre-session), but include token if available.
+        const response = await fetchWithCsrf('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+
+        let data = {};
+        try { data = await response.json(); } catch (_) {}
+
+        if (response.ok && data.success) {
+          console.log('✅ Login successful, waiting for session establishment...');
+          console.log('🔍 Response data:', { redirect: data.redirect, hasToken: !!data.token });
+
+          // Refresh CSRF token from the csrf_token cookie set by the server.
+          refreshCsrfToken();
+
+          // Store token in localStorage for client-side access
+          if (data.token) {
+            try {
+              localStorage.setItem('authToken', data.token);
+              console.log('✅ Auth token stored in localStorage');
+            } catch (_) {
+              console.warn('⚠️  Unable to persist auth token to localStorage');
+            }
+          } else {
+            console.warn('⚠️  No token received in login response');
+          }
+
+          showSuccess('Logged in. Redirecting…');
+
+          // Wait a brief moment to ensure session cookie is set, then redirect
+          setTimeout(() => {
+            const redirectUrl = data.redirect || '/';
+            console.log('🔄 Redirecting to:', redirectUrl);
+            window.location.href = redirectUrl;
+          }, 250);
+        } else {
+          const msg = data.error || data.message || 'Sign in failed. Please check your email and password.';
+          showError(msg);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Log In';
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        showError('Network error. Please check your connection and try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Log In';
+      }
+    });
+  </script>
+</body>
+</html>

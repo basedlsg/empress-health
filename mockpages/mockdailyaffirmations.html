@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empress Health • Daily Affirmations</title>
+    <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Empress Health • Daily Affirmations" />
+  <meta property="og:description" content="Empress Health • Daily Affirmations — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/mockpages/mockdailyaffirmations.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Empress Health • Daily Affirmations" />
+  <meta name="twitter:description" content="Empress Health • Daily Affirmations — Empress Health: smart, expert-backed support for every stage of menopause." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<meta name="description" content="A soothing, mobile‑first gallery of Empress Health affirmations with a full‑screen reader and quick share." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+/* =========================
+   PRD Brand Design System
+   ========================= */
+:root {
+  --plum: #3F1449;
+  --royal: #5A1E66;
+  --gold: #D8A738;
+  --ivory: #F5EFE8;
+  --neutral: #D8D1CA;
+  --white: #FFFFFF;
+  --ink: #1a1520;
+  --muted: #5c5668;
+  --border: rgba(63, 20, 73, 0.12);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-gold: 0 8px 32px rgba(216, 167, 56, 0.2);
+  --radius: 20px;
+  --radius-card: 24px;
+  --radius-sm: 12px;
+  --header-h: 100px;
+}
+@media (max-width: 820px) { :root { --header-h: 72px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding-top: var(--header-h);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--ivory);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 24px;
+  padding: 12px 16px;
+  background: var(--plum);
+  color: var(--white);
+  font-weight: 600;
+  z-index: 99999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 12px; }
+
+/* =========================
+   Header / Nav
+   ========================= */
+#site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.2s ease;
+}
+#site-header.is-stuck { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 24px;
+}
+@media (min-width: 821px) {
+  .nav { justify-content: center; gap: 32px; padding: 0.5rem 64px; }
+}
+.brand { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.brand-logo { height: clamp(52px, 6vw, 70px); display: block; }
+.main-nav { display: none; align-items: center; gap: 14px; }
+.menu-item { position: relative; }
+.menu-trigger {
+  background: transparent; border: 0; cursor: pointer; font-weight: 600;
+  font-size: 0.9375rem; color: var(--ink); padding: 0.5rem 0.4rem;
+  border-radius: 8px; white-space: nowrap; transition: color 0.15s;
+}
+.menu-trigger:hover { color: var(--plum); }
+.menu-item[data-open="1"] .menu-trigger { color: var(--plum); }
+.menu-panel {
+  position: absolute; top: calc(100% + 10px); left: 0; z-index: 1001;
+  width: min(480px, 85vw); background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow);
+  padding: 16px; display: none;
+}
+.menu-item:hover .menu-panel, .menu-item:focus-within .menu-panel, .menu-item[data-open="1"] .menu-panel { display: block; }
+.menu-item:nth-child(n+5) .menu-panel { left: auto; right: 0; }
+.menu-item:nth-child(3) .menu-panel, .menu-item:nth-child(4) .menu-panel { left: 50%; transform: translateX(-50%); right: auto; }
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.menu-section h5 { margin: 0 0 8px; font-weight: 700; font-size: 0.875rem; color: var(--plum); }
+.menu-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.menu-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--white); transition: all 0.15s; font-size: 0.875rem;
+}
+.menu-link:hover { border-color: var(--gold); box-shadow: 0 2px 8px rgba(0,0,0,.06); transform: translateY(-2px); }
+.menu-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.menu-desc { font-size: 0.75rem; color: var(--muted); }
+.burger {
+  width: 52px; height: 52px; min-height: 44px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--white); display: grid; place-items: center; cursor: pointer;
+  font-size: 28px; color: var(--ink);
+}
+.burger:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+#drawer {
+  display: none; position: fixed; top: var(--header-h); left: 0; right: 0;
+  background: var(--white); border-top: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 9998;
+  max-height: calc(100vh - var(--header-h)); overflow-y: auto;
+}
+#drawer.open { display: block; }
+.drawer { padding: 20px 24px; }
+.home-link { display: block; padding: 14px 0; font-weight: 700; font-size: 1rem; color: var(--plum); border-bottom: 1px solid var(--border); margin-bottom: 8px; min-height: 44px; display: flex; align-items: center; }
+.drawer details { border-top: 1px solid var(--border); padding: 8px 0; }
+.drawer summary { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-weight: 700; cursor: pointer; list-style: none; min-height: 44px; }
+.drawer summary::-webkit-details-marker { display: none; }
+.drawer summary::after { content: '›'; font-size: 20px; transition: transform 0.2s; }
+.drawer details[open] summary::after { transform: rotate(90deg); }
+.drawer ul { list-style: none; padding: 8px 0 8px 16px; margin: 0; display: grid; gap: 10px; }
+.drawer a { color: var(--muted); font-size: 0.9375rem; padding: 10px 0; min-height: 44px; display: flex; align-items: center; }
+.drawer a:hover { color: var(--plum); }
+@media (min-width: 821px) { .main-nav { display: flex; } .burger { display: none; } #drawer { display: none !important; } }
+
+/* =========================
+   Hero (PRD 5.1)
+   ========================= */
+.hero {
+  position: relative;
+  width: 100%;
+  padding: 80px 24px 64px;
+  text-align: center;
+  background: var(--ivory);
+  background-image: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(90, 30, 102, 0.12) 0%, transparent 55%);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 30%, rgba(216, 167, 56, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+@media (max-width: 768px) { .hero { padding: 56px 20px 48px; } }
+.hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  position: relative;
+  display: inline-block;
+}
+.hero h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.hero .hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* =========================
+   Main Container (PRD 4.1)
+   ========================= */
+.main-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+@media (max-width: 768px) { .main-wrap { padding: 0 20px 48px; } }
+
+/* Toolbar (PRD 5.5) */
+.toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0 40px;
+}
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  min-height: 44px;
+  border-radius: 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  color: var(--plum);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.tool:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-2px);
+}
+.tool:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.tool .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+@media (max-width: 768px) { .tool { flex: 1 1 100%; } }
+
+/* Affirmation Grid (PRD 5.2) */
+.aff-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 50px;
+}
+@media (min-width: 600px) { .aff-grid { gap: 60px; } }
+@media (max-width: 768px) { .aff-grid { gap: 40px; } }
+
+.aff-card {
+  display: block;
+  background: var(--white);
+  padding: 32px 36px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  border-top: 3px solid var(--gold);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.aff-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+.aff-card:focus-visible { box-shadow: 0 0 0 2px var(--gold), var(--shadow); }
+@media (max-width: 768px) { .aff-card { padding: 28px 24px; } }
+
+.aff-card img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  margin: 0 auto 20px;
+  border-radius: 12px;
+  background: var(--ivory);
+}
+.aff-card .label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--plum);
+  margin-bottom: 16px;
+}
+.aff-card .affirm-text {
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.9;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Footer */
+.site-footer {
+  margin-top: 64px;
+  padding: 24px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Reader Modal (PRD 5.5) */
+.reader {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 21, 32, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10050;
+  padding: 20px;
+}
+.reader[open] { display: flex; }
+
+.sheet {
+  position: relative;
+  width: min(640px, 100%);
+  max-height: 85vh;
+  border-radius: 28px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.sheet .cover { position: relative; }
+.sheet .cover img {
+  width: 100%;
+  height: min(44vh, 320px);
+  object-fit: contain;
+  background: var(--ivory);
+}
+.sheet .badge {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  background: var(--plum);
+  color: var(--white);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.sheet .body { padding: 24px 24px 16px; }
+.sheet .body h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--plum);
+  margin: 0 0 12px;
+}
+.sheet .body p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--ink);
+  margin: 0;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px 20px;
+  flex-wrap: wrap;
+}
+.controls .left, .controls .right { display: flex; gap: 10px; align-items: center; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  min-height: 44px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-2px);
+}
+.btn.primary {
+  background: var(--plum);
+  color: var(--white);
+  border-color: transparent;
+}
+.btn.primary:hover { box-shadow: 0 8px 24px rgba(63, 20, 73, 0.35); }
+.close-x-left {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--white);
+  border: 2px solid var(--border);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--ink);
+  z-index: 100;
+  transition: all 0.2s ease;
+}
+.close-x-left:hover {
+  border-color: var(--gold);
+  transform: scale(1.05);
+}
+.nav-arrows {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: min(44vh, 320px);
+  pointer-events: none;
+  z-index: 10;
+}
+.nav-arrows button {
+  pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  min-height: 44px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: rgba(63, 20, 73, 0.7);
+  color: var(--white);
+  font-size: 1.8rem;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s;
+}
+.nav-arrows button:hover { background: var(--plum); }
+.nav-arrows .prev { left: 12px; }
+.nav-arrows .next { right: 12px; }
+  
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+</style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header id="site-header">
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+      </a>
+
+      <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Ask Empress -->
+        <a class="menu-trigger" href="/askempress">Ask Empress</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Health Assessment</a></li>
+                  <li><a class="menu-link" href="/signup">Become a Member</a></li>
+                  <li><a class="menu-link" href="/contact">Contact Us</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Our Care -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertguidance" aria-haspopup="true" aria-expanded="false">Our Care</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Care Experiences</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/askempress">Ask Empress Chatbot</a></li>
+                  <li><a class="menu-link" href="/symptomsupport">Symptom Support</a></li>
+                  <li><a class="menu-link" href="/expertguidance">Expert Guidance</a></li>
+                  <li><a class="menu-link" href="/dailyaffirmations">Daily Affirmations</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Start Now</h5>
+                <a class="menu-link" href="/signup">Become a Member →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth" target="_blank">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                  <li><a class="menu-link" href="/communitystories">Community Stories</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What's EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder's Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Additional Features</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/comingsoon">Digital Journal</a></li>
+                  <li><a class="menu-link" href="/comingsoon">Digital Avatar</a></li>
+                  <li><a class="menu-link" href="/comingsoon">Community Pods</a></li>
+                  <li><a class="menu-link" href="/comingsoon">AI Coach</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger"
+        type="button">&#9776;</button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+      <a href="/askempress" class="home-link">Ask Empress</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Health Assessment</a></li>
+          <li><a href="/signup">Become a Member</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Our Care</summary>
+        <ul>
+          <li><a href="/askempress">Ask Empress Chatbot</a></li>
+          <li><a href="/symptomsupport">Symptom Support</a></li>
+          <li><a href="/expertguidance">Expert Guidance</a></li>
+          <li><a href="/dailyaffirmations">Daily Affirmations</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+          <li><a href="/communitystories">Community Stories</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What's EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder's Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+          <li><a href="/comingsoon">Digital Journal</a></li>
+          <li><a href="/comingsoon">Digital Avatar</a></li>
+          <li><a href="/comingsoon">Community Pods</a></li>
+          <li><a href="/comingsoon">AI Coach</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="Daily Affirmations">
+    <h1>Empress Health • Affirmations</h1>
+    <p class="hero-sub">Gentle words for hard days — tap a card to open the reader</p>
+  </section>
+
+  <main id="main-content" class="main-wrap">
+    <div class="toolbar" role="group" aria-label="Affirmation actions">
+      <button class="tool" id="btn-daily"><span class="dot" aria-hidden="true"></span> Daily pick</button>
+      <button class="tool" id="btn-shuffle">Shuffle</button>
+      <button class="tool" id="btn-grid">Grid view</button>
+      <button class="tool" id="btn-reader">Open first</button>
+    </div>
+
+    <section class="aff-grid" id="grid" aria-label="Affirmation gallery">
+      <article class="aff-card" tabindex="0" role="button" data-title="Healing" data-affirm="My body and heart know how to heal. I support them with patience.">
+        <img src="/public/affirmations/affhealing.jpg" alt="Healing" loading="lazy" />
+        <div class="label">Healing</div>
+        <p class="affirm-text">My body and heart know how to heal. I support them with patience.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Self-Confidence" data-affirm="I trust my experience. I've overcome so much already.">
+        <img src="/public/affirmations/affselfconfidence.jpg" alt="Self-Confidence" loading="lazy" />
+        <div class="label">Self‑Confidence</div>
+        <p class="affirm-text">I trust my experience. I've overcome so much already.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Hope" data-affirm="New paths are opening for me, one step at a time.">
+        <img src="/public/affirmations/affhope.jpg" alt="Hope" loading="lazy" />
+        <div class="label">Hope</div>
+        <p class="affirm-text">New paths are opening for me, one step at a time.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Gratitude" data-affirm="I notice small gifts around me and let them brighten my day.">
+        <img src="/public/affirmations/affgratitude.jpg" alt="Gratitude" loading="lazy" />
+        <div class="label">Gratitude</div>
+        <p class="affirm-text">I notice small gifts around me and let them brighten my day.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Joy" data-affirm="I welcome small sparks of joy and let them multiply.">
+        <img src="/public/affirmations/affjoy.jpg" alt="Joy" loading="lazy" />
+        <div class="label">Joy</div>
+        <p class="affirm-text">I welcome small sparks of joy and let them multiply.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Power" data-affirm="My voice matters. My boundaries are valid.">
+        <img src="/public/affirmations/affpower.jpg" alt="Power" loading="lazy" />
+        <div class="label">Power</div>
+        <p class="affirm-text">My voice matters. My boundaries are valid.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Peace" data-affirm="I choose a gentle pace. Peace grows with every breath.">
+        <img src="/public/affirmations/affpeace.jpg" alt="Peace" loading="lazy" />
+        <div class="label">Peace</div>
+        <p class="affirm-text">I choose a gentle pace. Peace grows with every breath.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Energy" data-affirm="My energy returns as I rest, nourish, and move with care.">
+        <img src="/public/affirmations/affenergy.jpg" alt="Energy" loading="lazy" />
+        <div class="label">Energy</div>
+        <p class="affirm-text">My energy returns as I rest, nourish, and move with care.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Balance" data-affirm="I give myself permission to do less and receive more.">
+        <img src="/public/affirmations/affbalance.jpg" alt="Balance" loading="lazy" />
+        <div class="label">Balance</div>
+        <p class="affirm-text">I give myself permission to do less and receive more.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Purpose" data-affirm="My life has meaning today. I take one aligned step.">
+        <img src="/public/affirmations/affpurpose.jpg" alt="Purpose" loading="lazy" />
+        <div class="label">Purpose</div>
+        <p class="affirm-text">My life has meaning today. I take one aligned step.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Resilience" data-affirm="I bend but do not break. I grow through what I go through.">
+        <img src="/public/affirmations/affresilience.jpg" alt="Resilience" loading="lazy" />
+        <div class="label">Resilience</div>
+        <p class="affirm-text">I bend but do not break. I grow through what I go through.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Connection" data-affirm="I reach out. I am worthy of being seen, heard, and held.">
+        <img src="/public/affirmations/affconnection.jpg" alt="Connection" loading="lazy" />
+        <div class="label">Connection</div>
+        <p class="affirm-text">I reach out. I am worthy of being seen, heard, and held.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Compassion" data-affirm="I offer myself the same kindness I give to others.">
+        <img src="/public/affirmations/affcompassion.jpg" alt="Compassion" loading="lazy" />
+        <div class="label">Compassion</div>
+        <p class="affirm-text">I offer myself the same kindness I give to others.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Overwhelm" data-affirm="I can pause, breathe, and take one small step. One thing at a time is enough.">
+        <img src="/public/affirmations/affoverwhelm.jpg" alt="Overwhelm" loading="lazy" />
+        <div class="label">Overwhelm</div>
+        <p class="affirm-text">I can pause, breathe, and take one small step. One thing at a time is enough.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Anxiety" data-affirm="My breath anchors me. I am safe in this moment.">
+        <img src="/public/affirmations/affanxiety.jpg" alt="Anxiety" loading="lazy" />
+        <div class="label">Anxiety</div>
+        <p class="affirm-text">My breath anchors me. I am safe in this moment.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Loneliness" data-affirm="I am worthy of connection. I reach toward the people who care for me.">
+        <img src="/public/affirmations/afflonely.jpg" alt="Loneliness" loading="lazy" />
+        <div class="label">Loneliness</div>
+        <p class="affirm-text">I am worthy of connection. I reach toward the people who care for me.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Helplessness" data-affirm="Even small choices are powerful. I choose one helpful action now.">
+        <img src="/public/affirmations/affhelpless.jpg" alt="Helplessness" loading="lazy" />
+        <div class="label">Helplessness</div>
+        <p class="affirm-text">Even small choices are powerful. I choose one helpful action now.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Grief" data-affirm="My feelings honor my love. I give myself time and tenderness.">
+        <img src="/public/affirmations/affgrief.jpg" alt="Grief" loading="lazy" />
+        <div class="label">Grief</div>
+        <p class="affirm-text">My feelings honor my love. I give myself time and tenderness.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Insecurity" data-affirm="I am growing, learning, and enough as I am.">
+        <img src="/public/affirmations/affinsecurity.jpg" alt="Insecurity" loading="lazy" />
+        <div class="label">Insecurity</div>
+        <p class="affirm-text">I am growing, learning, and enough as I am.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Fear" data-affirm="Courage is showing up softly. I move forward with care and faith.">
+        <img src="/public/affirmations/afffear.jpg" alt="Fear" loading="lazy" />
+        <div class="label">Fear</div>
+        <p class="affirm-text">Courage is showing up softly. I move forward with care and faith.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Stress" data-affirm="Relaxing my shoulders, I reset my pace and protect my peace.">
+        <img src="/public/affirmations/affstress.jpg" alt="Stress" loading="lazy" />
+        <div class="label">Stress</div>
+        <p class="affirm-text">Relaxing my shoulders, I reset my pace and protect my peace.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Fatigue" data-affirm=" Rest is productive. My body deserves gentleness today.">
+        <img src="/public/affirmations/afffatigue.jpg" alt="Fatigue" loading="lazy" />
+        <div class="label">Fatigue</div>
+        <p class="affirm-text"> Rest is productive. My body deserves gentleness today.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Irritability" data-affirm="I breathe before I speak. I choose calm responses.">
+        <img src="/public/affirmations/affirritability.jpg" alt="Irritability" loading="lazy" />
+        <div class="label">Irritability</div>
+        <p class="affirm-text">I breathe before I speak. I choose calm responses.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Mood Swings" data-affirm="Feelings move like weather. I let them pass without judgment.">
+        <img src="/public/affirmations/affmoodswing.jpg" alt="Mood Swings" loading="lazy" />
+        <div class="label">Mood Swings</div>
+        <p class="affirm-text">Feelings move like weather. I let them pass without judgment.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Restlessness" data-affirm="I ground myself with breath and gentle movement.">
+        <img src="/public/affirmations/affrestless.jpg" alt="Restlessness" loading="lazy" />
+        <div class="label">Restlessness</div>
+        <p class="affirm-text">I ground myself with breath and gentle movement.</p>
+      </article>
+      <article class="aff-card" tabindex="0" role="button" data-title="Self-Doubt" data-affirm="I talk to myself like someone I love. I can do this.">
+        <img src="/public/affirmations/affselfdoubt.jpg" alt="Self-Doubt" loading="lazy" />
+        <div class="label">Self‑Doubt</div>
+        <p class="affirm-text">I talk to myself like someone I love. I can do this.</p>
+      </article>
+    </section>
+
+    <footer class="site-footer">© Empress Health • You got this 💜</footer>
+  </main>
+
+  <section class="reader" id="reader" aria-modal="true" role="dialog" aria-label="Affirmation reader" hidden>
+    <div class="sheet" role="document">
+      <button class="close-x-left" id="closeXLeft" aria-label="Close">×</button>
+      <div class="cover">
+        <img id="rImage" alt="Affirmation cover" />
+        <span class="badge" id="rBadge">Affirmation</span>
+        <div class="nav-arrows" aria-hidden="true">
+          <button class="prev" id="navPrev" title="Previous" aria-label="Previous">‹</button>
+          <button class="next" id="navNext" title="Next" aria-label="Next">›</button>
+        </div>
+      </div>
+      <div class="body">
+        <h2 id="rTitle">Title</h2>
+        <p id="rText">Text</p>
+      </div>
+      <div class="controls">
+        <div class="left">
+          <button class="btn" id="copyBtn"><span class="icon">⎘</span> Copy</button>
+          <button class="btn" id="shareBtn"><span class="icon">➜</span> Share</button>
+        </div>
+        <div class="right">
+          <button class="btn" id="randomBtn">Shuffle</button>
+          <button class="btn primary" id="nextBtn">Next</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function(){
+      const header = document.getElementById('site-header');
+      function setHeaderH(){ document.documentElement.style.setProperty('--header-h', header ? header.offsetHeight + 'px' : '100px'); }
+      function onScroll(){ if (header) header.classList.toggle('is-stuck', window.scrollY > 6); }
+      setHeaderH(); onScroll();
+      window.addEventListener('resize', setHeaderH);
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+
+    (function(){
+      const burger = document.getElementById('burger');
+      const drawer = document.getElementById('drawer');
+      function toggleDrawer(open) {
+        if (!drawer || !burger) return;
+        drawer.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+      burger?.addEventListener('click', () => {
+        const isOpen = drawer?.classList.contains('open');
+        toggleDrawer(!isOpen);
+      });
+      drawer?.addEventListener('click', (e) => {
+        if (e.target instanceof HTMLElement && e.target.tagName === 'A') toggleDrawer(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer?.classList.contains('open')) toggleDrawer(false);
+      });
+      const mq = window.matchMedia('(min-width: 821px)');
+      mq.addEventListener('change', (e) => { if (e.matches) toggleDrawer(false); });
+    })();
+
+    (function(){
+      const grid = document.getElementById('grid');
+      const reader = document.getElementById('reader');
+      const closeXLeft = document.getElementById('closeXLeft');
+      const rImage = document.getElementById('rImage');
+      const rBadge = document.getElementById('rBadge');
+      const rTitle = document.getElementById('rTitle');
+      const rText = document.getElementById('rText');
+      const navPrev = document.getElementById('navPrev');
+      const navNext = document.getElementById('navNext');
+      const copyBtn = document.getElementById('copyBtn');
+      const shareBtn = document.getElementById('shareBtn');
+      const randomBtn = document.getElementById('randomBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const btnDaily = document.getElementById('btn-daily');
+      const btnShuffle = document.getElementById('btn-shuffle');
+      const btnGrid = document.getElementById('btn-grid');
+      const btnReader = document.getElementById('btn-reader');
+
+      const cards = Array.from(grid.querySelectorAll('.aff-card'));
+      let idx = 0;
+
+      function openReader(i){
+        idx = (i + cards.length) % cards.length;
+        const el = cards[idx];
+        const title = el.dataset.title || el.querySelector('.label')?.textContent?.trim() || 'Affirmation';
+        const text = el.dataset.affirm || '';
+        const img = el.querySelector('img')?.getAttribute('src') || '';
+
+        rImage.src = img; rImage.alt = title;
+        rBadge.textContent = title;
+        rTitle.textContent = title;
+        rText.textContent = text;
+
+        reader.hidden = false;
+        reader.setAttribute('open', '');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeReader(){
+        reader.hidden = true;
+        reader.removeAttribute('open');
+        document.body.style.overflow = '';
+      }
+
+      function next(n=1){ openReader(idx + n); }
+
+      cards.forEach((el, i)=>{
+        el.addEventListener('click', ()=> openReader(i));
+        el.addEventListener('keypress', (e)=>{
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openReader(i); }
+        });
+      });
+
+      btnReader?.addEventListener('click', ()=> openReader(0));
+      btnGrid?.addEventListener('click', ()=> closeReader());
+      btnShuffle?.addEventListener('click', ()=> openReader(Math.floor(Math.random()*cards.length)));
+
+      btnDaily?.addEventListener('click', ()=>{
+        const d = new Date();
+        const seed = d.getFullYear()*1000 + (d.getMonth()+1)*50 + d.getDate();
+        const pick = seed % cards.length;
+        openReader(pick);
+      });
+
+      closeXLeft?.addEventListener('click', closeReader);
+      navPrev?.addEventListener('click', ()=> next(-1));
+      navNext?.addEventListener('click', ()=> next(1));
+      nextBtn?.addEventListener('click', ()=> next(1));
+
+      window.addEventListener('keydown', (e)=>{
+        if (reader.hidden) return;
+        if (e.key === 'Escape') closeReader();
+        if (e.key === 'ArrowRight') next(1);
+        if (e.key === 'ArrowLeft') next(-1);
+      });
+
+      copyBtn?.addEventListener('click', async ()=>{
+        const blob = `${rTitle.textContent}\n\n${rText.textContent}`;
+        try { await navigator.clipboard.writeText(blob); copyBtn.innerHTML = '<span class="icon">⎘</span> Copied ✓'; setTimeout(()=> { copyBtn.innerHTML = '<span class="icon">⎘</span> Copy'; }, 1500); }
+        catch { alert('Copy failed — you can select and copy manually.'); }
+      });
+
+      shareBtn?.addEventListener('click', async ()=>{
+        const shareData = { title: `Affirmation — ${rTitle.textContent}`, text: rText.textContent };
+        try {
+          if (navigator.share) { await navigator.share(shareData); }
+          else { await navigator.clipboard.writeText(`${shareData.title}\n\n${shareData.text}`); alert('Copied to clipboard — paste anywhere to share.'); }
+        } catch {}
+      });
+
+      randomBtn?.addEventListener('click', ()=> openReader(Math.floor(Math.random()*cards.length)));
+    })();
+  </script>
+</body>
+</html>

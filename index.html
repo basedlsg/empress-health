@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EmpressHealth — Smart Support for Every Stage</title>
+    <meta name="description" content="Empress Health offers smart, expert-backed support for every stage of menopause — from symptom relief to community and trusted clinical guidance." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="EmpressHealth — Smart Support for Every Stage" />
+  <meta property="og:description" content="Empress Health offers smart, expert-backed support for every stage of menopause — from symptom relief to community and trusted clinical guidance." />
+  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:url" content="https://empressnaturals.co/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EmpressHealth — Smart Support for Every Stage" />
+  <meta name="twitter:description" content="Empress Health offers smart, expert-backed support for every stage of menopause — from symptom relief to community and trusted clinical guidance." />
+  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    /* =========================
+   TOKENS / GLOBAL RESET
+   ========================= */
+    :root {
+      --bg: #fffaf1;
+      --ink: #1f1b2d;
+      --muted: #6e6a7a;
+      --soft: #faf8ff;
+
+      --primary: #3f1449;
+      --primary-600: #4b2577;
+      --accent: #9a653e;
+      --empress-gold: #D8A738;
+
+      --border: #ececf1;
+      --shadow: 0 10px 30px rgba(16, 16, 32, .08);
+      --radius: 18px;
+
+      /* Hero letterbox bar colour — the cream/peach the user wants behind
+         contain-sized hero images. Tweak this value to fine-tune the swatch. */
+      --hero-bar: #efe1d3;
+
+      /* Desktop default — banner (~37px, single-line marquee) + nav (~107px)
+         ≈ 144px. JS measures the actual rendered height on every breakpoint
+         and overrides this, so this value just controls first paint. */
+      --header-h: 150px;
+
+      --space-1: 8px;
+      --space-2: 12px;
+      --space-3: 16px;
+      --space-4: 24px;
+      --space-5: 32px;
+      --space-6: 48px;
+
+      --arrow: 56px;
+      --arrow-gap: 12px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      height: auto;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      padding-top: var(--header-h);
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin-inline: auto;
+      padding-inline: 1rem;
+    }
+
+    /* Type scale */
+    h1 {
+      margin: 0 0 .4rem;
+      font: 800 clamp(28px, 6vw, 44px)/1.1 Poppins, Inter, sans-serif;
+    }
+
+    h2 {
+      margin: 0 0 .3rem;
+      font: 800 clamp(22px, 4.8vw, 34px)/1.15 Poppins, Inter, sans-serif;
+    }
+
+    h3 {
+      margin: 0 0 .25rem;
+      font: 700 clamp(18px, 4.2vw, 26px)/1.2 Poppins, Inter, sans-serif;
+    }
+
+    h4 {
+      margin: 0 0 .25rem;
+      font: 700 clamp(16px, 3.6vw, 20px)/1.25 Poppins, Inter, sans-serif;
+    }
+
+    p {
+      margin: .5rem 0 0;
+      font-size: clamp(14px, 3.6vw, 16px);
+      line-height: 1.6;
+    }
+
+    .lead {
+      max-width: 700px;
+      margin: .5rem auto 0;
+      color: var(--muted);
+    }
+
+    .section {
+      padding: var(--space-6) 0;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .85rem 1.15rem;
+      border-radius: 999px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    /* =========================
+   SECTION 1: HEADER / NAV
+   ========================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      transition: box-shadow .2s ease, backdrop-filter .2s ease, background-color .2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top promotional banner — static, centered. Heights here are
+       accounted for in --header-h (JS measures actual height on every
+       breakpoint, so growing to multiple lines on narrow viewports is OK). */
+    .empress-banner {
+      flex-shrink: 0;
+      background: #efe1d3;
+      color: #000;
+      padding: 9px 16px;
+      font: 400 22px/1.4 Inter, system-ui, sans-serif;
+      letter-spacing: 0.005em;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .empress-banner-track {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      max-width: 1200px;
+      margin-inline: auto;
+    }
+
+    /* Only the first copy is shown — the second was for the marquee loop
+       and is now hidden. The aria-hidden="true" attribute already keeps it
+       out of the accessibility tree. */
+    .empress-banner-msg + .empress-banner-msg {
+      display: none;
+    }
+
+    .empress-banner-msg {
+      text-align: center;
+    }
+
+    .empress-banner-msg em {
+      font-style: normal;
+      font-weight: 700;
+      color: inherit;
+    }
+
+    .empress-banner-msg strong {
+      font-weight: 700;
+      color: inherit;
+    }
+
+    /* Nav fills whatever's left of the header below the banner */
+    header > .container.nav {
+      flex: 1;
+      min-height: 0;
+    }
+
+    header#site-header.is-stuck {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+      backdrop-filter: saturate(120%) blur(6px);
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .5rem 0;
+    }
+
+    /* Desktop: center logo + nav group */
+    @media (min-width: 821px) {
+      .nav {
+        justify-content: center;
+        gap: 40px;
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .brand-logo {
+      height: clamp(56px, 7vw, 80px);
+    }
+
+    header .links a,
+    header .menu-trigger,
+    header .brand {
+      text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Desktop nav */
+    .main-nav {
+      display: none;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .menu-trigger {
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--ink);
+      padding: .6rem .5rem;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .menu-trigger:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .menu-item[data-open="1"] .menu-trigger {
+      color: var(--primary);
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      z-index: 1001;
+      width: min(500px, 85vw);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: none;
+    }
+
+    .menu-item:hover .menu-panel,
+    .menu-item:focus-within .menu-panel,
+    .menu-item[data-open="1"] .menu-panel {
+      display: block;
+    }
+
+    .menu-item:nth-child(n+5) .menu-panel {
+      left: auto;
+      right: 0;
+    }
+
+    .menu-item:nth-child(3) .menu-panel,
+    .menu-item:nth-child(4) .menu-panel {
+      left: 50%;
+      transform: translateX(-50%);
+      right: auto;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .menu-section h5 {
+      margin: 0 0 6px;
+      font: 800 .95rem/1.2 Poppins, Inter, sans-serif;
+      color: var(--primary-600);
+    }
+
+    .menu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .menu-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      transition: border-color .15s, box-shadow .15s, transform .05s;
+    }
+
+    .menu-link:hover {
+      border-color: #e0def0;
+      box-shadow: var(--shadow);
+      transform: translateY(-1px);
+    }
+
+    .menu-desc {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    /* Header burger */
+    .burger {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 28px;
+    }
+
+    .burger:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Mobile drawer */
+    #drawer {
+      display: none;
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 2px solid #f2eefc;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+      z-index: 9998;
+      max-height: calc(100svh - var(--header-h));
+      overflow-y: auto;
+    }
+
+    #drawer.open {
+      display: block;
+    }
+
+    .drawer {
+      padding: 20px;
+    }
+
+    .drawer details {
+      border-top: 1px solid var(--border);
+      padding: 6px 0;
+    }
+
+    .drawer summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 6px;
+      font-weight: 700;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .drawer summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .drawer ul {
+      list-style: none;
+      padding-left: 10px;
+      margin: 6px 0 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .drawer a {
+      color: var(--ink);
+    }
+
+    /* =========================
+   SECTION 2: HERO
+   PRD: object-fit: contain, no cropping, rotation on ALL breakpoints
+   ========================= */
+    section.hero {
+      position: relative;
+      width: 100%;
+      height: calc(100svh - var(--header-h));
+      min-height: 400px;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      /* Banner is anchored to the top; hero-link fills the rest. */
+      display: flex;
+      flex-direction: column;
+      /* Letterbox bars (when image is contain-sized) — solid warm cream
+         set via the --hero-bar variable defined in :root. */
+      background: var(--hero-bar);
+    }
+
+    /* Banner inside the hero takes its natural height at the top. */
+    section.hero > .empress-banner {
+      flex: 0 0 auto;
+    }
+
+    /* Anchor that wraps the entire hero so taps/clicks anywhere on the
+       image (including the baked-in CTA button in the JPEG) navigate to
+       the assessment flow. */
+    .hero-link {
+      display: block;
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .hero-link:focus-visible {
+      outline: 3px solid var(--empress-gold);
+      outline-offset: -3px;
+    }
+
+    .hero-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 700ms ease;
+      overflow: hidden;
+    }
+
+    .hero-slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Blurred backdrop disabled — image now stretches edge-to-edge so there
+       are no letterbox bars to fill. Re-enable if switching back to contain. */
+    .hero-slide::before {
+      display: none;
+    }
+
+    .hero-slide picture {
+      position: absolute;
+      inset: 0;
+      display: block;
+      z-index: 1;
+    }
+
+    /* Whole image is always visible — no cropping, no distortion. When the
+       image's aspect ratio doesn't match the hero box, blank space appears
+       on the sides or top/bottom and is filled by section.hero's solid
+       background colour (var(--bg)), not a blurred copy. */
+    .hero-slide .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    /* =========================
+   CAROUSEL STANDARD (PRD 2.3)
+   Arrows never disable, infinite loop
+   ========================= */
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .carousel-track {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-snap-stop: always;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      gap: 0;
+      scrollbar-width: none;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      min-width: 100%;
+      scroll-snap-align: center;
+    }
+
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: var(--arrow);
+      height: var(--arrow);
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: grid;
+      place-items: center;
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 10;
+      -webkit-tap-highlight-color: transparent;
+      color: var(--primary);
+      transition: all 0.2s ease;
+    }
+
+    .carousel-nav:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .carousel-nav:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .carousel-nav.prev {
+      left: 8px;
+    }
+
+    .carousel-nav.next {
+      right: 8px;
+    }
+
+    /* Reviews carousel: consistent behavior across all platforms */
+    #reviews .carousel-wrapper {
+      padding: 0 calc(var(--arrow) + 16px);
+      /* Space for arrows */
+    }
+
+    #reviews .carousel-track {
+      padding: 0;
+    }
+
+    #reviews .carousel-nav {
+      width: 56px;
+      height: 56px;
+      background: #fff;
+      border: 2px solid var(--border);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      color: var(--primary);
+      font-size: 28px;
+    }
+
+    #reviews .carousel-nav:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    #reviews .carousel-nav.prev {
+      left: 0;
+    }
+
+    #reviews .carousel-nav.next {
+      right: 0;
+    }
+
+    /* =========================
+   SECTION 3: REVIEWS
+   ========================= */
+    #reviews {
+      background: var(--empress-gold);
+      padding: var(--space-6) 0;
+    }
+
+    #reviews .section-head {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    #reviews .section-head h2 {
+      color: #1f1b2d;
+    }
+
+    .review-bubble {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 32px;
+      margin: 0 auto;
+      max-width: 700px;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border);
+    }
+
+    /* Hide speech tail - professional card style */
+    .review-bubble::after {
+      display: none;
+    }
+
+    .review-text {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--ink);
+      margin: 0 0 16px;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .review-author {
+      font-weight: 700;
+      color: var(--primary);
+      text-align: center;
+      display: block;
+    }
+
+    .review-stars {
+      display: flex;
+      gap: 4px;
+      margin-top: 12px;
+      justify-content: center;
+    }
+
+    .review-stars .star {
+      font-size: 20px;
+      color: #ccc;
+    }
+
+    .review-stars .star.filled {
+      color: var(--primary);
+    }
+
+    /* Reviews carousel — mobile: stack arrows below the card */
+    @media (max-width: 768px) {
+      #reviews .carousel-wrapper {
+        padding: 0 12px 72px; /* room below for the arrow row */
+      }
+      #reviews .carousel-nav {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+        top: auto;
+        bottom: 12px;
+        transform: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+      #reviews .carousel-nav.prev {
+        left: 50%;
+        margin-left: -56px; /* sit left of center */
+      }
+      #reviews .carousel-nav.next {
+        right: 50%;
+        margin-right: -56px; /* sit right of center */
+      }
+      .review-bubble {
+        padding: 28px 22px;
+        border-radius: 16px;
+      }
+      .review-text {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      .review-stars .star {
+        font-size: 18px;
+      }
+    }
+
+    /* =========================
+   SECTION 4: FEATURES
+   ========================= */
+    #features {
+      padding: var(--space-6) 0;
+      background: var(--soft);
+    }
+
+    #features .section-head {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .feature-card-inner {
+      background: #2e1944;
+      color: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 4px solid rgba(246, 241, 255, 0.1);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      display: block;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .feature-media {
+      padding: 16px 16px 0;
+    }
+
+    .feature-media img {
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      border: 3px solid var(--accent);
+      background: #eee;
+    }
+
+    .feature-content {
+      padding: 20px;
+    }
+
+    .feature-content h3 {
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .feature-content p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+    }
+
+    /* Desktop: left-to-right grid */
+    @media (min-width: 821px) {
+      #features .carousel-track {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        overflow: visible;
+      }
+
+      #features .carousel-slide {
+        flex: initial;
+        min-width: 0;
+      }
+
+      #features .carousel-nav {
+        display: none;
+      }
+
+      .feature-card-inner {
+        max-width: none;
+      }
+    }
+
+    /* =========================
+   SECTION 5: PROGRESS
+   PRD: Stacked layout only, no side-by-side
+   ========================= */
+    #progress {
+      padding: var(--space-6) 0;
+    }
+
+    #progress .progress-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    #progress .progress-image {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px;
+    }
+
+    #progress .progress-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    /* =========================
+   SECTION 6: STATS
+   ========================= */
+    #stats {
+      background: var(--primary);
+      color: #fff;
+      padding: var(--space-6) 0;
+      border-radius: 22px 22px 0 0;
+    }
+
+    #stats .section-head {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    #stats .section-head h3 {
+      color: #fff;
+    }
+
+    #stats .section-head p {
+      color: #d9d0ff;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: #431a62;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-weight: 800;
+      font-size: clamp(24px, 5vw, 36px);
+      color: #fff;
+    }
+
+    .stat-label {
+      color: #e7defa;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Desktop: 2x2 grid */
+    @media (min-width: 821px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* =========================
+   SECTION 7: DOCTORS
+   ========================= */
+    #doctors {
+      padding: var(--space-6) 0;
+    }
+
+    #doctors .section-head {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .doctor-card-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .doctor-avatar {
+      width: min(260px, 65vw);
+      height: auto;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      border: 4px solid #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .doctor-name {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .doctor-title {
+      color: var(--muted);
+    }
+
+    /* Desktop: horizontal flex */
+    @media (min-width: 821px) {
+      #doctors .carousel-track {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        overflow: visible;
+      }
+
+      #doctors .carousel-slide {
+        flex: 0 1 280px;
+        min-width: 0;
+      }
+
+      #doctors .carousel-nav {
+        display: none;
+      }
+    }
+
+    /* =========================
+   SECTION 8: PRODUCTS
+   ========================= */
+    #products {
+      padding: var(--space-6) 0;
+      background: var(--soft);
+    }
+
+    #products .section-head {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .products-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: visible;
+      /* ADDED */
+      max-width: 550px;
+      /* Increased from 450px */
+      margin: 0 auto;
+      padding: 0 70px;
+      /* Increased padding for arrows */
+    }
+
+    @media (max-width: 768px) {
+      .products-carousel-wrapper {
+        padding: 0 50px;
+        /* Space for arrows */
+        max-width: 100%;
+        overflow: visible;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #collection-component-1765983725008 {
+        text-align: center;
+        overflow: visible !important;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      #collection-component-1765983725008 iframe {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      /* Ensure Shopify products are centered */
+      #collection-component-1765983725008>div {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+
+    .products-carousel-wrapper .product-nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background-color: #6B21A8;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .products-carousel-wrapper .product-nav-arrow:hover {
+      background-color: #7C3AED;
+    }
+
+    .products-carousel-wrapper .product-nav-arrow.left {
+      left: 0;
+    }
+
+    .products-carousel-wrapper .product-nav-arrow.right {
+      right: 0;
+    }
+
+    #collection-component-1765983725008 .shopify-buy__collection-products::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* =========================
+   SECTION 9: PREVIEW
+   ========================= */
+    #preview {
+      padding: var(--space-6) 0;
+    }
+
+    #preview .section-head {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    #preview .preview-image {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    #preview .preview-image img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    /* =========================
+   SECTION 10: AFFIRMATIONS
+   ========================= */
+    #affirmations {
+      padding: var(--space-6) 0;
+      background: var(--soft);
+    }
+
+    #affirmations .section-head {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .aff-container {
+      position: relative;
+    }
+
+    /* track */
+    .aff-scroll {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      gap: 0;
+      scrollbar-width: none;
+    }
+
+    .aff-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* slide */
+    .aff-card {
+      flex: 0 0 100%;
+      min-width: 100%;
+      scroll-snap-align: center;
+      position: relative;
+      height: clamp(240px, 62svh, 520px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+
+    .aff-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      /* no cropping on mobile */
+      border-radius: 16px;
+      display: block;
+    }
+
+    /* optional label overlay */
+    .aff-card span {
+      position: absolute;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, .45);
+      color: #fff;
+      padding: .5rem .9rem;
+      border-radius: 10px;
+      pointer-events: none;
+      font-weight: 600;
+    }
+
+    /* mobile arrows */
+    .aff-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .aff-arrow.prev {
+      left: 8px;
+    }
+
+    .aff-arrow.next {
+      right: 8px;
+    }
+
+    /* Desktop: 3-column grid */
+    @media (min-width: 1024px) {
+      .aff-scroll {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        overflow: visible;
+        scroll-snap-type: none;
+      }
+
+      .aff-card {
+        height: auto;
+        min-height: 300px;
+        max-height: 400px;
+      }
+
+      .aff-card img {
+        object-fit: contain;
+        /* Show entire image, no cropping */
+        max-height: 100%;
+      }
+
+      .aff-arrow {
+        display: none !important;
+      }
+    }
+
+    /* =========================
+   AFFIRMATION READER MODAL (PRD 4.10)
+   ========================= */
+    .aff-reader {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .aff-reader.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .aff-reader-content {
+      position: relative;
+      width: 90vw;
+      max-width: 480px;
+      max-height: 85vh;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+    }
+
+    .aff-reader-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .7);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, .3);
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s ease;
+    }
+
+    .aff-reader-close:hover {
+      background: rgba(200, 0, 0, .8);
+      border-color: rgba(255, 255, 255, .6);
+    }
+
+    .aff-reader-image {
+      flex: 0 0 auto;
+      min-height: 180px;
+      max-height: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--soft);
+    }
+
+    .aff-reader-image img {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      object-fit: contain;
+      /* PRD: Full image visible, no crop */
+    }
+
+    .aff-reader-text {
+      flex: 1;
+      padding: 24px;
+      text-align: center;
+      overflow-y: auto;
+    }
+
+    .aff-reader-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .aff-reader-text h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin: 0 0 16px;
+    }
+
+    .aff-reader-text p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+    }
+
+    .aff-reader-nav {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 12px;
+      pointer-events: none;
+    }
+
+    .aff-reader-nav button {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .9);
+      border: none;
+      font-size: 22px;
+      color: var(--primary);
+      cursor: pointer;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+      transition: all 0.2s ease;
+    }
+
+    .aff-reader-nav button:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* =========================
+   FOOTER
+   ========================= */
+    footer {
+      background: var(--primary);
+      color: #e6ddff;
+      border-top-left-radius: 22px;
+      border-top-right-radius: 22px;
+      padding: var(--space-6) 0;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* =========================
+   MOBILE BREAKPOINTS (≤820px)
+   ========================= */
+    @media (max-width: 820px) {
+      :root {
+        /* Mobile: single-line marquee banner (~33px) + nav (~96px) ≈ 130px. */
+        --header-h: 135px;
+      }
+
+      /* Mobile banner: keep 22px per spec, just trim the inline padding. */
+      .empress-banner {
+        font-size: 22px;
+        padding: 8px 12px;
+      }
+
+      section.hero {
+        height: calc(100svh - var(--header-h));
+        height: calc(100dvh - var(--header-h));
+        min-height: calc(100svh - var(--header-h));
+      }
+
+      /* Whole image visible on mobile too — bars (top/bottom or sides)
+         filled by section.hero's solid background. */
+      .hero-slide .hero-img {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain;
+        object-position: center;
+        -webkit-mask-image: none !important;
+                mask-image: none !important;
+      }
+
+      .hero-slide::before {
+        display: none;
+      }
+
+      .main-nav {
+        display: none !important;
+      }
+
+      .burger {
+        display: grid !important;
+      }
+    }
+
+    /* =========================
+   DESKTOP BREAKPOINTS (≥821px)
+   ========================= */
+    @media (min-width: 821px) {
+      :root {
+        /* Desktop: single-line marquee banner (~37px) + nav (~107px) ≈ 144px. */
+        --header-h: 150px;
+      }
+
+      header#site-header {
+        height: var(--header-h);
+        background: #efe1d3;
+        border-bottom: 1px solid var(--border);
+        text-shadow: none;
+      }
+
+      header#site-header .links a,
+      header#site-header .menu-trigger,
+      header#site-header .brand {
+        text-shadow: none;
+      }
+
+      body {
+        padding-top: var(--header-h) !important;
+      }
+
+      section.hero {
+        height: calc(100vh - var(--header-h));
+      }
+
+      .main-nav {
+        display: flex;
+      }
+
+      .burger {
+        display: none;
+      }
+
+      h1 {
+        font-size: clamp(40px, 5vw, 56px);
+      }
+
+      h2 {
+        font-size: clamp(32px, 4vw, 44px);
+      }
+
+      h3 {
+        font-size: clamp(24px, 3vw, 32px);
+      }
+
+      p {
+        font-size: 18px;
+      }
+
+      .container {
+        max-width: 1400px;
+        padding: 0 var(--space-5);
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .brand-logo {
+        height: 90px;
+      }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-slide {
+        transition: none;
+      }
+
+      .carousel-track {
+        scroll-behavior: auto;
+      }
+
+      .aff-reader {
+        transition: none;
+      }
+    }
+  
+    /* nav-changes: drawer home-link emphasis */
+    .drawer .home-link {
+      display: block;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-top: 1px solid var(--border, #ececf1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================
+     SECTION 1: MENU (HEADER)
+     ========================================== -->
+  <header id="site-header">
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+      </a>
+
+      <nav class="links main-nav" aria-label="Primary">
+        <!-- Home -->
+        <a class="menu-trigger" href="/">Home</a>
+
+        <!-- Our Program -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/howitworks" aria-haspopup="true" aria-expanded="false">Our Program</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Program</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/howitworks">How It Works</a></li>
+                  <li><a class="menu-link" href="/betacomingsoon">Beta Version</a></li>
+                  <li><a class="menu-link" href="/wellnesshub">Your Wellness Hub</a></li>
+                  <li><a class="menu-link" href="/membershipoptions">Membership Options</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Already a Member?</h5>
+                <a class="menu-link" href="/login">Log in &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Get your Health Assessment -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/membershipsurvey" aria-haspopup="true" aria-expanded="false">Get your Health Assessment</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Get Involved</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/assessment/">Peri+ Menopause Assessment</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Fast Action</h5>
+                <a class="menu-link" href="/membershipsurvey">Join the Waitlist &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Community -->
+        <a class="menu-trigger" href="/community">Join the Community</a>
+
+
+        <!-- Curated Marketplace -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/market" aria-haspopup="true" aria-expanded="false">Curated Marketplace</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Shop</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/haircare">Haircare &amp; Hairtools</a></li>
+                  <li><a class="menu-link" href="/skincare">Skincare &amp; Wellness</a></li>
+                  <li><a class="menu-link" href="/selfcaretools">Self-Care Tools</a></li>
+                  <li><a class="menu-link" href="/bundlesandkits">Bundles &amp; Kits</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Featured</h5>
+                <a class="menu-link" href="/market">Browse All &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/expertblogs" aria-haspopup="true" aria-expanded="false">Education</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>Learn</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/menopausemonth">Menopause Health Month</a></li>
+                  <li><a class="menu-link" href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+                  <li><a class="menu-link" href="/ebookguides">E-Books &amp; Guides</a></li>
+                </ul>
+              </div>
+              <div class="menu-section">
+                <h5>Newsletter</h5>
+                <a class="menu-link" href="/contact">Subscribe &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Stories -->
+        <a class="menu-trigger" href="/communitystories">Community Stories</a>
+
+        <!-- About Us -->
+        <div class="menu-item">
+          <a class="menu-trigger" href="/ourstory" aria-haspopup="true" aria-expanded="false">About Us</a>
+          <div class="menu-panel" role="menu">
+            <div class="menu-grid">
+              <div class="menu-section">
+                <h5>About Us</h5>
+                <ul class="menu-list">
+                  <li><a class="menu-link" href="/ourstory">Our Story</a></li>
+                  <li><a class="menu-link" href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+                  <li><a class="menu-link" href="/founderstory">Founder&#39;s Letter</a></li>
+                  <li><a class="menu-link" href="/team">Team</a></li>
+                  <li><a class="menu-link" href="/events">Events</a></li>
+                  <li><a class="menu-link" href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <a class="menu-trigger" href="/faq">FAQ</a>
+      </nav>
+
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" id="burger"
+        type="button">&#9776;</button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="container drawer" id="drawer" role="navigation" aria-label="Mobile">
+      <a href="/" class="home-link">Home</a>
+
+      <details>
+        <summary>Our Program</summary>
+        <ul>
+          <li><a href="/howitworks">How It Works</a></li>
+          <li><a href="/betacomingsoon">Beta Version</a></li>
+          <li><a href="/wellnesshub">Your Wellness Hub</a></li>
+          <li><a href="/membershipoptions">Membership Options</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Get your Health Assessment</summary>
+        <ul>
+          <li><a href="/assessment/">Peri+ Menopause Assessment</a></li>
+        </ul>
+      </details>
+
+      <a href="/community" class="home-link">Join the Community</a>
+
+
+      <details>
+        <summary>Curated Marketplace</summary>
+        <ul>
+          <li><a href="/haircare">Haircare &amp; Hairtools</a></li>
+          <li><a href="/skincare">Skincare &amp; Wellness</a></li>
+          <li><a href="/selfcaretools">Self-Care Tools</a></li>
+          <li><a href="/bundlesandkits">Bundles &amp; Kits</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Education</summary>
+        <ul>
+          <li><a href="/menopausemonth">Menopause Health Month</a></li>
+          <li><a href="/expertblogs">Expert Articles &amp; Blogs</a></li>
+          <li><a href="/ebookguides">E-Books &amp; Guides</a></li>
+        </ul>
+      </details>
+
+      <a href="/communitystories" class="home-link">Community Stories</a>
+
+      <details>
+        <summary>About Us</summary>
+        <ul>
+          <li><a href="/ourstory">Our Story</a></li>
+          <li><a href="/whyempresshealth">What&#39;s EmpressHealth.ai</a></li>
+          <li><a href="/founderstory">Founder&#39;s Letter</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/privacypolicy">Privacy &amp; Data Protection Policy</a></li>
+        </ul>
+      </details>
+
+      <a href="/faq" class="home-link">FAQ</a>
+    </div>
+  </header>
+
+  <!-- ==========================================
+     SECTION 2: HERO
+     PRD: object-fit: contain, rotation on ALL devices
+     ========================================== -->
+  <section class="hero" id="hero">
+    <div class="empress-banner" role="region" aria-label="Empress Health intro">
+      <div class="empress-banner-track">
+        <span class="empress-banner-msg">
+          <strong>Sleep deeply. Think clearly. Feel complete. Be you again!</strong><br>Empress is where women in Peri + Menopause come home to themselves.
+        </span>
+        <span class="empress-banner-msg" aria-hidden="true">
+          <strong>Sleep deeply. Think clearly. Feel complete. Be you again!</strong><br>Empress is where women in Peri + Menopause come home to themselves.
+        </span>
+      </div>
+    </div>
+    <a class="hero-link" href="/assessment/" aria-label="Start the menopause health assessment">
+    <div class="hero-card">
+      <!-- Background cycling slideshow (hero_ai2 - hero_ai6) -->
+      <div class="hero-slide is-active" data-index="0"
+        style="--hero-bg: url('/public/titlephotos/hero_ai2_landscape1080.jpg')">
+        <picture>
+          <source media="(min-width: 1024px) and (orientation: landscape)"
+            srcset="/public/titlephotos/hero_ai2_landscape1080.jpg 1080w, /public/titlephotos/hero_ai2_landscape1100.jpg 1100w, /public/titlephotos/hero_ai2_landscape2160.jpg 2160w"
+            sizes="100vw">
+          <source media="(min-width: 600px)"
+            srcset="/public/titlephotos/hero_ai2_tablet1100.jpg 1100w, /public/titlephotos/hero_ai2_tablet2160.jpg 2160w, /public/titlephotos/hero_ai2_tablet2200.jpg 2200w"
+            sizes="100vw">
+          <img class="hero-img" src="/public/titlephotos/hero_ai2_mobile2340.jpg"
+            alt="Holistic menopause support" loading="eager" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="hero-slide" data-index="1"
+        style="--hero-bg: url('/public/titlephotos/hero_ai3_landscape1080.jpg')">
+        <picture>
+          <source media="(min-width: 1024px) and (orientation: landscape)"
+            srcset="/public/titlephotos/hero_ai3_landscape1080.jpg 1080w, /public/titlephotos/hero_ai3_landscape1100.jpg 1100w, /public/titlephotos/hero_ai3_landscape2160.jpg 2160w"
+            sizes="100vw">
+          <source media="(min-width: 600px)"
+            srcset="/public/titlephotos/hero_ai3_tablet1100.jpg 1100w, /public/titlephotos/hero_ai3_tablet2160.jpg 2160w, /public/titlephotos/hero_ai3_tablet2200.jpg 2200w"
+            sizes="100vw">
+          <img class="hero-img" src="/public/titlephotos/hero_ai3_mobile2340.jpg"
+            alt="Trusted medical experts" loading="lazy">
+        </picture>
+      </div>
+      <div class="hero-slide" data-index="2"
+        style="--hero-bg: url('/public/titlephotos/hero_ai4_landscape1080.jpg')">
+        <picture>
+          <source media="(min-width: 1024px) and (orientation: landscape)"
+            srcset="/public/titlephotos/hero_ai4_landscape1080.jpg 1080w, /public/titlephotos/hero_ai4_landscape1100.jpg 1100w, /public/titlephotos/hero_ai4_landscape2160.jpg 2160w"
+            sizes="100vw">
+          <source media="(min-width: 600px)"
+            srcset="/public/titlephotos/hero_ai4_tablet1100.jpg 1100w, /public/titlephotos/hero_ai4_tablet2160.jpg 2160w, /public/titlephotos/hero_ai4_tablet2200.jpg 2200w"
+            sizes="100vw">
+          <img class="hero-img" src="/public/titlephotos/hero_ai4_mobile2340.jpg"
+            alt="Daily affirmations" loading="lazy">
+        </picture>
+      </div>
+      <div class="hero-slide" data-index="3"
+        style="--hero-bg: url('/public/titlephotos/hero_ai5_landscape1080.jpg')">
+        <picture>
+          <source media="(min-width: 1024px) and (orientation: landscape)"
+            srcset="/public/titlephotos/hero_ai5_landscape1080.jpg 1080w, /public/titlephotos/hero_ai5_landscape1100.jpg 1100w, /public/titlephotos/hero_ai5_landscape2160.jpg 2160w"
+            sizes="100vw">
+          <source media="(min-width: 600px)"
+            srcset="/public/titlephotos/hero_ai5_tablet1100.jpg 1100w, /public/titlephotos/hero_ai5_tablet2160.jpg 2160w, /public/titlephotos/hero_ai5_tablet2200.jpg 2200w"
+            sizes="100vw">
+          <img class="hero-img" src="/public/titlephotos/hero_ai5_mobile2340.jpg"
+            alt="Personalized AI care" loading="lazy">
+        </picture>
+      </div>
+      <div class="hero-slide" data-index="4"
+        style="--hero-bg: url('/public/titlephotos/hero_ai6_landscape1080.jpg')">
+        <picture>
+          <source media="(min-width: 1024px) and (orientation: landscape)"
+            srcset="/public/titlephotos/hero_ai6_landscape1080.jpg 1080w, /public/titlephotos/hero_ai6_landscape1100.jpg 1100w, /public/titlephotos/hero_ai6_landscape2160.jpg 2160w"
+            sizes="100vw">
+          <source media="(min-width: 600px)"
+            srcset="/public/titlephotos/hero_ai6_tablet1100.jpg 1100w, /public/titlephotos/hero_ai6_tablet2160.jpg 2160w, /public/titlephotos/hero_ai6_tablet2200.jpg 2200w"
+            sizes="100vw">
+          <img class="hero-img" src="/public/titlephotos/hero_ai6_mobile2340.jpg"
+            alt="Supportive community" loading="lazy">
+        </picture>
+      </div>
+
+    </div>
+    </a>
+  </section>
+
+  <!-- ==========================================
+     SECTION 3: REVIEWS
+     ========================================== -->
+  <section id="reviews" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>What Our Customers Are Saying</h2>
+        <p class="lead">Real experiences from our community</p>
+      </div>
+
+      <div class="carousel-wrapper" id="reviews-carousel">
+        <button class="carousel-nav prev" aria-label="Previous review">‹</button>
+
+        <div class="carousel-track">
+          <!-- 1. Pooja -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"The <strong>Ask Empress</strong> chatbot felt like talking to a wise friend who
+                actually gets what I'm going through. It guided me when I felt most confused."</p>
+              <p class="review-author">— Pooja</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 2. Meena -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"I've tried so many platforms, but this is the first one that makes menopause care
+                feel personalized. I finally feel seen."</p>
+              <p class="review-author">— Meena</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 3. Kate -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"The tips and care I received completely transformed my sleep. The affirmations
+                lifted my spirit, and the expert care gave me a path that actually works."</p>
+              <p class="review-author">— Kate</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 4. Susie -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"<strong>Ask Empress</strong> answered questions I was embarrassed to ask even my
+                doctor. No judgment, just real answers."</p>
+              <p class="review-author">— Susie</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 5. Romano -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"This platform is a game-changer for women in midlife. It combines science and
+                compassion in a way I’ve never experienced before."</p>
+              <p class="review-author">— Romano</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 6. Lauren -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"For years, I thought I was the only one dealing with brain fog and mood swings.
+                Empress showed me I’m not alone — and gave me tools that actually help."</p>
+              <p class="review-author">— Lauren</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 7. Rubins -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"The progress tracker gave me clarity. For the first time, I can see what’s helping
+                me and what’s not."</p>
+              <p class="review-author">— Rubins</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 8. Rachel -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"It’s like the platform was designed just for me. Every feature feels thoughtful,
+                supportive, and personal."</p>
+              <p class="review-author">— Rachel</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 9. Patty -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"<strong>Ask Empress</strong> is always there — at 2 am when I can't sleep, or in
+                the morning when I need guidance. It feels like 24/7 support in my pocket."</p>
+              <p class="review-author">— Patty</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 10. Zaria -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"I love how this platform speaks to me like a woman, not a patient. It's
+                respectful, empowering, and uplifting."</p>
+              <p class="review-author">— Zaria</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 11. Marina -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"The affirmations sound simple, but they’ve helped me through tough days. It feels
+                like the platform understands more than just symptoms."</p>
+              <p class="review-author">— Marina</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 12. Kate (2) -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"Finally, a menopause platform that’s not clinical or cold. Empress Health feels
+                warm, human, and real."</p>
+              <p class="review-author">— Kate</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 13. Zaria (2) -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"I cried the first time I used <strong>Ask Empress</strong>. It was the first time
+                I felt truly understood in this stage of my life."</p>
+              <p class="review-author">— Zaria</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 14. Lima -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"The expert recommendations gave me direction I’d been searching for. I no longer
+                feel lost in the sea of menopause advice online."</p>
+              <p class="review-author">— Lima</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 15. Angela -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"It feels like a safe space built just for us — women navigating midlife with
+                strength and grace."</p>
+              <p class="review-author">— Angela</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 16. Sandy -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"What I love most is how the platform evolves with me. It adapts to my stage, my
+                symptoms, and even my moods."</p>
+              <p class="review-author">— Sandy</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 17. Sheon -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"<strong>Ask Empress</strong> explained things about my body in plain language. No
+                jargon, just care that made sense."</p>
+              <p class="review-author">— Sheon</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 18. Maggie -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"I share this platform with all my friends. We finally have something that supports
+                us through perimenopause together."</p>
+              <p class="review-author">— Maggie</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 19. Jeanette -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"Empress Health makes me feel like I have a team walking with me. I’m never alone
+                anymore."</p>
+              <p class="review-author">— Jeanette</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 20. Deandre -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"The community pods are amazing — I never realized how much I needed other women’s
+                voices in this journey."</p>
+              <p class="review-author">— Deandre</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 21. Stephanie -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"This is the first time technology actually feels human. <strong>Ask
+                  Empress</strong> feels like she's holding my hand."</p>
+              <p class="review-author">— Stephanie</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 22. Leslie -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"I didn’t even know where to start with supplements or skin changes. The platform
+                guided me gently, step by step."</p>
+              <p class="review-author">— Leslie</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 23. Maushmi -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"I was skeptical at first, but within a week I felt calmer, more informed, and more
+                hopeful."</p>
+              <p class="review-author">— Maushmi</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 24. Aparna -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"Menopause used to feel like a silent struggle. With Empress Health, I finally feel
+                heard."</p>
+              <p class="review-author">— Aparna</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+              </div>
+            </div>
+          </div>
+          <!-- 25. Alka -->
+          <div class="carousel-slide">
+            <div class="review-bubble">
+              <p class="review-text">"Every woman deserves a platform like this — one that treats us with dignity,
+                knowledge, and care."</p>
+              <p class="review-author">— Alka</p>
+              <div class="review-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span
+                  class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-nav next" aria-label="Next review">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+     SECTION 4: FEATURES
+     ========================================== -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Confidence That Grows With You</h2>
+        <p class="lead">Every woman's journey is unique. EmpressHealth blends AI insights with trusted expertise — so
+          your care evolves with your stage, your symptoms, and your goals.</p>
+      </div>
+
+      <div class="carousel-wrapper" id="features-carousel">
+        <button class="carousel-nav prev" aria-label="Previous feature">‹</button>
+
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <a class="feature-card-inner" href="/askempress">
+              <div class="feature-media">
+                <img src="/public/features/featureaicare.png" alt="Personalized AI Care" loading="lazy">
+              </div>
+              <div class="feature-content">
+                <h3>Personalized AI Care</h3>
+                <p>Tailored guidance for your stage of life</p>
+              </div>
+            </a>
+          </div>
+          <div class="carousel-slide">
+            <a class="feature-card-inner" href="/expertguidance">
+              <div class="feature-media">
+                <img src="/public/features/featuretrustedexperts.png" alt="Trusted Experts" loading="lazy">
+              </div>
+              <div class="feature-content">
+                <h3>Trusted Experts</h3>
+                <p>Science and compassion combined</p>
+              </div>
+            </a>
+          </div>
+          <div class="carousel-slide">
+            <a class="feature-card-inner" href="/wellnesshub">
+              <div class="feature-media">
+                <img src="/public/features/featureseeprogress.png" alt="See Your Progress" loading="lazy">
+              </div>
+              <div class="feature-content">
+                <h3>See Your Progress</h3>
+                <p>Simple insights that make sense</p>
+              </div>
+            </a>
+          </div>
+          <div class="carousel-slide">
+            <a class="feature-card-inner" href="/communitystories">
+              <div class="feature-media">
+                <img src="/public/features/featureuplift.png" alt="Community & Daily Uplift" loading="lazy">
+              </div>
+              <div class="feature-content">
+                <h3>Community & Daily Uplift</h3>
+                <p>Grounded, connected, inspired daily</p>
+              </div>
+            </a>
+          </div>
+          <div class="carousel-slide">
+            <a class="feature-card-inner" href="/market">
+              <div class="feature-media">
+                <img src="/public/features/featuremarketplace.png" alt="Curated Marketplace" loading="lazy">
+              </div>
+              <div class="feature-content">
+                <h3>Curated Marketplace</h3>
+                <p>Empress-recommended products for your wellness</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="carousel-nav next" aria-label="Next feature">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+     SECTION 5: PROGRESS
+     PRD: Stacked layout only
+     ========================================== -->
+  <section id="progress" class="section">
+    <div class="container">
+      <div class="progress-content">
+        <div class="progress-text">
+          <h3>See Your Progress, Feel Your Power</h3>
+          <p class="muted">Simple weekly views put insights in your hands.</p>
+        </div>
+        <div class="progress-image">
+          <img src="/public/Symptom_Tracker.jpg" alt="Symptom tracker" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+     SECTION 6: STATS
+     ========================================== -->
+  <section id="stats" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h3>Support That Learns You</h3>
+        <p>AI insights + expert guidance help you find balance, relief, and confidence.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" data-target="500" data-suffix="+">0</div>
+          <div class="stat-label">Early adopters testing with confidence</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" data-target="90" data-suffix="%">0</div>
+          <div class="stat-label">Report meaningful engagement</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">Privacy First</div>
+          <div class="stat-label">Your data, your control</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">Expert Team</div>
+          <div class="stat-label">Doctors, therapists, coaches</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+     SECTION 7: DOCTORS
+     ========================================== -->
+  <section id="doctors" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Meet Your Care Team</h2>
+        <p class="lead">Expert guidance from specialists who understand your journey</p>
+      </div>
+
+      <div class="carousel-wrapper" id="doctors-carousel">
+        <button class="carousel-nav prev" aria-label="Previous doctor">‹</button>
+
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <div class="doctor-card-inner">
+              <img class="doctor-avatar" src="/public/doctors/drtikkugeorge.jpg" alt="Dr. Tikku George, M.D.">
+              <h4 class="doctor-name">Dr. Tikku George, M.D.</h4>
+              <p class="doctor-title"></p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="doctor-card-inner">
+              <img class="doctor-avatar" src="/public/doctors/drstephenbizal.jpg" alt="Dr. Stephen Bizal">
+              <h4 class="doctor-name">Dr. Stephen Bizal</h4>
+              <p class="doctor-title"></p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="doctor-card-inner">
+              <img class="doctor-avatar" src="/public/doctors/barrybreaux.jpg" alt="Barry Breaux">
+              <h4 class="doctor-name">Barry Breaux</h4>
+              <p class="doctor-title"></p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="doctor-card-inner">
+              <img class="doctor-avatar" src="/public/doctors/lavaughnseepersadfayson.jpg" alt="LaVaughn Seepersad-Fayson">
+              <h4 class="doctor-name">LaVaughn Seepersad-Fayson</h4>
+              <p class="doctor-title"></p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="doctor-card-inner">
+              <img class="doctor-avatar" src="/public/doctors/drbinu.jpg" alt="Dr. Binu">
+              <h4 class="doctor-name">Dr. Binu</h4>
+              <p class="doctor-title"></p>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-nav next" aria-label="Next doctor">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+     SECTION 8: PRODUCTS
+     ========================================== -->
+  <section id="products" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Curated for Your Marketplace</h2>
+        <p class="lead">Empress-recommended products to support your wellness</p>
+      </div>
+
+      <!-- Products carousel -->
+      <div class="products-carousel-wrapper">
+        <button class="product-nav-arrow left" aria-label="Previous" onclick="scrollProducts(-1)">‹</button>
+        <div id='collection-component-1765983725008'></div>
+        <button class="product-nav-arrow right" aria-label="Next" onclick="scrollProducts(1)">›</button>
+      </div>
+      <script type="text/javascript">
+        function scrollProducts(direction) {
+          const mainContainer = document.getElementById('collection-component-1765983725008');
+          if (!mainContainer) return;
+
+          // The Shopify Buy Button SDK usually renders into an iframe.
+          // We need to look for the scrollable container inside that iframe.
+          const iframe = mainContainer.querySelector('iframe');
+          let container;
+
+          if (iframe && iframe.contentDocument) {
+            container = iframe.contentDocument.querySelector('.shopify-buy__collection-products');
+          } else {
+            // Fallback for direct injection
+            container = mainContainer.querySelector('.shopify-buy__collection-products');
+          }
+
+          if (!container) {
+            // Emergency fallback - try to find any flex container that looks like a product list
+            container = mainContainer.querySelector('[class*="collection-products"]') ||
+              mainContainer.querySelector('[class*="productSet"]');
+          }
+
+          if (!container) return;
+
+          // Calculate scroll amount - snap exactly to the next product
+          const scrollStep = container.clientWidth;
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          const currentScroll = container.scrollLeft;
+
+          // Infinite loop logic
+          if (direction > 0 && currentScroll >= maxScroll - 10) {
+            // At the end, loop to beginning
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+          } else if (direction < 0 && currentScroll <= 10) {
+            // At the beginning, loop to end
+            container.scrollTo({ left: maxScroll, behavior: 'smooth' });
+          } else {
+            container.scrollBy({ left: direction * scrollStep, behavior: 'smooth' });
+          }
+        }
+        window.scrollProducts = scrollProducts;
+        /*<![CDATA[*/
+        (function () {
+          var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+          if (window.ShopifyBuy) {
+            if (window.ShopifyBuy.UI) {
+              ShopifyBuyInit();
+            } else {
+              loadScript();
+            }
+          } else {
+            loadScript();
+          }
+          function loadScript() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = scriptURL;
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+            script.onload = ShopifyBuyInit;
+          }
+          function ShopifyBuyInit() {
+            var client = ShopifyBuy.buildClient({
+              domain: 'skincare-solutions-llc.myshopify.com',
+              storefrontAccessToken: '0ad62e12ceaec500c350dc1f4a1958c5',
+            });
+            ShopifyBuy.UI.onReady(client).then(function (ui) {
+              ui.createComponent('collection', {
+                id: '330403938462',
+                node: document.getElementById('collection-component-1765983725008'),
+                moneyFormat: '%24%7B%7Bamount%7D%7D',
+                options: {
+                  "product": {
+                    "styles": {
+                      "product": {
+                        "max-width": "100%",
+                        "min-width": "100%",
+                        "margin-left": "0px",
+                        "margin-bottom": "50px",
+                        "flex-shrink": "0"
+                      },
+                      "button": {
+                        "background-color": "#D4AF37",
+                        ":hover": {
+                          "background-color": "#B8962E"
+                        },
+                        ":focus": {
+                          "background-color": "#B8962E"
+                        }
+                      }
+                    },
+                    "buttonDestination": "modal",
+                    "contents": {
+                      "options": false
+                    },
+                    "text": {
+                      "button": "View product"
+                    }
+                  },
+                  "productSet": {
+                    "styles": {
+                      "products": {
+                        "display": "flex",
+                        "flex-wrap": "nowrap",
+                        "overflow-x": "auto",
+                        "overflow-y": "hidden",
+                        "scroll-behavior": "smooth",
+                        "-webkit-overflow-scrolling": "touch",
+                        "scrollbar-width": "none",
+                        "-ms-overflow-style": "none",
+                        "justify-content": "center"
+                      }
+                    }
+                  },
+                  "modalProduct": {
+                    "contents": {
+                      "img": false,
+                      "imgWithCarousel": true,
+                      "button": false,
+                      "buttonWithQuantity": true
+                    },
+                    "styles": {
+                      "product": {
+                        "@media (min-width: 601px)": {
+                          "max-width": "100%",
+                          "margin-left": "0px",
+                          "margin-bottom": "0px"
+                        }
+                      }
+                    },
+                    "text": {
+                      "button": "Add to cart"
+                    }
+                  },
+                  "option": {},
+                  "cart": {
+                    "text": {
+                      "total": "Subtotal",
+                      "button": "Checkout"
+                    }
+                  },
+                  "toggle": {}
+                },
+              });
+            });
+          }
+        })();
+        /*]]>*/
+      </script>
+    </div>
+  </section>
+
+  <!-- ==========================================
+     SECTION 9: PREVIEW
+     ========================================== -->
+  <section id="preview" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Ask Empress — Your 24/7 Menopause Companion</h2>
+        <p class="lead">Instant, personalized answers powered by AI + guided by experts.</p>
+      </div>
+
+      <div class="preview-image">
+        <a href="/askempress" aria-label="Open Ask Empress" style="display:block">
+          <picture>
+            <source media="(min-width: 821px)" srcset="/public/mockdesktop.png">
+            <img src="/public/mockmobileempress.jpg" alt="Ask Empress conversation UI" loading="lazy">
+          </picture>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+     SECTION 10: AFFIRMATIONS (commented out — will use later)
+     ========================================== -->
+  <!--
+  <section id="affirmations" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Daily Affirmations for Strength & Balance</h2>
+        <p class="lead">Personalized affirmations designed to uplift, empower, and restore calm through every stage of
+          your journey.</p>
+      </div>
+
+      <!-- AFFIRMATIONS -- >
+      <div class="aff-container">
+        <button class="aff-arrow prev" id="affPrev" aria-label="Previous">‹</button>
+        <div class="aff-scroll" id="affScroll">
+
+          <!-- each card is an ARTICLE (semantic) and clickable -- >
+          <article class="aff-card" tabindex="0" role="button" data-title="Healing"
+            data-affirm="My body and heart know how to heal. I support them with patience.">
+            <img src="/public/affirmations/affhealing.jpg" alt="Healing" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Self-Confidence"
+            data-affirm="I trust my experience. I've overcome so much already.">
+            <img src="/public/affirmations/affselfconfidence.jpg" alt="Self-Confidence" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Hope"
+            data-affirm="New paths are opening for me, one step at a time.">
+            <img src="/public/affirmations/affhope.jpg" alt="Hope" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Gratitude"
+            data-affirm="I notice small gifts around me and let them brighten my day.">
+            <img src="/public/affirmations/affgratitude.jpg" alt="Gratitude" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Joy"
+            data-affirm="I welcome small sparks of joy and let them multiply.">
+            <img src="/public/affirmations/affjoy.jpg" alt="Joy" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Power"
+            data-affirm="My voice matters. My boundaries are valid.">
+            <img src="/public/affirmations/affpower.jpg" alt="Power" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Peace"
+            data-affirm="I choose a gentle pace. Peace grows with every breath.">
+            <img src="/public/affirmations/affpeace.jpg" alt="Peace" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Energy"
+            data-affirm="My energy returns as I rest, nourish, and move with care.">
+            <img src="/public/affirmations/affenergy.jpg" alt="Energy" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Balance"
+            data-affirm="I give myself permission to do less and receive more.">
+            <img src="/public/affirmations/affbalance.jpg" alt="Balance" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Purpose"
+            data-affirm="My life has meaning today. I take one aligned step.">
+            <img src="/public/affirmations/affpurpose.jpg" alt="Purpose" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Resilience"
+            data-affirm="I bend but do not break. I grow through what I go through.">
+            <img src="/public/affirmations/affresilience.jpg" alt="Resilience" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Connection"
+            data-affirm="I reach out. I am worthy of being seen, heard, and held.">
+            <img src="/public/affirmations/affconnection.jpg" alt="Connection" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Compassion"
+            data-affirm="I offer myself the same kindness I give to others.">
+            <img src="/public/affirmations/affcompassion.jpg" alt="Compassion" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Overwhelm"
+            data-affirm="I can pause, breathe, and take one small step. One thing at a time is enough.">
+            <img src="/public/affirmations/affoverwhelm.jpg" alt="Overwhelm" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Anxiety"
+            data-affirm="My breath anchors me. I am safe in this moment.">
+            <img src="/public/affirmations/affanxiety.jpg" alt="Anxiety" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Loneliness"
+            data-affirm="I am worthy of connection. I reach toward the people who care for me.">
+            <img src="/public/affirmations/afflonely.jpg" alt="Loneliness" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Helplessness"
+            data-affirm="Even small choices are powerful. I choose one helpful action now.">
+            <img src="/public/affirmations/affhelpless.jpg" alt="Helplessness" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Grief"
+            data-affirm="My feelings honor my love. I give myself time and tenderness.">
+            <img src="/public/affirmations/affgrief.jpg" alt="Grief" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Insecurity"
+            data-affirm="I am growing, learning, and enough as I am.">
+            <img src="/public/affirmations/affinsecurity.jpg" alt="Insecurity" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Fear"
+            data-affirm="Courage is showing up softly. I move forward with care and faith.">
+            <img src="/public/affirmations/afffear.jpg" alt="Fear" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Stress"
+            data-affirm="Relaxing my shoulders, I reset my pace and protect my peace.">
+            <img src="/public/affirmations/affstress.jpg" alt="Stress" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Fatigue"
+            data-affirm="Rest is productive. My body deserves gentleness today.">
+            <img src="/public/affirmations/afffatigue.jpg" alt="Fatigue" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Irritability"
+            data-affirm="I breathe before I speak. I choose calm responses.">
+            <img src="/public/affirmations/affirritability.jpg" alt="Irritability" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Mood Swings"
+            data-affirm="Feelings move like weather. I let them pass without judgment.">
+            <img src="/public/affirmations/affmoodswing.jpg" alt="Mood Swings" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Restlessness"
+            data-affirm="I ground myself with breath and gentle movement.">
+            <img src="/public/affirmations/affrestless.jpg" alt="Restlessness" />
+          </article>
+
+          <article class="aff-card" tabindex="0" role="button" data-title="Self-Doubt"
+            data-affirm="I talk to myself like someone I love. I can do this.">
+            <img src="/public/affirmations/affselfdoubt.jpg" alt="Self-Doubt" />
+          </article>
+
+        </div>
+        <button class="aff-arrow next" id="affNext" aria-label="Next">›</button>
+      </div>
+    </div>
+  </section>
+  -->
+
+  <!-- ==========================================
+     AFFIRMATION READER MODAL (PRD 4.10)
+     ========================================== -->
+  <div class="aff-reader" id="aff-reader" role="dialog" aria-modal="true" aria-labelledby="aff-reader-title">
+    <div class="aff-reader-content">
+      <button class="aff-reader-close" id="aff-reader-close" aria-label="Close">×</button>
+
+      <div class="aff-reader-image">
+        <img id="aff-reader-img" src="" alt="">
+      </div>
+
+      <div class="aff-reader-text">
+        <div class="aff-reader-badge" id="aff-reader-badge"></div>
+        <h2 id="aff-reader-title"></h2>
+        <p id="aff-reader-affirm"></p>
+      </div>
+
+      <div class="aff-reader-nav">
+        <button id="aff-reader-prev" aria-label="Previous affirmation">‹</button>
+        <button id="aff-reader-next" aria-label="Next affirmation">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+     FOOTER
+     ========================================== -->
+  <footer class="section">
+    <div class="container">
+      <div class="footer-content">
+        <small>&copy; 2026 Empress Health. All Rights Reserved.</small>
+        <small><a href="/accessibility">Accessibility</a> · <a href="/cookies">Cookies</a> · <a
+            href="/privacypolicy">Privacy</a></small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TODO: add integrity="sha384-..." crossorigin="anonymous" once vendor publishes SRI hash -->
+  <script src="https://backend.enterprisechai.com/chatbot/public/build/copilot/index.js" crossorigin="anonymous"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const EChaiBotConfig = {
+        botName: 'Ask Empress',
+        EChaiServer: 'https://backend.enterprisechai.com/chatbot',
+        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiMTA1IiwibWV0YWRhdGEiOnt9LCJleHAiOjE3ODk5ODMxNDJ9.2MFUc-6xENHRhs8iQA9L4cmKj-ZvCjEyc3kEgFgCd-A',
+        theme: 'light',
+        aiMessageIconHoverText: 'Ask Empress',
+        aiMessageIconUrl: 'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/thumbnail_Inside_chatbot-2.png?v=1741293804',
+        botAvatarUrl: 'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/chatbot_icon-20.png?v=1741033477',
+        button: {
+          imageUrl: '/public/ask_empress_click.png',
+          className:
+            'w-20 h-20 bg-transparent p-0 m-0 text-primary hover:text-primary-dark hover:bg-transparent'
+        }
+      };
+      window.mountEChaiWidget(EChaiBotConfig);
+    });
+  </script>
+
+  <script>
+    // ===== HEADER LOGIC =====
+    (function () {
+      const header = document.getElementById('site-header');
+      if (!header) return;
+
+      const updateHeader = () => {
+        // Measure the actual rendered header height (banner + nav) on every
+        // breakpoint. Hardcoding mobile at 80px broke things once the promo
+        // banner pushed the real height to ~170px — always trust the measurement.
+        const h = Math.ceil(header.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--header-h', `${h}px`);
+        header.classList.toggle('is-stuck', window.scrollY > 6);
+      };
+
+      window.addEventListener('resize', updateHeader, { passive: true });
+      window.addEventListener('scroll', updateHeader, { passive: true });
+      window.addEventListener('load', updateHeader);
+      updateHeader();
+    })();
+
+    // ===== MOBILE DRAWER =====
+    (function () {
+      const burger = document.getElementById('burger');
+      const drawer = document.getElementById('drawer');
+
+      function toggleDrawer(open) {
+        if (!drawer || !burger) return;
+        drawer.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+
+      burger?.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('open')));
+      drawer?.addEventListener('click', (e) => { if (e.target.tagName === 'A') toggleDrawer(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer?.classList.contains('open')) toggleDrawer(false); });
+      window.matchMedia('(min-width: 821px)').addEventListener('change', (e) => { if (e.matches) toggleDrawer(false); });
+    })();
+
+    // ===== DESKTOP MENU =====
+    (function () {
+      const items = Array.from(document.querySelectorAll('.main-nav .menu-item'));
+      const closeAll = () => items.forEach(i => { i.dataset.open = '0'; i.querySelector('.menu-trigger')?.setAttribute('aria-expanded', 'false'); });
+
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+      document.addEventListener('click', (e) => { if (!e.target.closest('.main-nav')) closeAll(); });
+
+      items.forEach(item => {
+        const trigger = item.querySelector('.menu-trigger');
+        if (!trigger) return;
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = item.dataset.open === '1';
+          closeAll();
+          if (!isOpen) { item.dataset.open = '1'; trigger.setAttribute('aria-expanded', 'true'); }
+        });
+      });
+    })();
+
+    // ===== HERO ROTATION =====
+    (function () {
+      const pictures = Array.from(document.querySelectorAll('.hero-card .hero-slide'));
+      if (pictures.length < 2) return;
+
+      let currentIndex = 0;
+      let timer = null;
+      const INTERVAL = 1500;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function showSlide(index) {
+        pictures.forEach((pic, i) => pic.classList.toggle('is-active', i === index));
+      }
+
+      function rotate() {
+        if (document.hidden || prefersReduced) return;
+        currentIndex = (currentIndex + 1) % pictures.length;
+        showSlide(currentIndex);
+      }
+
+      function start() { stop(); if (!prefersReduced) timer = setInterval(rotate, INTERVAL); }
+      function stop() { if (timer) clearInterval(timer); timer = null; }
+
+      showSlide(0);
+      start();
+      document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    })();
+
+    // ===== CAROUSEL STANDARD (Infinite loop, arrows never disable) =====
+    (function () {
+      function initCarousel(wrapper) {
+        const track = wrapper.querySelector('.carousel-track');
+        const prevBtn = wrapper.querySelector('.carousel-nav.prev');
+        const nextBtn = wrapper.querySelector('.carousel-nav.next');
+        if (!track || !prevBtn || !nextBtn) return;
+
+        const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+        if (slides.length === 0) return;
+
+        function getSlideWidth() { return track.clientWidth; }
+        function getCurrentIndex() { return Math.round(track.scrollLeft / getSlideWidth()); }
+
+        function scrollToIndex(index) {
+          // Infinite loop: wrap around
+          const wrappedIndex = ((index % slides.length) + slides.length) % slides.length;
+          track.scrollTo({ left: wrappedIndex * getSlideWidth(), behavior: 'smooth' });
+        }
+
+        prevBtn.addEventListener('click', () => scrollToIndex(getCurrentIndex() - 1));
+        nextBtn.addEventListener('click', () => scrollToIndex(getCurrentIndex() + 1));
+
+        // Keyboard navigation when focused
+        wrapper.setAttribute('tabindex', '0');
+        wrapper.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') { prevBtn.click(); e.preventDefault(); }
+          if (e.key === 'ArrowRight') { nextBtn.click(); e.preventDefault(); }
+        });
+      }
+
+      document.querySelectorAll('.carousel-wrapper').forEach(initCarousel);
+    })();
+
+    // ===== STATS COUNT-UP =====
+    (function () {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+      function animate(el) {
+        const end = Number(el.dataset.target || 0);
+        const suffix = el.dataset.suffix || '';
+        if (!end || prefersReduced) { if (end) el.textContent = `${end}${suffix}`; return; }
+
+        const start = performance.now();
+        function frame(now) {
+          const p = Math.min(1, (now - start) / 1400);
+          el.textContent = `${Math.round(end * easeOut(p))}${suffix}`;
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      const nums = document.querySelectorAll('.stat-value[data-target]');
+      if (!('IntersectionObserver' in window)) { nums.forEach(animate); return; }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); } });
+      }, { threshold: 0.35 });
+      nums.forEach(el => io.observe(el));
+    })();
+
+    // ===== AFFIRMATION CAROUSEL (Mobile Arrows with Infinite Loop) =====
+    (function () {
+      const track = document.getElementById('affScroll');
+      const prevBtn = document.getElementById('affPrev');
+      const nextBtn = document.getElementById('affNext');
+      if (!track) return;
+
+      function cardWidth() {
+        const first = track.querySelector('.aff-card');
+        return first ? first.getBoundingClientRect().width : track.clientWidth;
+      }
+
+      prevBtn?.addEventListener('click', () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (track.scrollLeft <= 10) {
+          // At start, loop to end
+          track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: -cardWidth(), behavior: 'smooth' });
+        }
+      });
+
+      nextBtn?.addEventListener('click', () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (track.scrollLeft >= maxScroll - 10) {
+          // At end, loop to start
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: cardWidth(), behavior: 'smooth' });
+        }
+      });
+    })();
+
+    // ===== AFFIRMATION READER (PRD 4.10) =====
+    (function () {
+      const cards = document.querySelectorAll('.aff-card');
+      const reader = document.getElementById('aff-reader');
+      const closeBtn = document.getElementById('aff-reader-close');
+      const prevBtn = document.getElementById('aff-reader-prev');
+      const nextBtn = document.getElementById('aff-reader-next');
+      const readerImg = document.getElementById('aff-reader-img');
+      const readerBadge = document.getElementById('aff-reader-badge');
+      const readerTitle = document.getElementById('aff-reader-title');
+      const readerAffirm = document.getElementById('aff-reader-affirm');
+
+      if (!reader || cards.length === 0) return;
+
+      let currentIndex = 0;
+
+      function openReader(index) {
+        currentIndex = ((index % cards.length) + cards.length) % cards.length;
+        const card = cards[currentIndex];
+        const title = card.dataset.title || 'Affirmation';
+        const affirm = card.dataset.affirm || '';
+        const imgSrc = card.querySelector('img')?.src || '';
+
+        readerImg.src = imgSrc;
+        readerImg.alt = title;
+        readerBadge.textContent = title;
+        readerTitle.textContent = title;
+        readerAffirm.textContent = affirm;
+
+        reader.classList.add('is-open');
+        document.body.classList.add('modal-open');
+        closeBtn.focus();
+      }
+
+      function closeReader() {
+        reader.classList.remove('is-open');
+        document.body.classList.remove('modal-open');
+        // Return focus to the card that was clicked
+        cards[currentIndex]?.focus();
+      }
+
+      function navigate(direction) {
+        openReader(currentIndex + direction);
+      }
+
+      // Open reader on card click/keypress
+      cards.forEach((card, index) => {
+        card.addEventListener('click', () => openReader(index));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openReader(index); }
+        });
+      });
+
+      // Reader controls
+      closeBtn?.addEventListener('click', closeReader);
+      prevBtn?.addEventListener('click', () => navigate(-1));
+      nextBtn?.addEventListener('click', () => navigate(1));
+
+      // Keyboard: Escape closes, ArrowLeft/Right navigate
+      document.addEventListener('keydown', (e) => {
+        if (!reader.classList.contains('is-open')) return;
+        if (e.key === 'Escape') { closeReader(); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { navigate(-1); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { navigate(1); e.preventDefault(); }
+      });
+
+      // Background click closes reader
+      reader.addEventListener('click', (e) => {
+        if (e.target === reader) closeReader();
+      });
+    })();
+
+    // Note: Shopify Products SDK is now inline in the Products section HTML
+  </script>
+
+</body>
+
+</html>
