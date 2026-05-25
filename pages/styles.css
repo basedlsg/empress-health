@@ -1,0 +1,229 @@
+/* Empress Health — Empathetic Elegance design tokens */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Surfaces — warm cream foundation */
+  --surface:               #fff8f5;
+  --surface-bright:        #fffaf6;
+  --surface-cream:         #f9f3ec;
+  --surface-tan:           #efe4d6;
+  --surface-tan-deep:      #e7d8c6;
+  --surface-card:          #ffffff;
+  --surface-lavender:      #efe7f5;
+  --surface-lavender-deep: #e3d6ee;
+
+  /* Ink */
+  --ink:                   #1e1b18;
+  --ink-soft:              #4a454e;
+  --ink-faint:             #7b757f;
+  --ink-line:              #ccc4cf;
+
+  /* Plum (primary) */
+  --plum:                  #33204c;
+  --plum-mid:              #4a3664;
+  --plum-soft:             #6a5585;
+  --plum-tint:             #b9a1d6;
+  --plum-mist:             #d6bcf3;
+
+  /* Gold (restrained accent) */
+  --gold:                  #c9a560;
+  --gold-soft:             #d9bf85;
+
+  /* Glass */
+  --glass-bg:              rgba(255, 252, 248, 0.55);
+  --glass-bg-strong:       rgba(255, 252, 248, 0.78);
+  --glass-border:          rgba(74, 54, 100, 0.10);
+  --glass-blur:            22px;
+
+  /* Shadows — soft, ambient, slight plum tint */
+  --shadow-ambient:        0 30px 60px -28px rgba(74, 54, 100, 0.18), 0 8px 20px -12px rgba(74, 54, 100, 0.08);
+  --shadow-glass:          0 24px 48px -24px rgba(74, 54, 100, 0.22), 0 1px 0 0 rgba(255, 255, 255, 0.6) inset;
+  --shadow-soft:           0 1px 0 rgba(74, 54, 100, 0.04), 0 8px 24px -12px rgba(74, 54, 100, 0.10);
+
+  /* Radii */
+  --r-sm: 0.5rem;
+  --r-md: 0.875rem;
+  --r-lg: 1.25rem;
+  --r-xl: 1.75rem;
+  --r-pill: 9999px;
+
+  /* Type */
+  --font-display: 'Bodoni Moda', 'Bodoni 72', Didot, 'Times New Roman', serif;
+  --font-body:    'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Editorial type */
+.display, .headline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.display { font-size: clamp(48px, 5.4vw, 88px); }
+.headline { font-size: clamp(32px, 3.4vw, 56px); }
+.italic-emph { font-style: italic; color: var(--plum-mid); font-weight: 500; }
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--plum-mid);
+}
+.body-lg { font-family: var(--font-body); font-size: 18px; line-height: 1.62; color: var(--ink-soft); }
+.body-md { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+.label-sm {
+  font-family: var(--font-body); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+}
+.mono {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint);
+}
+
+/* Buttons */
+.btn {
+  font-family: var(--font-body);
+  font-size: 15px; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 26px; border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  cursor: pointer; transition: all 0.25s ease;
+  text-decoration: none; white-space: nowrap;
+}
+.btn-primary { background: var(--plum); color: #fff; }
+.btn-primary:hover { background: var(--plum-mid); transform: translateY(-1px); }
+.btn-ghost { background: rgba(255,255,255,0.55); color: var(--plum); border-color: rgba(74,54,100,0.14); backdrop-filter: blur(12px); }
+.btn-ghost:hover { background: rgba(255,255,255,0.85); }
+.btn-text { background: transparent; padding: 0; color: var(--plum); border: 0; }
+.btn-text::after { content: ' →'; opacity: 0.7; }
+
+/* Liquid glass — true depth with multi-layer highlights */
+.glass {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.18) 100%),
+    var(--glass-bg-strong);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--r-lg);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 -1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 30px 60px -28px rgba(74, 54, 100, 0.30),
+    0 8px 24px -12px rgba(74, 54, 100, 0.14);
+}
+/* Specular highlight — a thin diagonal sheen along the top-left edge */
+.glass::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 35%);
+  mix-blend-mode: screen; opacity: 0.6;
+}
+.glass > * { position: relative; z-index: 1; }
+/* Heavier variant — for cards over plain cream where there's nothing to blur */
+.glass-warm {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(255,250,244,0.78) 0%, rgba(255,245,237,0.62) 100%);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--r-lg);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 30px 60px -28px rgba(74, 54, 100, 0.22),
+    0 8px 20px -12px rgba(74, 54, 100, 0.10);
+}
+.glass-warm::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 40%);
+  opacity: 0.5;
+}
+.glass-warm > * { position: relative; z-index: 1; }
+.card-flat {
+  background: var(--surface-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-ambient);
+  border: 1px solid rgba(74, 54, 100, 0.05);
+}
+
+/* Chip */
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: var(--r-pill);
+  background: rgba(214, 188, 243, 0.32);
+  color: var(--plum); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  border: 1px solid rgba(74, 54, 100, 0.08);
+}
+.chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+/* Thin gold underline */
+.gold-rule {
+  display: block; width: 28px; height: 1px;
+  background: var(--gold); margin: 14px 0;
+}
+
+/* Stars */
+.stars { color: var(--plum); letter-spacing: 4px; font-size: 14px; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Hover lift — applied to interactive cards */
+.lift { transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s cubic-bezier(.2,.7,.2,1); }
+.lift:hover { transform: translateY(-4px); }
+
+/* Editorial tracking — for serif emphasis */
+.tracked-tight { letter-spacing: -0.02em; }
+
+/* Decorative ornament — Hermes-style diamond */
+.ornament-diamond {
+  display: inline-block; width: 6px; height: 6px;
+  background: var(--gold); transform: rotate(45deg);
+  vertical-align: middle; margin: 0 16px 4px;
+}
+
+/* Section divider — thin gold rule centered with diamond */
+.section-rule {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin: 0 auto;
+}
+.section-rule::before, .section-rule::after {
+  content: ''; display: inline-block;
+  width: 80px; height: 1px; background: var(--gold);
+}
+
+/* Nav links — minimal editorial w/ gold rule on hover */
+.nav-link::after {
+  content: ''; position: absolute; left: 50%; right: 50%; bottom: -2px; height: 1px;
+  background: var(--gold); opacity: 0;
+  transition: left .3s cubic-bezier(.2,.7,.2,1), right .3s cubic-bezier(.2,.7,.2,1), opacity .25s ease;
+}
+.nav-link:hover::after { left: 0; right: 0; opacity: 1; }
+.nav-link[data-active="true"]::after { display: none; }
+.nav-link:hover { color: var(--plum) !important; }
+
+/* Buttons: subtle press */
+.btn { transition: transform .25s ease, background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.btn-primary:hover { box-shadow: 0 14px 30px -14px rgba(74,54,100,0.55); transform: translateY(-1px); }

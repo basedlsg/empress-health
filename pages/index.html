@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Empress Health — Home Redesign</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Canvas chrome — keep the page itself dark cream so artboards float */
+    html, body { background: #ece2d6; }
+    #root { min-height: 100vh; }
+
+    /* Restrict tweak knobs to the host scope so they propagate via custom props */
+    .tweak-host {
+      --plum:    var(--tw-plum, #33204c);
+      --plum-mid:var(--tw-plum-mid, #4a3664);
+      --gold:    var(--tw-gold, #c9a560);
+      --glass-blur: var(--tw-glass-blur, 22px);
+      --glass-bg-strong: var(--tw-glass-bg, rgba(255,252,248,0.78));
+      --font-display: var(--tw-display, 'Bodoni Moda'), serif;
+    }
+  </style>
+  <!-- React + Babel (pinned) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Components (load order matters: shared → variations → canvas → tweaks → app) -->
+  <script type="text/babel" src="shared.jsx"></script>
+  <script type="text/babel" src="v1-sanctuary.jsx"></script>
+  <script type="text/babel" src="v3-liquid.jsx"></script>
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+
+  <script type="text/babel">
+    const { DesignCanvas, DCSection, DCArtboard, TweaksPanel, TweakSection, TweakRadio,
+            TweakSlider, TweakColor, TweakToggle, TweakSelect, useTweaks } = window;
+
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "accent": "plum",
+      "displayFont": "Cormorant Garamond",
+      "glassBlur": 28,
+      "glassOpacity": 66,
+      "goldAccents": true,
+      "showCrown": true
+    }/*EDITMODE-END*/;
+
+    const ACCENTS = {
+      plum:     { primary: '#33204c', mid: '#4a3664' },
+      midnight: { primary: '#1c1233', mid: '#2f1f4d' },
+      mauve:    { primary: '#5b3d75', mid: '#704b8e' },
+    };
+
+    function App() {
+      const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+      const accent = ACCENTS[t.accent] || ACCENTS.plum;
+      const hostStyle = {
+        '--tw-plum':       accent.primary,
+        '--tw-plum-mid':   accent.mid,
+        '--tw-gold':       t.goldAccents ? '#c9a560' : 'transparent',
+        '--tw-glass-blur': `${t.glassBlur}px`,
+        '--tw-glass-bg':   `rgba(255,252,248,${t.glassOpacity / 100})`,
+        '--tw-display':    `'${t.displayFont}'`,
+      };
+
+      // Hide crown via CSS when toggled off
+      React.useEffect(() => {
+        const id = 'tweak-crown-style';
+        let s = document.getElementById(id);
+        if (!s) { s = document.createElement('style'); s.id = id; document.head.appendChild(s); }
+        s.textContent = t.showCrown ? '' : '.tweak-host svg[aria-hidden]:has(+ span) { display: none; }';
+      }, [t.showCrown]);
+
+      return (
+        <div className="tweak-host" style={hostStyle}>
+          <DesignCanvas
+            title="Empress Health — Home"
+            subtitle="Empathetic Elegance · 3 variations · Bodoni Moda + Plus Jakarta Sans · tweak the system live"
+          >
+            <DCSection id="home" title="Empress Health — Home" subtitle="Sanctuary direction (primary). V3 kept for reference.">
+              <DCArtboard id="v1" label="V1 · The Sanctuary" width={1440} height={8500}>
+                <HomeV1 />
+              </DCArtboard>
+              <DCArtboard id="v3" label="V3 · Liquid Vesper (reference)" width={1440} height={3900}>
+                <HomeV3 />
+              </DCArtboard>
+            </DCSection>
+          </DesignCanvas>
+
+          <TweaksPanel title="Tweaks">
+            <TweakSection title="Brand">
+              <TweakRadio  label="Accent"
+                           value={t.accent}
+                           onChange={(v) => setTweak('accent', v)}
+                           options={[
+                             { value: 'plum',     label: 'Plum' },
+                             { value: 'midnight', label: 'Midnight' },
+                             { value: 'mauve',    label: 'Mauve' },
+                           ]} />
+              <TweakToggle label="Gold accents (citation rules + chips)"
+                           value={t.goldAccents}
+                           onChange={(v) => setTweak('goldAccents', v)} />
+              <TweakToggle label="Show crown in wordmark"
+                           value={t.showCrown}
+                           onChange={(v) => setTweak('showCrown', v)} />
+            </TweakSection>
+
+            <TweakSection title="Type">
+              <TweakSelect label="Display font"
+                           value={t.displayFont}
+                           onChange={(v) => setTweak('displayFont', v)}
+                           options={[
+                             { value: 'Bodoni Moda',       label: 'Bodoni Moda (default)' },
+                             { value: 'Cormorant Garamond',label: 'Cormorant Garamond' },
+                             { value: 'Newsreader',        label: 'Newsreader' },
+                             { value: 'Playfair Display',  label: 'Playfair Display' },
+                           ]} />
+            </TweakSection>
+
+            <TweakSection title="Liquid glass">
+              <TweakSlider label="Blur"     value={t.glassBlur}    onChange={(v) => setTweak('glassBlur', v)}    min={0} max={48} step={1} unit="px" />
+              <TweakSlider label="Opacity"  value={t.glassOpacity} onChange={(v) => setTweak('glassOpacity', v)} min={20} max={100} step={2} unit="%" />
+            </TweakSection>
+          </TweaksPanel>
+        </div>
+      );
+    }
+
+    // Load any extra display fonts the user can switch to
+    const extraFonts = document.createElement('link');
+    extraFonts.rel = 'stylesheet';
+    extraFonts.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap';
+    document.head.appendChild(extraFonts);
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
