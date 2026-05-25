@@ -3347,7 +3347,52 @@ app.use("/api/recommendations", async (req, res) => {
 
 /* -------------------- Page routes -------------------- */
 
+/* ─── REDESIGN CUTOVER (Empathetic Elegance v1.0) ────────────────────────────
+ * The Claude Design bundle lives under /pages/. These routes take priority
+ * over the legacy handlers below so canonical URLs serve the redesigned
+ * versions. Legacy HTML files at the repo root remain in place as a
+ * rollback safety net, accessible via /legacy/<slug>.
+ * To roll back a single page, comment out its CUTOVER_SLUGS entry.
+ * To roll back the whole redesign, comment out this entire block.
+ */
+const CUTOVER_SLUGS = [
+  "accessibility", "askempress", "betacomingsoon", "bundlesandkits",
+  "communitystories", "contact", "cookies", "dailyaffirmations", "dom",
+  "ebookguides", "events", "expertblogs", "expertguidance", "faq",
+  "founderstory", "haircare", "howitworks", "login", "market",
+  "membershipoptions", "membershipsurvey", "menopausemonth", "ourstory",
+  "privacypolicy", "selfcaretools", "signup", "skincare", "supplements",
+  "symptomsupport", "team", "wellnesshub", "whyempresshealth",
+  // bundle-only (no legacy equivalent — these are net-new canonical URLs):
+  "about", "community", "education", "health-assessment", "marketplace",
+  "our-program", "stories",
+];
+for (const slug of CUTOVER_SLUGS) {
+  app.get(`/${slug}`, (_req, res) =>
+    res.sendFile(path.join(__dirname, "pages", `${slug}.html`))
+  );
+}
+// /whyempress is the legacy short alias for /whyempresshealth.
+app.get("/whyempress", (_req, res) =>
+  res.sendFile(path.join(__dirname, "pages", "whyempresshealth.html"))
+);
+
+// Rollback: legacy HTML files still reachable at /legacy/<slug> while we
+// stabilize the redesign. Once approved, the root /*.html files can be
+// archived/removed.
+app.get("/legacy/:slug", (req, res, next) => {
+  const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!slug) return next();
+  const legacyFile = path.join(__dirname, `${slug}.html`);
+  if (!fs.existsSync(legacyFile)) return next();
+  res.sendFile(legacyFile);
+});
+
 app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "pages", "home.html"));
+});
+// Legacy home preserved at /legacy/home for rollback.
+app.get("/legacy/home", (_req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
