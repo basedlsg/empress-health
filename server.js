@@ -342,6 +342,11 @@ app.use(
 // Serve mock pages at /mockpages (e.g. /mockpages/mockdailyaffirmations.html)
 app.use("/mockpages", express.static(path.join(__dirname, "mockpages")));
 
+// Empress Naturals redesign bundle (from Claude Design): served at /pages/*.
+// Contains styles.css, shared.jsx, and the 8 redesigned page HTML+JSX files.
+// Each .html page loads React 18 + Babel via CDN and hydrates its sibling .jsx.
+app.use("/pages", express.static(path.join(__dirname, "pages")));
+
 // Peri+ assessment SPA (build: npm run build:assessment → prds/dist)
 // Note: mounting express.static at "/assessment" caused Express 5 / serve-static to 302
 // redirect "/assessment/" → "/assessment/" (infinite loop in browsers). Serve explicitly:
@@ -3401,6 +3406,32 @@ app.get("/membershipsurvey", (_req, res) =>
 );
 app.get("/privacypolicy", (_req, res) =>
   res.sendFile(path.join(__dirname, "privacypolicy.html"))
+);
+
+// ─── Empress Naturals redesign — pretty URLs for the Claude Design bundle ───
+// Files live under /pages/*.html. These routes give them clean URLs and let
+// us cut over gradually from the legacy pages above to the redesigned ones.
+const REDESIGN_PAGES = [
+  "our-program",
+  "health-assessment",
+  "community",
+  "marketplace",
+  "education",
+  "stories",
+  "about",
+  "faq",
+];
+for (const slug of REDESIGN_PAGES) {
+  app.get(`/r/${slug}`, (_req, res) =>
+    res.sendFile(path.join(__dirname, "pages", `${slug}.html`))
+  );
+}
+// New home preview (the redesigned landing page from the bundle).
+app.get("/r", (_req, res) =>
+  res.sendFile(path.join(__dirname, "pages", "index.html"))
+);
+app.get("/r/", (_req, res) =>
+  res.sendFile(path.join(__dirname, "pages", "index.html"))
 );
 app.get("/skincare", (_req, res) =>
   res.sendFile(path.join(__dirname, "skincare.html"))
