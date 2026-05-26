@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "framework": null,
+  "buildCommand": "npm install && npm run build:assessment && node scripts/copy-legacy-html-to-public.mjs",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/qa", "destination": "/api/index" },
+    { "source": "/r", "destination": "/pages/home" },
+    { "source": "/r/:slug", "destination": "/pages/:slug" }
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "MOCK_LLM": "1",
+    "ALLOW_UNGROUNDED_FASTAPI": "0",
+    "VERCEL_DEMO": "1",
+    "SESSION_SECRET": "vercel-demo-only-not-a-real-secret-fffffffffffffffff"
+  }
+}
