@@ -29,6 +29,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@pinecone-database/pinecone": "^7.2.0",
     "connect-pg-simple": "^10.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -43,12 +44,12 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
-    "@vitejs/plugin-react": "^5.0.0",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.10.4",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@types/yargs": "^17.0.35",
+    "@vitejs/plugin-react": "^5.0.0",
     "chalk": "^4.1.2",
     "fs-extra": "^11.3.3",
     "nodemon": "^3.1.10",

@@ -17,6 +17,7 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 
 const { generateAffirmations: _generateAffirmationsGrounded } = require("./lib/affirmations");
 const { handleQA } = require("./lib/qa");
+const { callGemini } = require("./lib/gemini");
 const retrieval = require("./lib/retrieval");
 const { issueCsrfToken, verifyCsrfMiddleware } = require("./lib/csrf");
 const dailyAffirmations = require("./lib/daily-affirmations");
@@ -685,41 +686,19 @@ app.post("/api/chat", async (req, res) => {
 /*----------------------Ask Empress Chat----------------------------------*/
 
 /**
- * Thin OpenAI caller injected into handleQA.
- * Separated so tests can mock it without patching fetch.
+ * Thin LLM caller injected into handleQA. Now routes through Gemini
+ * (lib/gemini.js) using GOOGLE_API_KEY. Function name kept as
+ * `_callOpenAIChat` only for backward-compat with the injected-dep shape
+ * lib/qa.js expects; the actual provider is Google Gemini.
  */
 async function _callOpenAIChat(systemPrompt, userQuery, signal) {
-  const payload = {
-    model: "gpt-4o-mini",
-    temperature: 0.3,
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user",   content: userQuery },
-    ],
-  };
-
-  const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify(payload),
+  return callGemini({
+    systemPrompt,
+    userPrompt: userQuery,
     signal,
+    temperature: 0.3,
+    maxOutputTokens: 1024,
   });
-
-  const text = await upstream.text();
-  let data;
-  try { data = JSON.parse(text); } catch { data = {}; }
-
-  if (!upstream.ok) {
-    const msg = data?.error?.message || text || `OpenAI error ${upstream.status}`;
-    throw new Error(msg);
-  }
-
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error("OpenAI returned no content");
-  return content;
 }
 
 app.post("/qa", async (req, res) => {
@@ -759,74 +738,33 @@ app.post("/qa", async (req, res) => {
  * @param {string} requestId - Request ID for logging
  * @returns {Promise<string>} - The LLM response content
  */
+/**
+ * Legacy name (was Groq, then a no-op). Now routes to Gemini via lib/gemini.js
+ * using GOOGLE_API_KEY. Kept under the original name so all existing callsites
+ * (lib/affirmations.js via injected dep, the inline call near
+ * generateRecommendations) continue to work without edits.
+ *
+ * Both callers expect a JSON string back (their prompts ask the model to
+ * "Output JSON exactly: {...}"). We set json: true so Gemini guarantees
+ * a parseable JSON response.
+ */
 async function callGroqAPI(systemPrompt, userPrompt, requestId = '') {
-  const groqApiKey = process.env.GROQ_API_KEY;
-
-  if (!groqApiKey) {
-    throw new Error('GROQ_API_KEY environment variable is not set');
-  }
-
-  const payload = {
-    model: "llama-3.1-70b-versatile", // Fast, free tier model
-    temperature: 0.7,
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userPrompt }
-    ],
-    response_format: { type: "json_object" } // Request JSON response
-  };
-
   const startTime = Date.now();
-  const groqCtrl = new AbortController();
-  const groqTimeout = setTimeout(() => groqCtrl.abort(), 20000);
-
   try {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${groqApiKey}`
-      },
-      body: JSON.stringify(payload),
-      signal: groqCtrl.signal
+    const content = await callGemini({
+      systemPrompt,
+      userPrompt,
+      temperature: 0.7,
+      maxOutputTokens: 1024,
+      json: true,
     });
-
     const duration = Date.now() - startTime;
-    const text = await response.text();
-    let data;
-
-    try {
-      data = JSON.parse(text);
-    } catch (parseErr) {
-      console.error(`[${requestId}] ❌ Groq API response parsing error:`, parseErr.message);
-      console.error(`[${requestId}]   Response text:`, text.substring(0, 500));
-      throw new Error(`Invalid JSON response from Groq API: ${parseErr.message}`);
-    }
-
-    if (!response.ok) {
-      const errorMsg = data?.error?.message || text || `Groq API error ${response.status}`;
-      console.error(`[${requestId}] ❌ Groq API error (${duration}ms):`, errorMsg);
-      throw new Error(`Groq API error: ${errorMsg}`);
-    }
-
-    const content = data?.choices?.[0]?.message?.content;
-    if (!content) {
-      console.error(`[${requestId}] ❌ Groq API returned no content:`, data);
-      throw new Error("Groq API returned no content");
-    }
-
-    console.log(`[${requestId}] ✅ Groq API call successful (${duration}ms)`);
+    console.log(`[${requestId}] ✅ Gemini call successful (${duration}ms)`);
     return content;
-
   } catch (err) {
     const duration = Date.now() - startTime;
-    if (err.message.includes('Groq API')) {
-      throw err; // Re-throw Groq-specific errors
-    }
-    console.error(`[${requestId}] ❌ Groq API request failed (${duration}ms):`, err.message);
-    throw new Error(`Failed to call Groq API: ${err.message}`);
-  } finally {
-    clearTimeout(groqTimeout);
+    console.error(`[${requestId}] ❌ Gemini call failed (${duration}ms):`, err.message);
+    throw err;
   }
 }
 
@@ -948,7 +886,7 @@ async function generateRecommendations(userProfile, requestId) {
       let reason       = prod.blurb;
       let evidenceRefs = prod.evidence_refs.slice();
 
-      if (retrievedContext.context && process.env.GROQ_API_KEY) {
+      if (retrievedContext.context && process.env.GOOGLE_API_KEY) {
         const sysPrompt = `You are a women's health content writer. Write only the personalised reason text. Cite no products outside the provided list. Do NOT invent product names, dosages, or brand names. Reference the clinical context provided to ground your reason. Output JSON: {"reason": "...", "evidence_refs": ["chunk-id-1", "chunk-id-2"]}`;
         const llmUserPrompt = `Clinical context:\n${retrievedContext.context}\n\nProduct: ${prod.name}\nUser stage: ${stage}, priority areas: ${priorityCategories.join(", ")}\n\nWrite a personalised reason (under 60 words) for why this product is relevant for this user. Include the 1-2 most relevant chunk IDs from the context above as evidence_refs.`;
 

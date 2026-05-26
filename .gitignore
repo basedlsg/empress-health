@@ -11,6 +11,13 @@ artifacts/
 prds/dist/
 *.log
 
+# JSX → JS precompiled output from scripts/build-pages-jsx.mjs (Vercel build
+# regenerates these). The original .jsx and .html sources remain tracked.
+/pages/*.js
+
+# Vercel CLI project link (machine-specific, contains project ID).
+.vercel/
+
 # Dev artifact dumps
 build_out*.txt
 status.txt
