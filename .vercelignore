@@ -13,43 +13,12 @@ node_modules
 # === Build artifacts (Vercel rebuilds via buildCommand) ===
 prds/dist
 
-# === Legacy HTML files at repo root (cutover serves from pages/* now) ===
-# Anchored to root so /pages/<slug>.html is NOT matched.
-/betacomingsoon.html
-/betaversion.html
-/bundlesandkits.html
-/community.html
-/communitystories.html
-/contact.html
-/dailyaffirmations.html
-/dom.html
-/ebookguides.html
-/events.html
-/expertblogs.html
-/expertguidance.html
-/faq.html
-/founderstory.html
-/haircare.html
-/howitworks.html
-/index.html
-/login.html
-/market.html
-/membershipoptions.html
-/membershipsurvey.html
-/menopausemonth.html
-/ourstory.html
-/privacypolicy.html
-/selfcaretools.html
-/signup.html
-/skincare.html
-/supplements.html
-/symptomsupport.html
-/team.html
-/wellnesshub.html
-/whyempresshealth.html
-/askempress.html
-/cookies.html
-/accessibility.html
+# === Legacy HTML files at repo root ===
+# DO NOT ignore these — scripts/copy-legacy-html-to-public.mjs reads them
+# at build time and stages them into public/ so Vercel serves them at
+# canonical URLs (/signup, /askempress, /our-program, etc.). Excluding them
+# here produces a working build that returns 404 on every static page.
+# The only file that's safe to skip is the local-only test page.
 /empresshealth.ai-test.html
 
 # === Mockpages — internal scratch ===
