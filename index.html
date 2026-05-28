@@ -29,17 +29,20 @@
    TOKENS / GLOBAL RESET
    ========================= */
     :root {
-      --bg: #FAF6F1;           /* Brand CREAM */
-      --ink: #3D2B1F;          /* Brand DEEP */
-      --muted: #6e6a7a;
-      --soft: #FAF6F1;       /* Brand CREAM */
+      /* Three-color palette: white, beige, plum (with yellow CTA accent) */
+      --bg: #FAF6F1;           /* Brand BEIGE / cream page */
+      --ink: #3f1449;          /* Brand PLUM — body copy / chrome */
+      --muted: #6e5e7a;
+      --soft: #ffffff;         /* Brand WHITE — cards, button surfaces */
 
-      --primary: #C8856A;      /* Brand TERRACOTTA */
-      --primary-600: #3D2B1F;  /* Brand DEEP (headings/text) */
-      --accent: #C9A96E;       /* Brand GOLD */
-      --empress-gold: #C9A96E;
+      --primary: #3f1449;      /* Brand PLUM — primary chrome */
+      --primary-600: #2e0f37;  /* Plum darker — heading emphasis */
+      --accent: #F4C430;       /* Brand YELLOW — CTA fill */
+      --accent-ink: #3f1449;   /* Plum text on the yellow CTA */
+      --empress-gold: #F4C430;
       --brand-cream: #FAF6F1;
-      --brand-sage: #7A8C6E;
+      --brand-white: #ffffff;
+      --brand-plum: #3f1449;
 
       --border: #ececf1;
       --shadow: 0 10px 30px rgba(16, 16, 32, .08);
@@ -184,7 +187,7 @@
     /* Homepage hero CTAs — sit directly under the hero image */
     .hero-cta {
       background: var(--brand-cream, #FAF6F1);
-      padding: var(--space-5) 0;
+      padding: var(--space-5) 0 var(--space-6);
       border-bottom: 1px solid var(--border);
     }
 
@@ -197,8 +200,8 @@
     }
 
     .hero-cta .btn {
-      font-size: 1.05rem;
-      padding: 1rem 1.6rem;
+      font-size: 1.1rem;
+      padding: 1.05rem 2rem;
     }
 
     .hero-cta .cta-note {
@@ -206,11 +209,104 @@
       text-align: center;
       color: var(--primary-600);
       font-size: 0.95rem;
-      margin-top: 8px;
+      margin-top: 16px;
     }
 
-    .hero-cta .cta-note strong {
+    .hero-cta .cta-note a {
+      color: var(--primary-600);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Yellow CTA — primary brand action. Plum text on saffron-yellow fill. */
+    .btn.cta-yellow {
+      background: var(--accent);
+      color: var(--accent-ink);
+      border: 2px solid var(--accent);
+      box-shadow: 0 6px 18px rgba(244, 196, 48, 0.30);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .btn.cta-yellow:hover,
+    .btn.cta-yellow:focus-visible {
+      background: #e6b620;
+      border-color: #e6b620;
+      color: var(--accent-ink);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(244, 196, 48, 0.40);
+    }
+
+    /* ─── HERO HEADLINE (above image) ─── */
+    .hero-headline {
+      text-align: center;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: var(--space-5) 24px var(--space-4);
+    }
+    .hero-eyebrow {
+      font: 600 12px/1 'Inter', system-ui, sans-serif;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
       color: var(--primary);
+      margin: 0 0 14px;
+      opacity: 0.7;
+    }
+    .hero-headline h1 {
+      font: 600 clamp(2.2rem, 5vw, 3.4rem)/1.08 'Poppins', system-ui, sans-serif;
+      color: var(--primary-600);
+      margin: 0 0 16px;
+      letter-spacing: -0.01em;
+    }
+    .hero-headline .learns {
+      color: var(--primary);
+      font-style: italic;
+    }
+    .hero-subhead {
+      font: 400 clamp(1rem, 1.6vw, 1.2rem)/1.5 'Inter', system-ui, sans-serif;
+      color: var(--muted);
+      margin: 0;
+      max-width: 640px;
+      margin-inline: auto;
+    }
+
+    /* ─── HERO BULLETS (below image, single block) ─── */
+    .hero-bullets {
+      background: var(--brand-white);
+      max-width: 880px;
+      margin: 24px auto 0;
+      padding: 28px 32px;
+      border-radius: 18px;
+      box-shadow: 0 6px 22px rgba(63, 20, 73, 0.06);
+      border: 1px solid rgba(63, 20, 73, 0.08);
+    }
+    .hero-bullets ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+    .hero-bullets li {
+      font: 400 1.02rem/1.5 'Inter', system-ui, sans-serif;
+      color: var(--primary-600);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .hero-bullets .bullet-mark {
+      color: var(--accent);
+      font-size: 1.15rem;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+    @media (min-width: 720px) {
+      .hero-bullets {
+        padding: 32px 48px;
+      }
+      .hero-bullets ul {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 24px;
+      }
     }
 
     /* =========================
@@ -618,6 +714,9 @@
       scroll-snap-align: center;
     }
 
+    /* Carousel arrows — white fill, beige border, plum icon. Three-color
+       palette only (white, beige, plum). On hover the arrow becomes beige
+       to stay inside the palette (no accent color). */
     .carousel-nav {
       position: absolute;
       top: 50%;
@@ -625,9 +724,9 @@
       width: var(--arrow);
       height: var(--arrow);
       border-radius: 50%;
-      border: 2px solid var(--border);
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 2px solid var(--brand-cream);
+      background: var(--brand-white);
+      box-shadow: 0 4px 12px rgba(63, 20, 73, 0.10);
       display: grid;
       place-items: center;
       font-size: 1.8rem;
@@ -640,8 +739,8 @@
     }
 
     .carousel-nav:hover {
-      background: var(--primary);
-      color: #fff;
+      background: var(--brand-cream);
+      color: var(--primary);
     }
 
     .carousel-nav:focus-visible {
@@ -1100,17 +1199,19 @@
       transform: translateY(-50%);
       width: 40px;
       height: 40px;
-      background-color: #C8856A;
-      color: white;
-      border: none;
+      background-color: var(--brand-white);
+      color: var(--primary);
+      border: 2px solid var(--brand-cream);
       border-radius: 50%;
       font-size: 24px;
       cursor: pointer;
       z-index: 10;
+      box-shadow: 0 4px 12px rgba(63, 20, 73, 0.10);
     }
 
     .products-carousel-wrapper .product-nav-arrow:hover {
-      background-color: #C9A96E;
+      background-color: var(--brand-cream);
+      color: var(--primary);
     }
 
     .products-carousel-wrapper .product-nav-arrow.left {
@@ -1786,7 +1887,14 @@
         </span>
       </div>
     </div>
-    <a class="hero-link" href="/assessment/" aria-label="Start the menopause health assessment">
+    <!-- Hero headline (above image) -->
+    <div class="hero-headline">
+      <p class="hero-eyebrow">Empress Health</p>
+      <h1><span class="learns">Support that learns you.</span></h1>
+      <p class="hero-subhead">Sleep deeply. Think clearly. Feel complete. Be you again.</p>
+    </div>
+
+    <a class="hero-link" href="/free-assessment" aria-label="Start your free menopause health assessment">
     <div class="hero-card">
       <!-- Single hero image (slideshow rotation removed per design update) -->
       <div class="hero-slide is-active" data-index="0"
@@ -1802,6 +1910,15 @@
       </div>
     </div>
     </a>
+
+    <!-- Hero bullets (below image, single block) -->
+    <div class="hero-bullets">
+      <ul>
+        <li><span class="bullet-mark">✦</span> Grounded in clinical evidence — every claim cited.</li>
+        <li><span class="bullet-mark">✦</span> Personalized to your symptoms, not the average woman.</li>
+        <li><span class="bullet-mark">✦</span> Built with you in three minutes, refined over time.</li>
+      </ul>
+    </div>
   </section>
 
   <!-- ==========================================
@@ -1811,10 +1928,9 @@
   <section class="hero-cta" aria-label="Start your assessment">
     <div class="container">
       <div class="cta-row">
-        <a class="btn primary" href="/free-assessment">Take the Free Assessment &rarr;</a>
-        <a class="btn secondary" href="/health-assessment">Full 120-Question Assessment &mdash; $129/year (one-time)</a>
+        <a class="btn primary cta-yellow" href="/free-assessment">Get My Free Health Assessment &rarr;</a>
       </div>
-      <p class="cta-note"><strong>$129/year (one-time)</strong> &middot; Grounded in clinical evidence &middot; Citations on every claim</p>
+      <p class="cta-note">3-minute snapshot. No email required. Grounded in clinical evidence &middot; <a href="/health-assessment">Or take the full 120-question assessment — $129/year (one-time)</a></p>
     </div>
   </section>
 
