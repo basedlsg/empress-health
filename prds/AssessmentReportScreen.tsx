@@ -2599,7 +2599,11 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
 const printCSS = `
 @page {
   size: letter;
-  margin: 15mm 14mm;
+  /* Tightened from 15mm to 10mm top/bottom — the 15mm gutter combined
+   * with section padding-top was producing ~120px of blank space at the
+   * top of every continuation page (notably page 20 of the recommended
+   * products section). 10mm still leaves room for the print header. */
+  margin: 10mm 14mm;
 }
 
 @media print {
@@ -2608,6 +2612,19 @@ const printCSS = `
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     background: #fff !important;
+  }
+
+  /* Continuation-page fix: the 32px section padding-top + 24px hero
+   * bottom-margin compounded with the @page margin to leave a large
+   * empty gap at the top of every continuation page (page 20 etc.).
+   * Drop both in print — visual breathing is already provided by the
+   * hero card's own internal 18px padding and the @page margin. */
+  .empress-report-section {
+    padding-top: 0 !important;
+  }
+  .empress-numbered-hero,
+  .empress-section-hero {
+    margin-bottom: 8px !important;
   }
 
   /* Hide on-screen controls + the site nav in the printed output */
