@@ -828,12 +828,10 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
         <ReferAFriendCard referrerFirstName={user?.firstName ?? null} tier="free" />
       )}
 
-      {/* ─── PRICING (paid tier only) ───
-       * Replaces the previous LuxuryGift section. Two columns — a free
-       * tier card and a $29/mo subscription card — surfaced inside the
-       * paid report so existing paid users can see what an ongoing
-       * subscription unlocks without bouncing to /membershipoptions. */}
-      {!isFree && <ReportPricingBlock firstName={user?.firstName ?? null} />}
+      {/* PRICING BLOCK REMOVED — readers of the paid report have already
+       * purchased ($129/yr or $12/mo). Surfacing pricing inside their
+       * report adds zero value and feels like a re-pitch. Paywall lives
+       * upstream at /pricing instead, before the 120-Q assessment. */}
 
       {/* ─── 08 ACTIONS / UPGRADE ─── */}
       <section style={s.section} className="empress-report-section">

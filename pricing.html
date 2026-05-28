@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unlock Your Full Health Intelligence Report — Empress Health</title>
+  <meta name="description" content="Unlock the full 120-question Empress Health Intelligence Report. $129 one-time or $12/month (12-month commitment)." />
+  <link rel="icon" type="image/png" href="/EmpressHealthlogo-favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --plum:        #3f1449;
+      --plum-light:  #4b2577;
+      --gold:        #D8A738;
+      --yellow:      #F4C430;
+      --cream:       #FAF6F1;
+      --white:       #ffffff;
+      --ink:         #3f1449;
+      --muted:       #6e5e7a;
+      --border:      rgba(63, 20, 73, 0.10);
+      --shadow:      0 10px 30px rgba(63, 20, 73, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font: 400 16px/1.55 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    /* ── Header ── */
+    header.brand {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .logo-row img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+    }
+    .logo-row .wordmark {
+      font: 600 18px/1 'Poppins', sans-serif;
+      color: var(--plum);
+      letter-spacing: -0.01em;
+    }
+    .eyebrow {
+      font: 600 12px/1 'Inter', sans-serif;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 0 0 14px;
+    }
+    h1 {
+      font: 600 clamp(2rem, 4.5vw, 3rem)/1.1 'Poppins', sans-serif;
+      color: var(--plum);
+      letter-spacing: -0.01em;
+      margin: 0 0 16px;
+    }
+    h1 em {
+      color: var(--plum-light);
+      font-style: italic;
+    }
+    .lede {
+      font: 400 clamp(1rem, 1.4vw, 1.15rem)/1.55 'Inter', sans-serif;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ── Pricing cards ── */
+    .cards {
+      display: grid;
+      gap: 24px;
+      margin: 48px 0 24px;
+    }
+    @media (min-width: 760px) {
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 36px 32px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .card.featured {
+      border: 2px solid var(--gold);
+      box-shadow: 0 14px 40px rgba(63, 20, 73, 0.12);
+    }
+    .card .ribbon {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--plum);
+      font: 700 11px/1 'Inter', sans-serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 99px;
+    }
+
+    .card h2 {
+      font: 600 1.05rem/1.2 'Inter', sans-serif;
+      color: var(--plum);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0 0 4px;
+    }
+    .card .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 8px 0 4px;
+    }
+    .card .price {
+      font: 700 3.4rem/1 'Poppins', sans-serif;
+      color: var(--plum);
+      letter-spacing: -0.02em;
+    }
+    .card .price-unit {
+      font: 500 1rem/1 'Inter', sans-serif;
+      color: var(--muted);
+    }
+    .card .subline {
+      font: 400 0.95rem/1.4 'Inter', sans-serif;
+      color: var(--muted);
+      margin: 4px 0 24px;
+    }
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 28px;
+      display: grid;
+      gap: 12px;
+    }
+    .card li {
+      padding-left: 26px;
+      position: relative;
+      font: 400 0.97rem/1.5 'Inter', sans-serif;
+      color: var(--plum);
+    }
+    .card li::before {
+      content: "✦";
+      color: var(--gold);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      font-size: 1rem;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px 22px;
+      border-radius: 14px;
+      border: 2px solid var(--yellow);
+      background: var(--yellow);
+      color: var(--plum);
+      font: 700 1rem/1 'Inter', sans-serif;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.18s ease;
+      margin-top: auto;
+    }
+    .btn:hover, .btn:focus-visible {
+      background: #e6b620;
+      border-color: #e6b620;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(244, 196, 48, 0.30);
+      outline: none;
+    }
+    .btn.muted {
+      background: var(--white);
+      border-color: var(--plum);
+      color: var(--plum);
+    }
+    .btn.muted:hover {
+      background: var(--cream);
+    }
+    .fineprint {
+      font: 400 0.83rem/1.4 'Inter', sans-serif;
+      color: var(--muted);
+      margin: 14px 0 0;
+    }
+
+    /* ── Promo code ── */
+    .promo {
+      max-width: 520px;
+      margin: 32px auto 0;
+      text-align: center;
+    }
+    .promo summary {
+      cursor: pointer;
+      color: var(--plum);
+      font: 600 0.95rem/1 'Inter', sans-serif;
+      letter-spacing: 0.02em;
+      padding: 10px 0;
+      list-style: none;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .promo summary::-webkit-details-marker { display: none; }
+    .promo[open] summary { color: var(--plum-light); }
+    .promo .promo-row {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+    .promo input {
+      flex: 1;
+      max-width: 280px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font: 500 0.95rem/1 'Inter', sans-serif;
+      color: var(--plum);
+      background: var(--white);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .promo input:focus {
+      outline: none;
+      border-color: var(--plum-light);
+    }
+    .promo button {
+      padding: 12px 18px;
+      border: 1.5px solid var(--plum);
+      background: var(--white);
+      color: var(--plum);
+      border-radius: 12px;
+      font: 600 0.9rem/1 'Inter', sans-serif;
+      cursor: pointer;
+    }
+    .promo .promo-msg {
+      margin-top: 10px;
+      font: 500 0.85rem/1.4 'Inter', sans-serif;
+      min-height: 1em;
+    }
+    .promo .promo-msg.ok { color: #2e8b57; }
+    .promo .promo-msg.err { color: #C8474A; }
+
+    /* ── Footer notes ── */
+    .notes {
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      font: 400 0.85rem/1.6 'Inter', sans-serif;
+      color: var(--muted);
+      max-width: 720px;
+      margin-inline: auto;
+      text-align: center;
+    }
+    .notes a {
+      color: var(--plum-light);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ── Back link ── */
+    .backlink {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font: 500 0.9rem/1 'Inter', sans-serif;
+      margin-bottom: 24px;
+    }
+    .backlink:hover { color: var(--plum); }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a href="/free-assessment" class="backlink">← Back to free assessment</a>
+
+    <header class="brand">
+      <div class="logo-row">
+        <img src="/EmpressHealthlogo-new.png" alt="Empress Health logo">
+        <span class="wordmark">empress<em style="font-style:italic;color:var(--plum-light)">health.ai</em></span>
+      </div>
+      <p class="eyebrow">Step 2 of 2</p>
+      <h1>Unlock your <em>full</em> Health Intelligence Report</h1>
+      <p class="lede">
+        Your free 20-question snapshot is just the beginning. The full 120-question assessment
+        produces a comprehensive, evidence-grounded report across all 10 menopause health domains —
+        with citations on every claim.
+      </p>
+    </header>
+
+    <div class="cards">
+      <!-- ─── ONE-TIME $129 ─── -->
+      <div class="card featured">
+        <div class="ribbon">Best Value</div>
+        <h2>Annual Access</h2>
+        <div class="price-row">
+          <span class="price">$129</span>
+          <span class="price-unit">/year · one-time</span>
+        </div>
+        <p class="subline">Pay once. Done. Full access for 12 months.</p>
+        <ul>
+          <li>All 120 questions across 10 health domains</li>
+          <li>Personalized Health Intelligence Report (34 pages)</li>
+          <li>Pinecone-grounded clinical citations on every claim</li>
+          <li>Downloadable PDF + shareable with your clinician</li>
+          <li>Daily affirmations + symptom tracking for 12 months</li>
+        </ul>
+        <button class="btn" data-plan="annual" data-price="129">Get Annual Access — $129</button>
+        <p class="fineprint">One-time charge. Renews annually unless cancelled.</p>
+      </div>
+
+      <!-- ─── MONTHLY $12 ─── -->
+      <div class="card">
+        <h2>Monthly Plan</h2>
+        <div class="price-row">
+          <span class="price">$12</span>
+          <span class="price-unit">/month</span>
+        </div>
+        <p class="subline">Spread the cost — billed monthly, 12-month commitment.</p>
+        <ul>
+          <li>Everything in Annual Access</li>
+          <li>Billed $12/month for 12 months ($144 total)</li>
+          <li><strong>12-month commitment</strong> — early cancellation still settles the remaining balance</li>
+          <li>Switch to annual at any time and save</li>
+        </ul>
+        <button class="btn muted" data-plan="monthly" data-price="12">Start Monthly — $12/mo</button>
+        <p class="fineprint">By starting, you agree to the 12-month contract. Cancellation before month 12 settles the remaining balance.</p>
+      </div>
+    </div>
+
+    <details class="promo">
+      <summary>Apply promotional code</summary>
+      <div class="promo-row">
+        <input type="text" id="promo-code" placeholder="ENTER CODE" autocomplete="off">
+        <button type="button" id="promo-apply">Apply</button>
+      </div>
+      <p class="promo-msg" id="promo-msg"></p>
+    </details>
+
+    <div class="notes">
+      <p>
+        Questions? See the <a href="/faq">FAQ</a> or
+        <a href="/contact">contact our care team</a>.
+      </p>
+      <p>
+        Your data stays yours — see our <a href="/privacypolicy">Privacy Policy</a> for details.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Plan selection — stubs the checkout flow. When Stripe is wired in,
+    // replace this with a POST to /api/checkout/start that returns a
+    // Stripe Checkout Session URL.
+    document.querySelectorAll('button[data-plan]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const plan = btn.dataset.plan;
+        const promo = document.getElementById('promo-code').value.trim().toUpperCase();
+        btn.disabled = true;
+        btn.textContent = 'Preparing your assessment...';
+        try {
+          const res = await fetch('/api/checkout/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan, promoCode: promo || null }),
+            credentials: 'same-origin',
+          });
+          const j = await res.json();
+          if (j.redirect) {
+            window.location.href = j.redirect;
+          } else {
+            btn.disabled = false;
+            btn.textContent = plan === 'annual' ? 'Get Annual Access — $129' : 'Start Monthly — $12/mo';
+            alert(j.error || 'Could not start checkout. Please try again.');
+          }
+        } catch (e) {
+          btn.disabled = false;
+          btn.textContent = plan === 'annual' ? 'Get Annual Access — $129' : 'Start Monthly — $12/mo';
+          alert('Network error. Please try again.');
+        }
+      });
+    });
+
+    // Promo code validation — server-side check; UI shows feedback.
+    document.getElementById('promo-apply').addEventListener('click', async () => {
+      const code = document.getElementById('promo-code').value.trim().toUpperCase();
+      const msg = document.getElementById('promo-msg');
+      if (!code) {
+        msg.className = 'promo-msg err';
+        msg.textContent = 'Enter a code to apply.';
+        return;
+      }
+      msg.className = 'promo-msg';
+      msg.textContent = 'Checking...';
+      try {
+        const res = await fetch('/api/checkout/promo?code=' + encodeURIComponent(code));
+        const j = await res.json();
+        if (j.valid) {
+          msg.className = 'promo-msg ok';
+          msg.textContent = j.message || `Code applied: ${j.discount}`;
+        } else {
+          msg.className = 'promo-msg err';
+          msg.textContent = j.message || 'That code isn\'t valid.';
+        }
+      } catch (e) {
+        msg.className = 'promo-msg err';
+        msg.textContent = 'Could not validate code. Try again in a moment.';
+      }
+    });
+  </script>
+</body>
+</html>

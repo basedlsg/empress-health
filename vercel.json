@@ -15,6 +15,7 @@
     { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/qa", "destination": "/api/index" },
     { "source": "/free-assessment", "destination": "/free-assessment.html" },
+    { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/health-assessment", "destination": "/api/index" },
     { "source": "/r", "destination": "/pages/home" },
     { "source": "/r/:slug", "destination": "/pages/:slug" },

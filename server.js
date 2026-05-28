@@ -374,10 +374,10 @@ if (fs.existsSync(assessmentIndex)) {
   //                          ricochet users back through /signup)
   //   - default (no tier)  → require session; otherwise bounce through /signup
   //                          and return them to /assessment/?tier=paid
-  // Friendly alias: marketing copy / new homepage CTAs link to /health-assessment.
-  // Redirect to the canonical paid-flow URL so we don't have two routes to maintain.
+  // Friendly alias: marketing copy / homepage CTAs link to /health-assessment.
+  // Routes to the paywall first — only paying customers reach the 120-Q.
   app.get(["/health-assessment", "/health-assessment/"], (req, res) => {
-    return res.redirect(302, "/assessment/?tier=paid");
+    return res.redirect(302, "/pricing");
   });
 
   app.get(["/assessment", "/assessment/"], (req, res) => {
@@ -3593,6 +3593,60 @@ app.get("/askempress", (_req, res) =>
 app.get("/free-assessment", (_req, res) =>
   res.sendFile(path.join(__dirname, "free-assessment.html"))
 );
+app.get("/pricing", (_req, res) =>
+  res.sendFile(path.join(__dirname, "pricing.html"))
+);
+
+/* ───────────────────────── Checkout / paywall ─────────────────────────
+ * Gates the paid 120-Q assessment behind a purchase. Stripe is not yet
+ * wired in — this stub records the intent in the session, flips a
+ * `tierPaid` flag, and redirects into the assessment. When Stripe is
+ * added later, `/api/checkout/start` should return a Stripe Checkout
+ * Session URL; the assessment route already checks `req.session.tierPaid`. */
+
+// Promo code table — keep small for now, extend or move to DB later.
+const PROMO_CODES = {
+  EMPRESS50:  { discount: "50% off",  message: "50% off applied — half-price annual access." },
+  FOUNDER:    { discount: "free",     message: "Founder access — full assessment unlocked at no cost." },
+  PERIMENO15: { discount: "15% off",  message: "15% off applied at checkout." },
+};
+
+app.post("/api/checkout/start", async (req, res) => {
+  try {
+    const plan = req.body && req.body.plan === "monthly" ? "monthly" : "annual";
+    const promoCode = typeof req.body?.promoCode === "string"
+      ? req.body.promoCode.trim().toUpperCase()
+      : null;
+
+    // Record intent on the session so the assessment route can verify entitlement.
+    if (req.session) {
+      req.session.tierPaid     = true;
+      req.session.plan         = plan;
+      req.session.priceUSD     = plan === "monthly" ? 12 : 129;
+      req.session.promoApplied = promoCode && PROMO_CODES[promoCode] ? promoCode : null;
+      req.session.paidAt       = new Date().toISOString();
+    }
+
+    // TODO: replace this stub with a real Stripe Checkout Session URL.
+    return res.json({
+      ok: true,
+      redirect: "/assessment/?tier=paid",
+      plan,
+      promoApplied: req.session?.promoApplied || null,
+    });
+  } catch (err) {
+    console.error("[checkout] start failed:", err.message);
+    return res.status(500).json({ ok: false, error: "Could not start checkout." });
+  }
+});
+
+app.get("/api/checkout/promo", (req, res) => {
+  const code = String(req.query.code || "").trim().toUpperCase();
+  if (!code) return res.json({ valid: false, message: "Enter a code." });
+  const hit = PROMO_CODES[code];
+  if (!hit) return res.json({ valid: false, message: "That code isn't valid." });
+  return res.json({ valid: true, discount: hit.discount, message: hit.message });
+});
 app.get("/events", (_req, res) =>
   res.sendFile(path.join(__dirname, "events.html"))
 );

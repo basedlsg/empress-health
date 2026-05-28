@@ -651,10 +651,10 @@ function renderReport() {
   const next = el('div', { class: 'next-step' },
     el('h3', {}, 'Want the Full Picture?'),
     el('p', {}, r.nextStep || 'Take the full 120-question assessment to unlock your complete Health Intelligence report.'),
-    el('a', { class: 'cta-light', href: '/health-assessment' },
-      'Take Full 120-Question Assessment →',
+    el('a', { class: 'cta-light', href: '/pricing' },
+      'Unlock Full 120-Question Assessment →',
     ),
-    el('span', { class: 'price' }, '$129/year — one-time annual access'),
+    el('span', { class: 'price' }, '$129/year or $12/month (12-mo commitment)'),
   );
 
   const body = el('div', { class: 'report-body' }, pillarsCard, insightsCard, affirmation, next);
