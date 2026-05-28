@@ -374,6 +374,12 @@ if (fs.existsSync(assessmentIndex)) {
   //                          ricochet users back through /signup)
   //   - default (no tier)  → require session; otherwise bounce through /signup
   //                          and return them to /assessment/?tier=paid
+  // Friendly alias: marketing copy / new homepage CTAs link to /health-assessment.
+  // Redirect to the canonical paid-flow URL so we don't have two routes to maintain.
+  app.get(["/health-assessment", "/health-assessment/"], (req, res) => {
+    return res.redirect(302, "/assessment/?tier=paid");
+  });
+
   app.get(["/assessment", "/assessment/"], (req, res) => {
     const tier = req.query && typeof req.query.tier === "string" ? req.query.tier : null;
 
@@ -3016,6 +3022,129 @@ app.post("/api/assessment/free-report", async (req, res) => {
   */
 });
 
+/* -------------------- Free Trial Snapshot Report --------------------
+ *
+ * Powers the 20-question free assessment served at /free-assessment.
+ * Accepts a small JSON payload of Likert-scored answers, asks Gemini to
+ * return a structured wellness snapshot, and returns the parsed JSON.
+ *
+ * No auth, no completion gate — the free flow is intentionally low-friction.
+ * If Gemini fails (network / quota / safety block), we fall back to a
+ * curated default object so the UI always renders.
+ *
+ * Request body: { answers: [{ domain, question, score }, ...] }
+ * Response: { name, stage, headline, topSymptoms, insights[],
+ *             pillars[{name,score,tip}], affirmation, nextStep, domainScores }
+ */
+app.post("/api/free-trial-report", async (req, res) => {
+  const rawAnswers = Array.isArray(req.body?.answers) ? req.body.answers : [];
+  const answers = rawAnswers
+    .filter((a) => a && typeof a === "object")
+    .map((a) => ({
+      domain:   String(a.domain || "").slice(0, 40),
+      question: String(a.question || "").slice(0, 240),
+      score:    Number.isFinite(Number(a.score)) ? Number(a.score) : 50,
+    }));
+
+  // Pre-compute domain averages so the UI / fallback always has them.
+  const domainBuckets = {};
+  for (const a of answers) {
+    if (!a.domain) continue;
+    (domainBuckets[a.domain] = domainBuckets[a.domain] || []).push(a.score);
+  }
+  const domainScores = {};
+  for (const [d, arr] of Object.entries(domainBuckets)) {
+    domainScores[d] = Math.round(arr.reduce((s, v) => s + v, 0) / arr.length);
+  }
+
+  const fallback = {
+    name: "Your Empress Wellness Snapshot",
+    stage: "Perimenopause",
+    headline: "Your body is speaking — and you're finally ready to listen.",
+    topSymptoms: ["Sleep disruption", "Energy fluctuations", "Mood changes"],
+    insights: [
+      { domain: "Sleep",  insight: "Your sleep patterns suggest hormonal fluctuations are disturbing your nights — a common signal in perimenopause." },
+      { domain: "Mood",   insight: "The mood shifts you're experiencing reflect the cortisol-estrogen dance of this transition." },
+      { domain: "Energy", insight: "Afternoon fatigue is one of the most common signs your hormonal rhythm needs gentle support." },
+    ],
+    pillars: [
+      { name: "Sleep",   score: 55, tip: "Try a magnesium glycinate supplement 30 minutes before bed." },
+      { name: "Nourish", score: 65, tip: "Add phytoestrogen-rich foods like flax and lentils to your day." },
+      { name: "Calm",    score: 50, tip: "4-7-8 breathing for 5 minutes before sleep can soothe your nervous system." },
+      { name: "Move",    score: 60, tip: "Strength training 2x/week supports bone density and metabolism." },
+    ],
+    affirmation: "You are not broken. You are becoming.",
+    nextStep: "Take the full 120-question assessment to unlock your complete Health Intelligence report.",
+    domainScores,
+  };
+
+  // Empty-answer guard: just return the fallback (deterministic, no LLM cost).
+  if (answers.length === 0) {
+    return res.json(fallback);
+  }
+
+  // Summary string for the model.
+  const summary = answers
+    .map((a) => `${a.domain}: "${a.question}" — score ${a.score}/100`)
+    .join("\n");
+
+  const systemPrompt =
+    "You are Empress, a warm, empowering AI wellness coach for women navigating menopause. " +
+    "You speak with compassion, evidence-backed insight, and never diagnose. " +
+    "You ALWAYS return strictly-valid JSON matching the requested schema. No prose, no markdown.";
+
+  const userPrompt = `Here are a woman's responses to a 20-question wellness assessment.
+Each answer is scored 25 (most concerning) to 100 (optimal). Lower scores mean more symptom burden in that domain.
+
+${summary}
+
+Pre-computed domain averages (for grounding):
+${Object.entries(domainScores).map(([d, s]) => `  ${d}: ${s}/100`).join("\n")}
+
+Return JSON in EXACTLY this shape:
+{
+  "name": "personalized 4-7 word report title",
+  "stage": "one of: Early Perimenopause, Mid Perimenopause, Late Perimenopause, Menopause, Postmenopause",
+  "headline": "one warm, empowering sentence summarizing her journey (max 20 words)",
+  "topSymptoms": ["symptom1", "symptom2", "symptom3"],
+  "insights": [
+    {"domain": "domain name", "insight": "2-sentence personalized insight grounded in her scores"},
+    {"domain": "domain name", "insight": "2-sentence personalized insight"},
+    {"domain": "domain name", "insight": "2-sentence personalized insight"}
+  ],
+  "pillars": [
+    {"name": "Sleep",   "score": 0-100, "tip": "one actionable evidence-based tip"},
+    {"name": "Nourish", "score": 0-100, "tip": "one actionable evidence-based tip"},
+    {"name": "Calm",    "score": 0-100, "tip": "one actionable evidence-based tip"},
+    {"name": "Move",    "score": 0-100, "tip": "one actionable evidence-based tip"}
+  ],
+  "affirmation": "a short, powerful affirmation for her stage of life (under 14 words)",
+  "nextStep": "one clear, warm invitation to take the full 120-question assessment"
+}`;
+
+  try {
+    const raw = await callGemini({
+      systemPrompt,
+      userPrompt,
+      json: true,
+      temperature: 0.6,
+      maxOutputTokens: 1100,
+    });
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      // Some models still wrap JSON in ```json fences despite responseMimeType.
+      const cleaned = String(raw).replace(/```json|```/g, "").trim();
+      parsed = JSON.parse(cleaned);
+    }
+    return res.json({ ...parsed, domainScores });
+  } catch (err) {
+    console.warn("[free-trial-report] Gemini failed, returning fallback:", err && err.message);
+    return res.json(fallback);
+  }
+});
+
 /* -------------------- Product Recommendations (FastAPI: /product-recommendations) --------------------
  *
  * Paid report only. Builds a single `user_input` string out of the assessment
@@ -3460,6 +3589,9 @@ app.get("/contact", (_req, res) =>
 );
 app.get("/askempress", (_req, res) =>
   res.sendFile(path.join(__dirname, "askempress.html"))
+);
+app.get("/free-assessment", (_req, res) =>
+  res.sendFile(path.join(__dirname, "free-assessment.html"))
 );
 app.get("/events", (_req, res) =>
   res.sendFile(path.join(__dirname, "events.html"))

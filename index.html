@@ -6,17 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EmpressHealth — Smart Support for Every Stage</title>
     <meta name="description" content="Empress Health offers smart, expert-backed support for every stage of menopause — from symptom relief to community and trusted clinical guidance." />
-  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/EmpressHealthlogo-favicon.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/public/EmpressHealthlogo-new.png" />
+  <link rel="apple-touch-icon" href="/public/EmpressHealthlogo-new.png" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Empress Health" />
   <meta property="og:title" content="EmpressHealth — Smart Support for Every Stage" />
   <meta property="og:description" content="Empress Health offers smart, expert-backed support for every stage of menopause — from symptom relief to community and trusted clinical guidance." />
-  <meta property="og:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta property="og:image" content="https://empress-health.vercel.app/hero/hero-desktop-1440.jpg" />
   <meta property="og:url" content="https://empressnaturals.co/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="EmpressHealth — Smart Support for Every Stage" />
   <meta name="twitter:description" content="Empress Health offers smart, expert-backed support for every stage of menopause — from symptom relief to community and trusted clinical guidance." />
-  <meta name="twitter:image" content="https://empressnaturals.co/public/mainphoto.jpg" />
+  <meta name="twitter:image" content="https://empress-health.vercel.app/hero/hero-desktop-1440.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -27,15 +29,17 @@
    TOKENS / GLOBAL RESET
    ========================= */
     :root {
-      --bg: #fffaf1;
-      --ink: #1f1b2d;
+      --bg: #FAF6F1;           /* Brand CREAM */
+      --ink: #3D2B1F;          /* Brand DEEP */
       --muted: #6e6a7a;
-      --soft: #faf8ff;
+      --soft: #FAF6F1;       /* Brand CREAM */
 
-      --primary: #3f1449;
-      --primary-600: #4b2577;
-      --accent: #9a653e;
-      --empress-gold: #D8A738;
+      --primary: #C8856A;      /* Brand TERRACOTTA */
+      --primary-600: #3D2B1F;  /* Brand DEEP (headings/text) */
+      --accent: #C9A96E;       /* Brand GOLD */
+      --empress-gold: #C9A96E;
+      --brand-cream: #FAF6F1;
+      --brand-sage: #7A8C6E;
 
       --border: #ececf1;
       --shadow: 0 10px 30px rgba(16, 16, 32, .08);
@@ -168,6 +172,45 @@
       background: var(--primary);
       color: #fff;
       box-shadow: var(--shadow);
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--primary-600);
+      border: 2px solid var(--primary);
+      box-shadow: var(--shadow);
+    }
+
+    /* Homepage hero CTAs — sit directly under the hero image */
+    .hero-cta {
+      background: var(--brand-cream, #FAF6F1);
+      padding: var(--space-5) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-cta .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-cta .btn {
+      font-size: 1.05rem;
+      padding: 1rem 1.6rem;
+    }
+
+    .hero-cta .cta-note {
+      width: 100%;
+      text-align: center;
+      color: var(--primary-600);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    .hero-cta .cta-note strong {
+      color: var(--primary);
     }
 
     /* =========================
@@ -761,26 +804,34 @@
       margin-bottom: 32px;
     }
 
+    /* Uniform feature tiles — every card identical size on every breakpoint */
     .feature-card-inner {
-      background: #2e1944;
+      background: #3D2B1F;
       color: #fff;
       border-radius: 18px;
       overflow: hidden;
-      border: 4px solid rgba(246, 241, 255, 0.1);
+      border: 4px solid rgba(250, 246, 241, 0.12);
       box-shadow: var(--shadow);
       text-decoration: none;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
       max-width: 320px;
+      height: 100%;
+      min-height: 360px;
       margin: 0 auto;
     }
 
     .feature-media {
       padding: 16px 16px 0;
+      flex: 0 0 auto;
     }
 
     .feature-media img {
       width: 100%;
+      aspect-ratio: 1 / 1;
       height: auto;
+      object-fit: cover;
       border-radius: 14px;
       border: 3px solid var(--accent);
       background: #eee;
@@ -788,6 +839,9 @@
 
     .feature-content {
       padding: 20px;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
     }
 
     .feature-content h3 {
@@ -796,22 +850,37 @@
     }
 
     .feature-content p {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.85);
       font-size: 0.95rem;
     }
 
-    /* Desktop: left-to-right grid */
+    /* Make every slide stretch so the cards inside fill identical heights */
+    #features .carousel-slide {
+      display: flex;
+    }
+
+    /* Desktop: 4-up grid; if there's a 5th card (Curated Marketplace) it
+       lands alone on row 2 — center it instead of left-aligning it. */
     @media (min-width: 821px) {
       #features .carousel-track {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
         overflow: visible;
+        align-items: stretch;
+        justify-items: stretch;
       }
 
       #features .carousel-slide {
         flex: initial;
         min-width: 0;
+      }
+
+      /* Center the 5th tile (Curated Marketplace) across all 4 columns. */
+      #features .carousel-slide:nth-child(5):last-child {
+        grid-column: 1 / -1;
+        justify-self: center;
+        max-width: 320px;
       }
 
       #features .carousel-nav {
@@ -874,7 +943,7 @@
     }
 
     #stats .section-head p {
-      color: #d9d0ff;
+      color: rgba(255, 255, 255, 0.85);
     }
 
     .stats-grid {
@@ -884,7 +953,7 @@
     }
 
     .stat-card {
-      background: #431a62;
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 12px;
       padding: 20px;
@@ -1031,7 +1100,7 @@
       transform: translateY(-50%);
       width: 40px;
       height: 40px;
-      background-color: #6B21A8;
+      background-color: #C8856A;
       color: white;
       border: none;
       border-radius: 50%;
@@ -1041,7 +1110,7 @@
     }
 
     .products-carousel-wrapper .product-nav-arrow:hover {
-      background-color: #7C3AED;
+      background-color: #C9A96E;
     }
 
     .products-carousel-wrapper .product-nav-arrow.left {
@@ -1512,7 +1581,10 @@
   <header id="site-header">
     <div class="container nav">
       <a href="/" class="brand">
-        <img class="brand-logo" src="/public/EmpressHealthlogo.png" alt="EmpressHealth"/>
+        <img class="brand-logo"
+             src="/public/EmpressHealthlogo-new.png"
+             srcset="/public/EmpressHealthlogo-new.png 1x, /public/EmpressHealthlogo-new@2x.png 2x"
+             alt="EmpressHealth"/>
       </a>
 
       <nav class="links main-nav" aria-label="Primary">
@@ -1718,15 +1790,13 @@
     <div class="hero-card">
       <!-- Background cycling slideshow (hero_ai2 - hero_ai6) -->
       <div class="hero-slide is-active" data-index="0"
-        style="--hero-bg: url('/public/titlephotos/hero_ai2_landscape1080.jpg')">
+        style="--hero-bg: url('/hero/hero-desktop-1440.jpg')">
         <picture>
-          <source media="(min-width: 1024px) and (orientation: landscape)"
-            srcset="/public/titlephotos/hero_ai2_landscape1080.jpg 1080w, /public/titlephotos/hero_ai2_landscape1100.jpg 1100w, /public/titlephotos/hero_ai2_landscape2160.jpg 2160w"
-            sizes="100vw">
-          <source media="(min-width: 600px)"
-            srcset="/public/titlephotos/hero_ai2_tablet1100.jpg 1100w, /public/titlephotos/hero_ai2_tablet2160.jpg 2160w, /public/titlephotos/hero_ai2_tablet2200.jpg 2200w"
-            sizes="100vw">
-          <img class="hero-img" src="/public/titlephotos/hero_ai2_mobile2340.jpg"
+          <source type="image/webp" media="(max-width: 768px)" srcset="/hero/hero-mobile-1080.webp">
+          <source type="image/jpeg" media="(max-width: 768px)" srcset="/hero/hero-mobile-1080.jpg">
+          <source type="image/webp" srcset="/hero/hero-desktop-1440.webp 1x, /hero/hero-desktop-2880.webp 2x">
+          <source type="image/jpeg" srcset="/hero/hero-desktop-1440.jpg 1x, /hero/hero-desktop-2880.jpg 2x">
+          <img class="hero-img" src="/hero/hero-desktop-1440.jpg"
             alt="Holistic menopause support" loading="eager" fetchpriority="high">
         </picture>
       </div>
@@ -1785,6 +1855,20 @@
 
     </div>
     </a>
+  </section>
+
+  <!-- ==========================================
+     SECTION 2b: HERO CTAs
+     Two prominent calls-to-action under the hero.
+     ========================================== -->
+  <section class="hero-cta" aria-label="Start your assessment">
+    <div class="container">
+      <div class="cta-row">
+        <a class="btn primary" href="/free-assessment">Take the Free Assessment &rarr;</a>
+        <a class="btn secondary" href="/health-assessment">Full 120-Question Assessment &mdash; $129/year (one-time)</a>
+      </div>
+      <p class="cta-note"><strong>$129/year (one-time)</strong> &middot; Grounded in clinical evidence &middot; Citations on every claim</p>
+    </div>
   </section>
 
   <!-- ==========================================

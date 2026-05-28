@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Empress Health • Free Wellness Snapshot</title>
+<link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png">
+<meta name="description" content="A free 20-question snapshot of your menopause wellness from Empress Health. No email required.">
+<meta property="og:title" content="Empress Health • Free Wellness Snapshot">
+<meta property="og:description" content="A 3-minute, 20-question snapshot of sleep, energy, mood and more — grounded in clinical evidence.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://empressnaturals.co/free-assessment">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --terracotta: #C8856A;
+    --deep:       #3D2B1F;
+    --cream:      #FAF6F1;
+    --gold:       #C9A96E;
+    --sage:       #7A8C6E;
+    --muted:      #8A7060;
+    --soft:       #A08878;
+    --line:       rgba(200,133,106,0.18);
+    --serif:      'Cormorant Garamond', Georgia, serif;
+    --sans:       'Lato', system-ui, -apple-system, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--cream); color: var(--deep); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  body { min-height: 100vh; }
+
+  /* shared */
+  .screen { min-height: 100vh; padding: 24px; display: flex; flex-direction: column; }
+  .center { display: flex; align-items: center; justify-content: center; }
+  button { font-family: inherit; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+
+  /* WELCOME */
+  .welcome { align-items: center; justify-content: center; }
+  .welcome-inner { max-width: 480px; width: 100%; text-align: center; }
+  .logo-dot {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--terracotta), #B27355);
+    margin: 0 auto 24px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-family: var(--serif); font-size: 32px; font-weight: 600;
+    box-shadow: 0 6px 24px rgba(200,133,106,0.28);
+  }
+  .eyebrow { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--terracotta); font-weight: 600; margin: 0 0 12px; }
+  .welcome h1 { font-family: var(--serif); font-size: 38px; font-weight: 600; color: var(--deep); margin: 0 0 16px; line-height: 1.2; }
+  .welcome .lede { font-size: 16px; color: #6B5848; line-height: 1.7; margin: 0 0 28px; }
+  .domains { display: flex; justify-content: center; gap: 24px; margin: 28px 0 32px; flex-wrap: wrap; }
+  .domain { text-align: center; min-width: 64px; }
+  .domain .em { font-size: 22px; line-height: 1; margin-bottom: 6px; }
+  .domain .lab { font-size: 11px; color: var(--terracotta); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .cta {
+    background: linear-gradient(135deg, var(--terracotta), #B27355);
+    color: #fff; border: 0; padding: 16px 32px; border-radius: 99px;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(200,133,106,0.32);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(200,133,106,0.4); }
+  .footnote { font-size: 12px; color: #A08878; margin-top: 16px; }
+
+  /* QUIZ */
+  .quiz-header { display: flex; align-items: center; padding: 8px 4px 16px; gap: 12px; }
+  .progress-block { display: flex; align-items: center; gap: 10px; flex: 1; }
+  .progress-text-q { font-size: 12px; color: var(--terracotta); font-weight: 700; }
+  .progress-text-pct { font-size: 11px; color: var(--soft); }
+  .time-block { text-align: right; }
+  .time-block .elapsed { font-size: 13px; color: var(--sage); font-weight: 700; }
+  .time-block .goal { font-size: 11px; color: var(--soft); }
+  .bar { height: 3px; background: rgba(200,133,106,0.18); border-radius: 99px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--terracotta), var(--gold)); transition: width 0.4s ease; }
+
+  .domain-pill { padding: 20px 4px 0; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(200,133,106,0.1);
+    color: var(--terracotta);
+    padding: 6px 14px; border-radius: 99px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .question-wrap { flex: 1; padding: 24px 4px; max-width: 560px; margin: 0 auto; width: 100%; }
+  .q-text { font-family: var(--serif); font-size: 26px; font-weight: 600; color: var(--deep); line-height: 1.3; margin: 0 0 28px; }
+  .opts { display: flex; flex-direction: column; gap: 12px; }
+  .opt-btn {
+    background: #fff; border: 2px solid var(--line);
+    border-radius: 16px; padding: 16px 20px; text-align: left;
+    color: var(--deep); font-size: 15px; font-weight: 500;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.2s ease;
+  }
+  .opt-btn:hover { background: rgba(200,133,106,0.06); border-color: rgba(200,133,106,0.4); }
+  .opt-btn .badge {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--terracotta);
+    flex-shrink: 0;
+  }
+  .opt-btn.selected {
+    background: linear-gradient(135deg, var(--terracotta), #B27355);
+    color: #fff; border-color: var(--terracotta);
+    box-shadow: 0 4px 16px rgba(200,133,106,0.32);
+  }
+  .opt-btn.selected .badge { background: rgba(255,255,255,0.22); color: #fff; border-color: rgba(255,255,255,0.4); }
+  .fade-in { animation: fadeSlide 0.4s ease forwards; }
+  .fade-out { opacity: 0; transform: translateY(-12px); transition: all 0.3s ease; }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .domain-dots { display: flex; gap: 6px; justify-content: center; padding: 4px 4px 24px; flex-wrap: wrap; max-width: 560px; margin: 0 auto; width: 100%; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(200,133,106,0.2); }
+  .dot.filled { background: var(--terracotta); }
+
+  /* LOADING */
+  .loading { align-items: center; justify-content: center; text-align: center; }
+  .spinner { width: 80px; height: 80px; margin: 0 auto 32px; }
+  .spin { animation: spin 1.6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading h2 { font-family: var(--serif); font-size: 26px; font-weight: 600; color: var(--deep); margin: 0 0 8px; }
+  .loading p { font-size: 14px; color: var(--soft); margin: 0; }
+
+  /* REPORT */
+  .report-hero {
+    background: linear-gradient(160deg, var(--deep) 0%, #5A3D2B 100%);
+    color: #fff; padding: 48px 24px 56px; position: relative; overflow: hidden;
+  }
+  .report-hero .blob-a { position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(200,169,110,0.12); pointer-events: none; }
+  .report-hero .blob-b { position: absolute; bottom: -20px; left: -20px; width: 120px; height: 120px; border-radius: 50%; background: rgba(122,140,110,0.14); pointer-events: none; }
+  .report-hero-inner { max-width: 600px; margin: 0 auto; position: relative; z-index: 1; }
+  .report-eyebrow { font-size: 11px; letter-spacing: 0.2em; color: var(--gold); margin: 0 0 12px; text-transform: uppercase; font-weight: 700; }
+  .report-hero h1 { font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.2; margin: 0 0 16px; }
+  .stage-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 99px; }
+  .stage-pill .em { font-size: 12px; color: var(--gold); }
+  .stage-pill .lab { font-size: 13px; color: #E8D8C8; font-weight: 600; }
+  .report-hero .headline { font-family: var(--serif); font-style: italic; font-size: 16px; color: #D8C4B4; line-height: 1.6; margin: 20px 0 0; }
+
+  .score-row { display: flex; justify-content: center; gap: 32px; align-items: center; flex-wrap: wrap; margin-top: 36px; }
+  .score-circle {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 2px solid rgba(255,255,255,0.16);
+  }
+  .score-circle .num { font-size: 22px; font-weight: 800; }
+  .score-circle .lab { font-size: 9px; color: #C8B8A8; letter-spacing: 0.15em; text-transform: uppercase; }
+  .score-meta { text-align: center; }
+  .score-meta .status { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+  .top-symptoms-title { font-size: 13px; color: #A09080; margin: 0 0 6px; }
+  .top-symptom { font-size: 13px; color: #E8D8C8; padding: 2px 0; }
+
+  .report-body { max-width: 600px; margin: 0 auto; padding: 0 24px 80px; }
+  .card { background: #fff; border-radius: 20px; padding: 28px; margin-top: 24px; box-shadow: 0 4px 20px rgba(61,43,31,0.06); }
+  .card h3 { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--deep); margin: 0 0 20px; }
+  .pillar-row { margin-bottom: 18px; }
+  .pillar-row:last-child { margin-bottom: 0; }
+  .pillar-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .pillar-head .nm { font-family: var(--serif); font-size: 16px; color: var(--deep); font-weight: 600; }
+  .pillar-head .sc { font-size: 13px; font-weight: 700; }
+  .pillar-bar { height: 6px; background: rgba(0,0,0,0.06); border-radius: 99px; overflow: hidden; }
+  .pillar-bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s ease; }
+  .pillar-tip { font-size: 12px; color: #8A7060; line-height: 1.5; margin: 8px 0 0; }
+
+  .insight { padding: 14px 0; border-bottom: 1px solid rgba(200,133,106,0.12); }
+  .insight:last-child { border-bottom: 0; }
+  .insight .dom { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--terracotta); text-transform: uppercase; margin-bottom: 6px; }
+  .insight .txt { font-size: 14px; color: #4D3A2B; line-height: 1.6; margin: 0; }
+
+  .affirmation-card {
+    background: linear-gradient(135deg, var(--cream), #F0E6D8);
+    border: 1px solid var(--line);
+    border-radius: 20px; padding: 32px 28px; margin-top: 24px;
+    text-align: center;
+  }
+  .affirmation-eyebrow { font-size: 11px; letter-spacing: 0.2em; color: var(--terracotta); font-weight: 700; text-transform: uppercase; margin: 0 0 16px; }
+  .affirmation-card .text { font-family: var(--serif); font-style: italic; font-size: 24px; line-height: 1.4; color: var(--deep); margin: 0; }
+
+  .next-step {
+    background: linear-gradient(135deg, var(--deep), #5A3D2B);
+    color: #fff; border-radius: 20px; padding: 32px 28px; margin-top: 24px; text-align: center;
+  }
+  .next-step h3 { color: #fff; margin-bottom: 12px; }
+  .next-step p { font-size: 14px; color: #D8C4B4; line-height: 1.6; margin: 0 0 24px; }
+  .next-step .cta-light {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), #B89858);
+    color: var(--deep);
+    border: 0; padding: 16px 28px; border-radius: 99px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(201,169,110,0.32);
+    transition: transform 0.2s ease;
+  }
+  .next-step .cta-light:hover { transform: translateY(-1px); }
+  .next-step .price { display: block; font-size: 12px; color: #C8B8A8; margin-top: 14px; font-weight: 500; letter-spacing: 0.04em; }
+
+  /* responsive */
+  @media (max-width: 520px) {
+    .welcome h1 { font-size: 30px; }
+    .q-text { font-size: 22px; }
+    .report-hero h1 { font-size: 26px; }
+    .affirmation-card .text { font-size: 20px; }
+    .domains { gap: 18px; }
+  }
+</style>
+</head>
+<body>
+  <div id="app"></div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────
+   EMPRESS FREE ASSESSMENT — 20-question wellness snapshot
+   Self-contained vanilla JS. Posts to /api/free-trial-report.
+   ───────────────────────────────────────────────────────────────────── */
+
+const TERRACOTTA = '#C8856A';
+const DEEP       = '#3D2B1F';
+const SAGE       = '#7A8C6E';
+
+const QUESTIONS = [
+  // Sleep
+  { id: 1,  domain: 'Sleep',         emoji: '🌙', question: 'How many nights per week do you wake drenched in sweat?',
+    options: ['Never', '1–2 nights', '3–4 nights', 'Every night'] },
+  { id: 2,  domain: 'Sleep',         emoji: '🌙', question: 'How rested do you feel when you wake up?',
+    options: ['Fully rested', 'Mostly rested', 'Still tired', 'Exhausted'] },
+  // Energy
+  { id: 3,  domain: 'Energy',        emoji: '⚡',       question: 'How would you describe your energy through the day?',
+    options: ['Steady and strong', 'Mostly steady', 'Frequent dips', 'Drained most days'] },
+  { id: 4,  domain: 'Energy',        emoji: '⚡',       question: 'Do you experience afternoon energy crashes?',
+    options: ['Never', 'Occasionally', 'Most days', 'Every day'] },
+  // Mood
+  { id: 5,  domain: 'Mood',          emoji: '🌸', question: 'How often do you feel anxious or on edge?',
+    options: ['Rarely', 'Sometimes', 'Often', 'Almost constantly'] },
+  { id: 6,  domain: 'Mood',          emoji: '🌸', question: 'Do you notice increased irritability or low mood?',
+    options: ['Not at all', 'A little', 'Frequently', 'Daily'] },
+  // Hot Flashes
+  { id: 7,  domain: 'Hot Flashes',   emoji: '🔥', question: 'How often do you experience hot flashes during the day?',
+    options: ['Never', '1–3 per week', 'Daily', 'Multiple per day'] },
+  { id: 8,  domain: 'Hot Flashes',   emoji: '🔥', question: 'Do you experience night sweats that disturb your sleep?',
+    options: ['Never', 'Occasionally', 'Often', 'Almost nightly'] },
+  // Brain
+  { id: 9,  domain: 'Brain Fog',     emoji: '🧠', question: 'Do you struggle to find words or lose your train of thought?',
+    options: ['Rarely', 'Sometimes', 'Often', 'Daily'] },
+  { id: 10, domain: 'Brain Fog',     emoji: '🧠', question: 'How is your ability to focus on tasks?',
+    options: ['Sharp as ever', 'Mostly focused', 'Easily distracted', 'Really struggling'] },
+  // Cycle
+  { id: 11, domain: 'Cycle Changes', emoji: '🌀', question: 'Have you noticed changes in your menstrual cycle?',
+    options: ['Still regular', 'Slightly irregular', 'Often irregular', 'Stopped entirely'] },
+  { id: 12, domain: 'Cycle Changes', emoji: '🌀', question: 'Do you experience heavier or more painful periods than before?',
+    options: ['No change', 'Mildly heavier', 'Noticeably heavier', 'Severe / very painful'] },
+  // Metabolism
+  { id: 13, domain: 'Metabolism',    emoji: '⚖️', question: 'Have you noticed weight gain — especially around your midsection?',
+    options: ['No change', 'A few pounds', 'Noticeable gain', 'Significant gain'] },
+  { id: 14, domain: 'Metabolism',    emoji: '⚖️', question: 'Do you follow a general anti-inflammatory or whole-foods diet?',
+    options: ['Yes, consistently', 'Most days', 'Sometimes', 'Rarely'] },
+  // Sexual Health
+  { id: 15, domain: 'Sexual Health', emoji: '🌙', question: 'Have you noticed a change in your libido?',
+    options: ['No change', 'Slight dip', 'Noticeable drop', 'Completely gone'] },
+  { id: 16, domain: 'Sexual Health', emoji: '🌙', question: 'Do you experience vaginal dryness or discomfort during intimacy?',
+    options: ['Never', 'Occasionally', 'Often', 'Almost always'] },
+  // Stress
+  { id: 17, domain: 'Stress',        emoji: '🧘', question: 'How would you rate your overall stress level lately?',
+    options: ['Low and manageable', 'Moderate', 'High', 'Overwhelming'] },
+  { id: 18, domain: 'Stress',        emoji: '🧘', question: 'Do you have consistent practices for managing stress?',
+    options: ['Yes — daily', 'A few times a week', 'Rarely', 'Never'] },
+  // Wellbeing
+  { id: 19, domain: 'Wellbeing',     emoji: '🌿', question: 'How supported do you feel in your menopause journey?',
+    options: ['Very supported', 'Somewhat', 'A little', 'Not at all'] },
+  { id: 20, domain: 'Wellbeing',     emoji: '🌿', question: 'How motivated are you to make changes for your wellbeing?',
+    options: ['Highly motivated', 'Motivated', 'A little', 'Not really'] },
+];
+
+const DOMAIN_COLORS = {
+  'Sleep':         '#7B9EA6',
+  'Energy':        '#C9A96E',
+  'Mood':          '#C8856A',
+  'Hot Flashes':   '#D4735E',
+  'Brain Fog':     '#8E7BB5',
+  'Cycle Changes': '#A08060',
+  'Metabolism':    '#7A8C6E',
+  'Sexual Health': '#C8856A',
+  'Stress':        '#9B8EA6',
+  'Wellbeing':     '#7A8C6E',
+};
+
+// State
+const state = {
+  screen: 'welcome',     // welcome | quiz | loading | report
+  current: 0,
+  answers: {},           // { [questionId]: { domain, question, score } }
+  selected: null,        // 0..3 chosen option for the in-flight question
+  animIn: true,
+  report: null,
+  elapsed: 0,
+};
+let elapsedTimer = null;
+
+const root = document.getElementById('app');
+
+function render() {
+  root.innerHTML = '';
+  if (state.screen === 'welcome')  return renderWelcome();
+  if (state.screen === 'quiz')     return renderQuiz();
+  if (state.screen === 'loading')  return renderLoading();
+  if (state.screen === 'report')   return renderReport();
+}
+
+function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') node.className = v;
+    else if (k === 'html') node.innerHTML = v;
+    else if (k === 'onClick') node.addEventListener('click', v);
+    else if (k === 'style') node.setAttribute('style', v);
+    else node.setAttribute(k, v);
+  }
+  for (const c of children) {
+    if (c == null || c === false) continue;
+    node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return node;
+}
+
+/* ── WELCOME ────────────────────────────────────────────────────────── */
+function renderWelcome() {
+  const dom = (em, lab) => el('div', { class: 'domain' },
+    el('div', { class: 'em' }, em),
+    el('div', { class: 'lab' }, lab),
+  );
+  const start = () => {
+    state.screen = 'quiz';
+    state.animIn = true;
+    state.elapsed = 0;
+    clearInterval(elapsedTimer);
+    elapsedTimer = setInterval(() => { state.elapsed++; updateTimer(); }, 1000);
+    render();
+  };
+  const view = el('div', { class: 'screen welcome' },
+    el('div', { class: 'welcome-inner' },
+      el('div', { class: 'logo-dot' }, 'E'),
+      el('p',   { class: 'eyebrow' }, 'EMPRESS HEALTH'),
+      el('h1',  {}, 'Your Free Wellness Snapshot'),
+      el('p',   { class: 'lede' },
+        'A gentle 20-question journey through sleep, energy, mood and more — grounded in clinical evidence. Yours in under 3 minutes.'),
+      el('div', { class: 'domains' },
+        dom('🌙', 'Sleep'),
+        dom('⚡', 'Energy'),
+        dom('🧠', 'Brain'),
+        dom('🌸', 'Mood'),
+      ),
+      el('button', { class: 'cta', onClick: start }, 'Begin My Assessment →'),
+      el('p', { class: 'footnote' }, 'No email required to see your snapshot.'),
+    ),
+  );
+  root.appendChild(view);
+}
+
+/* ── QUIZ ───────────────────────────────────────────────────────────── */
+function renderQuiz() {
+  const q = QUESTIONS[state.current];
+  const progress = Math.round((Object.keys(state.answers).length / QUESTIONS.length) * 100);
+  const elapsedFmt = `${Math.floor(state.elapsed / 60)}:${String(state.elapsed % 60).padStart(2, '0')}`;
+  const ring = progressRing(progress);
+
+  // Header
+  const header = el('div', { class: 'quiz-header' },
+    el('div', { class: 'progress-block' },
+      ring,
+      el('div', {},
+        el('div', { class: 'progress-text-q' }, `Q ${state.current + 1} of ${QUESTIONS.length}`),
+        el('div', { class: 'progress-text-pct', id: 'pct' }, `${progress}% complete`),
+      ),
+    ),
+    el('div', { class: 'time-block' },
+      el('div', { class: 'elapsed', id: 'elapsed' }, elapsedFmt),
+      el('div', { class: 'goal' }, 'Goal: <3 min'),
+    ),
+  );
+
+  // Progress bar
+  const bar = el('div', { class: 'bar' },
+    el('div', { class: 'bar-fill', style: `width: ${progress}%;` }),
+  );
+
+  // Domain pill
+  const pillRow = el('div', { class: 'domain-pill' },
+    el('span', { class: 'pill' }, `${q.emoji} ${q.domain.toUpperCase()}`),
+  );
+
+  // Question
+  const optsEl = el('div', { class: 'opts' });
+  q.options.forEach((opt, i) => {
+    const isSel = state.selected === i;
+    const btn = el('button', {
+      class: 'opt-btn' + (isSel ? ' selected' : ''),
+      onClick: () => onAnswer(i),
+    },
+      el('span', { class: 'badge' }, ['A','B','C','D'][i]),
+      el('span', {}, opt),
+    );
+    optsEl.appendChild(btn);
+  });
+  const qWrap = el('div', { class: 'question-wrap ' + (state.animIn ? 'fade-in' : 'fade-out') },
+    el('h2', { class: 'q-text' }, q.question),
+    optsEl,
+  );
+
+  // Domain dots
+  const dotsRow = el('div', { class: 'domain-dots' });
+  QUESTIONS.forEach((_, i) => {
+    dotsRow.appendChild(el('span', { class: 'dot' + (i <= state.current ? ' filled' : '') }));
+  });
+
+  const view = el('div', { class: 'screen' }, header, bar, pillRow, qWrap, dotsRow);
+  root.appendChild(view);
+}
+
+function progressRing(progress) {
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const r = 20;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (progress / 100) * circ;
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('width', 48);
+  svg.setAttribute('height', 48);
+  svg.setAttribute('viewBox', '0 0 48 48');
+  const bg = document.createElementNS(svgNS, 'circle');
+  bg.setAttribute('cx', 24); bg.setAttribute('cy', 24); bg.setAttribute('r', r);
+  bg.setAttribute('fill', 'none'); bg.setAttribute('stroke', 'rgba(200,133,106,0.2)');
+  bg.setAttribute('stroke-width', '3');
+  svg.appendChild(bg);
+  const fg = document.createElementNS(svgNS, 'circle');
+  fg.setAttribute('cx', 24); fg.setAttribute('cy', 24); fg.setAttribute('r', r);
+  fg.setAttribute('fill', 'none'); fg.setAttribute('stroke', TERRACOTTA);
+  fg.setAttribute('stroke-width', '3'); fg.setAttribute('stroke-linecap', 'round');
+  fg.setAttribute('stroke-dasharray', circ);
+  fg.setAttribute('stroke-dashoffset', offset);
+  fg.setAttribute('transform', 'rotate(-90 24 24)');
+  fg.setAttribute('style', 'transition: stroke-dashoffset 0.4s ease');
+  svg.appendChild(fg);
+  return svg;
+}
+
+function updateTimer() {
+  const el = document.getElementById('elapsed');
+  if (!el) return;
+  el.textContent = `${Math.floor(state.elapsed / 60)}:${String(state.elapsed % 60).padStart(2, '0')}`;
+}
+
+function onAnswer(idx) {
+  if (state.selected != null) return;  // debounce
+  state.selected = idx;
+  const q = QUESTIONS[state.current];
+  // 4-point Likert: A=optimal=100, B=75, C=50, D=struggle=25
+  // Severity flips for "good" options vs "bad" options? We keep simple linear:
+  // A = 100 (most optimal answer first in each list), D = 25 (worst).
+  const score = [100, 75, 50, 25][idx];
+  render(); // re-render to show selection highlight
+
+  setTimeout(() => {
+    state.answers[q.id] = { domain: q.domain, question: q.question, score };
+    state.animIn = false;
+    render();
+    setTimeout(() => {
+      if (state.current < QUESTIONS.length - 1) {
+        state.current++;
+        state.selected = null;
+        state.animIn = true;
+        render();
+      } else {
+        clearInterval(elapsedTimer);
+        generateReport();
+      }
+    }, 300);
+  }, 400);
+}
+
+/* ── LOADING ────────────────────────────────────────────────────────── */
+function renderLoading() {
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('class', 'spin');
+  svg.setAttribute('viewBox', '0 0 80 80');
+  svg.setAttribute('width', 80);
+  svg.setAttribute('height', 80);
+  const c1 = document.createElementNS(svgNS, 'circle');
+  c1.setAttribute('cx', 40); c1.setAttribute('cy', 40); c1.setAttribute('r', 34);
+  c1.setAttribute('fill', 'none'); c1.setAttribute('stroke', 'rgba(200,133,106,0.15)');
+  c1.setAttribute('stroke-width', 4);
+  svg.appendChild(c1);
+  const c2 = document.createElementNS(svgNS, 'circle');
+  c2.setAttribute('cx', 40); c2.setAttribute('cy', 40); c2.setAttribute('r', 34);
+  c2.setAttribute('fill', 'none'); c2.setAttribute('stroke', TERRACOTTA);
+  c2.setAttribute('stroke-width', 4); c2.setAttribute('stroke-linecap', 'round');
+  c2.setAttribute('stroke-dasharray', '60 200');
+  svg.appendChild(c2);
+
+  const view = el('div', { class: 'screen loading' },
+    el('div', { class: 'spinner' }, svg),
+    el('h2', {}, 'Empress AI is crafting your personalized report…'),
+    el('p', {}, 'Reading your responses and drawing on clinical evidence.'),
+  );
+  root.appendChild(view);
+}
+
+/* ── REPORT ─────────────────────────────────────────────────────────── */
+async function generateReport() {
+  state.screen = 'loading';
+  render();
+
+  const payload = {
+    answers: Object.values(state.answers).map((a) => ({
+      domain: a.domain, question: a.question, score: a.score,
+    })),
+  };
+
+  // Compute domain averages locally — used as a backstop / for the UI.
+  const domainScores = {};
+  payload.answers.forEach((a) => {
+    (domainScores[a.domain] = domainScores[a.domain] || []).push(a.score);
+  });
+  const avgScores = {};
+  Object.entries(domainScores).forEach(([d, scores]) => {
+    avgScores[d] = Math.round(scores.reduce((x, y) => x + y, 0) / scores.length);
+  });
+
+  let report;
+  try {
+    // Pre-flight: ensure we have a CSRF token. The server issues one via
+    // GET /api/csrf and sets a `csrf_token` cookie we then mirror in the
+    // X-CSRF-Token header on the POST.
+    let csrfToken = readCookie('csrf_token');
+    if (!csrfToken) {
+      const c = await fetch('/api/csrf', { credentials: 'same-origin' });
+      if (c.ok) {
+        const cj = await c.json();
+        csrfToken = cj.csrfToken || readCookie('csrf_token') || '';
+      }
+    }
+    const res = await fetch('/api/free-trial-report', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {}),
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    report = await res.json();
+  } catch (err) {
+    console.warn('[free-assessment] Falling back to local default:', err);
+    report = {
+      name: 'Your Empress Wellness Snapshot',
+      stage: 'Perimenopause',
+      headline: 'Your body is speaking — and you’re finally ready to listen.',
+      topSymptoms: ['Sleep disruption', 'Energy fluctuations', 'Mood changes'],
+      insights: [
+        { domain: 'Sleep', insight: 'Your sleep patterns suggest hormonal fluctuations are disturbing your nights — a common signal in perimenopause.' },
+        { domain: 'Mood', insight: 'The mood shifts you’re experiencing reflect the cortisol-estrogen dance of this transition.' },
+        { domain: 'Energy', insight: 'Afternoon fatigue is one of the most common signs your hormonal rhythm needs gentle support.' },
+      ],
+      pillars: [
+        { name: 'Sleep',   score: 55, tip: 'Try a magnesium glycinate supplement 30 minutes before bed.' },
+        { name: 'Nourish', score: 65, tip: 'Add phytoestrogen-rich foods like flax and lentils to your day.' },
+        { name: 'Calm',    score: 50, tip: '4-7-8 breathing for 5 minutes before sleep can soothe your nervous system.' },
+        { name: 'Move',    score: 60, tip: 'Strength training 2x/week supports bone density and metabolism.' },
+      ],
+      affirmation: 'You are not broken. You are becoming.',
+      nextStep: 'Take the full 120-question assessment to unlock your complete Health Intelligence report.',
+    };
+  }
+
+  report.domainScores = report.domainScores || avgScores;
+  state.report = report;
+  state.screen = 'report';
+  render();
+}
+
+function renderReport() {
+  const r = state.report;
+  const overall = Math.round((r.pillars || []).reduce((s, p) => s + (p.score || 0), 0) / Math.max(1, (r.pillars || []).length));
+  const wellness = overall >= 75 ? 'Thriving' : overall >= 50 ? 'Emerging' : 'Needs Support';
+  const wellnessColor = overall >= 75 ? SAGE : overall >= 50 ? TERRACOTTA : '#D4735E';
+  const pillarIcon = { Sleep: '🌙', Nourish: '🌱', Calm: '🧘', Move: '💪' };
+
+  // Hero
+  const hero = el('div', { class: 'report-hero' },
+    el('div', { class: 'blob-a' }),
+    el('div', { class: 'blob-b' }),
+    el('div', { class: 'report-hero-inner' },
+      el('p', { class: 'report-eyebrow' }, 'YOUR EMPRESS REPORT'),
+      el('h1', {}, r.name || 'Your Wellness Snapshot'),
+      el('div', { class: 'stage-pill' },
+        el('span', { class: 'em' }, '🌸'),
+        el('span', { class: 'lab' }, r.stage || 'Perimenopause'),
+      ),
+      r.headline ? el('p', { class: 'headline' }, r.headline) : null,
+      el('div', { class: 'score-row' },
+        el('div', { style: 'text-align: center;' },
+          el('div', { class: 'score-circle' },
+            el('span', { class: 'num', style: `color:${wellnessColor}` }, String(overall)),
+            el('span', { class: 'lab' }, '/ 100'),
+          ),
+          el('div', { style: `font-size:11px; color:${wellnessColor}; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-top:8px;` }, wellness),
+        ),
+        topSymptomsBlock(r.topSymptoms || []),
+      ),
+    ),
+  );
+
+  // Pillars
+  const pillarsCard = el('div', { class: 'card' },
+    el('h3', {}, 'Your Four Pillars'),
+    ...((r.pillars || []).map((p) => {
+      const color = p.score >= 75 ? SAGE : p.score >= 50 ? TERRACOTTA : '#D4735E';
+      return el('div', { class: 'pillar-row' },
+        el('div', { class: 'pillar-head' },
+          el('span', { class: 'nm' }, `${pillarIcon[p.name] || ''} ${p.name}`),
+          el('span', { class: 'sc', style: `color:${color}` }, `${p.score}%`),
+        ),
+        el('div', { class: 'pillar-bar' },
+          el('div', { class: 'pillar-bar-fill', style: `width:${p.score}%; background:${color};` }),
+        ),
+        p.tip ? el('p', { class: 'pillar-tip' }, p.tip) : null,
+      );
+    })),
+  );
+
+  // Insights
+  const insightsCard = el('div', { class: 'card' },
+    el('h3', {}, 'What Your Answers Tell Us'),
+    ...((r.insights || []).map((ins) =>
+      el('div', { class: 'insight' },
+        el('div', { class: 'dom' }, ins.domain),
+        el('p', { class: 'txt' }, ins.insight),
+      ))),
+  );
+
+  // Affirmation
+  const affirmation = el('div', { class: 'affirmation-card' },
+    el('p', { class: 'affirmation-eyebrow' }, 'YOUR AFFIRMATION FOR THE DAY'),
+    el('p', { class: 'text' }, `“${r.affirmation || 'You are not broken. You are becoming.'}”`),
+  );
+
+  // Next step
+  const next = el('div', { class: 'next-step' },
+    el('h3', {}, 'Want the Full Picture?'),
+    el('p', {}, r.nextStep || 'Take the full 120-question assessment to unlock your complete Health Intelligence report.'),
+    el('a', { class: 'cta-light', href: '/health-assessment' },
+      'Take Full 120-Question Assessment →',
+    ),
+    el('span', { class: 'price' }, '$129/year — one-time annual access'),
+  );
+
+  const body = el('div', { class: 'report-body' }, pillarsCard, insightsCard, affirmation, next);
+
+  const wrap = el('div', {}, hero, body);
+  root.appendChild(wrap);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function topSymptomsBlock(syms) {
+  const wrap = el('div', { class: 'score-meta' },
+    el('p', { class: 'top-symptoms-title' }, 'Top signals'),
+  );
+  (syms || []).slice(0, 3).forEach((s) => {
+    wrap.appendChild(el('div', { class: 'top-symptom' }, '• ' + s));
+  });
+  return wrap;
+}
+
+function readCookie(name) {
+  const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : '';
+}
+
+// Boot
+render();
+</script>
+</body>
+</html>
