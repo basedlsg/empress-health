@@ -24,43 +24,24 @@ prds/dist
 # === Mockpages — internal scratch ===
 /mockpages
 
-# === Public assets — keep only essentials for demo ===
-# Redesigned pages use <Placeholder> components for photography, so we can
-# drop nearly all of public/. Keep EmpressHealthlogo + blogs.json.
+# === Public assets ===
+# Every folder below is referenced by the live pages (homepage uses
+# features/, doctors/, affirmations/, headshots/; other pages use
+# titlephotos/, coverphotos/, banners/, events/, report-heroes/).
+# Previously stripping them produced ~40 404s across the homepage alone.
+# Only keep ignoring third-party scraped content, archives, and large
+# media that's known to be unused.
 /public/blogs/blogsymptoms_files
 /public/blogsv2
 /public/blogs/**/*.zip
-/public/coverphotos
-/public/titlephotos
-/public/report-heroes
-/public/banners
-/public/affirmations
-/public/affirmations*
-/public/headshots
 /public/Canva*
-/public/events
-/public/features
-/public/doctors
 /public/*.zip
 /public/*.mp4
 /public/*.mov
-/public/teahands.png
-/public/empressAntiAging.jpg
-/public/empressUpliftingBodyOil.jpg
-/public/empressCalmingOil.jpg
-/public/mockmobileempress.jpg
-/public/mainphoto*.jpg
-/public/mockmobile.png
-/public/plant.png
-/public/progress.png
-/public/Symptom_Tracker.jpg
-/public/amehta.jpg
-/public/amehtaborder.jpg
-/public/empressKWandFace.jpg
-/public/empressKansaWand.jpg
-/public/empressNaturalsHaircare.jpg
-/public/askempress*.png
-/public/ask_empress_click.png
+# Single-file outliers (each 5-24MB, not referenced from any page that's
+# part of the user-facing flow). Add new entries here as you spot them.
+/public/coverphotos/whatisempress.png
+/public/expert4.png
 
 # === Heavy reference docs not needed at runtime ===
 /Health Assessment Report (1).pdf
