@@ -756,7 +756,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
         <section style={s.section} className="empress-report-section">
           <div style={{
             background: "#FEF3C7",
-            color: plum,
+            color: "#3f1449",
             padding: "12px",
             borderRadius: "6px",
             marginBottom: "8px",
@@ -834,16 +834,6 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
        * paid report so existing paid users can see what an ongoing
        * subscription unlocks without bouncing to /membershipoptions. */}
       {!isFree && <ReportPricingBlock firstName={user?.firstName ?? null} />}
-
-      {/* ─── YOUR AFFIRMATION FOR THE DAY ─── */}
-      {/* Single prominent affirmation placed just before next-steps / CTA.
-       * For free tier reads apiResult.affirmation (singular, new Gemini flow)
-       * with a fallback to the first item of apiResult.affirmations (paid
-       * 120-Q flow) and finally a brand default. */}
-      <AffirmationOfTheDay
-        affirmation={(apiResult as unknown as { affirmation?: string }).affirmation}
-        affirmations={normaliseAffirmations(apiResult.affirmations)}
-      />
 
       {/* ─── 08 ACTIONS / UPGRADE ─── */}
       <section style={s.section} className="empress-report-section">
@@ -1050,24 +1040,6 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
 
       {/* ─── THANK YOU (paid only) — final page ─── */}
       {!isFree && <ThankYouPage firstName={user?.firstName ?? null} />}
-
-      {/* ─── BOTTOM CTA — Unlock the Full 120-Question Assessment ───
-       * Primary terracotta-gradient CTA shown to every viewer at the very
-       * end of the report. Free tier sees the upgrade card above this one
-       * too, but the brief specifies a final-bottom CTA so we render it
-       * unconditionally. Hidden in the printed PDF (it's an in-app action). */}
-      <section
-        className="empress-report-section empress-no-print"
-        style={s.bottomCtaWrap}
-        aria-label="Upgrade to the full assessment"
-      >
-        <a href="/health-assessment" style={s.bottomCta}>
-          <span style={s.bottomCtaLabel}>
-            Unlock Your Full 120-Question Assessment
-          </span>
-          <span style={s.bottomCtaPrice}>$129 / year (one-time)</span>
-        </a>
-      </section>
 
       {/* ─── ACTIONS ─── */}
       <section style={s.ctaSection} className="empress-report-cta">
@@ -1568,38 +1540,6 @@ function AffirmationsSection({
   )
 }
 
-/* ───── "Your Affirmation for the Day" — end-of-report focal point ─────
- * Placed near the bottom of the report, just before the next-steps / CTA.
- * Visually prominent: large serif quote, terracotta accent, centred. Pulls
- * from apiResult.affirmation (new free-flow Gemini contract) first, then
- * falls back to the first item of apiResult.affirmations (paid 120-Q flow),
- * then to a brand default. */
-function AffirmationOfTheDay({
-  affirmation,
-  affirmations,
-}: {
-  affirmation?: string
-  affirmations: AffirmationItem[]
-}) {
-  // TODO: wire to a real source later for the paid 120-Q flow if no
-  // affirmation/affirmations are provided by the API.
-  const text =
-    (typeof affirmation === "string" && affirmation.trim()) ||
-    (affirmations[0]?.text && String(affirmations[0].text).trim()) ||
-    "You are not broken. You are becoming."
-  return (
-    <section
-      className="empress-report-section"
-      style={s.affirmationDayWrap}
-      aria-label="Your affirmation for the day"
-    >
-      <span style={s.affirmationDayEyebrow}>Your Affirmation for the Day</span>
-      <p style={s.affirmationDayQuote}>“{text}”</p>
-      <span style={s.affirmationDayRule} aria-hidden="true" />
-    </section>
-  )
-}
-
 /* ───── Clinician recommendations (Section 06) ───── */
 
 const fallbackRecommendations: RecommendedPerson[] = [
@@ -1677,7 +1617,7 @@ function RecommendationsSection({
                 rel="noopener noreferrer"
                 style={{
                   display: "inline-block",
-                  background: plum,
+                  background: "#3f1449",
                   color: "#fff",
                   fontWeight: 700,
                   fontSize: "14px",
@@ -2275,7 +2215,7 @@ function RecommendedProductsSection({
                             href={`${SHOPIFY_BASE}/${p.shopify_handle}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ color: plum, fontWeight: 700, textDecoration: "underline" }}
+                            style={{ color: "#3f1449", fontWeight: 700, textDecoration: "underline" }}
                           >
                             {p.product_name || String(p)}
                           </a>
@@ -2288,7 +2228,7 @@ function RecommendedProductsSection({
                         fontSize: "11px",
                         fontWeight: 700,
                         background: "#f3e8ff",
-                        color: plum,
+                        color: "#3f1449",
                         padding: "2px 8px",
                         borderRadius: "999px",
                       }}>
@@ -2370,7 +2310,7 @@ function CitationSourcesSection({ apiResult }: { apiResult: AssessmentApiResult 
           }}>
             <code style={{
               fontSize: "11px",
-              color: plum,
+              color: "#3f1449",
               fontWeight: 700,
               whiteSpace: "nowrap" as const,
               minWidth: "80px",
@@ -2421,7 +2361,7 @@ function GroundingDebugBadge({ apiResult }: { apiResult: AssessmentApiResult }) 
         right: "12px",
         zIndex: 9999,
         cursor: "pointer",
-        background: plum,
+        background: "#3f1449",
         color: "#fff",
         borderRadius: "8px",
         padding: open ? "12px 16px" : "6px 12px",
@@ -2706,25 +2646,16 @@ const printCSS = `
     object-fit: contain;
   }
 
-  /* CONTINUOUS FLOW.
-   * The report used to start each numbered section on a fresh page, which
-   * created large white-space gaps in the PDF and on screen-print preview.
-   * Per the redesign brief: "no spaces inside the report — everything is
-   * continuous." Sections now flow into one another, separated only by the
-   * subtle 1px cream-tan rule defined below.
-   *
-   * The cover and thank-you slides still get their own page (handled
-   * elsewhere in this stylesheet with break-after / break-before on
-   * .empress-cover and .empress-thankyou). */
+  /* Start each major numbered section on a fresh page. We intentionally do
+   * NOT set break-inside on sections — they span many pages each and forcing
+   * them onto a single page makes Chrome truncate or blank-page. */
   .empress-report-section {
-    break-before: auto;
-    page-break-before: auto;
-    border-top: 1px solid #E8D8C8;
-    padding-top: 18px;
+    break-before: page;
+    page-break-before: always;
   }
   .empress-report-section:first-of-type {
-    border-top: none;
-    padding-top: 0;
+    break-before: avoid;
+    page-break-before: avoid;
   }
 
   /* Keep only SMALL atomic blocks intact. We deliberately do NOT apply
@@ -2759,23 +2690,12 @@ const printCSS = `
 
 /* ───── Styles ───── */
 
-// Aligned to the new 20-question assessment brand palette
-// (BRAND_BRIEF.md / DESIGN.md — Empress terracotta-deep system).
-//
-//   EMPRESS_TERRACOTTA #C8856A  (accents, primary CTAs, score pills)
-//   EMPRESS_DEEP       #3D2B1F  (headings)
-//   EMPRESS_CREAM      #FAF6F1  (background)
-//   EMPRESS_GOLD       #C9A96E  (gold callouts, affirmation accent)
-//   EMPRESS_SAGE       #7A8C6E  (positive / strength indicators)
-//
-// Aliased to the existing variable names so we don't rip up the entire
-// stylesheet — `plum` and `plumLight` are now the deep-brown heading
-// colour and terracotta accent respectively.
-const gold = "#C9A96E"          // EMPRESS_GOLD
-const plum = "#3D2B1F"          // EMPRESS_DEEP
-const plumLight = "#C8856A"     // EMPRESS_TERRACOTTA
-const sage = "#7A8C6E"          // EMPRESS_SAGE
-const ivory = "#FAF6F1"         // EMPRESS_CREAM
+// Aligned to site palette from index.html :root
+//   --empress-gold #D8A738   --primary #3f1449   --primary-600 #4b2577   --bg #fffaf1
+const gold = "#D8A738"
+const plum = "#3f1449"
+const plumLight = "#4b2577"
+const ivory = "#fffaf1"
 
 const s: Record<string, React.CSSProperties> = {
   page: {
@@ -3015,31 +2935,27 @@ const s: Record<string, React.CSSProperties> = {
     margin: 0,
   },
 
-  /* Sections — continuous flow.
-   * Padding reduced so each section flows tightly into the next; the
-   * border-top + 18px padding-top set by the print CSS provides the
-   * visual separation. Max 16px between section heading and lede. */
-  section: { maxWidth: 860, margin: "0 auto", padding: "20px 24px 4px" },
+  /* Sections */
+  section: { maxWidth: 860, margin: "0 auto", padding: "32px 24px 0" },
   sectionHeading: {
-    fontFamily: "'Cormorant Garamond', 'Poppins', system-ui, serif",
-    fontSize: "clamp(1.4rem, 3.4vw, 1.9rem)",
-    fontWeight: 600,
+    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontSize: "clamp(1.2rem, 3vw, 1.7rem)",
+    fontWeight: 700,
     color: plum,
-    margin: "0 0 12px",
-    letterSpacing: "-0.01em",
+    margin: "0 0 20px",
   },
   sectionLede: {
-    margin: "0 0 14px",
-    fontSize: "0.95rem",
-    color: "#5b4a3e",
+    margin: "0 0 18px",
+    fontSize: "0.92rem",
+    color: "#555",
     lineHeight: 1.6,
   },
   subHeading: {
-    fontFamily: "'Cormorant Garamond', 'Poppins', system-ui, serif",
-    fontSize: "1.3rem",
-    fontWeight: 600,
+    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontSize: "1.15rem",
+    fontWeight: 700,
     color: plum,
-    margin: "20px 0 10px",
+    margin: "32px 0 14px",
   },
 
   /* Paid-only banner */
@@ -3444,84 +3360,8 @@ const s: Record<string, React.CSSProperties> = {
     fontSize: "0.95rem",
     lineHeight: 1.55,
     color: "#1F1F1F",
-    boxShadow: "0 1px 8px rgba(61,43,31,0.05)",
+    boxShadow: "0 1px 8px rgba(42,15,63,0.05)",
     fontStyle: "italic" as const,
-  },
-  /* "Your Affirmation for the Day" — prominent end-of-report block.
-   * Centred serif quote on warm cream background with gold accent rule. */
-  affirmationDayWrap: {
-    maxWidth: 860,
-    margin: "8px auto 0",
-    padding: "36px 24px 40px",
-    textAlign: "center" as const,
-    background: "#fff",
-    borderTop: `1px solid ${gold}55`,
-    borderBottom: `1px solid ${gold}55`,
-  },
-  affirmationDayEyebrow: {
-    display: "block",
-    fontSize: "0.7rem",
-    fontWeight: 700,
-    letterSpacing: "0.22em",
-    textTransform: "uppercase" as const,
-    color: gold,
-    marginBottom: 12,
-  },
-  affirmationDayQuote: {
-    fontFamily: "'Cormorant Garamond', 'Poppins', system-ui, serif",
-    fontStyle: "italic" as const,
-    fontWeight: 500,
-    fontSize: "clamp(1.5rem, 3.6vw, 2.2rem)",
-    lineHeight: 1.35,
-    color: plumLight, // terracotta
-    margin: "0 auto",
-    maxWidth: 720,
-  },
-  affirmationDayRule: {
-    display: "block",
-    width: 48,
-    height: 1,
-    background: gold,
-    margin: "20px auto 0",
-  },
-
-  /* Bottom CTA — final terracotta-gradient call to action.
-   * Generous padding, serif label, cream text. Centred 720px wide on
-   * desktop, full-width with side padding on mobile. */
-  bottomCtaWrap: {
-    maxWidth: 860,
-    margin: "16px auto 0",
-    padding: "16px 24px 32px",
-    textAlign: "center" as const,
-  },
-  bottomCta: {
-    display: "inline-flex",
-    flexDirection: "column" as const,
-    alignItems: "center",
-    gap: 6,
-    background: `linear-gradient(135deg, ${plumLight} 0%, #B4694C 100%)`,
-    color: ivory,
-    textDecoration: "none",
-    padding: "22px 40px",
-    borderRadius: 999,
-    boxShadow: "0 10px 28px rgba(200,133,106,0.30)",
-    transition: "transform 120ms ease, box-shadow 120ms ease",
-    fontFamily: "'Cormorant Garamond', 'Poppins', system-ui, serif",
-  },
-  bottomCtaLabel: {
-    fontFamily: "'Cormorant Garamond', 'Poppins', system-ui, serif",
-    fontSize: "clamp(1.15rem, 2.6vw, 1.5rem)",
-    fontWeight: 600,
-    letterSpacing: "0.01em",
-    lineHeight: 1.2,
-  },
-  bottomCtaPrice: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: "0.82rem",
-    fontWeight: 600,
-    letterSpacing: "0.16em",
-    textTransform: "uppercase" as const,
-    color: `${ivory}cc`,
   },
 
   /* Recommendations */
