@@ -756,7 +756,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
         <section style={s.section} className="empress-report-section">
           <div style={{
             background: "#FEF3C7",
-            color: "#3f1449",
+            color: "#3F144A",
             padding: "12px",
             borderRadius: "6px",
             marginBottom: "8px",
@@ -987,7 +987,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
           >
             <h3
               style={{
-                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
                 fontSize: "1.1rem",
                 fontWeight: 700,
                 color: plum,
@@ -999,7 +999,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
             <DoDontTable rows={ANTI_INFLAMMATION_ROWS_NONVEG} />
             <h3
               style={{
-                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
                 fontSize: "1.1rem",
                 fontWeight: 700,
                 color: plum,
@@ -1011,7 +1011,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
             <DoDontTable rows={ANTI_INFLAMMATION_ROWS_VEG} />
             <h3
               style={{
-                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
                 fontSize: "1.1rem",
                 fontWeight: 700,
                 color: plum,
@@ -1615,7 +1615,7 @@ function RecommendationsSection({
                 rel="noopener noreferrer"
                 style={{
                   display: "inline-block",
-                  background: "#3f1449",
+                  background: "#3F144A",
                   color: "#fff",
                   fontWeight: 700,
                   fontSize: "14px",
@@ -2115,7 +2115,7 @@ function ConsolidatedFeedbackSection({ feedbackCtx }: { feedbackCtx: FeedbackCtx
               width: "100%",
               padding: "10px 12px",
               fontSize: "0.92rem",
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
               color: "#1F1F1F",
               background: "#fff",
               border: "1px solid #ddd5e2",
@@ -2213,7 +2213,7 @@ function RecommendedProductsSection({
                             href={`${SHOPIFY_BASE}/${p.shopify_handle}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ color: "#3f1449", fontWeight: 700, textDecoration: "underline" }}
+                            style={{ color: "#3F144A", fontWeight: 700, textDecoration: "underline" }}
                           >
                             {p.product_name || String(p)}
                           </a>
@@ -2226,7 +2226,7 @@ function RecommendedProductsSection({
                         fontSize: "11px",
                         fontWeight: 700,
                         background: "#f3e8ff",
-                        color: "#3f1449",
+                        color: "#3F144A",
                         padding: "2px 8px",
                         borderRadius: "999px",
                       }}>
@@ -2308,7 +2308,7 @@ function CitationSourcesSection({ apiResult }: { apiResult: AssessmentApiResult 
           }}>
             <code style={{
               fontSize: "11px",
-              color: "#3f1449",
+              color: "#3F144A",
               fontWeight: 700,
               whiteSpace: "nowrap" as const,
               minWidth: "80px",
@@ -2359,7 +2359,7 @@ function GroundingDebugBadge({ apiResult }: { apiResult: AssessmentApiResult }) 
         right: "12px",
         zIndex: 9999,
         cursor: "pointer",
-        background: "#3f1449",
+        background: "#3F144A",
         color: "#fff",
         borderRadius: "8px",
         padding: open ? "12px 16px" : "6px 12px",
@@ -2543,7 +2543,7 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
   })
   ;[0, 20, 40, 60, 80, 100].forEach((v) => {
     const [x, y] = pt(0, (R * v) / 100)
-    el.push(`<text x="${x}" y="${y + 8}" font-family="'Poppins',Arial" font-size="30" font-weight="700" fill="#2b2440" text-anchor="middle">${v}</text>`)
+    el.push(`<text x="${x}" y="${y + 8}" font-family="'The Seasons', 'Playfair Display',Arial" font-size="30" font-weight="700" fill="#2b2440" text-anchor="middle">${v}</text>`)
   })
   DOMAINS.forEach((d, i) => {
     const [bx, by] = pt(i * 36, RB)
@@ -2569,9 +2569,9 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
       anchor = "middle"
       ny = by + 64
     }
-    el.push(`<text x="${tx.toFixed(1)}" y="${ny.toFixed(1)}" font-family="'Poppins',Arial" font-size="29" font-weight="700" fill="${d.color}" text-anchor="${anchor}">${d.name}</text>`)
-    el.push(`<text x="${tx.toFixed(1)}" y="${(ny + 30).toFixed(1)}" font-family="'Inter',Arial" font-size="20" fill="#555" text-anchor="${anchor}">${d.l1}</text>`)
-    el.push(`<text x="${tx.toFixed(1)}" y="${(ny + 54).toFixed(1)}" font-family="'Inter',Arial" font-size="20" fill="#555" text-anchor="${anchor}">${d.l2}</text>`)
+    el.push(`<text x="${tx.toFixed(1)}" y="${ny.toFixed(1)}" font-family="'The Seasons', 'Playfair Display',Arial" font-size="29" font-weight="700" fill="${d.color}" text-anchor="${anchor}">${d.name}</text>`)
+    el.push(`<text x="${tx.toFixed(1)}" y="${(ny + 30).toFixed(1)}" font-family="'Avenir', 'Avenir Next', 'Nunito Sans',Arial" font-size="20" fill="#555" text-anchor="${anchor}">${d.l1}</text>`)
+    el.push(`<text x="${tx.toFixed(1)}" y="${(ny + 54).toFixed(1)}" font-family="'Avenir', 'Avenir Next', 'Nunito Sans',Arial" font-size="20" fill="#555" text-anchor="${anchor}">${d.l2}</text>`)
   })
   const ly = H - 110,
     segW = (W - 120) / 3
@@ -2586,8 +2586,8 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
     const x0 = 60 + k * segW
     el.push(`<rect x="${x0 + (k ? 6 : 0)}" y="${ly}" width="${segW - (k ? 6 : 0)}" height="78" rx="20" fill="${bg}"/>`)
     el.push(`<circle cx="${x0 + 40}" cy="${ly + 30}" r="11" fill="${c}"/>`)
-    el.push(`<text x="${x0 + 62}" y="${ly + 30}" font-family="'Poppins',Arial" font-size="24" font-weight="700" fill="#2b2440">${t1} <tspan font-weight="400" fill="#6b6478">${t2}</tspan></text>`)
-    el.push(`<text x="${x0 + 62}" y="${ly + 58}" font-family="'Inter',Arial" font-size="20" fill="#6b6478">${t3}</text>`)
+    el.push(`<text x="${x0 + 62}" y="${ly + 30}" font-family="'The Seasons', 'Playfair Display',Arial" font-size="24" font-weight="700" fill="#2b2440">${t1} <tspan font-weight="400" fill="#6b6478">${t2}</tspan></text>`)
+    el.push(`<text x="${x0 + 62}" y="${ly + 58}" font-family="'Avenir', 'Avenir Next', 'Nunito Sans',Arial" font-size="20" fill="#6b6478">${t3}</text>`)
   })
   const defs = `<defs><linearGradient id="blob" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8D55F" stop-opacity="0.9"/><stop offset="32%" stop-color="#F39BB6" stop-opacity="0.85"/><stop offset="62%" stop-color="#93B8EC" stop-opacity="0.85"/><stop offset="100%" stop-color="#8FDCB0" stop-opacity="0.9"/></linearGradient><filter id="sh" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#3a2350" flood-opacity="0.28"/></filter></defs>`
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Your ten domain scores plotted on a wheel">${defs}${el.join("")}</svg>`
@@ -2706,17 +2706,17 @@ const printCSS = `
 /* ───── Styles ───── */
 
 // Aligned to site palette from index.html :root
-//   --empress-gold #D8A738   --primary #3f1449   --primary-600 #4b2577   --bg #fffaf1
+//   --empress-gold #D8A738   --primary #3F144A   --primary-600 #472052   --bg #F3E5D3
 const gold = "#D8A738"
-const plum = "#3f1449"
-const plumLight = "#4b2577"
-const ivory = "#fffaf1"
+const plum = "#3F144A"
+const plumLight = "#472052"
+const ivory = "#F3E5D3"
 
 const s: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",
     background: ivory,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     color: "#1F1F1F",
   },
 
@@ -2746,7 +2746,7 @@ const s: Record<string, React.CSSProperties> = {
     marginBottom: 12,
   },
   heroTitle: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "clamp(1.6rem, 4vw, 2.6rem)",
     fontWeight: 700,
     lineHeight: 1.2,
@@ -2762,7 +2762,7 @@ const s: Record<string, React.CSSProperties> = {
     gap: 6,
   },
   scoreNum: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "4.5rem",
     fontWeight: 700,
     lineHeight: 1,
@@ -2823,7 +2823,7 @@ const s: Record<string, React.CSSProperties> = {
     textTransform: "uppercase" as const,
   },
   coverTitle: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "clamp(1.8rem, 5vw, 2.8rem)",
     fontWeight: 700,
     lineHeight: 1.25,
@@ -2844,7 +2844,7 @@ const s: Record<string, React.CSSProperties> = {
     gap: 8,
   },
   coverScoreNum: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "5rem",
     fontWeight: 700,
     lineHeight: 1,
@@ -2897,7 +2897,7 @@ const s: Record<string, React.CSSProperties> = {
     padding: "40px 0",
   },
   thankYouTitle: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "clamp(1.8rem, 5vw, 2.8rem)",
     fontWeight: 700,
     color: ivory,
@@ -2953,7 +2953,7 @@ const s: Record<string, React.CSSProperties> = {
   /* Sections */
   section: { maxWidth: 860, margin: "0 auto", padding: "32px 24px 0" },
   sectionHeading: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "clamp(1.2rem, 3vw, 1.7rem)",
     fontWeight: 700,
     color: plum,
@@ -2966,7 +2966,7 @@ const s: Record<string, React.CSSProperties> = {
     lineHeight: 1.6,
   },
   subHeading: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.15rem",
     fontWeight: 700,
     color: plum,
@@ -3023,7 +3023,7 @@ const s: Record<string, React.CSSProperties> = {
     boxShadow: "0 2px 12px rgba(42,15,63,0.05)",
   },
   stageTitle: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.15rem",
     fontWeight: 700,
     color: plum,
@@ -3078,7 +3078,7 @@ const s: Record<string, React.CSSProperties> = {
     border: "1px solid #ece8f2",
   },
   catScore: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.8rem",
     fontWeight: 700,
     lineHeight: 1,
@@ -3119,7 +3119,7 @@ const s: Record<string, React.CSSProperties> = {
     marginBottom: 10,
   },
   breakdownTitle: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.1rem",
     fontWeight: 700,
     color: plum,
@@ -3132,7 +3132,7 @@ const s: Record<string, React.CSSProperties> = {
     flexShrink: 0,
   },
   breakdownScoreNum: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.8rem",
     fontWeight: 700,
     lineHeight: 1,
@@ -3209,7 +3209,7 @@ const s: Record<string, React.CSSProperties> = {
     marginBottom: 12,
   },
   deepDiveTitle: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.25rem",
     fontWeight: 700,
     color: plum,
@@ -3314,7 +3314,7 @@ const s: Record<string, React.CSSProperties> = {
     fontSize: "0.9rem",
     fontWeight: 700,
     color: plum,
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     minWidth: 56,
     textAlign: "right" as const,
   },
@@ -3337,7 +3337,7 @@ const s: Record<string, React.CSSProperties> = {
     boxShadow: "0 1px 8px rgba(42,15,63,0.05)",
   },
   th: {
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.7rem",
     fontWeight: 700,
     letterSpacing: "0.08em",
@@ -3394,7 +3394,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   recName: {
     margin: "0 0 4px",
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.1rem",
     fontWeight: 700,
     color: plum,
@@ -3431,7 +3431,7 @@ const s: Record<string, React.CSSProperties> = {
     alignItems: "flex-start",
   },
   productIndex: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.25rem",
     fontWeight: 700,
     color: gold,
@@ -3476,7 +3476,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   upgradeTitle: {
     margin: "0 0 10px",
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.35rem",
     fontWeight: 700,
     color: ivory,
@@ -3517,7 +3517,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   giftTitle: {
     margin: "0 0 8px",
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.4rem",
     fontWeight: 700,
     color: plum,
@@ -3537,7 +3537,7 @@ const s: Record<string, React.CSSProperties> = {
     width: "100%",
     padding: "12px 16px",
     fontSize: "0.95rem",
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     color: "#1F1F1F",
     background: "#fff",
     border: "1px solid #ddd5e2",
@@ -3550,7 +3550,7 @@ const s: Record<string, React.CSSProperties> = {
     minHeight: 60,
     padding: "12px 16px",
     fontSize: "0.92rem",
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     lineHeight: 1.5,
     color: "#1F1F1F",
     background: "#fff",
@@ -3563,7 +3563,7 @@ const s: Record<string, React.CSSProperties> = {
   giftBtn: {
     background: gold,
     color: plum,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.98rem",
     fontWeight: 800,
     letterSpacing: "0.04em",
@@ -3576,7 +3576,7 @@ const s: Record<string, React.CSSProperties> = {
   giftBtnDisabled: {
     background: `${gold}66`,
     color: plum,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.98rem",
     fontWeight: 800,
     letterSpacing: "0.04em",
@@ -3597,7 +3597,7 @@ const s: Record<string, React.CSSProperties> = {
     borderRadius: 14,
     padding: "20px 24px",
     color: plum,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.98rem",
     fontWeight: 600,
     fontStyle: "italic" as const,
@@ -3622,7 +3622,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   referTitle: {
     margin: "0 0 8px",
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.3rem",
     fontWeight: 700,
     color: plum,
@@ -3644,7 +3644,7 @@ const s: Record<string, React.CSSProperties> = {
     minWidth: 0,
     padding: "10px 14px",
     fontSize: "0.95rem",
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     color: "#1F1F1F",
     background: "#fff",
     border: "1px solid #ddd5e2",
@@ -3655,7 +3655,7 @@ const s: Record<string, React.CSSProperties> = {
   referBtn: {
     background: plum,
     color: ivory,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.92rem",
     fontWeight: 700,
     letterSpacing: "0.04em",
@@ -3668,7 +3668,7 @@ const s: Record<string, React.CSSProperties> = {
   referBtnDisabled: {
     background: "rgba(63,20,73,0.3)",
     color: ivory,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.92rem",
     fontWeight: 700,
     letterSpacing: "0.04em",
@@ -3689,7 +3689,7 @@ const s: Record<string, React.CSSProperties> = {
     borderRadius: 14,
     padding: "20px 24px",
     color: plum,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.98rem",
     fontWeight: 600,
     fontStyle: "italic" as const,
@@ -3710,7 +3710,7 @@ const s: Record<string, React.CSSProperties> = {
     fontSize: "0.92rem",
     fontWeight: 600,
     color: plum,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     lineHeight: 1.4,
   },
   feedbackTextarea: {
@@ -3718,7 +3718,7 @@ const s: Record<string, React.CSSProperties> = {
     minHeight: 70,
     padding: "10px 12px",
     fontSize: "0.92rem",
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     lineHeight: 1.5,
     color: "#1F1F1F",
     background: "#fff",
@@ -3737,7 +3737,7 @@ const s: Record<string, React.CSSProperties> = {
   feedbackBtn: {
     background: plum,
     color: ivory,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.85rem",
     fontWeight: 700,
     letterSpacing: "0.04em",
@@ -3749,7 +3749,7 @@ const s: Record<string, React.CSSProperties> = {
   feedbackBtnDisabled: {
     background: "rgba(63,20,73,0.3)",
     color: ivory,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.85rem",
     fontWeight: 700,
     letterSpacing: "0.04em",
@@ -3769,7 +3769,7 @@ const s: Record<string, React.CSSProperties> = {
     background: `${gold}1a`,
     border: `1px solid ${gold}66`,
     color: plum,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.95rem",
     fontWeight: 600,
     fontStyle: "italic" as const,
@@ -3785,7 +3785,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   downloadTitle: {
     margin: "0 0 8px",
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.3rem",
     fontWeight: 700,
     color: plum,
@@ -3801,7 +3801,7 @@ const s: Record<string, React.CSSProperties> = {
     alignItems: "center",
     background: plum,
     color: ivory,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.95rem",
     fontWeight: 700,
     letterSpacing: "0.03em",
@@ -3816,7 +3816,7 @@ const s: Record<string, React.CSSProperties> = {
     alignItems: "center",
     background: "rgba(63,20,73,0.4)",
     color: ivory,
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.95rem",
     fontWeight: 700,
     letterSpacing: "0.03em",
@@ -3923,7 +3923,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   mhtBannerTitle: {
     display: "block",
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1rem",
     fontWeight: 700,
     marginBottom: 6,
@@ -3960,7 +3960,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   flagGroupTitleUrgent: {
     margin: 0,
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.05rem",
     fontWeight: 700,
     color: "#A32D2D",
@@ -3977,7 +3977,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   flagGroupTitleRecommended: {
     margin: 0,
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.05rem",
     fontWeight: 700,
     color: "#8A6A1F",
@@ -3994,7 +3994,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   flagGroupTitleDomain: {
     margin: 0,
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.05rem",
     fontWeight: 700,
     color: plum,
@@ -4014,7 +4014,7 @@ const s: Record<string, React.CSSProperties> = {
     flexWrap: "wrap" as const,
   },
   flagItemQ: {
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     fontSize: "0.72rem",
     fontWeight: 700,
     letterSpacing: "0.1em",
@@ -4053,7 +4053,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   flagCompositeTitle: {
     display: "block",
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.05rem",
     fontWeight: 700,
     marginBottom: 6,
@@ -4134,7 +4134,7 @@ const s: Record<string, React.CSSProperties> = {
     gap: 6,
   },
   pricingPrice: {
-    fontFamily: "'Poppins', system-ui, sans-serif",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "2.4rem",
     fontWeight: 700,
     color: plum,

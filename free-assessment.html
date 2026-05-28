@@ -13,20 +13,20 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito+Sans:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --terracotta: #C8856A;
-    --deep:       #3D2B1F;
-    --cream:      #FAF6F1;
-    --gold:       #C9A96E;
-    --sage:       #7A8C6E;
+    --terracotta: #B9955B;
+    --deep:       #231F20;
+    --cream:      #F3E5D3;
+    --gold:       #D8A738;
+    --sage:       #705177;
     --muted:      #8A7060;
     --soft:       #A08878;
     --line:       rgba(200,133,106,0.18);
-    --serif:      'Cormorant Garamond', Georgia, serif;
-    --sans:       'Lato', system-ui, -apple-system, sans-serif;
+    --serif:      'The Seasons', 'Playfair Display', Georgia, serif;
+    --sans:       'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, -apple-system, sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--cream); color: var(--deep); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
@@ -217,9 +217,9 @@
    Self-contained vanilla JS. Posts to /api/free-trial-report.
    ───────────────────────────────────────────────────────────────────── */
 
-const TERRACOTTA = '#C8856A';
-const DEEP       = '#3D2B1F';
-const SAGE       = '#7A8C6E';
+const TERRACOTTA = '#B9955B';
+const DEEP       = '#231F20';
+const SAGE       = '#705177';
 
 const QUESTIONS = [
   // Sleep
@@ -276,15 +276,15 @@ const QUESTIONS = [
 
 const DOMAIN_COLORS = {
   'Sleep':         '#7B9EA6',
-  'Energy':        '#C9A96E',
-  'Mood':          '#C8856A',
+  'Energy':        '#D8A738',
+  'Mood':          '#B9955B',
   'Hot Flashes':   '#D4735E',
   'Brain Fog':     '#8E7BB5',
   'Cycle Changes': '#A08060',
-  'Metabolism':    '#7A8C6E',
-  'Sexual Health': '#C8856A',
+  'Metabolism':    '#705177',
+  'Sexual Health': '#B9955B',
   'Stress':        '#9B8EA6',
-  'Wellbeing':     '#7A8C6E',
+  'Wellbeing':     '#705177',
 };
 
 // State

@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito+Sans:wght@300;400;500;600;700;900&display=swap"
     rel="stylesheet">
   <style>
     /* =========================
@@ -30,19 +30,19 @@
    ========================= */
     :root {
       /* Three-color palette: white, beige, plum (with yellow CTA accent) */
-      --bg: #FAF6F1;           /* Brand BEIGE / cream page */
-      --ink: #3f1449;          /* Brand PLUM — body copy / chrome */
+      --bg: #F3E5D3;           /* Brand BEIGE / cream page */
+      --ink: #3F144A;          /* Brand PLUM — body copy / chrome */
       --muted: #6e5e7a;
       --soft: #ffffff;         /* Brand WHITE — cards, button surfaces */
 
-      --primary: #3f1449;      /* Brand PLUM — primary chrome */
-      --primary-600: #2e0f37;  /* Plum darker — heading emphasis */
-      --accent: #F4C430;       /* Brand YELLOW — CTA fill */
-      --accent-ink: #3f1449;   /* Plum text on the yellow CTA */
-      --empress-gold: #F4C430;
-      --brand-cream: #FAF6F1;
+      --primary: #3F144A;      /* Brand PLUM — primary chrome */
+      --primary-600: #231F20;  /* Plum darker — heading emphasis */
+      --accent: #FBAD18;       /* Brand YELLOW — CTA fill */
+      --accent-ink: #3F144A;   /* Plum text on the yellow CTA */
+      --empress-gold: #FBAD18;
+      --brand-cream: #F3E5D3;
       --brand-white: #ffffff;
-      --brand-plum: #3f1449;
+      --brand-plum: #3F144A;
 
       --border: #ececf1;
       --shadow: 0 10px 30px rgba(16, 16, 32, .08);
@@ -186,7 +186,7 @@
 
     /* Homepage hero CTAs — sit directly under the hero image */
     .hero-cta {
-      background: var(--brand-cream, #FAF6F1);
+      background: var(--brand-cream, #F3E5D3);
       padding: var(--space-5) 0 var(--space-6);
       border-bottom: 1px solid var(--border);
     }
@@ -244,7 +244,7 @@
       padding: var(--space-5) 24px var(--space-4);
     }
     .hero-eyebrow {
-      font: 600 12px/1 'Inter', system-ui, sans-serif;
+      font: 600 12px/1 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--primary);
@@ -252,7 +252,7 @@
       opacity: 0.7;
     }
     .hero-headline h1 {
-      font: 600 clamp(2.2rem, 5vw, 3.4rem)/1.08 'Poppins', system-ui, sans-serif;
+      font: 600 clamp(2.2rem, 5vw, 3.4rem)/1.08 'The Seasons', 'Playfair Display', system-ui, sans-serif;
       color: var(--primary-600);
       margin: 0 0 16px;
       letter-spacing: -0.01em;
@@ -262,7 +262,7 @@
       font-style: italic;
     }
     .hero-subhead {
-      font: 400 clamp(1rem, 1.6vw, 1.2rem)/1.5 'Inter', system-ui, sans-serif;
+      font: 400 clamp(1rem, 1.6vw, 1.2rem)/1.5 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
       color: var(--muted);
       margin: 0;
       max-width: 640px;
@@ -287,7 +287,7 @@
       gap: 14px;
     }
     .hero-bullets li {
-      font: 400 1.02rem/1.5 'Inter', system-ui, sans-serif;
+      font: 400 1.02rem/1.5 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
       color: var(--primary-600);
       display: flex;
       gap: 14px;
@@ -905,7 +905,7 @@
 
     /* Uniform feature tiles — every card identical size on every breakpoint */
     .feature-card-inner {
-      background: #3D2B1F;
+      background: #231F20;
       color: #fff;
       border-radius: 18px;
       overflow: hidden;

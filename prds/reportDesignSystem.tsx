@@ -31,10 +31,10 @@ import * as React from "react"
 
 export const reportPalette = {
   // Brand
-  plum: "#3f1449",
-  plumLight: "#4b2577",
+  plum: "#3F144A",
+  plumLight: "#472052",
   gold: "#D8A738",
-  ivory: "#fffaf1",
+  ivory: "#F3E5D3",
 
   // Surfaces
   pageBg: "#F4E5C8",        // cream/peach page (PDF print)
@@ -55,7 +55,7 @@ export const reportPalette = {
 
   // Callouts
   ochre: "#D4A017",
-  ochreText: "#3f1449",
+  ochreText: "#3F144A",
   feedbackBg: "#E9DFEF",
   feedbackBorder: "#D4C6E0",
   mintCard: "#E8F1E9",
@@ -63,8 +63,8 @@ export const reportPalette = {
 } as const
 
 export const reportFonts = {
-  body: "'Inter', system-ui, sans-serif",
-  display: "'Poppins', system-ui, sans-serif",
+  body: "'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif",
+  display: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
 } as const
 
 /* ───────────────────────── Status helpers ───────────────────────── */
@@ -347,7 +347,7 @@ export function NumberedSectionHero({
           position: "relative",
           borderRadius: 18,
           overflow: "hidden",
-          background: "#3f1449",
+          background: "#3F144A",
           minHeight: imgFailed ? 0 : 220,
         }}
       >
@@ -436,7 +436,7 @@ export function InterludeHero({
             borderRadius: 18,
             overflow: "hidden",
             marginBottom: 18,
-            background: "#3f1449",
+            background: "#3F144A",
           }}
         >
           <img
