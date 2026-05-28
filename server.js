@@ -374,12 +374,6 @@ if (fs.existsSync(assessmentIndex)) {
   //                          ricochet users back through /signup)
   //   - default (no tier)  → require session; otherwise bounce through /signup
   //                          and return them to /assessment/?tier=paid
-  // Friendly alias: marketing copy / homepage CTAs link to /health-assessment.
-  // Routes to the paywall first — only paying customers reach the 120-Q.
-  app.get(["/health-assessment", "/health-assessment/"], (req, res) => {
-    return res.redirect(302, "/pricing");
-  });
-
   app.get(["/assessment", "/assessment/"], (req, res) => {
     const tier = req.query && typeof req.query.tier === "string" ? req.query.tier : null;
 
@@ -3596,6 +3590,14 @@ app.get("/free-assessment", (_req, res) =>
 app.get("/pricing", (_req, res) =>
   res.sendFile(path.join(__dirname, "pricing.html"))
 );
+
+// Friendly alias for marketing CTAs — routes through the paywall.
+// Lives OUTSIDE the conditional `if (fs.existsSync(assessmentIndex))` block
+// so it registers even on Vercel, where prds/dist/** is excluded from
+// the serverless function bundle.
+app.get(["/health-assessment", "/health-assessment/"], (_req, res) => {
+  return res.redirect(302, "/pricing");
+});
 
 /* ───────────────────────── Checkout / paywall ─────────────────────────
  * Gates the paid 120-Q assessment behind a purchase. Stripe is not yet
