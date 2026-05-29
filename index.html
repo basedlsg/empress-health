@@ -35,11 +35,12 @@
       --muted: #6e5e7a;
       --soft: #ffffff;         /* Brand WHITE — cards, button surfaces */
 
-      --primary: #3F144A;      /* Brand PLUM — primary chrome */
-      --primary-600: #231F20;  /* Plum darker — heading emphasis */
-      --accent: #FBAD18;       /* Brand YELLOW — CTA fill */
-      --accent-ink: #3F144A;   /* Plum text on the yellow CTA */
-      --empress-gold: #FBAD18;
+      --primary: #3F144A;      /* Brand DARK VIOLET — primary chrome */
+      --primary-600: #231F20;  /* Brand RAISIN BLACK — heading emphasis */
+      --accent: #FBAD18;       /* Brand BRIGHT YELLOW (Crayola) — CTA fill */
+      --accent-ink: #3F144A;   /* Dark violet text on the yellow CTA */
+      --accent-hover: #D29F13; /* Brand GOLD (Metallic) — CTA hover/pressed */
+      --empress-gold: #D8A738; /* Brand GOLD (Metallic) — text/accent gold */
       --brand-cream: #F3E5D3;
       --brand-white: #ffffff;
       --brand-plum: #3F144A;
@@ -223,17 +224,17 @@
       background: var(--accent);
       color: var(--accent-ink);
       border: 2px solid var(--accent);
-      box-shadow: 0 6px 18px rgba(244, 196, 48, 0.30);
+      box-shadow: 0 6px 18px rgba(251, 173, 24, 0.30);
       font-weight: 700;
       letter-spacing: 0.01em;
     }
     .btn.cta-yellow:hover,
     .btn.cta-yellow:focus-visible {
-      background: #e6b620;
-      border-color: #e6b620;
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
       color: var(--accent-ink);
       transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(244, 196, 48, 0.40);
+      box-shadow: 0 8px 24px rgba(251, 173, 24, 0.40);
     }
 
     /* ─── HERO HEAD COPY (above image) ─── */
@@ -634,6 +635,11 @@
       pointer-events: none;
       transition: opacity 700ms ease;
       overflow: hidden;
+      /* Inherit the card's rounded corners so the photo is clipped to them
+         in every browser. Safari does NOT clip absolutely-positioned
+         children to a rounded parent via overflow:hidden alone, which let
+         the image's square corners overlap the card border. */
+      border-radius: inherit;
     }
 
     .hero-slide.is-active {
@@ -1934,7 +1940,7 @@
       <div class="cta-row">
         <a class="btn primary cta-yellow" href="/free-assessment">Get My Free Health Assessment &rarr;</a>
       </div>
-      <p class="cta-note">3-minute snapshot. No email required. Grounded in clinical evidence &middot; <a href="/pricing">Unlock the full 120-question assessment — $129/year or $12/month</a></p>
+      <p class="cta-note">3-minute snapshot &middot; No email required &middot; Grounded in clinical evidence</p>
     </div>
   </section>
 
