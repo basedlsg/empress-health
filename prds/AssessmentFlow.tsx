@@ -236,6 +236,17 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
     const overall = calculateOverallScore(responses, categories)
     const priorities = getPriorityAreas(responses, 3, categories)
 
+    // Top 10 high-pain question IDs (descending response score). Drives the
+    // MARSHA matrix product matcher on the server (lib/catalog.js →
+    // getMatrixProductsByQuestions). Scores ≥6 only — answers below that
+    // are not strong-enough signals to count as a priority symptom.
+    const priorityQuestionIds = Object.entries(responses)
+      .filter(([, score]) => typeof score === "number" && score >= 6)
+      .sort(([, a], [, b]) => (b as number) - (a as number))
+      .slice(0, 10)
+      .map(([qid]) => Number(qid))
+      .filter(Number.isFinite)
+
     // The server's /api/recommendations/* handlers read `req.body.profile`
     // first, then fall back to the session. Supplying a profile derived from
     // the assessment (priority symptoms, tier, overall score) means even users
@@ -253,6 +264,8 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       preferences: "natural, clinical",
       affirmation_categories: categoryNames,
       category: categoryNames[0] ?? null,
+      priorityCategorySlugs: categoryNames,
+      priorityQuestionIds,
     }
 
     const payload = {
@@ -264,6 +277,10 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       priorities,
       responses,
       profile,
+      // Server reads these top-level too (server.js line 2734-2744 catalogProfile)
+      priorityCategorySlugs: categoryNames,
+      priority_question_ids: priorityQuestionIds,
+      priorityQuestionIds,
     }
 
     async function fetchAll() {

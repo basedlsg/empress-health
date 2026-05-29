@@ -2240,6 +2240,57 @@ function RecommendedProductsSection({
                     )}
                   </span>
                 </div>
+                {/* Empress Naturals + Thorne alternatives (MARSHA matrix only) */}
+                {(() => {
+                  const empressAlts = (p as { empress_alts?: string[] }).empress_alts || []
+                  const thorneAlts  = (p as { thorne_alts?:  string[] }).thorne_alts  || []
+                  if (empressAlts.length === 0 && thorneAlts.length === 0) return null
+                  return (
+                    <div style={{
+                      marginTop: 10,
+                      paddingTop: 10,
+                      borderTop: "1px dashed #E8D8C8",
+                      fontSize: 12,
+                      lineHeight: 1.55,
+                      color: "#5b4a3e",
+                    }}>
+                      {empressAlts.length > 0 && (
+                        <p style={{ margin: "0 0 4px" }}>
+                          <span style={{
+                            display: "inline-block",
+                            background: "#3F144A",
+                            color: "#FBAD18",
+                            fontWeight: 700,
+                            fontSize: 10,
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                            padding: "2px 8px",
+                            borderRadius: 999,
+                            marginRight: 8,
+                          }}>Empress Naturals</span>
+                          {empressAlts.join(" · ")}
+                        </p>
+                      )}
+                      {thorneAlts.length > 0 && (
+                        <p style={{ margin: 0 }}>
+                          <span style={{
+                            display: "inline-block",
+                            background: "#D8A738",
+                            color: "#3F144A",
+                            fontWeight: 700,
+                            fontSize: 10,
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                            padding: "2px 8px",
+                            borderRadius: 999,
+                            marginRight: 8,
+                          }}>Thorne</span>
+                          {thorneAlts.join(" · ")}
+                        </p>
+                      )}
+                    </div>
+                  )
+                })()}
                 {p.evidence_refs && p.evidence_refs.length > 0 && (
                   <p className="empress-evidence-refs" style={{
                     fontSize: "11px",
