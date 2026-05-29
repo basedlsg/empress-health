@@ -188,14 +188,20 @@
   .next-step p { font-size: 14px; color: #D8C4B4; line-height: 1.6; margin: 0 0 24px; }
   .next-step .cta-light {
     display: inline-block;
-    background: linear-gradient(135deg, var(--gold), #B89858);
-    color: var(--deep);
-    border: 0; padding: 16px 28px; border-radius: 99px;
-    font-size: 14px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
-    box-shadow: 0 6px 20px rgba(201,169,110,0.32);
-    transition: transform 0.2s ease;
+    background: #FBAD18;             /* Brand BRIGHT YELLOW (Crayola) */
+    color: #3F144A;                  /* Brand DARK VIOLET text on yellow */
+    border: 2px solid #FBAD18;
+    padding: 18px 32px; border-radius: 99px;
+    font-size: 15px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(251,173,24,0.40);
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   }
-  .next-step .cta-light:hover { transform: translateY(-1px); }
+  .next-step .cta-light:hover, .next-step .cta-light:focus-visible {
+    transform: translateY(-1px);
+    background: #D29F13;             /* Brand GOLD (Metallic) hover */
+    border-color: #D29F13;
+    outline: none;
+  }
   .next-step .price { display: block; font-size: 12px; color: #C8B8A8; margin-top: 14px; font-weight: 500; letter-spacing: 0.04em; }
 
   /* responsive */
