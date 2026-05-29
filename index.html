@@ -236,77 +236,68 @@
       box-shadow: 0 8px 24px rgba(244, 196, 48, 0.40);
     }
 
-    /* ─── HERO HEADLINE (above image) ─── */
+    /* ─── HERO HEAD COPY (above image) ─── */
     .hero-headline {
       text-align: center;
-      max-width: 880px;
+      max-width: 760px;
       margin: 0 auto;
       padding: var(--space-5) 24px var(--space-4);
     }
-    .hero-eyebrow {
-      font: 600 12px/1 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--primary);
-      margin: 0 0 14px;
-      opacity: 0.7;
-    }
     .hero-headline h1 {
-      font: 600 clamp(2.2rem, 5vw, 3.4rem)/1.08 'The Seasons', 'Playfair Display', system-ui, sans-serif;
-      color: var(--primary-600);
-      margin: 0 0 16px;
+      font: 600 clamp(2.3rem, 9vw, 4rem)/1.08 'The Seasons', 'Playfair Display', Georgia, serif;
+      color: var(--primary);
+      margin: 0 0 18px;
       letter-spacing: -0.01em;
     }
     .hero-headline .learns {
-      color: var(--primary);
+      color: var(--empress-gold);
       font-style: italic;
     }
     .hero-subhead {
-      font: 400 clamp(1rem, 1.6vw, 1.2rem)/1.5 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
+      font: 500 clamp(1rem, 1.7vw, 1.2rem)/1.5 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
+      color: var(--primary-600);
+      margin: 0 auto 24px;
+      max-width: 460px;
+    }
+    .hero-cta-btn {
+      display: inline-block;
+      font-size: 1.08rem;
+      padding: 1.05rem 2.2rem;
+    }
+    .hero-freenote {
+      font: 500 0.9rem/1.4 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
       color: var(--muted);
-      margin: 0;
-      max-width: 640px;
-      margin-inline: auto;
+      letter-spacing: 0.03em;
+      margin: 16px 0 0;
     }
 
-    /* ─── HERO BULLETS (below image, single block) ─── */
+    /* ─── HERO TRUST BULLETS (single centered block, below image) ─── */
     .hero-bullets {
-      background: var(--brand-white);
-      max-width: 880px;
-      margin: 24px auto 0;
-      padding: 28px 32px;
-      border-radius: 18px;
-      box-shadow: 0 6px 22px rgba(63, 20, 73, 0.06);
-      border: 1px solid rgba(63, 20, 73, 0.08);
+      max-width: 760px;
+      margin: 20px auto 0;
+      padding: 0 24px;
     }
     .hero-bullets ul {
       list-style: none;
       padding: 0;
       margin: 0;
-      display: grid;
-      gap: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 28px;
     }
     .hero-bullets li {
-      font: 400 1.02rem/1.5 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
-      color: var(--primary-600);
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
+      font: 600 0.98rem/1.3 'Avenir', 'Avenir Next', 'Nunito Sans', system-ui, sans-serif;
+      color: var(--primary);
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      letter-spacing: 0.01em;
     }
     .hero-bullets .bullet-mark {
-      color: var(--accent);
-      font-size: 1.15rem;
-      line-height: 1.4;
+      color: var(--empress-gold);
+      font-size: 1rem;
       flex-shrink: 0;
-    }
-    @media (min-width: 720px) {
-      .hero-bullets {
-        padding: 32px 48px;
-      }
-      .hero-bullets ul {
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 24px;
-      }
     }
 
     /* =========================
@@ -594,25 +585,18 @@
    SECTION 2: HERO
    PRD: object-fit: contain, no cropping, rotation on ALL breakpoints
    ========================= */
+    /* Hero is now a natural-flow stack (head copy → big image → bullets),
+       NOT a fixed-viewport flex box. This lets the image grow large
+       instead of being squeezed by the copy above/below it. */
     section.hero {
       position: relative;
       width: 100%;
-      height: calc(100svh - var(--header-h));
-      min-height: 400px;
+      height: auto;
       margin: 0;
-      padding: 0;
+      padding: 0 0 var(--space-4);
       overflow: hidden;
-      /* Banner is anchored to the top; hero-link fills the rest. */
-      display: flex;
-      flex-direction: column;
-      /* Letterbox bars (when image is contain-sized) — solid warm cream
-         set via the --hero-bar variable defined in :root. */
-      background: var(--hero-bar);
-    }
-
-    /* Banner inside the hero takes its natural height at the top. */
-    section.hero > .empress-banner {
-      flex: 0 0 auto;
+      display: block;
+      background: var(--bg);
     }
 
     /* Anchor that wraps the entire hero so taps/clicks anywhere on the
@@ -621,8 +605,6 @@
     .hero-link {
       display: block;
       width: 100%;
-      flex: 1 1 auto;
-      min-height: 0;
       text-decoration: none;
       color: inherit;
       cursor: pointer;
@@ -633,10 +615,16 @@
       outline-offset: -3px;
     }
 
+    /* The image box — large by default. Explicit height so the absolutely
+       positioned slide has something to fill; object-fit: cover then makes
+       the photo fill it edge-to-edge ("full screen" feel). */
     .hero-card {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 64svh;
+      min-height: 440px;
+      max-height: 820px;
+      overflow: hidden;
     }
 
     .hero-slide {
@@ -666,10 +654,8 @@
       z-index: 1;
     }
 
-    /* Whole image is always visible — no cropping, no distortion. When the
-       image's aspect ratio doesn't match the hero box, blank space appears
-       on the sides or top/bottom and is filled by section.hero's solid
-       background colour (var(--bg)), not a blurred copy. */
+    /* Image fills the hero-card edge-to-edge (cover). The photo is the
+       focal point now, so we crop gently rather than letterbox. */
     .hero-slide .hero-img {
       position: absolute;
       inset: 0;
@@ -678,8 +664,8 @@
       max-width: none;
       max-height: none;
       display: block;
-      object-fit: contain;
-      object-position: center;
+      object-fit: cover;
+      object-position: center top;
     }
 
     /* =========================
@@ -1549,27 +1535,38 @@
         padding: 8px 12px;
       }
 
+      /* Natural-flow hero on mobile: head copy, then a BIG image, then
+         bullets. The image fills ~72% of the viewport for an immersive,
+         near-full-screen feel (was a small letterboxed thumbnail). */
       section.hero {
-        height: calc(100svh - var(--header-h));
-        height: calc(100dvh - var(--header-h));
-        min-height: calc(100svh - var(--header-h));
+        height: auto;
+        min-height: 0;
       }
 
-      /* Whole image visible on mobile too — bars (top/bottom or sides)
-         filled by section.hero's solid background. */
+      .hero-card {
+        height: 72svh;
+        height: 72dvh;
+        min-height: 480px;
+        max-height: none;
+      }
+
       .hero-slide .hero-img {
         width: 100% !important;
         height: 100% !important;
         max-width: none !important;
         max-height: none !important;
-        object-fit: contain;
-        object-position: center;
+        object-fit: cover;
+        object-position: center top;
         -webkit-mask-image: none !important;
                 mask-image: none !important;
       }
 
       .hero-slide::before {
         display: none;
+      }
+
+      .hero-headline {
+        padding: var(--space-4) 20px var(--space-3);
       }
 
       .main-nav {
@@ -1608,7 +1605,23 @@
       }
 
       section.hero {
-        height: calc(100vh - var(--header-h));
+        height: auto;
+      }
+
+      /* Desktop: the lady is a portrait, so present her as a centered
+         portrait card (matching the crop's 1080:1412 ratio) rather than a
+         stretched full-width band that would over-zoom her face. */
+      .hero-card {
+        width: min(540px, 90%);
+        height: auto;
+        aspect-ratio: 1080 / 1412;
+        max-height: 78vh;
+        margin: 0 auto;
+        border-radius: 24px;
+        box-shadow: 0 18px 50px rgba(63, 20, 73, 0.14);
+      }
+      .hero-slide .hero-img {
+        object-position: center;
       }
 
       .main-nav {
@@ -1877,46 +1890,37 @@
      PRD: object-fit: contain, rotation on ALL devices
      ========================================== -->
   <section class="hero" id="hero">
-    <div class="empress-banner" role="region" aria-label="Empress Health intro">
-      <div class="empress-banner-track">
-        <span class="empress-banner-msg">
-          <strong>Sleep deeply. Think clearly. Feel complete. Be you again!</strong><br>Empress is where women in Peri + Menopause come home to themselves.
-        </span>
-        <span class="empress-banner-msg" aria-hidden="true">
-          <strong>Sleep deeply. Think clearly. Feel complete. Be you again!</strong><br>Empress is where women in Peri + Menopause come home to themselves.
-        </span>
-      </div>
-    </div>
-    <!-- Hero headline (above image) -->
+    <!-- 1. HEAD COPY (logo + menu live in the fixed header above) -->
     <div class="hero-headline">
-      <p class="hero-eyebrow">Empress Health</p>
-      <h1><span class="learns">Support that learns you.</span></h1>
-      <p class="hero-subhead">Sleep deeply. Think clearly. Feel complete. Be you again.</p>
+      <h1>Sleep deeply.<br>Think clearly.<br>Feel energized.<br><span class="learns">Be you again.</span></h1>
+      <p class="hero-subhead">Built exclusively for women in Peri&#8239;+&#8239;Menopause.</p>
+      <a class="btn cta-yellow hero-cta-btn" href="/free-assessment">Get My Free Report &rarr;</a>
+      <p class="hero-freenote">Free &middot; 3 minutes &middot; Built for you</p>
     </div>
 
+    <!-- 2. FULL-WIDTH HERO IMAGE -->
     <a class="hero-link" href="/free-assessment" aria-label="Start your free menopause health assessment">
     <div class="hero-card">
-      <!-- Single hero image (slideshow rotation removed per design update) -->
-      <div class="hero-slide is-active" data-index="0"
-        style="--hero-bg: url('/hero/hero-desktop-1440.jpg')">
+      <div class="hero-slide is-active" data-index="0">
         <picture>
-          <source type="image/webp" media="(max-width: 768px)" srcset="/hero/hero-mobile-1080.webp">
-          <source type="image/jpeg" media="(max-width: 768px)" srcset="/hero/hero-mobile-1080.jpg">
-          <source type="image/webp" srcset="/hero/hero-desktop-1440.webp 1x, /hero/hero-desktop-2880.webp 2x">
-          <source type="image/jpeg" srcset="/hero/hero-desktop-1440.jpg 1x, /hero/hero-desktop-2880.jpg 2x">
-          <img class="hero-img" src="/hero/hero-desktop-1440.jpg"
-            alt="Holistic menopause support" loading="eager" fetchpriority="high">
+          <source type="image/webp" media="(max-width: 768px)" srcset="/hero/hero-lady-1080.webp">
+          <source type="image/jpeg" media="(max-width: 768px)" srcset="/hero/hero-lady-1080.jpg">
+          <source type="image/webp" srcset="/hero/hero-lady-1600.webp">
+          <source type="image/jpeg" srcset="/hero/hero-lady-1600.jpg">
+          <img class="hero-img" src="/hero/hero-lady-1600.jpg"
+            alt="A woman supported through her peri + menopause years by Empress Health" loading="eager" fetchpriority="high">
         </picture>
       </div>
     </div>
     </a>
 
-    <!-- Hero bullets (below image, single block) -->
+    <!-- 3. TRUST BULLETS (single block, below image) -->
     <div class="hero-bullets">
       <ul>
-        <li><span class="bullet-mark">✦</span> Grounded in clinical evidence — every claim cited.</li>
-        <li><span class="bullet-mark">✦</span> Personalized to your symptoms, not the average woman.</li>
-        <li><span class="bullet-mark">✦</span> Built with you in three minutes, refined over time.</li>
+        <li><span class="bullet-mark">✦</span> Evidence-Based</li>
+        <li><span class="bullet-mark">✦</span> Clinically Tested</li>
+        <li><span class="bullet-mark">✦</span> Private &amp; Secure</li>
+        <li><span class="bullet-mark">✦</span> Free to Start</li>
       </ul>
     </div>
   </section>

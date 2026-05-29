@@ -329,6 +329,15 @@ app.get("/api/csrf", (req, res) => {
 // Serve /public at /public (e.g., /public/EmpressHealthlogo.png)
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+// Dev/prod parity: on Vercel the public/ folder is the site root, so the
+// homepage references assets at root-relative paths (/hero/*, the new logo
+// files, etc.). Locally Express only mounts public/ at /public, so those
+// root paths 404 in dev. Mounting public/ at root too fixes that. We pass
+// { index: false } so it never serves public/index.html at "/" — the
+// dynamic routes below still own every extensionless URL (express.static
+// only responds when a real file with that exact path exists).
+app.use(express.static(path.join(__dirname, "public"), { index: false }));
+
 // Paid report section banners (NumberedSectionHero / InterludeHero /
 // LuxuryGiftHero in prds/reportDesignSystem.tsx). The React code requests
 // /report-heroes/<slug>.{jpg,png,svg} directly (no /public prefix), so we
