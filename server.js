@@ -942,6 +942,41 @@ async function generateRecommendations(userProfile, requestId) {
     };
   }
 
+  // ── 5. Blend in MARSHA matrix matches (curated third-party products
+  //       with Empress Naturals + Thorne alternatives, keyed on the
+  //       user's high-scoring question IDs). Adds up to 5 extra matches
+  //       beyond the clinical-supplement set above. ─────────────────────────
+  const priorityQuestionIds = Array.isArray(userProfile?.priorityQuestionIds)
+    ? userProfile.priorityQuestionIds.map(Number).filter(Number.isFinite)
+    : [];
+
+  let matrixMatches = [];
+  if (priorityQuestionIds.length) {
+    matrixMatches = catalog.getMatrixProductsByQuestions(priorityQuestionIds, 5);
+  } else if (priorityCategories.length) {
+    // Semantic fallback: search by the user's category labels so the matrix
+    // still contributes when only category-level signal is available.
+    matrixMatches = await catalog.getMatrixProductsBySemantic({
+      query: priorityCategories.join(" "),
+      k: 5,
+    });
+  }
+
+  for (const m of matrixMatches) {
+    recommendations.push({
+      product_name:     m.product,
+      brand:            m.brand,
+      website:          m.website,
+      reason:           `Recommended for: ${(m.symptoms || []).slice(0, 2).join(", ")}.`,
+      empress_alts:     m.empress_naturals_alternatives || [],
+      thorne_alts:      m.thorne_alternatives          || [],
+      shopify_handle:   null,        // third-party — link via website field instead
+      evidence_refs:    [],          // matrix is editorially curated, not Pinecone-grounded
+      source:           "marsha-matrix",
+      match_question_ids: (m.question_ids || []).map(String),
+    });
+  }
+
   return { recommendations, clinician };
 }
 
@@ -2736,6 +2771,7 @@ async function handleCombinedRecommendations(req, res) {
       age:                   req.body?.age,
       mhtActive:             req.body?.mhtActive,
       priorityCategorySlugs: req.body?.priorityCategorySlugs || req.body?.priority_category_slugs,
+      priorityQuestionIds:   req.body?.priorityQuestionIds   || req.body?.priority_question_ids,
       topConcernDomainIds:   req.body?.topConcernDomainIds   || req.body?.top_concern_domain_ids,
       urgentItemFlags:       req.body?.urgent_flags          || req.body?.urgentItemFlags,
       symptoms:              req.body?.symptoms,

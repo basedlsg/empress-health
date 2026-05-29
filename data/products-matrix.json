@@ -1,0 +1,3371 @@
+[
+  {
+    "id": "marsha-skinceuticals-triple-lipid-restore-2-4-2",
+    "product": "Triple Lipid Restore 2:4:2",
+    "brand": "SkinCeuticals",
+    "website": "bluemercury.com",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Slower injury recovery"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      64,
+      65,
+      71
+    ],
+    "question_texts": [
+      "Has your skin become significantly drier no matter what products you use?",
+      "Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Have cuts, blemishes, or skin irritation started healing much more slowly?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Advanced Bone Support"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinceuticals-h-a-intensifier-serum",
+    "product": "H.A. Intensifier Serum",
+    "brand": "SkinCeuticals",
+    "website": "bluemercury.com",
+    "symptoms": [
+      "Skin barrier loss",
+      "Brittle nails",
+      "Overall system inflammation feel"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Lifestyle, Gut Health & Nutrition"
+    ],
+    "category_slugs": [
+      "lifestyle-gut-health-nutrition",
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      70,
+      69,
+      119
+    ],
+    "question_texts": [
+      "Do you bruise more easily or feel your skin is more fragile than before?",
+      "Have your nails become weaker, thinner, or prone to peeling/breaking?",
+      "Does your body feel more inflamed, reactive, puffy, or sensitive than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinceuticals-c-e-ferulic-15-acid-serum",
+    "product": "C E Ferulic 15% Acid Serum",
+    "brand": "SkinCeuticals",
+    "website": "bluemercury.com",
+    "symptoms": [
+      "Adult acne",
+      "Mental fatigue",
+      "Loss of physiologic resilience"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Cognitive Function & Brain Health",
+      "Lifestyle, Gut Health & Nutrition"
+    ],
+    "category_slugs": [
+      "cognitive-function-brain-health",
+      "lifestyle-gut-health-nutrition",
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      67,
+      30,
+      120
+    ],
+    "question_texts": [
+      "Have you developed new acne or jawline breakouts?",
+      "Do even minor decisions feel disproportionately exhausting?",
+      "Overall, how much has your body's ability to “bounce back” declined?"
+    ],
+    "empress_naturals_alternatives": [
+      "Uplifting Body Oil",
+      "Circulation Massage Oil",
+      "Kansa Wand Body"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Advanced Iron Complex (Ferrasorb)"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-chantecaille-flower-harmonizing-cream",
+    "product": "Flower Harmonizing Cream",
+    "brand": "Chantecaille",
+    "website": "bluemercury.com",
+    "symptoms": [
+      "Skin redness / sensitivity",
+      "Anxiety",
+      "Stress recovery time"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Mood, Anxiety & Emotional Health",
+      "Lifestyle, Gut Health & Nutrition"
+    ],
+    "category_slugs": [
+      "lifestyle-gut-health-nutrition",
+      "mood-anxiety-emotional-health",
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      12,
+      36,
+      114
+    ],
+    "question_texts": [
+      "Do you experience facial redness or flushing separate from hot flashes?",
+      "Describe the resting background anxiety you carry through your day without a specific trigger.",
+      "Once stressed, how quickly does your body return to baseline?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Relaxing Body Oil",
+      "Nourishing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-kiehl-s-ultra-facial-cream",
+    "product": "Ultra Facial Cream",
+    "brand": "Kiehl's",
+    "website": "bluemercury.com",
+    "symptoms": [
+      "Tight skin / severe dryness",
+      "Skin barrier loss",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      64,
+      70,
+      65
+    ],
+    "question_texts": [
+      "Has your skin become significantly drier no matter what products you use?",
+      "Do you bruise more easily or feel your skin is more fragile than before?",
+      "Have you noticed a rapid loss of skin firmness or elasticity?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-clarke-s-botanicals-retinol-rescue-overnight-cream",
+    "product": "Retinol Rescue Overnight Cream",
+    "brand": "Clarke's Botanicals",
+    "website": "credobeauty.com",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Dry, thinning skin",
+      "Skin redness / sensitivity"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      65,
+      64,
+      12
+    ],
+    "question_texts": [
+      "Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Has your skin become significantly drier no matter what products you use?",
+      "Do you experience facial redness or flushing separate from hot flashes?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-54-thrones-african-beauty-butter",
+    "product": "African Beauty Butter",
+    "brand": "54 Thrones",
+    "website": "credobeauty.com",
+    "symptoms": [
+      "Body dryness",
+      "Restless legs syndrome",
+      "Sleep quality disruption"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Sleep Architecture & Cortisol",
+      "Sleep Architecture & Cortisol"
+    ],
+    "category_slugs": [
+      "skin-hair-nails",
+      "sleep-architecture-cortisol"
+    ],
+    "question_ids": [
+      64,
+      20,
+      21
+    ],
+    "question_texts": [
+      "Has your skin become significantly drier no matter what products you use?",
+      "Do you experience crawling, tingling, or urge to move legs at night?",
+      "Have you become newly sensitive to noise, light, or temperature during sleep?"
+    ],
+    "empress_naturals_alternatives": [
+      "Circulation Massage Oil",
+      "Nourishing Body Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-54-thrones-minona-glow-body-oil",
+    "product": "MINONA: Glow Body Oil",
+    "brand": "54 Thrones",
+    "website": "credobeauty.com",
+    "symptoms": [
+      "Itching skin sensations",
+      "Dry, thinning skin",
+      "Skin barrier loss"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      72,
+      66,
+      70
+    ],
+    "question_texts": [
+      "Do you experience unexplained itching, tingling, or crawling skin sensations?",
+      "Has the skin on arms, chest, knees, or hands become thinner or crepey?",
+      "Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-54-thrones-barrier-repair-cloud-cream",
+    "product": "Barrier Repair Cloud Cream",
+    "brand": "54 Thrones",
+    "website": "credobeauty.com",
+    "symptoms": [
+      "Skin barrier loss",
+      "Dry, thinning skin",
+      "Slower injury recovery"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [
+      70,
+      64,
+      71
+    ],
+    "question_texts": [
+      "Do you bruise more easily or feel your skin is more fragile than before?",
+      "Has your skin become significantly drier no matter what products you use?",
+      "Have cuts, blemishes, or skin irritation started healing much more slowly?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Advanced Bone Support"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-urvi-night-gummies-gaba-valerian",
+    "product": "Night Gummies (GABA, Valerian)",
+    "brand": "Urvi",
+    "website": "https://urvi.com/en-us",
+    "symptoms": [
+      "Difficulty falling asleep",
+      "Waking frequently at night",
+      "Non-restorative sleep"
+    ],
+    "categories": [
+      "Sleep Architecture & Cortisol",
+      "Sleep Architecture & Cortisol",
+      "Sleep Architecture & Cortisol"
+    ],
+    "category_slugs": [
+      "sleep-architecture-cortisol"
+    ],
+    "question_ids": [
+      13,
+      14,
+      15
+    ],
+    "question_texts": [
+      "How long does it take to fall asleep after getting into bed?",
+      "How many times do you wake after initially falling asleep?",
+      "Do you specifically wake between 2am and 4am and can't return to sleep?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-auro-wellness-glutaryl-topical-glutathione",
+    "product": "Glutaryl (Topical Glutathione)",
+    "brand": "Auro Wellness",
+    "website": "aurowellness.com",
+    "symptoms": [
+      "Baseline energy decline",
+      "Non-restorative sleep",
+      "Brain fog"
+    ],
+    "categories": [
+      "Cardiovascular & Whole-Body Energy",
+      "Sleep Architecture & Cortisol",
+      "Cognitive Function & Brain Health"
+    ],
+    "category_slugs": [
+      "cardiovascular-whole-body-energy",
+      "cognitive-function-brain-health",
+      "sleep-architecture-cortisol"
+    ],
+    "question_ids": [
+      97,
+      15,
+      27
+    ],
+    "question_texts": [
+      "Compared to 2–3 years ago, how much baseline daily energy have you lost?",
+      "Do you specifically wake between 2am and 4am and can't return to sleep?",
+      "Does your thinking feel measurably slower than 2–3 years ago?"
+    ],
+    "empress_naturals_alternatives": [
+      "Uplifting Body Oil",
+      "Calming Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Advanced Iron Complex (Ferrasorb)"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-sohum-healing-panchakarma-treatment",
+    "product": "Panchakarma Treatment",
+    "brand": "Sohum Healing",
+    "website": "sohumhealing.com",
+    "symptoms": [
+      "Overall system inflammation feel",
+      "Loss of physiologic resilience",
+      "Stress recovery time"
+    ],
+    "categories": [
+      "Lifestyle, Gut Health & Nutrition",
+      "Lifestyle, Gut Health & Nutrition",
+      "Lifestyle, Gut Health & Nutrition"
+    ],
+    "category_slugs": [
+      "lifestyle-gut-health-nutrition"
+    ],
+    "question_ids": [
+      119,
+      120,
+      114
+    ],
+    "question_texts": [
+      "Does your body feel more inflamed, reactive, puffy, or sensitive than before?",
+      "Overall, how much has your body's ability to “bounce back” declined?",
+      "Once stressed, how quickly does your body return to baseline?"
+    ],
+    "empress_naturals_alternatives": [
+      "Uplifting Body Oil",
+      "Calming Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-is-clinical-pro-heal-serum-advance",
+    "product": "Pro-Heal Serum Advance+",
+    "brand": "Is Clinical",
+    "website": "https://www.isclinical.com/",
+    "symptoms": [
+      "Redness/flushing",
+      "Irritation/sensitivity",
+      "Hormonal breakouts"
+    ],
+    "categories": [
+      "Vasomotor & Temperature",
+      "Skin, Hair & Nails",
+      "Mood, Anxiety & Emotional Health"
+    ],
+    "category_slugs": [
+      "mood-anxiety-emotional-health",
+      "skin-hair-nails",
+      "vasomotor-temperature"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q12 Do you experience facial redness or flushing separate from hot flashes?",
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q67 Have you developed new acne or jawline breakouts?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Nourishing Body Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-is-clinical-hydra-cool-serum",
+    "product": "Hydra-Cool Serum",
+    "brand": "Is Clinical",
+    "website": "https://www.isclinical.com/",
+    "symptoms": [
+      "Dryness/dehydration",
+      "Hot-flash heat irritation",
+      "Tight/uncomfortable skin"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Vasomotor & Temperature",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails",
+      "vasomotor-temperature"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q1 How many times per day do you experience a sudden surge of heat?",
+      "Q70 Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-is-clinical-cleansing-complex",
+    "product": "Cleansing Complex",
+    "brand": "Is Clinical",
+    "website": "https://www.isclinical.com/",
+    "symptoms": [
+      "Loss of firmness",
+      "Dullness",
+      "Fine lines/texture"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q66 Has the skin on arms, chest, knees, or hands become thinner or crepey?"
+    ],
+    "empress_naturals_alternatives": [
+      "Kansa Wand Face",
+      "Argan Oil",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-pca-skin-rejuvenating-serum",
+    "product": "Rejuvenating Serum",
+    "brand": "PCA Skin",
+    "website": "https://www.pcaskin.com/",
+    "symptoms": [
+      "Dullness",
+      "Fine lines",
+      "Slower cell turnover"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Hormonal & Metabolic"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q60 Does it seem like your body burns calories far more slowly than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Kansa Wand Face",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-pca-skin-c-e-advanced-with-hexylresorcinol-silibinin",
+    "product": "C&E Advanced with Hexylresorcinol & Silibinin",
+    "brand": "PCA Skin",
+    "website": "https://www.pcaskin.com/",
+    "symptoms": [
+      "Dark spots",
+      "Uneven skin tone",
+      "Environmental aging"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-pca-skin-hyaluronic-acid-boosting-serum",
+    "product": "Hyaluronic Acid Boosting Serum",
+    "brand": "PCA Skin",
+    "website": "https://www.pcaskin.com/",
+    "symptoms": [
+      "Dryness",
+      "Dehydration",
+      "Loss of plumpness"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q66 Has the skin on arms, chest, knees, or hands become thinner or crepey?"
+    ],
+    "empress_naturals_alternatives": [
+      "Kansa Wand Face",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-tronque-triple-active-body-milk",
+    "product": "Triple Active Body Milk",
+    "brand": "Tronque",
+    "website": "https://tronque.com/",
+    "symptoms": [
+      "Skin thinning/loss of firmness",
+      "Dryness",
+      "Poor circulation"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Cardiovascular & Whole-Body Energy"
+    ],
+    "category_slugs": [
+      "cardiovascular-whole-body-energy",
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q106 Do your legs or body feel unusually heavy — like you're moving through mud?"
+    ],
+    "empress_naturals_alternatives": [
+      "Circulation Massage Oil",
+      "Argan Oil",
+      "Kansa Wand Body"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-tronque-vitamin-c-body-oil",
+    "product": "Vitamin C Body Oil",
+    "brand": "Tronque",
+    "website": "https://tronque.com/",
+    "symptoms": [
+      "Age spots/pigmentation",
+      "Skin elasticity loss",
+      "Barrier dysfunction"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q70 Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-tronque-body-gua-sha",
+    "product": "Body Gua Sha",
+    "brand": "Tronque",
+    "website": "https://tronque.com/",
+    "symptoms": [
+      "Fluid retention/bloating",
+      "Sluggish circulation",
+      "Muscle tension"
+    ],
+    "categories": [
+      "Metabolic Health & Body Composition",
+      "Cardiovascular & Whole-Body Energy",
+      "Musculoskeletal & Bone Health"
+    ],
+    "category_slugs": [
+      "cardiovascular-whole-body-energy",
+      "metabolic-health-body-composition",
+      "musculoskeletal-bone-health"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q55 Do you experience puffiness or fluid retention — face, hands, ankles?",
+      "Q106 Do your legs or body feel unusually heavy — like you're moving through mud?",
+      "Q75 Do your muscles feel unusually achy, heavy, or weak for no clear reason?"
+    ],
+    "empress_naturals_alternatives": [
+      "Circulation Massage Oil",
+      "Kansa Wand Body",
+      "Lymphatic Dry Brush"
+    ],
+    "thorne_alternatives": [
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-blue-mercury-dr-whitney-bowe-procedure-enhancement-program",
+    "product": "Dr. Whitney Bowe Procedure Enhancement Program",
+    "brand": "Blue Mercury",
+    "website": "https://bluemercury.com/blogs/bluenotes",
+    "symptoms": [
+      "Dryness",
+      "Loss of elasticity",
+      "Skin sensitivity/redness"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Vasomotor & Temperature"
+    ],
+    "category_slugs": [
+      "skin-hair-nails",
+      "vasomotor-temperature"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q12 Do you experience facial redness or flushing separate from hot flashes?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-blue-mercury-p46-peptide-ha-plumping-serum",
+    "product": "P46 Peptide + HA Plumping Serum",
+    "brand": "Blue Mercury",
+    "website": "https://bluemercury.com/blogs/bluenotes",
+    "symptoms": [
+      "Loss of firmness",
+      "Fine lines/wrinkles",
+      "Redness/irritation"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Vasomotor & Temperature"
+    ],
+    "category_slugs": [
+      "skin-hair-nails",
+      "vasomotor-temperature"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q66 Has the skin on arms, chest, knees, or hands become thinner or crepey?",
+      "Q12 Do you experience facial redness or flushing separate from hot flashes?"
+    ],
+    "empress_naturals_alternatives": [
+      "Kansa Wand Face",
+      "Argan Oil",
+      "Calming Massage Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-blue-mercury-pca-skin-mgf-age-renewal-cream",
+    "product": "PCA Skin MGF Age Renewal Cream",
+    "brand": "Blue Mercury",
+    "website": "https://bluemercury.com/blogs/bluenotes",
+    "symptoms": [
+      "Thinning/collagen loss",
+      "Dryness",
+      "Redness/flushing"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Vasomotor & Temperature"
+    ],
+    "category_slugs": [
+      "skin-hair-nails",
+      "vasomotor-temperature"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q12 Do you experience facial redness or flushing separate from hot flashes?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-beau-domaine-the-serum",
+    "product": "The Serum",
+    "brand": "Beau Domaine",
+    "website": "https://us.beau-domaine.com/",
+    "symptoms": [
+      "Oxidative stress",
+      "Loss of firmness",
+      "Hydration/plumping"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q66 Has the skin on arms, chest, knees, or hands become thinner or crepey?"
+    ],
+    "empress_naturals_alternatives": [
+      "Kansa Wand Face",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-beau-domaine-the-cream",
+    "product": "The Cream",
+    "brand": "Beau Domaine",
+    "website": "https://us.beau-domaine.com/",
+    "symptoms": [
+      "Dryness",
+      "Wrinkles/sagging",
+      "Skin sensitivity"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Mood, Anxiety & Emotional Health"
+    ],
+    "category_slugs": [
+      "mood-anxiety-emotional-health",
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q65 Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q72 Do you experience unexplained itching, tingling, or crawling skin sensations?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-beau-domaine-the-cleansing-emulsion",
+    "product": "The Cleansing Emulsion",
+    "brand": "Beau Domaine",
+    "website": "https://us.beau-domaine.com/",
+    "symptoms": [
+      "Sensitive skin",
+      "Dehydration",
+      "Barrier weakness"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 Has your skin become significantly drier no matter what products you use?",
+      "Q70 Do you bruise more easily or feel your skin is more fragile than before?",
+      "Q72 Do you experience unexplained itching, tingling, or crawling skin sensations?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-mira-herbals-hormone-harmony-cream",
+    "product": "Hormone Harmony Cream",
+    "brand": "Mira Herbals",
+    "website": "https://miraherbals.info/",
+    "symptoms": [
+      "Hot flashes",
+      "Night sweats",
+      "Mood swings"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Mood & Emotional",
+      "Hormonal & Metabolic"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q1 - How many times per day do you experience a sudden surge of heat?",
+      "Q3 - How many nights per week do you wake drenched in sweat?",
+      "Q40 - Do your emotions swing dramatically within a single day without proportionate triggers?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Uplifting Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-mira-herbals-female-p-tincture",
+    "product": "Female P (tincture)",
+    "brand": "Mira Herbals",
+    "website": "https://miraherbals.info/",
+    "symptoms": [
+      "Hot flashes",
+      "Reduced libido",
+      "Anxiety"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Sensory & Other",
+      "Mood & Emotional"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q1 - How many times per day do you experience a sudden surge of heat?",
+      "Q87 - Has your sexual desire declined significantly from your previous baseline?",
+      "Q36 - Describe the resting background anxiety you carry through your day without a specific trigger."
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-mira-herbals-sage-tincture",
+    "product": "Sage (tincture)",
+    "brand": "Mira Herbals",
+    "website": "https://miraherbals.info/",
+    "symptoms": [
+      "Hot flashes",
+      "Brain fog",
+      "Memory lapses"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Cognitive",
+      "Cognitive"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q1 - How many times per day do you experience a sudden surge of heat?",
+      "Q27 - Does your thinking feel measurably slower than 2–3 years ago?",
+      "Q25 - How often do you forget things you just did or said?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-clinique-smart-clinical-repair",
+    "product": "Smart Clinical Repair",
+    "brand": "Clinique",
+    "website": "https://www.clinique.com/",
+    "symptoms": [
+      "Fine lines",
+      "Loss of skin elasticity",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-tata-harper-retinoic-nutrient-face-oil",
+    "product": "Retinoic Nutrient Face Oil",
+    "brand": "Tata Harper",
+    "website": "https://tataharperskincare.com/",
+    "symptoms": [
+      "Fine lines",
+      "Dry, thinning skin",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-m-61-hydraboost-cream",
+    "product": "Hydraboost Cream",
+    "brand": "m-61",
+    "website": "https://m61labs.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-la-mer-cr-me-de-la-mer-face-cream",
+    "product": "Crème de La Mer Face Cream",
+    "brand": "LA MER",
+    "website": "https://www.cremedelamer.com",
+    "symptoms": [
+      "Flushing of face, neck & chest",
+      "Loss of skin elasticity",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q12 - Do you experience facial redness or flushing separate from hot flashes?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-peter-thomas-roth-water-drench-hyaluronic-cloud-cream",
+    "product": "Water Drench Hyaluronic Cloud Cream",
+    "brand": "Peter Thomas Roth",
+    "website": "https://www.peterthomasroth.com",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Fine lines",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-osea-essential-hydrating-oil",
+    "product": "Essential Hydrating Oil",
+    "brand": "Osea",
+    "website": "https://oseamalibu.com",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Fine lines",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-dr-barbara-sturm-hyaluronic-serum",
+    "product": "Hyaluronic Serum",
+    "brand": "Dr. Barbara Sturm",
+    "website": "https://www.drsturm.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-augustinus-bader-the-cream",
+    "product": "The Cream",
+    "brand": "Augustinus Bader",
+    "website": "https://augustinusbader.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Dark spots"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-ogee-jojoba-glow-face-oil",
+    "product": "Jojoba Glow Face Oil",
+    "brand": "OGEE",
+    "website": "https://ogee.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-la-mer-the-eye-concentrate",
+    "product": "The Eye Concentrate",
+    "brand": "LA MER",
+    "website": "https://www.cremedelamer.com",
+    "symptoms": [
+      "Fine lines",
+      "Loss of skin elasticity",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q67 - Have you developed new acne or jawline breakouts?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-ogee-natural-retinol-bakuchiol-2-elixir",
+    "product": "Natural Retinol Bakuchiol 2% Elixir",
+    "brand": "OGEE",
+    "website": "https://ogee.com/",
+    "symptoms": [
+      "Fine lines",
+      "Loss of skin elasticity",
+      "Adult acne"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-tata-harper-repairative-moisturizer",
+    "product": "Repairative Moisturizer",
+    "brand": "Tata Harper",
+    "website": "https://tataharperskincare.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Fine lines",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-nuface-trinity-starter-kit",
+    "product": "Trinity+ Starter Kit",
+    "brand": "NuFace",
+    "website": "https://www.mynuface.com",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Fine lines",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair &Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q67 - Have you developed new acne or jawline breakouts?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-m-61-prosmooth-retinol-serum",
+    "product": "ProSmooth Retinol Serum",
+    "brand": "m-61",
+    "website": "https://m61labs.com/",
+    "symptoms": [
+      "Fine lines",
+      "Adult acne",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-la-mer-the-rejuvenating-night-cream",
+    "product": "The Rejuvenating Night Cream",
+    "brand": "LA MER",
+    "website": "https://www.cremedelamer.com/Fine lines",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Dry, thinning skin",
+      "Skin, Hair & Body"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Q64"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q61 - Have you noticed increased hair shedding or reduced hair volume?",
+      "Q69 - Have your nails become weaker, thinner, or prone to peeling/breaking?",
+      "Q71 - Have cuts, blemishes, or skin irritation started healing much more slowly?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-wellbel-supplement",
+    "product": "Supplement",
+    "brand": "Wellbel",
+    "website": "https://wellbel.com/",
+    "symptoms": [
+      "Thinning hair / hair loss",
+      "Brittle nails",
+      "Slower injury recovery"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Musculoskeletal"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Advanced Bone Support"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-the-u-beauty-duo-resurfacing-compound-the-super-hydrator",
+    "product": "Resurfacing Compound & The Super Hydrator",
+    "brand": "The U Beauty Duo",
+    "website": "https://ubeauty.com/",
+    "symptoms": [
+      "Fine lines",
+      "Dry, thinning skin",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-avene-hyaluron-activ-b3-renewal-firming-cream",
+    "product": "Hyaluron Activ B3 Renewal Firming Cream",
+    "brand": "Avene",
+    "website": "https://www.aveneusa.com",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Dry, thinning skin",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-revive-eye-renewal-serum-firming-booster",
+    "product": "Eye Renewal Serum / Firming Booster",
+    "brand": "Revive",
+    "website": "https://reviveskincare.com",
+    "symptoms": [
+      "Fine lines",
+      "Loss of skin elasticity",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q67 - Have you developed new acne or jawline breakouts?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinceuticals-retinol-0-5",
+    "product": "Retinol 0.5",
+    "brand": "SkinCeuticals",
+    "website": "https://www.skinceuticals.com/",
+    "symptoms": [
+      "Fine lines",
+      "Adult acne",
+      "Dark spots"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-sunsolvemd-zno-mineral-care-correct-fade-spf-50",
+    "product": "ZnO+ Mineral Care Correct + Fade SPF 50",
+    "brand": "SunsolveMD",
+    "website": "https://www.sunsolvemd.com/",
+    "symptoms": [
+      "Dark spots",
+      "Fine lines",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-dermalogica-phyto-nature-firming-serum",
+    "product": "Phyto nature firming serum",
+    "brand": "Dermalogica",
+    "website": "https://www.dermalogica.com/",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Fine lines",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinceuticals-p-tiox",
+    "product": "P-Tiox",
+    "brand": "SkinCeuticals",
+    "website": "https://www.skinceuticals.com/",
+    "symptoms": [
+      "Fine lines",
+      "Loss of skin elasticity",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q67 - Have you developed new acne or jawline breakouts?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-m-61-powerglow-pro-niacinamide-neuropeptide-serum",
+    "product": "PowerGlow Pro+ Niacinamide+Neuropeptide Serum",
+    "brand": "m-61",
+    "website": "https://m61labs.com/",
+    "symptoms": [
+      "Fine lines",
+      "Adult acne",
+      "Dark spots"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-dermalogica-multivitamin-power-firm",
+    "product": "Multivitamin Power Firm",
+    "brand": "Dermalogica",
+    "website": "https://www.dermalogica.com/",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Fine lines",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-osea-undaria-algae-body-butter",
+    "product": "Undaria Algae Body Butter",
+    "brand": "Osea",
+    "website": "https://oseamalibu.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q55 - Do you experience puffiness or fluid retention — face, hands, ankles?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?"
+    ],
+    "empress_naturals_alternatives": [
+      "Kansa Wand Face",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-furtuna-skin-day-night-cream-set",
+    "product": "Day & Night Cream Set",
+    "brand": "Furtuna Skin",
+    "website": "https://www.furtunaskin.com/",
+    "symptoms": [
+      "Fine lines",
+      "Dry, thinning skin",
+      "Puffiness"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Cardiovascular"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-olivier-midy-clat-midy-anti-aging-face-oil",
+    "product": "ÉCLAT MIDY Anti-Aging Face Oil",
+    "brand": "Olivier Midy",
+    "website": "https://oliviermidy.com/",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Dark spots",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-peter-thomas-roth-firmx-collagen-hydra-gel-face-eye-patches",
+    "product": "Firmx Collagen Hydra-Gel Face & Eye Patches",
+    "brand": "Peter Thomas Roth",
+    "website": "https://www.peterthomasroth.com",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Fine lines",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-m-61-hydraboost-gradual-tan-serum",
+    "product": "Hydraboost Gradual Tan Serum",
+    "brand": "m-61",
+    "website": "https://m61labs.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-dermalogica-multivitamin-power-recovery-cream",
+    "product": "Multivitamin Power Recovery Cream",
+    "brand": "Dermalogica",
+    "website": "https://www.dermalogica.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q85 - Have you developed vaginal dryness or lack of natural lubrication?",
+      "Q86 - Do you experience pain, burning, or tearing during intimacy?",
+      "Q87 - Has your sexual desire declined significantly from your previous baseline?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-vellabio-pleasure-serum-topical-and-orgasm-cream",
+    "product": "Pleasure Serum Topical and Orgasm Cream",
+    "brand": "Vellabio",
+    "website": "https://vellabio.com/",
+    "symptoms": [
+      "Reduced libido",
+      "Vaginal dryness",
+      "Painful intercourse"
+    ],
+    "categories": [
+      "Sensory & Other",
+      "Genitourinary (GSM)",
+      "Genitourinary (GSM)"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q67 - Have you developed new acne or jawline breakouts?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-kiehl-s-super-multi-corrective-face-cream-and-eye-cream",
+    "product": "Super Multi-corrective Face Cream and Eye Cream",
+    "brand": "Kiehl's",
+    "website": "https://www.kiehls.com/",
+    "symptoms": [
+      "Fine lines",
+      "Adult acne",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-goop-beauty-youth-boost-peptide-serum",
+    "product": "Youth-Boost Peptide Serum",
+    "brand": "goop beauty",
+    "website": "https://goop.com/",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Fine lines",
+      "Dark spots"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q67 - Have you developed new acne or jawline breakouts?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-one-love-double-cleanse-kit",
+    "product": "Double Cleanse Kit",
+    "brand": "One Love",
+    "website": "https://www.oneloveorganics.com/",
+    "symptoms": [
+      "Adult acne",
+      "Dry, thinning skin",
+      "Dull skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Nourishing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-kiehl-s-micro-dose-anti-aging-retinol-serum-with-ceramides-and-peptide",
+    "product": "Micro-Dose Anti-Aging Retinol Serum with Ceramides and Peptide",
+    "brand": "Kiehl's",
+    "website": "https://www.kiehls.com/",
+    "symptoms": [
+      "Fine lines",
+      "Dry, thinning skin",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinceuticals-daily-brightening-uv-defense-sunscreen-spf-30",
+    "product": "Daily Brightening UV Defense Sunscreen SPF 30",
+    "brand": "SkinCeuticals",
+    "website": "https://www.skinceuticals.com/",
+    "symptoms": [
+      "Dark spots",
+      "Fine lines",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q17 - How rested do you feel when you wake up?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-kiehl-s-midnight-recovery-concentrate-moisturizing-face-oil-serum",
+    "product": "Midnight Recovery Concentrate Moisturizing Face Oil Serum",
+    "brand": "Kiehl's",
+    "website": "https://www.kiehls.com/",
+    "symptoms": [
+      "Non-restorative sleep",
+      "Dry, thinning skin",
+      "Fine lines"
+    ],
+    "categories": [
+      "Sleep",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q55 - Do you experience puffiness or fluid retention — face, hands, ankles?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?"
+    ],
+    "empress_naturals_alternatives": [
+      "Circulation Massage Oil",
+      "Kansa Wand Body",
+      "Kansa Wand Face"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-furtuna-skin-face-eye-serum",
+    "product": "FACE & EYE SERUM",
+    "brand": "Furtuna Skin",
+    "website": "https://www.furtunaskin.com/",
+    "symptoms": [
+      "Puffiness",
+      "Dark spots",
+      "Fine lines"
+    ],
+    "categories": [
+      "Cardiovascular",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Circulation Massage Oil",
+      "Kansa Wand Body"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-rodial-vit-c-booster-drops",
+    "product": "Vit C Booster Drops",
+    "brand": "Rodial",
+    "website": "https://us.rodial.com/",
+    "symptoms": [
+      "Dark spots",
+      "Dry, thinning skin",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinceuticals-a-g-e-interrupter-ultra-serum",
+    "product": "A.G.E. Interrupter Ultra Serum",
+    "brand": "SkinCeuticals",
+    "website": "https://www.skinceuticals.com/",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Fine lines",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-alpyn-barrier-repair-cream",
+    "product": "Barrier Repair Cream",
+    "brand": "Alpyn",
+    "website": "https://alpynbeauty.com",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Fine lines",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-bloomeffects-black-tulip-regenerative-brightening-serum",
+    "product": "Black Tulip Regenerative Brightening Serum",
+    "brand": "Bloomeffects",
+    "website": "https://bloomeffects.com/",
+    "symptoms": [
+      "Dark spots",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-dr-barbara-sturm-super-anti-aging-dual-serum",
+    "product": "Super Anti-Aging Dual Serum",
+    "brand": "Dr. Barbara Sturm",
+    "website": "https://www.drsturm.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Fine lines"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q61 - Have you noticed increased hair shedding or reduced hair volume?",
+      "Q12 - Do you experience facial redness or flushing separate from hot flashes?",
+      "Q67 - Have you developed new acne or jawline breakouts?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-miriamquevedo-black-baccara-cellular-breathing-hair-multiplying-scrub-scalp-mask",
+    "product": "BLACK BACCARA Cellular Breathing Hair Multiplying Scrub Scalp Mask",
+    "brand": "miriamquevedo",
+    "website": "https://www.miriamquevedo.com/",
+    "symptoms": [
+      "Thinning hair / hair loss",
+      "Flushing of face, neck & chest",
+      "Adult acne"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Vasomotor",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q12 - Do you experience facial redness or flushing separate from hot flashes?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Argan Oil",
+      "Calming Massage Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-ogee-hyaluronic-acid-ha-1-5-elixir",
+    "product": "Hyaluronic Acid HA 1.5% Elixir",
+    "brand": "OGEE",
+    "website": "https://ogee.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Flushing of face, neck & chest",
+      "Irritation/sensitivity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Vasomotor",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q1 - How many times per day do you experience a sudden surge of heat?",
+      "Q3 - How many nights per week do you wake drenched in sweat?",
+      "Q6 - After a hot flash ends, do you immediately feel intensely cold?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-estroven-estroven-complete-menopause-relief",
+    "product": "Estroven Complete Menopause Relief",
+    "brand": "Estroven",
+    "website": "https://estroven.com",
+    "symptoms": [
+      "Hot flashes",
+      "Night sweats",
+      "Cold flashes / chills"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Vasomotor",
+      "Vasomotor"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q2 - When a hot flash hits, how intense is it?",
+      "Q13 - How long does it take to fall asleep after getting into bed?",
+      "Q36 - Describe the resting background anxiety you carry through your day without a specific trigger."
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Circulation Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-bonafide-bonafide-relizen",
+    "product": "Bonafide Relizen",
+    "brand": "Bonafide",
+    "website": "https://hellobonafide.com",
+    "symptoms": [
+      "Hot flashes",
+      "Difficulty falling asleep",
+      "Anxiety"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Sleep",
+      "Mood & Emotional"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q49 - Have you gained weight in the past 1–3 years unexplained by diet or activity changes?",
+      "Q51 - Have sugar and carbohydrate cravings significantly increased?",
+      "Q50 - Do you experience abdominal distension or bloating particularly after meals?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-menolabs-menolabs-weight-energy-probiotic",
+    "product": "MenoLabs Weight & Energy Probiotic",
+    "brand": "MenoLabs",
+    "website": "https://menolabs.com",
+    "symptoms": [
+      "Abdominal weight gain",
+      "Blood sugar dysregulation",
+      "Digestive changes / bloating"
+    ],
+    "categories": [
+      "Hormonal & Metabolic",
+      "Hormonal & Metabolic",
+      "Sensory & Other"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q85 - Have you developed vaginal dryness or lack of natural lubrication?",
+      "Q86 - Do you experience pain, burning, or tearing during intimacy?",
+      "Q95 - Do you experience daily vulvar irritation, itching, or discomfort?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Daily Probiotic",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-bonafide-revaree-vaginal-moisturizer",
+    "product": "Revaree Vaginal Moisturizer",
+    "brand": "Bonafide",
+    "website": "https://hellobonafide.com",
+    "symptoms": [
+      "Vaginal dryness",
+      "Painful intercourse",
+      "Vaginal atrophy"
+    ],
+    "categories": [
+      "Genitourinary (GSM)",
+      "Genitourinary (GSM)",
+      "Genitourinary (GSM)"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q61 - Have you noticed increased hair shedding or reduced hair volume?",
+      "Q69 - Have your nails become weaker, thinner, or prone to peeling/breaking?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-nutrafol-nutrafol-women-balance",
+    "product": "Nutrafol Women Balance",
+    "brand": "Nutrafol",
+    "website": "https://nutrafol.com",
+    "symptoms": [
+      "Thinning hair / hair loss",
+      "Brittle nails",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Body",
+      "Skin, Hair & Body",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q27 - Does your thinking feel measurably slower than 2–3 years ago?",
+      "Q26 - How long can you hold focused attention before your mind wanders?",
+      "Q30 - Do even minor decisions feel disproportionately exhausting?"
+    ],
+    "empress_naturals_alternatives": [
+      "Argan Oil",
+      "Kansa Wand Face",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-midi-health-mindset-by-midi",
+    "product": "Mindset by Midi",
+    "brand": "Midi Health",
+    "website": "https://joinmidi.com",
+    "symptoms": [
+      "Brain fog",
+      "Difficulty concentrating",
+      "Mental fatigue"
+    ],
+    "categories": [
+      "Cognitive",
+      "Cognitive",
+      "Cognitive"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q8 - Have you become significantly more sensitive to heat?",
+      "Q40 - Do your emotions swing dramatically within a single day without proportionate triggers?",
+      "Q38 - How quickly do you become irritated by minor annoyances that previously wouldn't have affected you?"
+    ],
+    "empress_naturals_alternatives": [
+      "Circulation Massage Oil",
+      "Kansa Wand Body",
+      "Uplifting Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Advanced Iron Complex (Ferrasorb)"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-equelle-equelle",
+    "product": "Equelle",
+    "brand": "Equelle",
+    "website": "https://equelle.com",
+    "symptoms": [
+      "Hot flashes",
+      "Mood swings",
+      "Irritability"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Mood & Emotional",
+      "Mood & Emotional"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q4 - How long does a typical hot flash last?",
+      "Q3 - How many nights per week do you wake drenched in sweat?",
+      "Q44 - Do you experience a pronounced afternoon emotional low that lifts somewhat by evening?"
+    ],
+    "empress_naturals_alternatives": [
+      "Uplifting Body Oil",
+      "Calming Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-o-positiv-o-positiv-meno",
+    "product": "O Positiv MENO",
+    "brand": "O Positiv",
+    "website": "https://opositiv.com",
+    "symptoms": [
+      "Hot flashes",
+      "Night sweats",
+      "Mood swings"
+    ],
+    "categories": [
+      "Vasomotor",
+      "Vasomotor",
+      "Mood & Emotional"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q87 - Has your sexual desire declined significantly from your previous baseline?",
+      "Q86 - Do you experience pain, burning, or tearing during intimacy?",
+      "Q85 - Have you developed vaginal dryness or lack of natural lubrication?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Uplifting Body Oil",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Women's Libido Boost"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-bonafide-ristela",
+    "product": "Ristela",
+    "brand": "Bonafide",
+    "website": "https://hellobonafide.com",
+    "symptoms": [
+      "Reduced libido",
+      "Painful intercourse",
+      "Vaginal dryness"
+    ],
+    "categories": [
+      "Sensory & Other",
+      "Genitourinary (GSM)",
+      "Genitourinary (GSM)"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q87 - Has your sexual desire declined significantly from your previous baseline?",
+      "Q86 - Do you experience pain, burning, or tearing during intimacy?",
+      "Q85 - Have you developed vaginal dryness or lack of natural lubrication?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-noom-noom-midlife-program",
+    "product": "Noom Midlife Program",
+    "brand": "Noom",
+    "website": "https://noom.com",
+    "symptoms": [
+      "Abdominal weight gain",
+      "Slowed metabolism",
+      "Mental fatigue"
+    ],
+    "categories": [
+      "Hormonal & Metabolic",
+      "Hormonal & Metabolic",
+      "Cognitive"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q57 - Has your waist circumference increased comparing to 2–3 years ago?",
+      "Q60 - Does it seem like your body burns calories far more slowly than before?",
+      "Q35 - How long can you sustain demanding intellectual work before hitting a wall?"
+    ],
+    "empress_naturals_alternatives": [
+      "Circulation Massage Oil",
+      "Kansa Wand Body",
+      "Uplifting Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Multi 50+",
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-menolabs-menofit-probiotic",
+    "product": "MenoFit Probiotic",
+    "brand": "MenoLabs",
+    "website": "https://menolabs.com",
+    "symptoms": [
+      "Digestive changes / bloating",
+      "Blood sugar dysregulation",
+      "Increased allergy sensitivity"
+    ],
+    "categories": [
+      "Sensory & Other",
+      "Hormonal & Metabolic",
+      "Sensory & Other"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q111 - Do you bloat even after meals you consider clean or healthy?",
+      "Q54 - Do you experience significant energy crashes within 1–2 hours of eating?",
+      "Q113 - Have you become newly reactive to foods you used to tolerate fine?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Daily Probiotic",
+      "Vitamin D + K2 Liquid"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-kindra-kindra-core-libido-support",
+    "product": "Kindra Core Libido Support",
+    "brand": "Kindra",
+    "website": "https://ourkindra.com",
+    "symptoms": [
+      "Reduced libido",
+      "Vaginal dryness",
+      "Vaginal atrophy"
+    ],
+    "categories": [
+      "Sensory & Other",
+      "Genitourinary (GSM)",
+      "Genitourinary (GSM)"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q89 - Have orgasms become weaker, harder to reach, or less satisfying?",
+      "Q85 - Have you developed vaginal dryness or lack of natural lubrication?",
+      "Q88 - Does it take much longer to become physically aroused even when mentally interested?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Women's Libido Boost",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-cerebral-cerebral-sleep-mood-support",
+    "product": "Cerebral Sleep & Mood Support",
+    "brand": "Cerebral",
+    "website": "https://cerebral.com",
+    "symptoms": [
+      "Insomnia",
+      "Anxiety",
+      "Depression"
+    ],
+    "categories": [
+      "Sleep",
+      "Mood & Emotional",
+      "Mood & Emotional"
+    ],
+    "category_slugs": [],
+    "question_ids": [],
+    "question_texts": [
+      "Q15 - Do you specifically wake between 2am and 4am and can't return to sleep?",
+      "Q43 - Have you experienced sudden episodes of intense fear or breathlessness without a clear trigger?",
+      "Q41 - Do you experience periods of low mood or loss of interest new or worse during this transition?"
+    ],
+    "empress_naturals_alternatives": [
+      "Uplifting Body Oil",
+      "Calming Massage Oil",
+      "Relaxing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinmedica-dermal-repair-cream",
+    "product": "Dermal Repair Cream",
+    "brand": "SkinMedica",
+    "website": "https://www.skinmedica.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Rough texture"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Body",
+      "Musculoskeletal & Bone Health"
+    ],
+    "category_slugs": [
+      "musculoskeletal-bone-health",
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q66 - Has the skin on arms, chest, knees, or hands become thinner or crepey?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Kansa Wand Face",
+      "Nourishing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-marini-skinsolutions-retinol-plus",
+    "product": "Retinol Plus",
+    "brand": "Marini SkinSolutions",
+    "website": "https://www.mariniskinsolutions.com/",
+    "symptoms": [
+      "Adult acne",
+      "Dry, thinning skin",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Body",
+      "Musculoskeletal & Bone Health"
+    ],
+    "category_slugs": [
+      "musculoskeletal-bone-health",
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q67 - Have you developed new acne or jawline breakouts?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-jane-iredale-enlighten-plus-under-eye-concealer",
+    "product": "Enlighten Plus Under-Eye Concealer",
+    "brand": "Jane Iredale",
+    "website": "https://janeiredale.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Puffiness or fluid retention"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Body",
+      "Metabolic Health & Body Composition"
+    ],
+    "category_slugs": [
+      "metabolic-health-body-composition",
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q55 - Do you experience puffiness or fluid retention — face, hands, ankles?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?"
+    ],
+    "empress_naturals_alternatives": [
+      "Lymphatic Dry Brush",
+      "Circulation Massage Oil",
+      "Kansa Wand Body"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-skinceuticals-a-g-e-interrupter-ultra-lifting-serum",
+    "product": "A.G.E. Interrupter Ultra Lifting Serum",
+    "brand": "SkinCeuticals",
+    "website": "https://www.skinceuticals.com",
+    "symptoms": [
+      "Loss of skin elasticity",
+      "Dry, thinning skin",
+      "Slower injury recovery"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Body",
+      "Musculoskeletal"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q71 - Have cuts, blemishes, or skin irritation started healing much more slowly?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Advanced Bone Support"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-kiehl-s-ultra-facial-cream",
+    "product": "Ultra Facial Cream",
+    "brand": "Kiehl's",
+    "website": "https://www.kiehls.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Increased allergy sensitivity",
+      "Irritation & redness"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Sensory & Other",
+      "Lifestyle, Gut Health & Nutrition"
+    ],
+    "category_slugs": [
+      "lifestyle-gut-health-nutrition",
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?",
+      "Q119 - Does your body feel more inflamed, reactive, puffy, or sensitive than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-tan-luxe-the-face-illuminating-self-tan-drops",
+    "product": "The Face Illuminating Self Tan Drops",
+    "brand": "Tan-Luxe",
+    "website": "https://tan-luxe.com/",
+    "symptoms": [
+      "Increased allergy sensitivity",
+      "Dry, thinning skin",
+      "Adult acne"
+    ],
+    "categories": [
+      "Sensory & Other",
+      "Skin, Hair & Body",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q67 - Have you developed new acne or jawline breakouts?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?",
+      "Q113 - Have you become newly reactive to foods you used to tolerate fine?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-odacite-c-glow-hydra-firm-body-oil",
+    "product": "C-Glow Hydra-Firm Body Oil",
+    "brand": "Odacite",
+    "website": "https://odacite.com",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Rough texture"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Body",
+      "Musculoskeletal & Bone Health"
+    ],
+    "category_slugs": [
+      "musculoskeletal-bone-health",
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q66 - Has the skin on arms, chest, knees, or hands become thinner or crepey?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Kansa Wand Face",
+      "Nourishing Body Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-solara-suncare-guardian-angel-super-peptide-milk-spf-50",
+    "product": "Guardian Angel Super Peptide Milk SPF 50",
+    "brand": "Solara Suncare",
+    "website": "https://solarasuncare.com",
+    "symptoms": [
+      "Increased allergy sensitivity",
+      "Adult acne",
+      "Dry, thinning skin"
+    ],
+    "categories": [
+      "Sensory & Other",
+      "Skin, Hair & Body",
+      "Skin, Hair & Nails"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q67 - Have you developed new acne or jawline breakouts?",
+      "Q70 - Do you bruise more easily or feel your skin is more fragile than before?",
+      "Q119 - Does your body feel more inflamed, reactive, puffy, or sensitive than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-nars-pure-radiant-tinted-moisturizer-broad-spectrum-spf-30",
+    "product": "Pure Radiant Tinted Moisturizer Broad Spectrum SPF 30",
+    "brand": "NARS",
+    "website": "https://www.narscosmetics.com",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Loss of skin elasticity",
+      "Adult acne"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Skin, Hair & Body",
+      "Sensory & Other"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q67 - Have you developed new acne or jawline breakouts?"
+    ],
+    "empress_naturals_alternatives": [
+      "Rosehip Seed Oil",
+      "Moroccan Gold Oil",
+      "Argan Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-atwater-skin-armor-facial-moisturizer",
+    "product": "Skin Armor Facial Moisturizer",
+    "brand": "ATWATER",
+    "website": "https://www.atwaterskin.com/",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Increased allergy sensitivity",
+      "Loss of skin elasticity"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Sensory & Other",
+      "Skin, Hair & Body"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q65 - Have you noticed a rapid loss of skin firmness or elasticity?",
+      "Q119 - Does your body feel more inflamed, reactive, puffy, or sensitive than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Moroccan Gold Oil",
+      "Argan Oil",
+      "Rosehip Seed Oil"
+    ],
+    "thorne_alternatives": [
+      "Vitamin D + K2 Liquid",
+      "Women's Daily Probiotic"
+    ],
+    "source": "MARSHA_v2"
+  },
+  {
+    "id": "marsha-clinique-moisture-surge-cc-cream-hydrating-colour-corrector-broad-spectrum-spf-30",
+    "product": "Moisture Surge CC Cream Hydrating Colour Corrector Broad Spectrum SPF 30",
+    "brand": "Clinique",
+    "website": "https://www.clinique.com",
+    "symptoms": [
+      "Dry, thinning skin",
+      "Increased allergy sensitivity",
+      "Flushing of face, neck & chest"
+    ],
+    "categories": [
+      "Skin, Hair & Nails",
+      "Sensory & Other",
+      "Vasomotor"
+    ],
+    "category_slugs": [
+      "skin-hair-nails"
+    ],
+    "question_ids": [],
+    "question_texts": [
+      "Q12 - Do you experience facial redness or flushing separate from hot flashes?",
+      "Q64 - Has your skin become significantly drier no matter what products you use?",
+      "Q119 - Does your body feel more inflamed, reactive, puffy, or sensitive than before?"
+    ],
+    "empress_naturals_alternatives": [
+      "Calming Massage Oil",
+      "Nourishing Body Oil",
+      "Moroccan Gold Oil"
+    ],
+    "thorne_alternatives": [
+      "Perimenopause Complete",
+      "Vitamin D + K2 Liquid"
+    ],
+    "source": "MARSHA_v2"
+  }
+]
