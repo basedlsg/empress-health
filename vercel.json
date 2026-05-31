@@ -11,6 +11,9 @@
       "excludeFiles": "{public/**,Hero Image/**,EmpressHealth logo - RGB - Modified/**,design-references/**,prds/dist/**,empress-free-trial-assessment.pdf,Health Assessment Report (1).pdf,pages/**,site-bots/**,scripts/**,docs/**,*.docx,*.csv,artifacts/**}"
     }
   },
+  "redirects": [
+    { "source": "/sample-report", "destination": "/assessment/?tier=paid&demo=1", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/qa", "destination": "/api/index" },

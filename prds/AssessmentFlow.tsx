@@ -90,6 +90,65 @@ function readTierFromUrl(): AssessmentTier {
   return raw === "free" ? "free" : "paid"
 }
 
+/** True when the URL carries ?demo=1 — renders a pre-filled sample report. */
+function isDemoFromUrl(): boolean {
+  if (typeof window === "undefined") return false
+  return new URLSearchParams(window.location.search).get("demo") === "1"
+}
+
+/* Pre-filled demo persona + grounded report payload for ?demo=1 previews.
+   Perimenopause profile with a realistic mix of priority / moderate / strong
+   domains. raw 0=mild .. 10=severe → category score = (10 − avg) × 10. */
+const DEMO = {
+  firstName: "Maya",
+  age: 47,
+  rawBySlug: {
+    "vasomotor-temperature":             7,  // ~Priority (hot flashes, night sweats)
+    "sleep-architecture-cortisol":       7,  // ~Priority
+    "cognitive-function-brain-health":   4,  // ~Moderate (brain fog)
+    "mood-anxiety-emotional-health":     4,  // ~Moderate
+    "metabolic-health-body-composition": 6,  // ~Priority
+    "skin-hair-nails":                   2,  // ~Strong
+    "musculoskeletal-bone-health":       4,  // ~Moderate
+    "genitourinary-sexual-health":       6,  // ~Priority
+    "cardiovascular-whole-body-energy":  2,  // ~Strong
+    "lifestyle-gut-health-nutrition":    3,  // ~Strong
+  } as Record<string, number>,
+  apiResult: {
+    affirmations: {
+      affirmations: [
+        { text: "My body is moving through a powerful transition, and I am listening with compassion.", focus_domain: "mood-anxiety-emotional-health", evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-002"] },
+        { text: "Restorative sleep is an act of physiological preservation — not a luxury I have to earn.", focus_domain: "sleep-architecture-cortisol", evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-003"] },
+        { text: "Every symptom I name today is information, not a verdict.", focus_domain: "vasomotor-temperature", evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-001"] },
+      ],
+      citations: ["empress-120-symptom-biomarker-framework-chunk-001", "empress-120-symptom-biomarker-framework-chunk-002", "empress-120-symptom-biomarker-framework-chunk-003"],
+      legacyStrings: [],
+    },
+    recommendations: [
+      { name: "Menopause-Certified NAMS Practitioner", title: "Certified Menopause Practitioner (CMP)", reason: "For evidence-based hormone therapy evaluation and personalised symptom management." },
+      { name: "Pelvic Floor Physical Therapist", title: "Women's Health PT", reason: "For genitourinary symptoms, bladder control, and intimate-health support." },
+    ],
+    products: [],
+    productsResponse: "",
+    errors: [],
+    clinician: {
+      specialty_id: "nams_certified_mp",
+      label: "Menopause-Certified NAMS Practitioner",
+      abbreviation: "CMP",
+      reason: "Your vasomotor, sleep, and genitourinary scores point to a hormonal driver best evaluated by a NAMS-certified clinician for HRT suitability.",
+      find_provider_url: "https://www.menopause.org/for-women/find-a-menopause-practitioner",
+      evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-006"],
+    },
+    poi_flag: false,
+    source: "catalog",
+    groundedProducts: [
+      { product_name: "Magnesium Glycinate 400mg", shopify_handle: "magnesium-glycinate-400mg", reason: "Supports GABA-A activity for deeper sleep onset and reduced 2–4am waking.", evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-014"] },
+      { product_name: "Adaptogen Blend (Ashwagandha KSM-66 + Rhodiola)", shopify_handle: "adaptogen-blend-ashwagandha-rhodiola", reason: "Blunts the HPA-axis cortisol surge that amplifies hot flashes and night sweats.", evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-002"] },
+      { product_name: "Triple Lipid Restore 2:4:2", brand: "SkinCeuticals", reason: "Recommended for: dry, thinning skin, loss of elasticity.", empress_alts: ["Rosehip Seed Oil", "Moroccan Gold Oil", "Argan Oil"], thorne_alts: ["Vitamin D + K2 Liquid", "Advanced Bone Support"], source: "marsha-matrix", evidence_refs: [] },
+    ],
+  } as unknown as AssessmentApiResult,
+}
+
 /** Pull the auth token signup/login stashed in localStorage. */
 function readAuthToken(): string | null {
   if (typeof window === "undefined") return null
@@ -110,9 +169,39 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
     mhtActive,
     additionalNotes,
     currentMedications,
+    setUser,
+    setStage,
+    setMhtActive,
+    setResponse,
   } = useAssessment()
 
   const [step, setStep] = useState<Step>("entry")
+
+  // ── DEMO MODE (?demo=1) ───────────────────────────────────────────────────
+  // Renders a fully pre-filled sample report without taking the assessment,
+  // so the report layout can be previewed at a shareable URL. Seeds a realistic
+  // perimenopause persona + grounded apiResult, then jumps straight to the
+  // report screen (skipping the loading fetch fan-out).
+  useEffect(() => {
+    if (!isDemoFromUrl()) return
+    // Persona
+    setUser({ firstName: DEMO.firstName, age: DEMO.age, stage: "perimenopause", mhtActive: false })
+    setStage("perimenopause")
+    setMhtActive(false)
+    // Seed all 120 responses by category target (0=mild .. 10=severe; score=(10-avg)*10)
+    for (const cat of categories) {
+      const base = DEMO.rawBySlug[cat.slug] ?? 4
+      cat.questions.forEach((q, i) => {
+        // small deterministic ±1 jitter so radar/bars aren't perfectly flat
+        const jitter = (q.id + i) % 3 === 0 ? 1 : (q.id % 2 === 0 ? -1 : 0)
+        const v = Math.max(0, Math.min(10, base + jitter))
+        setResponse(q.id, v)
+      })
+    }
+    setApiResult(DEMO.apiResult)
+    setStep("report")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const [currentCategoryId, setCurrentCategoryId] = useState(categories[0]?.id ?? 1)
   const [apiResult, setApiResult] = useState<AssessmentApiResult>({
     affirmations: [],
