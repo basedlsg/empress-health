@@ -2851,6 +2851,7 @@ app.post("/api/assessment/feedback", async (req, res) => {
       comment,
       tier,
       firstName,
+      email,
       completedAt,
     } = req.body || {};
 
@@ -2865,14 +2866,91 @@ app.post("/api/assessment/feedback", async (req, res) => {
       return res.status(400).json({ error: "comment is too long (max 4000 chars)" });
     }
 
+    // Email is optional, but if provided it must look valid.
+    let cleanEmail = null;
+    if (email !== undefined && email !== null && email !== "") {
+      const e = typeof email === "string" ? email.trim() : "";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+        return res.status(400).json({ error: "email does not look valid" });
+      }
+      cleanEmail = e.slice(0, 200);
+    }
+
+    const cleanSectionId = String(sectionId).slice(0, 80);
+    const cleanSectionTitle =
+      typeof sectionTitle === "string" ? sectionTitle.slice(0, 120) : null;
+    const cleanTier = tier === "free" || tier === "paid" ? tier : null;
+    const cleanFirstName =
+      typeof firstName === "string" ? firstName.slice(0, 80) : null;
+    const cleanCompletedAt =
+      typeof completedAt === "string" ? completedAt.slice(0, 60) : null;
+
     await notify("feedback", {
-      sectionId: String(sectionId).slice(0, 80),
-      sectionTitle: typeof sectionTitle === "string" ? sectionTitle.slice(0, 120) : null,
+      sectionId: cleanSectionId,
+      sectionTitle: cleanSectionTitle,
       comment: trimmed,
-      tier: tier === "free" || tier === "paid" ? tier : null,
-      firstName: typeof firstName === "string" ? firstName.slice(0, 80) : null,
-      completedAt: typeof completedAt === "string" ? completedAt.slice(0, 60) : null,
+      tier: cleanTier,
+      firstName: cleanFirstName,
+      email: cleanEmail,
+      completedAt: cleanCompletedAt,
     });
+
+    // Best-effort email to the support team. A delivery failure must NOT
+    // 500 the request — the feedback is already captured via notify() above.
+    try {
+      const { sendEmail } = require("./lib/email-sender");
+      const esc = (s) =>
+        String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+
+      const nameDisplay = cleanFirstName || "a member";
+      const emailDisplay = cleanEmail || "(not provided)";
+      const sectionDisplay = cleanSectionTitle || cleanSectionId || "(unspecified)";
+      const tierDisplay = cleanTier || "(unknown)";
+      const completedDisplay = cleanCompletedAt || "(unknown)";
+
+      const html = `
+        <div style="font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: #2b2b2b; line-height: 1.5;">
+          <h2 style="margin: 0 0 16px; font-size: 18px;">New report feedback</h2>
+          <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
+            <tr><td style="padding: 6px 12px 6px 0; font-weight: 600; vertical-align: top;">Name</td><td style="padding: 6px 0;">${esc(nameDisplay)}</td></tr>
+            <tr><td style="padding: 6px 12px 6px 0; font-weight: 600; vertical-align: top;">Email</td><td style="padding: 6px 0;">${esc(emailDisplay)}</td></tr>
+            <tr><td style="padding: 6px 12px 6px 0; font-weight: 600; vertical-align: top;">Section</td><td style="padding: 6px 0;">${esc(sectionDisplay)}</td></tr>
+            <tr><td style="padding: 6px 12px 6px 0; font-weight: 600; vertical-align: top;">Tier</td><td style="padding: 6px 0;">${esc(tierDisplay)}</td></tr>
+            <tr><td style="padding: 6px 12px 6px 0; font-weight: 600; vertical-align: top;">Completed</td><td style="padding: 6px 0;">${esc(completedDisplay)}</td></tr>
+          </table>
+          <h3 style="margin: 20px 0 6px; font-size: 15px;">Comment</h3>
+          <div style="padding: 12px 16px; background: #f7f4ee; border-radius: 8px; white-space: pre-wrap;">${esc(trimmed)}</div>
+        </div>`;
+
+      const text = [
+        `New report feedback from ${nameDisplay}`,
+        ``,
+        `Name:      ${nameDisplay}`,
+        `Email:     ${emailDisplay}`,
+        `Section:   ${sectionDisplay}`,
+        `Tier:      ${tierDisplay}`,
+        `Completed: ${completedDisplay}`,
+        ``,
+        `Comment:`,
+        trimmed,
+      ].join("\n");
+
+      await sendEmail({
+        to: "support@empresshealth.ai",
+        subject: `New report feedback from ${nameDisplay}`,
+        html,
+        text,
+      });
+    } catch (mailErr) {
+      console.warn(
+        "[feedback] support email failed (feedback still captured):",
+        mailErr && mailErr.message
+      );
+    }
 
     res.json({ ok: true });
   } catch (err) {

@@ -517,60 +517,60 @@ export type DoDontRow = {
 }
 
 export function DoDontTable({ rows }: { rows: DoDontRow[] }) {
+  const colHead: React.CSSProperties = {
+    color: reportPalette.plum,
+    fontSize: "0.95rem",
+    fontWeight: 700,
+    fontFamily: reportFonts.display,
+  }
+  const list: React.CSSProperties = {
+    margin: 0,
+    paddingLeft: 18,
+    fontSize: "0.82rem",
+    lineHeight: 1.6,
+    color: "#333",
+    wordBreak: "normal",
+    overflowWrap: "anywhere",
+  }
   return (
     <div style={{ display: "grid", gap: 18 }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 24,
-          paddingBottom: 8,
-          borderBottom: `1px solid ${reportPalette.cardBorder}`,
-        }}
-      >
-        <strong style={{ color: reportPalette.plum, fontSize: "1rem" }}>
-          Do's
-        </strong>
-        <strong style={{ color: reportPalette.plum, fontSize: "1rem" }}>
-          Don't's
-        </strong>
-      </div>
       {rows.map((row, i) => (
         <div
           key={row.category}
-          style={{
-            ...reportStyles.card,
-            padding: "18px 20px",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 24,
-          }}
+          style={{ ...reportStyles.card, padding: "18px 20px", breakInside: "avoid" }}
         >
-          <div>
-            <h4
-              style={{
-                margin: "0 0 10px",
-                fontSize: "0.95rem",
-                color: reportPalette.plum,
-                fontFamily: reportFonts.display,
-              }}
-            >
-              {i + 1}. {row.category}{" "}
-              {row.icon && <span style={{ marginLeft: 4 }}>{row.icon}</span>}
-            </h4>
-            <ul style={{ margin: 0, paddingLeft: 18, fontSize: "0.82rem", lineHeight: 1.6, color: "#333", wordBreak: "normal", overflowWrap: "anywhere" }}>
-              {row.dos.map((d, j) => (
-                <li key={j} style={{ marginBottom: 6 }}>{d}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 style={{ visibility: "hidden", margin: "0 0 10px", fontSize: "0.95rem" }}>.</h4>
-            <ul style={{ margin: 0, paddingLeft: 18, fontSize: "0.82rem", lineHeight: 1.6, color: "#333", wordBreak: "normal", overflowWrap: "anywhere" }}>
-              {row.donts.map((d, j) => (
-                <li key={j} style={{ marginBottom: 6 }}>{d}</li>
-              ))}
-            </ul>
+          {/* Full-width category header — spans both columns so the Do's and
+              Don'ts lists below always start at the same baseline. */}
+          <h4
+            style={{
+              margin: "0 0 12px",
+              paddingBottom: 8,
+              borderBottom: `1px solid ${reportPalette.cardBorder}`,
+              fontSize: "1rem",
+              color: reportPalette.plum,
+              fontFamily: reportFonts.display,
+            }}
+          >
+            {i + 1}. {row.category}
+            {row.icon && <span style={{ marginLeft: 6 }}>{row.icon}</span>}
+          </h4>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "start" }}>
+            <div>
+              <div style={{ ...colHead, marginBottom: 8 }}>Do's</div>
+              <ul style={list}>
+                {row.dos.map((d, j) => (
+                  <li key={j} style={{ marginBottom: 6 }}>{d}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div style={{ ...colHead, marginBottom: 8 }}>Don'ts</div>
+              <ul style={list}>
+                {row.donts.map((d, j) => (
+                  <li key={j} style={{ marginBottom: 6 }}>{d}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       ))}

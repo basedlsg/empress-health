@@ -543,30 +543,8 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
         </section>
       )}
 
-      {/* ─── PAID-ONLY banner ─── */}
-      {!isFree && (
-        <section style={s.section}>
-          <div style={s.reportPending} className="empress-report-pending">
-            <strong style={s.reportPendingTitle}>
-              Your Health Intelligence Report is ready.
-            </strong>
-            <p style={s.reportPendingText}>
-              Scores, charts, deep-dives, affirmations, clinician matches, and
-              product recommendations — all visible below. Click the button to
-              save the full report as a PDF.
-            </p>
-            <div style={s.reportPendingActions}>
-              <button
-                type="button"
-                onClick={() => window.print()}
-                style={s.reportPendingBtn}
-              >
-                ↓ Download PDF
-              </button>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* PAID-ONLY top "Download PDF" banner removed — the Print / Save as PDF
+          action lives once, at the END of the report (see ctaSection). */}
 
       {/* ─── BRAND HEADER ─── */}
       <div style={s.brandHeader} className="empress-brand-header">
@@ -928,7 +906,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
        * Menopause closes the educational run. They still fire conditionally
        * on the user's priority domains; each degrades gracefully if its
        * /public/report-heroes/<slug> photo is missing. */}
-      {!isFree && priorities.some((p) => p.slug === "sleep-architecture-cortisol") && (
+      {!isFree && (
         <>
           <InterludeHero
             title="Sleep Hygiene"
@@ -949,7 +927,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
         </>
       )}
 
-      {!isFree && priorities.some((p) => p.slug === "cognitive-function-brain-health") && (
+      {!isFree && (
         <>
           <InterludeHero
             title="Brain Fog"
@@ -970,11 +948,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
         </>
       )}
 
-      {!isFree && priorities.some(
-        (p) =>
-          p.slug === "metabolic-health-body-composition" ||
-          p.slug === "lifestyle-gut-health-nutrition",
-      ) && (
+      {!isFree && (
         <>
           <InterludeHero
             title="Anti-inflammation Diet for Peri + Menopause"
@@ -1031,10 +1005,8 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
       {/* ─── CONSOLIDATED FEEDBACK (Bug J fix: replaces 7 per-section boxes) ─── */}
       <ConsolidatedFeedbackSection feedbackCtx={feedbackCtx} />
 
-      {/* ─── CITATION SOURCES INDEX (paid only) ─── */}
-      {!isFree && (
-        <CitationSourcesSection apiResult={apiResult} />
-      )}
+      {/* Citation/sources index removed — chunk references are not shown
+          to the reader. */}
 
       {/* ─── DEBUG GROUNDING BADGE (localhost or ?debug=1 only) ─── */}
       <GroundingDebugBadge apiResult={apiResult} />
@@ -1061,6 +1033,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
               <li>Click <em>Print / Save as PDF</em> above (or press <kbd style={s.kbd}>Ctrl</kbd>+<kbd style={s.kbd}>P</kbd> on Windows, <kbd style={s.kbd}>⌘</kbd>+<kbd style={s.kbd}>P</kbd> on Mac).</li>
               <li>In the print dialog, set <strong>Destination</strong> to <strong>Save as PDF</strong>.</li>
               <li>Open <strong>More settings</strong> and turn on <strong>Background graphics</strong> — otherwise the radar chart and score bars will print blank.</li>
+              <li>Turn on <strong>Headers and footers</strong> so the <strong>page number</strong> prints on every page.</li>
               <li>Paper size <strong>Letter</strong>, margins <strong>Default</strong>, then click <strong>Save</strong>.</li>
             </ol>
             <p style={s.printHintNote}>
@@ -1524,16 +1497,6 @@ function AffirmationsSection({
               </span>
             )}
             {item.text}
-            {item.evidence_refs && item.evidence_refs.length > 0 && (
-              <footer className="empress-evidence-refs" style={{
-                fontSize: "11px",
-                color: "#705177",
-                marginTop: "6px",
-                fontStyle: "normal",
-              }}>
-                Sourced from: {item.evidence_refs.map(shortChunk).join(", ")}
-              </footer>
-            )}
           </blockquote>
         ))}
       </div>
@@ -1638,16 +1601,6 @@ function RecommendationsSection({
                 Opens the {clinician.label} directory to find a vetted provider near you
               </p>
             </div>
-          )}
-          {clinician.evidence_refs && clinician.evidence_refs.length > 0 && (
-            <p className="empress-evidence-refs" style={{
-              fontSize: "11px",
-              color: "#705177",
-              marginTop: "10px",
-            }}>
-              <span style={{ fontWeight: 600 }}>Why this match — </span>
-              Sources: {clinician.evidence_refs.map(shortChunk).join(", ")}
-            </p>
           )}
         </article>
       )}
@@ -2050,6 +2003,7 @@ const SECTION_OPTIONS = [
 
 function ConsolidatedFeedbackSection({ feedbackCtx }: { feedbackCtx: FeedbackCtx }) {
   const [text, setText] = useState("")
+  const [email, setEmail] = useState("")
   const [section, setSection] = useState("overall")
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
@@ -2059,18 +2013,36 @@ function ConsolidatedFeedbackSection({ feedbackCtx }: { feedbackCtx: FeedbackCtx
     e.preventDefault()
     const trimmed = text.trim()
     if (!trimmed) return
+    const emailTrim = email.trim()
+    if (emailTrim && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrim)) {
+      setErrorMsg("Please enter a valid email so we can reply.")
+      setStatus("error")
+      return
+    }
     setStatus("sending")
     setErrorMsg(null)
     const selectedOption = SECTION_OPTIONS.find((o) => o.value === section)
     try {
+      // The API is CSRF-protected (double-submit cookie). Fetch a token first
+      // and send it as X-CSRF-Token, otherwise the POST is rejected.
+      let csrfToken = ""
+      try {
+        const t = await fetch("/api/csrf", { credentials: "include" })
+        if (t.ok) csrfToken = (await t.json())?.csrfToken || ""
+      } catch { /* fall through — server will 403 and we surface it */ }
+
       const res = await fetch("/api/assessment/feedback", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
+        },
         credentials: "include",
         body: JSON.stringify({
           sectionId: section,
           sectionTitle: selectedOption?.label ?? "Overall",
           comment: trimmed,
+          email: emailTrim || null,
           tier: feedbackCtx.tier,
           firstName: firstName || null,
           completedAt: feedbackCtx.completedAt || null,
@@ -2132,6 +2104,31 @@ function ConsolidatedFeedbackSection({ feedbackCtx }: { feedbackCtx: FeedbackCtx
           </select>
         </div>
         <div>
+          <label style={{ ...s.feedbackLabel, display: "block", marginBottom: 6 }} htmlFor="consolidated-email">
+            Your email <span style={{ color: "#705177", fontWeight: 400 }}>(so we can reply)</span>
+          </label>
+          <input
+            id="consolidated-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            autoComplete="email"
+            style={{
+              width: "100%",
+              padding: "10px 12px",
+              fontSize: "0.92rem",
+              fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
+              color: "#231F20",
+              background: "#fff",
+              border: "1px solid rgba(63,20,74,0.10)",
+              borderRadius: 10,
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
+        <div>
           <label style={{ ...s.feedbackLabel, display: "block", marginBottom: 6 }} htmlFor="consolidated-comment">
             Your thoughts
           </label>
@@ -2190,8 +2187,21 @@ function RecommendedProductsSection({
   // Bug G: prefer grounded products; suppress the generic fallback list.
   const hasGrounded = groundedProducts && groundedProducts.length > 0
   const hasLegacy = products && products.length > 0
-  // Shopify store base URL
-  const SHOPIFY_BASE = "https://skincare-solutions-llc.myshopify.com/products"
+
+  // Build a REAL, working link for a product. There are no per-product URLs
+  // in the data (the MARSHA matrix only carries the retailer domain, e.g.
+  // bluemercury.com), so we link to a brand+product web search — scoped to
+  // the known retailer when we have one — which reliably resolves to the
+  // actual product page rather than a fabricated store URL.
+  const productUrl = (p: Record<string, unknown>): string => {
+    const name = String(p.product_name || "").trim()
+    const brand = String(p.brand || "").trim()
+    const q = encodeURIComponent([brand, name].filter(Boolean).join(" "))
+    const site = String(p.website || "").trim().replace(/^https?:\/\//, "").replace(/\/.*$/, "")
+    return site
+      ? `https://www.google.com/search?q=${q}+site:${encodeURIComponent(site)}`
+      : `https://www.google.com/search?q=${q}`
+  }
 
   return (
     <section style={s.section} className="empress-report-section">
@@ -2210,19 +2220,15 @@ function RecommendedProductsSection({
                 <div style={{ display: "flex", alignItems: "baseline", gap: "8px", flexWrap: "wrap" as const }}>
                   <span style={s.productIndex}>{String(i + 1).padStart(2, "0")}</span>
                   <span style={{ ...s.productText, flex: 1 }}>
-                    {p.shopify_handle
-                      ? (
-                          <a
-                            href={`${SHOPIFY_BASE}/${p.shopify_handle}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: "#3F144A", fontWeight: 700, textDecoration: "underline" }}
-                          >
-                            {p.product_name || String(p)}
-                          </a>
-                        )
-                      : <strong>{p.product_name || String(p)}</strong>
-                    }
+                    <a
+                      href={productUrl(p as Record<string, unknown>)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "#3F144A", fontWeight: 700, textDecoration: "underline" }}
+                    >
+                      {p.product_name || String(p)}
+                      {p.brand ? <span style={{ fontWeight: 400, color: "#705177" }}> · {String(p.brand)}</span> : null}
+                    </a>
                     {p.price_tier && (
                       <span style={{
                         marginLeft: "8px",
@@ -2294,15 +2300,6 @@ function RecommendedProductsSection({
                     </div>
                   )
                 })()}
-                {p.evidence_refs && p.evidence_refs.length > 0 && (
-                  <p className="empress-evidence-refs" style={{
-                    fontSize: "11px",
-                    color: "#705177",
-                    marginTop: "8px",
-                  }}>
-                    Sources: {p.evidence_refs.map(shortChunk).join(", ")}
-                  </p>
-                )}
               </article>
             ))
           : hasLegacy
@@ -2441,17 +2438,11 @@ function GroundingDebugBadge({ apiResult }: { apiResult: AssessmentApiResult }) 
  * the required heading, body, contact email, and brand line. The optional
  * hero image is loaded above the text if available. */
 function ThankYouPage({ firstName }: { firstName?: string | null }) {
-  const [imgFailed, setImgFailed] = useState(false)
+  // NOTE: the previous /report-heroes/thankyouimage.jpeg had "Thank you, Aditi"
+  // baked into the artwork. Removed — the dynamic heading below is the source
+  // of truth for the name.
   return (
     <section className="empress-report-section empress-thankyou" style={s.thankYou}>
-      {!imgFailed && (
-        <img
-          src={`/report-heroes/thankyouimage.jpeg`}
-          alt=""
-          onError={() => setImgFailed(true)}
-          style={s.thankYouImg}
-        />
-      )}
       <div style={s.thankYouInner}>
         <div style={s.thankYouDivider} />
         <h2 style={s.thankYouTitle}>
@@ -2655,11 +2646,18 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
 const printCSS = `
 @page {
   size: letter;
-  /* Tightened from 15mm to 10mm top/bottom — the 15mm gutter combined
-   * with section padding-top was producing ~120px of blank space at the
-   * top of every continuation page (notably page 20 of the recommended
-   * products section). 10mm still leaves room for the print header. */
-  margin: 10mm 14mm;
+  /* 12mm bottom reserves room for the page number. Top stays tight to
+   * avoid the ~120px blank gap continuation pages used to show. */
+  margin: 10mm 14mm 12mm;
+  /* Page numbers on EVERY page. Firefox + Safari honour these margin
+   * boxes directly; Chrome ignores them, so for Chrome the print dialog's
+   * "Headers and footers" toggle supplies the number (see the print tips). */
+  @bottom-center {
+    content: counter(page) " / " counter(pages);
+    font-family: 'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif;
+    font-size: 9pt;
+    color: #705177;
+  }
 }
 
 @media print {
@@ -3951,11 +3949,11 @@ const s: Record<string, React.CSSProperties> = {
   printBtn: {
     padding: "14px 28px",
     borderRadius: 10,
-    border: `1px solid rgba(63,20,74,0.12)`,
-    background: "#fff",
+    border: `2px solid ${gold}`,
+    background: gold,
     color: plum,
-    fontSize: "0.9rem",
-    fontWeight: 600,
+    fontSize: "0.95rem",
+    fontWeight: 800,
     cursor: "pointer",
   },
   retakeBtn: {
