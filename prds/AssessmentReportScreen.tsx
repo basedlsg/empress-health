@@ -114,8 +114,11 @@ function formatCompletedDate(iso?: string): string | null {
 }
 
 function statusColor(status: CategoryStatus): string {
+  // Functional tri-status data-viz: coral = Priority/Severe, brand gold =
+  // Moderate, green = Strong/Mild. Green + coral encode score bands and are
+  // kept; the amber band uses the brand gold #D8A738.
   if (status === "Priority") return "#C0392B"
-  if (status === "Moderate") return "#D4A017"
+  if (status === "Moderate") return "#D8A738"
   return "#27AE60"
 }
 
@@ -755,7 +758,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
       {!isFree && apiResult.poi_flag === true && (
         <section style={s.section} className="empress-report-section">
           <div style={{
-            background: "#FEF3C7",
+            background: "#F3E5D3",
             color: "#3F144A",
             padding: "12px",
             borderRadius: "6px",
@@ -1513,7 +1516,7 @@ function AffirmationsSection({
                 fontWeight: 700,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: "#8a6a9a",
+                color: "#705177",
                 marginBottom: "8px",
                 fontStyle: "normal",
               }}>
@@ -1524,7 +1527,7 @@ function AffirmationsSection({
             {item.evidence_refs && item.evidence_refs.length > 0 && (
               <footer className="empress-evidence-refs" style={{
                 fontSize: "11px",
-                color: "#6e6a7a",
+                color: "#705177",
                 marginTop: "6px",
                 fontStyle: "normal",
               }}>
@@ -1596,14 +1599,14 @@ function RecommendationsSection({
       {clinician && clinician.label && (
         <article style={{
           ...s.recCard,
-          border: "1.5px solid #c4a4d0",
-          background: "linear-gradient(135deg, #f9f4fc 0%, #fdf8ff 100%)",
+          border: "1.5px solid #705177",
+          background: "linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 100%)",
           marginBottom: "20px",
         }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: "8px", flexWrap: "wrap" }}>
             <h3 style={s.recName}>{clinician.label}</h3>
             {clinician.abbreviation && (
-              <span style={{ fontSize: "13px", color: "#6e6a7a" }}>({clinician.abbreviation})</span>
+              <span style={{ fontSize: "13px", color: "#705177" }}>({clinician.abbreviation})</span>
             )}
           </div>
           {clinician.reason && <p style={s.recReason}>{clinician.reason}</p>}
@@ -1630,7 +1633,7 @@ function RecommendationsSection({
               <p style={{
                 margin: "8px 0 0",
                 fontSize: "12px",
-                color: "#6e6a7a",
+                color: "#705177",
               }}>
                 Opens the {clinician.label} directory to find a vetted provider near you
               </p>
@@ -1639,7 +1642,7 @@ function RecommendationsSection({
           {clinician.evidence_refs && clinician.evidence_refs.length > 0 && (
             <p className="empress-evidence-refs" style={{
               fontSize: "11px",
-              color: "#6e6a7a",
+              color: "#705177",
               marginTop: "10px",
             }}>
               <span style={{ fontWeight: 600 }}>Why this match — </span>
@@ -2118,7 +2121,7 @@ function ConsolidatedFeedbackSection({ feedbackCtx }: { feedbackCtx: FeedbackCtx
               fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
               color: "#1F1F1F",
               background: "#fff",
-              border: "1px solid #ddd5e2",
+              border: "1px solid rgba(63,20,74,0.10)",
               borderRadius: 10,
               outline: "none",
             }}
@@ -2225,7 +2228,7 @@ function RecommendedProductsSection({
                         marginLeft: "8px",
                         fontSize: "11px",
                         fontWeight: 700,
-                        background: "#f3e8ff",
+                        background: "#F3E5D3",
                         color: "#3F144A",
                         padding: "2px 8px",
                         borderRadius: "999px",
@@ -2234,7 +2237,7 @@ function RecommendedProductsSection({
                       </span>
                     )}
                     {p.reason && (
-                      <span style={{ display: "block", fontSize: "13px", color: "#6e6a7a", marginTop: "4px", fontWeight: 400 }}>
+                      <span style={{ display: "block", fontSize: "13px", color: "#705177", marginTop: "4px", fontWeight: 400 }}>
                         {p.reason}
                       </span>
                     )}
@@ -2252,14 +2255,14 @@ function RecommendedProductsSection({
                       borderTop: "1px dashed #E8D8C8",
                       fontSize: 12,
                       lineHeight: 1.55,
-                      color: "#5b4a3e",
+                      color: "#231F20",
                     }}>
                       {empressAlts.length > 0 && (
                         <p style={{ margin: "0 0 4px" }}>
                           <span style={{
                             display: "inline-block",
                             background: "#3F144A",
-                            color: "#FBAD18",
+                            color: "#D8A738",
                             fontWeight: 700,
                             fontSize: 10,
                             letterSpacing: "0.08em",
@@ -2294,7 +2297,7 @@ function RecommendedProductsSection({
                 {p.evidence_refs && p.evidence_refs.length > 0 && (
                   <p className="empress-evidence-refs" style={{
                     fontSize: "11px",
-                    color: "#6e6a7a",
+                    color: "#705177",
                     marginTop: "8px",
                   }}>
                     Sources: {p.evidence_refs.map(shortChunk).join(", ")}
@@ -2353,9 +2356,9 @@ function CitationSourcesSection({ apiResult }: { apiResult: AssessmentApiResult 
             display: "flex",
             gap: "12px",
             padding: "10px 14px",
-            background: "#faf8fc",
+            background: "#FFFFFF",
             borderRadius: "6px",
-            borderLeft: "3px solid #c4a4d0",
+            borderLeft: "3px solid #705177",
           }}>
             <code style={{
               fontSize: "11px",
@@ -2366,7 +2369,7 @@ function CitationSourcesSection({ apiResult }: { apiResult: AssessmentApiResult 
             }}>
               {shortChunk(chunkId)}
             </code>
-            <span style={{ fontSize: "13px", color: "#6e6a7a" }}>
+            <span style={{ fontSize: "13px", color: "#705177" }}>
               {CHUNK_DESCRIPTIONS[chunkId] ?? chunkId}
             </span>
           </div>
@@ -2452,7 +2455,9 @@ function ThankYouPage({ firstName }: { firstName?: string | null }) {
       <div style={s.thankYouInner}>
         <div style={s.thankYouDivider} />
         <h2 style={s.thankYouTitle}>
-          Thank you for trusting Empress Health
+          {firstName && firstName.trim()
+            ? `Thank You, ${firstName.trim()}`
+            : "Thank You"}
         </h2>
         <p style={s.thankYouText}>
           This report is the start of a conversation, not the end. We're here
@@ -2512,13 +2517,13 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
     { slug: "mood-anxiety-emotional-health", name: "Mood", l1: "Emotional", l2: "well-being", color: "#2E9BD6", icon: "smiley", side: "right" },
     { slug: "metabolic-health-body-composition", name: "Metabolic Health", l1: "Weight, energy", l2: "and metabolism", color: "#3DA84A", icon: "apple", side: "right" },
     { slug: "skin-hair-nails", name: "Skin", l1: "Hydration,", l2: "elasticity, glow", color: "#16A6A0", icon: "droplet", side: "bottom" },
-    { slug: "musculoskeletal-bone-health", name: "Musculoskeletal", l1: "Joint comfort", l2: "and mobility", color: "#F39200", icon: "bone", side: "left" },
+    { slug: "musculoskeletal-bone-health", name: "Musculoskeletal", l1: "Joint comfort", l2: "and mobility", color: "#D8A738", icon: "bone", side: "left" },
     { slug: "genitourinary-sexual-health", name: "Genitourinary", l1: "Vaginal, bladder", l2: "and urinary health", color: "#E6357F", icon: "genito", side: "left" },
     { slug: "cardiovascular-whole-body-energy", name: "Cardiovascular", l1: "Heart health", l2: "and circulation", color: "#E0392B", icon: "heart", side: "left" },
     { slug: "lifestyle-gut-health-nutrition", name: "Lifestyle", l1: "Activity, nutrition", l2: "and habits", color: "#4CAF50", icon: "leaf", side: "left" },
   ]
 
-  const bandColor = (s: number) => (s < 50 ? "#E8412B" : s < 65 ? "#F5A623" : "#3FA845")
+  const bandColor = (s: number) => (s < 50 ? "#E8412B" : s < 65 ? "#D8A738" : "#3FA845")
   const pt = (a: number, r: number): [number, number] => {
     const t = (a * Math.PI) / 180
     return [CX + r * Math.sin(t), CY - r * Math.cos(t)]
@@ -2579,7 +2584,7 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
   RINGS.forEach((v) => el.push(`<circle cx="${CX}" cy="${CY}" r="${((R * v) / 100).toFixed(1)}" fill="none" stroke="${ringClr[v]}" stroke-width="2" stroke-dasharray="5 6" opacity="0.9"/>`))
   DOMAINS.forEach((d, i) => {
     const [x, y] = pt(i * 36, R)
-    el.push(`<line x1="${CX}" y1="${CY}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#e3dcea" stroke-width="1" stroke-dasharray="3 4"/>`)
+    el.push(`<line x1="${CX}" y1="${CY}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(63,20,74,0.10)" stroke-width="1" stroke-dasharray="3 4"/>`)
   })
   const poly = DOMAINS.map((d, i) => {
     const sc = bySlug[d.slug] ?? 0
@@ -2594,7 +2599,7 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
   })
   ;[0, 20, 40, 60, 80, 100].forEach((v) => {
     const [x, y] = pt(0, (R * v) / 100)
-    el.push(`<text x="${x}" y="${y + 8}" font-family="'The Seasons', 'Playfair Display',Arial" font-size="30" font-weight="700" fill="#2b2440" text-anchor="middle">${v}</text>`)
+    el.push(`<text x="${x}" y="${y + 8}" font-family="'The Seasons', 'Playfair Display',Arial" font-size="30" font-weight="700" fill="#3F144A" text-anchor="middle">${v}</text>`)
   })
   DOMAINS.forEach((d, i) => {
     const [bx, by] = pt(i * 36, RB)
@@ -2628,19 +2633,19 @@ function DomainWheel({ scores }: { scores: CategoryScore[] }) {
     segW = (W - 120) / 3
   const segs: Array<[string, string, string, string, string]> = [
     ["#E8412B", "Severe", "— &lt;50", "Needs attention", "#FCEDE9"],
-    ["#F5A623", "Moderate", "— 50–65", "Monitor &amp; support", "#FCF4E4"],
+    ["#D8A738", "Moderate", "— 50–65", "Monitor &amp; support", "#F3E5D3"],
     ["#3FA845", "Mild", "— 65-100", "Well supported", "#EAF5EC"],
   ]
-  el.push(`<rect x="60" y="${ly}" width="${W - 120}" height="78" rx="20" fill="#fff" stroke="#eadfca" stroke-width="1.5"/>`)
+  el.push(`<rect x="60" y="${ly}" width="${W - 120}" height="78" rx="20" fill="#fff" stroke="#F3E5D3" stroke-width="1.5"/>`)
   segs.forEach((seg, k) => {
     const [c, t1, t2, t3, bg] = seg
     const x0 = 60 + k * segW
     el.push(`<rect x="${x0 + (k ? 6 : 0)}" y="${ly}" width="${segW - (k ? 6 : 0)}" height="78" rx="20" fill="${bg}"/>`)
     el.push(`<circle cx="${x0 + 40}" cy="${ly + 30}" r="11" fill="${c}"/>`)
-    el.push(`<text x="${x0 + 62}" y="${ly + 30}" font-family="'The Seasons', 'Playfair Display',Arial" font-size="24" font-weight="700" fill="#2b2440">${t1} <tspan font-weight="400" fill="#6b6478">${t2}</tspan></text>`)
-    el.push(`<text x="${x0 + 62}" y="${ly + 58}" font-family="'Avenir', 'Avenir Next', 'Nunito Sans',Arial" font-size="20" fill="#6b6478">${t3}</text>`)
+    el.push(`<text x="${x0 + 62}" y="${ly + 30}" font-family="'The Seasons', 'Playfair Display',Arial" font-size="24" font-weight="700" fill="#3F144A">${t1} <tspan font-weight="400" fill="#705177">${t2}</tspan></text>`)
+    el.push(`<text x="${x0 + 62}" y="${ly + 58}" font-family="'Avenir', 'Avenir Next', 'Nunito Sans',Arial" font-size="20" fill="#705177">${t3}</text>`)
   })
-  const defs = `<defs><linearGradient id="blob" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8D55F" stop-opacity="0.9"/><stop offset="32%" stop-color="#F39BB6" stop-opacity="0.85"/><stop offset="62%" stop-color="#93B8EC" stop-opacity="0.85"/><stop offset="100%" stop-color="#8FDCB0" stop-opacity="0.9"/></linearGradient><filter id="sh" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#3a2350" flood-opacity="0.28"/></filter></defs>`
+  const defs = `<defs><linearGradient id="blob" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#D8A738" stop-opacity="0.9"/><stop offset="32%" stop-color="#F39BB6" stop-opacity="0.85"/><stop offset="62%" stop-color="#93B8EC" stop-opacity="0.85"/><stop offset="100%" stop-color="#8FDCB0" stop-opacity="0.9"/></linearGradient><filter id="sh" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#3F144A" flood-opacity="0.28"/></filter></defs>`
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Your ten domain scores plotted on a wheel">${defs}${el.join("")}</svg>`
   return <div style={{ width: "100%", maxWidth: 760, margin: "0 auto" }} dangerouslySetInnerHTML={{ __html: svg }} />
 }
@@ -3026,7 +3031,7 @@ const s: Record<string, React.CSSProperties> = {
 
   /* Paid-only banner */
   reportPending: {
-    background: "#FFF5DA",
+    background: "#F3E5D3",
     border: `1px solid ${gold}`,
     borderRadius: 14,
     padding: "18px 22px",
@@ -3041,7 +3046,7 @@ const s: Record<string, React.CSSProperties> = {
     margin: 0,
     fontSize: "0.92rem",
     lineHeight: 1.55,
-    color: "#5a4a14",
+    color: "#231F20",
   },
   reportPendingActions: {
     marginTop: 14,
@@ -3088,7 +3093,7 @@ const s: Record<string, React.CSSProperties> = {
     borderRadius: 14,
     padding: "24px 16px 16px",
     boxShadow: "0 2px 12px rgba(42,15,63,0.05)",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
     marginBottom: 28,
   },
   radarLegend: {
@@ -3126,7 +3131,7 @@ const s: Record<string, React.CSSProperties> = {
     flexDirection: "column" as const,
     gap: 4,
     boxShadow: "0 1px 8px rgba(42,15,63,0.05)",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
   },
   catScore: {
     fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
@@ -3159,7 +3164,7 @@ const s: Record<string, React.CSSProperties> = {
     background: "#fff",
     borderRadius: 12,
     padding: "18px 22px",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
     boxShadow: "0 1px 8px rgba(42,15,63,0.05)",
   },
   breakdownHeader: {
@@ -3205,7 +3210,7 @@ const s: Record<string, React.CSSProperties> = {
   barTrack: {
     position: "relative" as const,
     height: 18,
-    background: "#f3f1f6",
+    background: "#F3E5D3",
     borderRadius: 4,
     overflow: "hidden" as const,
   },
@@ -3249,7 +3254,7 @@ const s: Record<string, React.CSSProperties> = {
     background: "#fff",
     borderRadius: 14,
     padding: "22px 24px",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
     boxShadow: "0 2px 14px rgba(42,15,63,0.06)",
   },
   deepDiveHeader: {
@@ -3273,8 +3278,8 @@ const s: Record<string, React.CSSProperties> = {
     color: "#444",
   },
   contribWrap: {
-    background: "#faf8fd",
-    border: "1px solid #ece8f2",
+    background: "#FFFFFF",
+    border: "1px solid rgba(63,20,74,0.08)",
     borderRadius: 10,
     padding: "14px 18px",
     marginBottom: 14,
@@ -3300,7 +3305,7 @@ const s: Record<string, React.CSSProperties> = {
     flexDirection: "column" as const,
     gap: 2,
     paddingBottom: 8,
-    borderBottom: "1px dashed #e4e0ef",
+    borderBottom: "1px dashed rgba(63,20,74,0.10)",
   },
   contribLabel: {
     fontSize: "0.68rem",
@@ -3353,7 +3358,7 @@ const s: Record<string, React.CSSProperties> = {
     background: "#fff",
     borderRadius: 10,
     padding: "14px 20px",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
   },
   areaTitle: {
     flex: 1,
@@ -3395,13 +3400,13 @@ const s: Record<string, React.CSSProperties> = {
     textTransform: "uppercase" as const,
     color: "#888",
     padding: "12px 16px",
-    borderBottom: "1px solid #ece8f2",
+    borderBottom: "1px solid rgba(63,20,74,0.08)",
     textAlign: "left" as const,
   },
   td: {
     fontSize: "0.88rem",
     padding: "11px 16px",
-    borderBottom: "1px solid #f3f1f6",
+    borderBottom: "1px solid #F3E5D3",
     color: "#1F1F1F",
   },
   inlineStatus: {
@@ -3440,7 +3445,7 @@ const s: Record<string, React.CSSProperties> = {
     background: "#fff",
     borderRadius: 12,
     padding: "18px 20px",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
     boxShadow: "0 1px 8px rgba(42,15,63,0.05)",
   },
   recName: {
@@ -3477,7 +3482,7 @@ const s: Record<string, React.CSSProperties> = {
     background: "#fff",
     borderRadius: 12,
     padding: "16px 20px",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
     boxShadow: "0 1px 8px rgba(42,15,63,0.05)",
     alignItems: "flex-start",
   },
@@ -3500,7 +3505,7 @@ const s: Record<string, React.CSSProperties> = {
   /* Empty / error */
   emptyNote: {
     background: "#fff",
-    border: "1px dashed #d4cfe0",
+    border: "1px dashed rgba(63,20,74,0.12)",
     borderRadius: 10,
     padding: "16px 20px",
     fontSize: "0.9rem",
@@ -3513,7 +3518,7 @@ const s: Record<string, React.CSSProperties> = {
     borderRadius: 10,
     padding: "12px 16px",
     fontSize: "0.85rem",
-    color: "#8B3A1B",
+    color: "#231F20",
     margin: 0,
   },
 
@@ -3591,7 +3596,7 @@ const s: Record<string, React.CSSProperties> = {
     fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     color: "#1F1F1F",
     background: "#fff",
-    border: "1px solid #ddd5e2",
+    border: "1px solid rgba(63,20,74,0.10)",
     borderRadius: 10,
     outline: "none",
     boxSizing: "border-box" as const,
@@ -3605,7 +3610,7 @@ const s: Record<string, React.CSSProperties> = {
     lineHeight: 1.5,
     color: "#1F1F1F",
     background: "#fff",
-    border: "1px solid #ddd5e2",
+    border: "1px solid rgba(63,20,74,0.10)",
     borderRadius: 10,
     resize: "vertical" as const,
     outline: "none",
@@ -3698,7 +3703,7 @@ const s: Record<string, React.CSSProperties> = {
     fontFamily: "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif",
     color: "#1F1F1F",
     background: "#fff",
-    border: "1px solid #ddd5e2",
+    border: "1px solid rgba(63,20,74,0.10)",
     borderRadius: 10,
     outline: "none",
     boxSizing: "border-box" as const,
@@ -3752,7 +3757,7 @@ const s: Record<string, React.CSSProperties> = {
     padding: "20px 22px",
     borderRadius: 14,
     background: "rgba(63,20,73,0.04)",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
     display: "flex",
     flexDirection: "column" as const,
     gap: 10,
@@ -3773,7 +3778,7 @@ const s: Record<string, React.CSSProperties> = {
     lineHeight: 1.5,
     color: "#1F1F1F",
     background: "#fff",
-    border: "1px solid #ddd5e2",
+    border: "1px solid rgba(63,20,74,0.10)",
     borderRadius: 10,
     resize: "vertical" as const,
     outline: "none",
@@ -3896,7 +3901,7 @@ const s: Record<string, React.CSSProperties> = {
     background: "#fff",
     borderRadius: 10,
     padding: "16px 20px",
-    border: "1px solid #ece8f2",
+    border: "1px solid rgba(63,20,74,0.08)",
   },
   stepNum: {
     flexShrink: 0,
@@ -3946,7 +3951,7 @@ const s: Record<string, React.CSSProperties> = {
   printBtn: {
     padding: "14px 28px",
     borderRadius: 10,
-    border: `1px solid #d4cfe0`,
+    border: `1px solid rgba(63,20,74,0.12)`,
     background: "#fff",
     color: plum,
     fontSize: "0.9rem",
@@ -4031,11 +4036,11 @@ const s: Record<string, React.CSSProperties> = {
     fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
     fontSize: "1.05rem",
     fontWeight: 700,
-    color: "#8A6A1F",
+    color: "#B9955B",
   },
   flagGroupDomain: {
     background: "#fff",
-    border: "1px solid #d4cfe0",
+    border: "1px solid rgba(63,20,74,0.12)",
     borderLeft: `5px solid ${plumLight}`,
     borderRadius: 12,
     padding: "18px 22px",
@@ -4081,20 +4086,20 @@ const s: Record<string, React.CSSProperties> = {
   },
   flagItemRaw: {
     fontSize: "0.78rem",
-    color: "#6a6173",
+    color: "#705177",
     marginLeft: "auto",
   },
   flagItemDomain: {
     fontSize: "0.78rem",
     letterSpacing: "0.06em",
     textTransform: "uppercase" as const,
-    color: "#6a6173",
+    color: "#705177",
   },
   flagItemText: {
     margin: 0,
     fontSize: "0.92rem",
     lineHeight: 1.55,
-    color: "#3a3543",
+    color: "#3F144A",
   },
   flagComposite: {
     background: "#A32D2D",
@@ -4127,7 +4132,7 @@ const s: Record<string, React.CSSProperties> = {
     margin: 0,
     fontSize: "0.95rem",
     lineHeight: 1.6,
-    color: "#3a3543",
+    color: "#3F144A",
     whiteSpace: "pre-wrap" as const,
   },
 
@@ -4141,7 +4146,7 @@ const s: Record<string, React.CSSProperties> = {
   pricingCardFree: {
     position: "relative" as const,
     background: "#fff",
-    border: "1px solid #e2dceb",
+    border: "1px solid rgba(63,20,74,0.10)",
     borderRadius: 16,
     padding: "26px 24px 24px",
     display: "flex",
@@ -4206,7 +4211,7 @@ const s: Record<string, React.CSSProperties> = {
   pricingFeatureItem: {
     fontSize: "0.9rem",
     lineHeight: 1.5,
-    color: "#3a3543",
+    color: "#3F144A",
     paddingLeft: 18,
     position: "relative" as const,
   },

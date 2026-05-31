@@ -586,9 +586,9 @@ function LoadingScreen({ tier }: { tier: AssessmentTier }) {
 
 // Aligned to site palette from index.html :root
 const gold = "#D8A738"
-const plum = "#3f1449"
-const plumLight = "#4b2577"
-const ivory = "#fffaf1"
+const plum = "#3F144A"
+const plumLight = "#472052"
+const ivory = "#F3E5D3"
 
 const s: Record<string, React.CSSProperties> = {
   root: {

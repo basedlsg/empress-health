@@ -37,14 +37,14 @@ export const reportPalette = {
   ivory: "#F3E5D3",
 
   // Surfaces
-  pageBg: "#F4E5C8",        // cream/peach page (PDF print)
+  pageBg: "#F3E5D3",        // brand Cream White (PDF print)
   cardBg: "#FFFFFF",
   cardBorder: "rgba(63,20,73,0.08)",
   cardShadow: "0 2px 12px rgba(42,15,63,0.05)",
 
-  // Bands
+  // Bands (functional data-viz: green=Strong/Mild, gold=Moderate, coral=Priority/Severe)
   priority: "#C0392B",
-  moderate: "#D4A017",
+  moderate: "#D8A738",
   strong: "#27AE60",
 
   // Progress bar bands
@@ -54,12 +54,12 @@ export const reportPalette = {
   progressHigh: "#D6E7DC",    // 85–100 band fill
 
   // Callouts
-  ochre: "#D4A017",
+  ochre: "#D8A738",
   ochreText: "#3F144A",
   feedbackBg: "#E9DFEF",
   feedbackBorder: "#D4C6E0",
   mintCard: "#E8F1E9",
-  mhtBannerBg: "#FFF5DA",
+  mhtBannerBg: "#F3E5D3",
 } as const
 
 export const reportFonts = {
@@ -915,7 +915,7 @@ export function LuxuryGiftHero({
     >
       <div
         style={{
-          background: "#F8E5B8",
+          background: "#F3E5D3",
           borderRadius: 18,
           padding: 24,
           display: "grid",
