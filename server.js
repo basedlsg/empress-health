@@ -3734,6 +3734,7 @@ const PROMO_CODES = {
   EMPRESS50:  { discount: "50% off",  message: "50% off applied — half-price annual access." },
   FOUNDER:    { discount: "free",     message: "Founder access — full assessment unlocked at no cost." },
   PERIMENO15: { discount: "15% off",  message: "15% off applied at checkout." },
+  CEOOFFER2026: { discount: "Founder offer", message: "Founder code applied — special pricing unlocked at checkout." },
 };
 
 app.post("/api/checkout/start", async (req, res) => {

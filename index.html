@@ -1107,7 +1107,45 @@
 
     .doctor-title {
       color: var(--muted);
+      font-size: 0.85rem;
     }
+
+    /* Expandable bio (details/summary) */
+    .doctor-bio {
+      margin: 10px 0 0;
+      max-width: 280px;
+      text-align: left;
+    }
+    .doctor-bio > summary {
+      list-style: none;
+      cursor: pointer;
+      text-align: center;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 0;
+    }
+    .doctor-bio > summary::-webkit-details-marker { display: none; }
+    .doctor-bio[open] > summary { color: var(--accent); }
+    .doctor-bio p {
+      margin: 8px 0 0;
+      font-size: 0.86rem;
+      line-height: 1.55;
+      color: var(--primary-600);
+    }
+    .doctor-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .doctor-link:hover { color: var(--accent); }
 
     /* Desktop: horizontal flex */
     @media (min-width: 821px) {
@@ -1541,6 +1579,11 @@
         padding: 8px 12px;
       }
 
+      /* Nudge the logo ("empress health.ai · Be You Again") in from the
+         left edge on mobile — flush-left looked cramped/strange. */
+      .nav { padding-left: 14px; padding-right: 6px; }
+      header .brand { margin-left: 6px; }
+
       /* Natural-flow hero on mobile: head copy, then a BIG image, then
          bullets. The image fills ~72% of the viewport for an immersive,
          near-full-screen feel (was a small letterboxed thumbnail). */
@@ -1900,7 +1943,7 @@
     <div class="hero-headline">
       <h1>Sleep deeply.<br>Think clearly.<br>Feel energized.<br><span class="learns">Be you again.</span></h1>
       <p class="hero-subhead">Built exclusively for women in Peri&#8239;+&#8239;Menopause.</p>
-      <a class="btn cta-yellow hero-cta-btn" href="/free-assessment">Get My Free Report &rarr;</a>
+      <a class="btn cta-yellow hero-cta-btn" href="/free-assessment">Get My Free Health Assessment &rarr;</a>
       <p class="hero-freenote">Free &middot; 3 minutes &middot; Built for you</p>
     </div>
 
@@ -1961,7 +2004,7 @@
           <!-- 1. Pooja -->
           <div class="carousel-slide">
             <div class="review-bubble">
-              <p class="review-text">"The <strong>Ask Empress</strong> chatbot felt like talking to a wise friend who
+              <p class="review-text">"The <strong>The EmpressHealth.ai platform</strong> chatbot felt like talking to a wise friend who
                 actually gets what I'm going through. It guided me when I felt most confused."</p>
               <p class="review-author">— Pooja</p>
               <div class="review-stars">
@@ -1997,7 +2040,7 @@
           <!-- 4. Susie -->
           <div class="carousel-slide">
             <div class="review-bubble">
-              <p class="review-text">"<strong>Ask Empress</strong> answered questions I was embarrassed to ask even my
+              <p class="review-text">"<strong>The EmpressHealth.ai platform</strong> answered questions I was embarrassed to ask even my
                 doctor. No judgment, just real answers."</p>
               <p class="review-author">— Susie</p>
               <div class="review-stars">
@@ -2057,7 +2100,7 @@
           <!-- 9. Patty -->
           <div class="carousel-slide">
             <div class="review-bubble">
-              <p class="review-text">"<strong>Ask Empress</strong> is always there — at 2 am when I can't sleep, or in
+              <p class="review-text">"<strong>The EmpressHealth.ai platform</strong> is always there — at 2 am when I can't sleep, or in
                 the morning when I need guidance. It feels like 24/7 support in my pocket."</p>
               <p class="review-author">— Patty</p>
               <div class="review-stars">
@@ -2105,7 +2148,7 @@
           <!-- 13. Zaria (2) -->
           <div class="carousel-slide">
             <div class="review-bubble">
-              <p class="review-text">"I cried the first time I used <strong>Ask Empress</strong>. It was the first time
+              <p class="review-text">"I cried the first time I used <strong>The EmpressHealth.ai platform</strong>. It was the first time
                 I felt truly understood in this stage of my life."</p>
               <p class="review-author">— Zaria</p>
               <div class="review-stars">
@@ -2153,7 +2196,7 @@
           <!-- 17. Sheon -->
           <div class="carousel-slide">
             <div class="review-bubble">
-              <p class="review-text">"<strong>Ask Empress</strong> explained things about my body in plain language. No
+              <p class="review-text">"<strong>The EmpressHealth.ai platform</strong> explained things about my body in plain language. No
                 jargon, just care that made sense."</p>
               <p class="review-author">— Sheon</p>
               <div class="review-stars">
@@ -2405,39 +2448,69 @@
         <button class="carousel-nav prev" aria-label="Previous doctor">‹</button>
 
         <div class="carousel-track">
-          <div class="carousel-slide">
-            <div class="doctor-card-inner">
-              <img class="doctor-avatar" src="/public/doctors/drtikkugeorge.jpg" alt="Dr. Tikku George, M.D.">
-              <h4 class="doctor-name">Dr. Tikku George, M.D.</h4>
-              <p class="doctor-title"></p>
-            </div>
-          </div>
+          <!-- 1. Dr. Stephen Bizal -->
           <div class="carousel-slide">
             <div class="doctor-card-inner">
               <img class="doctor-avatar" src="/public/doctors/drstephenbizal.jpg" alt="Dr. Stephen Bizal">
               <h4 class="doctor-name">Dr. Stephen Bizal</h4>
-              <p class="doctor-title"></p>
+              <p class="doctor-title">D.C. · Functional &amp; Integrative Health</p>
+              <details class="doctor-bio">
+                <summary>View bio</summary>
+                <p>Functional and integrative health practitioner focused on whole-body wellness and hormone balance through perimenopause and menopause.</p>
+              </details>
+              <a class="doctor-link" href="https://www.linkedin.com/in/dr-stephen-bizal-d-c-a337a6367/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn ↗</a>
             </div>
           </div>
+          <!-- 2. Dr. Barry Breaux -->
           <div class="carousel-slide">
             <div class="doctor-card-inner">
-              <img class="doctor-avatar" src="/public/doctors/barrybreaux.jpg" alt="Barry Breaux">
-              <h4 class="doctor-name">Barry Breaux</h4>
-              <p class="doctor-title"></p>
+              <img class="doctor-avatar" src="/public/doctors/barrybreaux.jpg" alt="Dr. Barry Breaux">
+              <h4 class="doctor-name">Dr. Barry Breaux</h4>
+              <p class="doctor-title">M.D., M.B.A.</p>
+              <details class="doctor-bio">
+                <summary>View bio</summary>
+                <p>Physician executive bringing decades of clinical and healthcare-leadership experience to women's midlife and menopause health.</p>
+              </details>
+              <a class="doctor-link" href="https://www.linkedin.com/in/barry-breaux-md-mba/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn ↗</a>
             </div>
           </div>
+          <!-- 3. LaVaughn Seepersad-Fayson -->
           <div class="carousel-slide">
             <div class="doctor-card-inner">
               <img class="doctor-avatar" src="/public/doctors/lavaughnseepersadfayson.jpg" alt="LaVaughn Seepersad-Fayson">
               <h4 class="doctor-name">LaVaughn Seepersad-Fayson</h4>
-              <p class="doctor-title"></p>
+              <p class="doctor-title">Women's Health</p>
+              <details class="doctor-bio">
+                <summary>View bio</summary>
+                <p>Women's health practitioner supporting members through the physical and emotional shifts of the menopause transition.</p>
+              </details>
+              <a class="doctor-link" href="https://www.linkedin.com/in/lavaughn-seepersad-fayson-b73167388/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn ↗</a>
             </div>
           </div>
+          <!-- 4. Dr. Tikku George (just before Dr. Binu) -->
           <div class="carousel-slide">
             <div class="doctor-card-inner">
-              <img class="doctor-avatar" src="/public/doctors/drbinu.jpg" alt="Dr. Binu">
+              <img class="doctor-avatar" src="/public/doctors/drtikkugeorge.jpg" alt="Dr. Tikku George, M.D.">
+              <h4 class="doctor-name">Dr. Tikku George, M.D.</h4>
+              <p class="doctor-title">Neurology</p>
+              <details class="doctor-bio">
+                <summary>View bio</summary>
+                <p>Neurologist at the Texas Institute for Neurological Disorders, advising on the cognitive and neurological dimensions of menopause.</p>
+              </details>
+              <a class="doctor-link" href="https://www.texasinstituteforneurologicaldisorders.com/" target="_blank" rel="noopener noreferrer">View practice ↗</a>
+            </div>
+          </div>
+          <!-- 5. Dr. Binu -->
+          <div class="carousel-slide">
+            <div class="doctor-card-inner">
+              <img class="doctor-avatar" src="/public/doctors/drbinu.jpg" alt="Dr. Binumol Skaria">
               <h4 class="doctor-name">Dr. Binu</h4>
-              <p class="doctor-title"></p>
+              <p class="doctor-title">Physician Advisor</p>
+              <details class="doctor-bio">
+                <summary>View bio</summary>
+                <p>Physician advisor supporting evidence-based, compassionate menopause care across the Empress platform.</p>
+              </details>
+              <a class="doctor-link" href="https://www.linkedin.com/in/dr-binumol-skaria-8ab7048" target="_blank" rel="noopener noreferrer">Connect on LinkedIn ↗</a>
             </div>
           </div>
         </div>
@@ -2453,7 +2526,7 @@
   <section id="products" class="section">
     <div class="container">
       <div class="section-head">
-        <h2>Curated for Your Marketplace</h2>
+        <h2>Curated Marketplace</h2>
         <p class="lead">Empress-recommended products to support your wellness</p>
       </div>
 
@@ -2847,9 +2920,30 @@
             'w-20 h-20 bg-transparent p-0 m-0 text-primary hover:text-primary-dark hover:bg-transparent'
         }
       };
-      window.mountEChaiWidget(EChaiBotConfig);
+      // The EnterpriseChai script is loaded cross-origin and can resolve AFTER
+      // DOMContentLoaded on slower mobile connections — calling mount before it's
+      // defined silently failed (so the bot showed on desktop but not mobile).
+      // Poll until the mount fn exists (up to ~25s), then mount once.
+      (function mountWhenReady(attempt) {
+        if (typeof window.mountEChaiWidget === "function") {
+          try { window.mountEChaiWidget(EChaiBotConfig); } catch (e) { /* no-op */ }
+          return;
+        }
+        if (attempt >= 50) return;
+        setTimeout(function () { mountWhenReady(attempt + 1); }, 500);
+      })(0);
     });
   </script>
+  <style>
+    /* Keep the floating chat button above all page chrome and never let the
+       page's horizontal-overflow clipping hide it on mobile. */
+    #echai-widget-root, [class*="echai"], [id*="echai"], [class*="copilot"] {
+      z-index: 2147483000 !important;
+    }
+    @media (max-width: 820px) {
+      body { overflow-x: clip; }
+    }
+  </style>
 
   <script>
     // ===== HEADER LOGIC =====

@@ -268,6 +268,60 @@
     .promo .promo-msg.ok { color: #2e8b57; }
     .promo .promo-msg.err { color: #C8474A; }
 
+    /* ── Inline "Apply Code" under the annual CTA ── */
+    .apply-code {
+      margin: 14px 0 0;
+      text-align: left;
+    }
+    .apply-code label {
+      display: block;
+      color: var(--plum);
+      font: 700 0.8rem/1 'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .apply-code .apply-row {
+      display: flex;
+      gap: 8px;
+    }
+    .apply-code input {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font: 500 0.95rem/1 'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif;
+      color: var(--plum);
+      background: var(--white);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .apply-code input::placeholder { color: var(--muted); letter-spacing: 0.06em; }
+    .apply-code input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .apply-code button {
+      flex: 0 0 auto;
+      padding: 12px 20px;
+      border: none;
+      background: var(--gold);
+      color: var(--plum);
+      border-radius: 12px;
+      font: 700 0.9rem/1 'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+    }
+    .apply-code button:hover { filter: brightness(0.96); }
+    .apply-code .promo-msg {
+      margin-top: 10px;
+      font: 500 0.85rem/1.4 'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif;
+      min-height: 1em;
+    }
+    .apply-code .promo-msg.ok { color: #2e8b57; }
+    .apply-code .promo-msg.err { color: #C8474A; }
+
     /* ── Footer notes ── */
     .notes {
       margin-top: 56px;
@@ -335,6 +389,14 @@
           <li>Daily affirmations + symptom tracking for 12 months</li>
         </ul>
         <button class="btn" data-plan="annual" data-price="129">Get Annual Access — $129</button>
+        <div class="apply-code">
+          <label for="annual-promo">Apply Code</label>
+          <div class="apply-row">
+            <input type="text" id="annual-promo" placeholder="ENTER CODE" autocomplete="off" spellcheck="false">
+            <button type="button" id="annual-promo-apply">Apply</button>
+          </div>
+          <p class="promo-msg" id="annual-promo-msg"></p>
+        </div>
         <p class="fineprint">One-time charge. Renews annually unless cancelled. <strong>All purchases are non-refundable.</strong></p>
       </div>
 
@@ -385,7 +447,11 @@
     document.querySelectorAll('button[data-plan]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const plan = btn.dataset.plan;
-        const promo = document.getElementById('promo-code').value.trim().toUpperCase();
+        // Prefer the prominent inline field under the annual CTA; fall back to the
+        // collapsible promo input. Either source supplies the code at checkout.
+        const inlineCode = (document.getElementById('annual-promo')?.value || '').trim().toUpperCase();
+        const detailsCode = (document.getElementById('promo-code')?.value || '').trim().toUpperCase();
+        const promo = inlineCode || detailsCode;
         btn.disabled = true;
         btn.textContent = 'Preparing your assessment...';
         try {
@@ -436,6 +502,37 @@
         msg.className = 'promo-msg err';
         msg.textContent = 'Could not validate code. Try again in a moment.';
       }
+    });
+
+    // Prominent "Apply Code" field under the annual CTA — same server check.
+    async function applyInlinePromo() {
+      const code = document.getElementById('annual-promo').value.trim().toUpperCase();
+      const msg = document.getElementById('annual-promo-msg');
+      if (!code) {
+        msg.className = 'promo-msg err';
+        msg.textContent = 'Enter a code to apply.';
+        return;
+      }
+      msg.className = 'promo-msg';
+      msg.textContent = 'Checking...';
+      try {
+        const res = await fetch('/api/checkout/promo?code=' + encodeURIComponent(code));
+        const j = await res.json();
+        if (j.valid) {
+          msg.className = 'promo-msg ok';
+          msg.textContent = j.message || `Code applied: ${j.discount}`;
+        } else {
+          msg.className = 'promo-msg err';
+          msg.textContent = j.message || 'That code isn\'t valid.';
+        }
+      } catch (e) {
+        msg.className = 'promo-msg err';
+        msg.textContent = 'Could not validate code. Try again in a moment.';
+      }
+    }
+    document.getElementById('annual-promo-apply').addEventListener('click', applyInlinePromo);
+    document.getElementById('annual-promo').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); applyInlinePromo(); }
     });
   </script>
 </body>

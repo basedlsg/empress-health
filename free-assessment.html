@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Empress Health • Free Wellness Snapshot</title>
-<link rel="icon" type="image/png" href="/public/EmpressHealthlogo.png">
+<link rel="icon" type="image/png" href="/public/EmpressHealthlogo-new.png">
 <meta name="description" content="A free 20-question snapshot of your menopause wellness from Empress Health. No email required.">
 <meta property="og:title" content="Empress Health • Free Wellness Snapshot">
 <meta property="og:description" content="A 3-minute, 20-question snapshot of sleep, energy, mood and more — grounded in clinical evidence.">
@@ -65,6 +65,28 @@
   }
   .cta:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(185,149,91,0.4); }
   .footnote { font-size: 12px; color: #705177; margin-top: 16px; }
+
+  /* INTAKE */
+  .intake { align-items: center; justify-content: center; }
+  .intake-inner { max-width: 440px; width: 100%; }
+  .intake .eyebrow { text-align: center; }
+  .intake h1 { font-family: var(--serif); font-size: 30px; font-weight: 600; color: var(--deep); margin: 0 0 10px; line-height: 1.25; text-align: center; }
+  .intake .lede { font-size: 15px; color: #705177; line-height: 1.6; margin: 0 0 28px; text-align: center; }
+  .intake-form { display: flex; flex-direction: column; gap: 18px; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); }
+  .field input {
+    width: 100%; font-family: inherit; font-size: 16px; color: var(--deep);
+    background: #fff; border: 2px solid var(--line); border-radius: 14px;
+    padding: 15px 16px; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-appearance: none; appearance: none;
+  }
+  .field input::placeholder { color: rgba(112,81,119,0.5); }
+  .field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,167,56,0.18); }
+  .field input.invalid { border-color: #B9955B; box-shadow: 0 0 0 3px rgba(185,149,91,0.18); }
+  .field .err { font-size: 12px; color: #8c2f2f; min-height: 0; }
+  .intake .cta { width: 100%; margin-top: 8px; }
+  .intake .footnote { text-align: center; }
 
   /* QUIZ */
   .quiz-header { display: flex; align-items: center; padding: 8px 4px 16px; gap: 12px; }
@@ -188,7 +210,7 @@
   .next-step p { font-size: 14px; color: #F3E5D3; line-height: 1.6; margin: 0 0 24px; }
   .next-step .cta-light {
     display: inline-block;
-    background: #D8A738;             /* Brand GOLD (Metallic) */
+    background: #D8A738;             /* Brand BRIGHT YELLOW (Crayola) */
     color: #3F144A;                  /* Brand DARK VIOLET text on yellow */
     border: 2px solid #D8A738;
     padding: 18px 32px; border-radius: 99px;
@@ -295,13 +317,17 @@ const DOMAIN_COLORS = {
 
 // State
 const state = {
-  screen: 'welcome',     // welcome | quiz | loading | report
+  screen: 'welcome',     // welcome | intake | quiz | loading | report
   current: 0,
   answers: {},           // { [questionId]: { domain, question, score } }
   selected: null,        // 0..3 chosen option for the in-flight question
   animIn: true,
   report: null,
   elapsed: 0,
+  // intake (collected before the quiz starts)
+  firstName: '',
+  email: '',
+  age: '',
 };
 let elapsedTimer = null;
 
@@ -310,6 +336,7 @@ const root = document.getElementById('app');
 function render() {
   root.innerHTML = '';
   if (state.screen === 'welcome')  return renderWelcome();
+  if (state.screen === 'intake')   return renderIntake();
   if (state.screen === 'quiz')     return renderQuiz();
   if (state.screen === 'loading')  return renderLoading();
   if (state.screen === 'report')   return renderReport();
@@ -338,11 +365,7 @@ function renderWelcome() {
     el('div', { class: 'lab' }, lab),
   );
   const start = () => {
-    state.screen = 'quiz';
-    state.animIn = true;
-    state.elapsed = 0;
-    clearInterval(elapsedTimer);
-    elapsedTimer = setInterval(() => { state.elapsed++; updateTimer(); }, 1000);
+    state.screen = 'intake';
     render();
   };
   const view = el('div', { class: 'screen welcome' },
@@ -360,6 +383,81 @@ function renderWelcome() {
       ),
       el('button', { class: 'cta', onClick: start }, 'Begin My Assessment →'),
       el('p', { class: 'footnote' }, 'No email required to see your snapshot.'),
+    ),
+  );
+  root.appendChild(view);
+}
+
+/* ── INTAKE ─────────────────────────────────────────────────────────── */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function startQuiz() {
+  state.screen = 'quiz';
+  state.animIn = true;
+  state.elapsed = 0;
+  clearInterval(elapsedTimer);
+  elapsedTimer = setInterval(() => { state.elapsed++; updateTimer(); }, 1000);
+  render();
+}
+
+function renderIntake() {
+  const field = (id, labelText, inputAttrs) => {
+    const input = el('input', { id, ...inputAttrs });
+    const errEl = el('div', { class: 'err', id: id + '-err' });
+    return { row: el('div', { class: 'field' }, el('label', { for: id }, labelText), input, errEl), input, errEl };
+  };
+
+  const fName = field('intake-firstName', 'First name',
+    { type: 'text', name: 'firstName', placeholder: 'Jane', autocomplete: 'given-name', value: state.firstName });
+  const fEmail = field('intake-email', 'Email',
+    { type: 'email', name: 'email', placeholder: 'you@example.com', autocomplete: 'email', inputmode: 'email', value: state.email });
+  const fAge = field('intake-age', 'Age',
+    { type: 'number', name: 'age', placeholder: '48', autocomplete: 'off', inputmode: 'numeric', min: '18', max: '99', value: state.age });
+
+  const setErr = (f, msg) => {
+    f.errEl.textContent = msg || '';
+    f.input.classList.toggle('invalid', !!msg);
+  };
+
+  const submit = () => {
+    const firstName = fName.input.value.trim();
+    const email = fEmail.input.value.trim();
+    const ageRaw = fAge.input.value.trim();
+    const ageNum = Number(ageRaw);
+
+    let ok = true;
+    if (!firstName) { setErr(fName, 'Please enter your first name.'); ok = false; } else setErr(fName, '');
+    if (!EMAIL_RE.test(email)) { setErr(fEmail, 'Please enter a valid email address.'); ok = false; } else setErr(fEmail, '');
+    if (!ageRaw || !Number.isFinite(ageNum) || ageNum < 18 || ageNum > 99) {
+      setErr(fAge, 'Please enter an age between 18 and 99.'); ok = false;
+    } else setErr(fAge, '');
+
+    if (!ok) return;
+
+    state.firstName = firstName;
+    state.email = email;
+    state.age = ageNum;
+    startQuiz();
+  };
+
+  // Submit on Enter from any field.
+  [fName.input, fEmail.input, fAge.input].forEach((inp) => {
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+  });
+
+  const form = el('div', { class: 'intake-form' },
+    fName.row, fEmail.row, fAge.row,
+    el('button', { class: 'cta', onClick: submit }, 'Continue →'),
+  );
+
+  const view = el('div', { class: 'screen intake' },
+    el('div', { class: 'intake-inner' },
+      el('p', { class: 'eyebrow' }, 'EMPRESS HEALTH'),
+      el('h1', {}, 'First, tell us about you'),
+      el('p', { class: 'lede' },
+        'A few details help us personalize your snapshot. Your information stays private.'),
+      form,
+      el('p', { class: 'footnote' }, 'Takes under 3 minutes. No credit card required.'),
     ),
   );
   root.appendChild(view);
@@ -519,6 +617,9 @@ async function generateReport() {
   render();
 
   const payload = {
+    firstName: state.firstName,
+    email: state.email,
+    age: state.age,
     answers: Object.values(state.answers).map((a) => ({
       domain: a.domain, question: a.question, score: a.score,
     })),
@@ -594,13 +695,17 @@ function renderReport() {
   const wellnessColor = overall >= 75 ? SAGE : overall >= 50 ? TERRACOTTA : '#3F144A';
   const pillarIcon = { Sleep: '🌙', Nourish: '🌱', Calm: '🧘', Move: '💪' };
 
-  // Hero
+  // Hero — greet by the name collected at intake (falls back gracefully).
+  const heroTitle = state.firstName
+    ? `${state.firstName}, here's your Wellness Snapshot`
+    : (r.name || 'Your Wellness Snapshot');
+
   const hero = el('div', { class: 'report-hero' },
     el('div', { class: 'blob-a' }),
     el('div', { class: 'blob-b' }),
     el('div', { class: 'report-hero-inner' },
       el('p', { class: 'report-eyebrow' }, 'YOUR EMPRESS REPORT'),
-      el('h1', {}, r.name || 'Your Wellness Snapshot'),
+      el('h1', {}, heroTitle),
       el('div', { class: 'stage-pill' },
         el('span', { class: 'em' }, '🌸'),
         el('span', { class: 'lab' }, r.stage || 'Perimenopause'),
