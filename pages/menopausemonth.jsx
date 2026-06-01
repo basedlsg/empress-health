@@ -12,7 +12,7 @@ const EDUCATION_RESOURCES = [
 
 const PANEL_EVENTS = [
   { date: '01 OCT', title: 'Perimenopause: The Clinical Picture', format: 'WEBINAR · LIVE', speaker: 'Dr. Naomi Salas, NAMS' },
-  { date: '08 OCT', title: 'HRT Decisions in 2026', format: 'PANEL · LIVE', speaker: 'Three NAMS-certified practitioners' },
+  { date: '08 OCT', title: 'MHT Decisions in 2026', format: 'PANEL · LIVE', speaker: 'Three NAMS-certified practitioners' },
   { date: '15 OCT', title: 'Sleep Architecture & Hormones', format: 'WEBINAR · ON DEMAND', speaker: 'Dr. Ama Owusu, ACOG' },
   { date: '22 OCT', title: 'Community Gathering: Open Circle', format: 'IN PERSON · NYC', speaker: 'Empress Health + pods' },
   { date: '29 OCT', title: 'Free Assessment Day', format: 'ONLINE · ALL DAY', speaker: 'Empress Health platform' },

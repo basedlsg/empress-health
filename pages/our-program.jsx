@@ -156,7 +156,7 @@ function OurProgram() {
                 'One experiment per week, never two',
                 'Weekly 15-min clinician check-in',
                 'Companion: sleep, mood, energy logging',
-                'Optional HRT review with your physician',
+                'Optional MHT review with your physician',
               ],
               tone: 'cream',
               tint: 'rgba(247,232,218,0.62)',

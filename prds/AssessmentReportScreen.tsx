@@ -225,7 +225,7 @@ const CATEGORY_COMMENTARY: Record<string, CategoryCommentary> = {
   },
   "skin-hair-nails": {
     mechanism:
-      "Collagen loss of ~30% in the first five postmenopausal years is tied to dropping estradiol. Skin thins, wound healing slows, hair thins from the crown, and nail brittleness emerges. Topical retinoids, peptides, hydrolysed collagen, and systemic HRT all have evidence bases.",
+      "Collagen loss of ~30% in the first five postmenopausal years is tied to dropping estradiol. Skin thins, wound healing slows, hair thins from the crown, and nail brittleness emerges. Topical retinoids, peptides, hydrolysed collagen, and systemic MHT all have evidence bases.",
     lifestyle:
       "Daily topical retinoid + SPF 30+, 10–20g hydrolysed collagen peptides with vitamin C, and silk or satin pillowcase to reduce hair friction.",
     clinical:
@@ -249,11 +249,11 @@ const CATEGORY_COMMENTARY: Record<string, CategoryCommentary> = {
   },
   "cardiovascular-whole-body-energy": {
     mechanism:
-      "Estrogen is cardioprotective. After menopause LDL rises, HDL falls, and vascular elasticity drops. Cardiovascular disease becomes the leading cause of death in women. Screening lipids, tracking blood pressure, and considering the 'timing window' for HRT (before age 60 or within 10 years of menopause) are key.",
+      "Estrogen is cardioprotective. After menopause LDL rises, HDL falls, and vascular elasticity drops. Cardiovascular disease becomes the leading cause of death in women. Screening lipids, tracking blood pressure, and considering the 'timing window' for MHT (before age 60 or within 10 years of menopause) are key.",
     lifestyle:
       "Zone-2 cardio 150 min/week plus two resistance sessions, DASH- or Mediterranean-pattern eating, and home BP monitoring 2–3x/week if you have any family history.",
     clinical:
-      "Ask for ApoB, Lp(a) (once in a lifetime), fasting lipid panel, and a coronary calcium score if you have risk factors. Discuss the HRT timing hypothesis.",
+      "Ask for ApoB, Lp(a) (once in a lifetime), fasting lipid panel, and a coronary calcium score if you have risk factors. Discuss the MHT timing hypothesis.",
   },
   "lifestyle-gut-health-nutrition": {
     mechanism:

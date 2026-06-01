@@ -500,6 +500,19 @@
         if (j.valid) {
           msg.className = 'promo-msg ok';
           msg.textContent = j.message || `Code applied: ${j.discount}`;
+          // Free-unlock codes (CEOOFFER2026): go straight to the full report.
+          if (j.freeUnlock) {
+            const unlockUrl = j.unlockUrl || '/assessment/?tier=paid';
+            msg.textContent = (j.message || 'Code applied.') + ' Opening your report…';
+            try {
+              navigator.sendBeacon &&
+                navigator.sendBeacon('/api/checkout/start',
+                  new Blob([JSON.stringify({ plan: 'annual', promoCode: code })],
+                    { type: 'application/json' }));
+            } catch (_) {}
+            window.location.assign(unlockUrl);
+            return;
+          }
         } else {
           msg.className = 'promo-msg err';
           msg.textContent = j.message || 'That code isn\'t valid.';
@@ -530,14 +543,25 @@
           // Free-unlock codes (CEOOFFER2026): turn the annual button into a free
           // "Unlock" and send the user straight to the full report — no payment.
           if (j.freeUnlock) {
+            const unlockUrl = j.unlockUrl || '/assessment/?tier=paid';
             const annualBtn = document.querySelector('button[data-plan="annual"]');
             if (annualBtn) {
               annualBtn.textContent = 'Unlock My Report — Free →';
               annualBtn.dataset.freeUnlock = '1';
-              annualBtn.dataset.unlockUrl = j.unlockUrl || '/assessment/?tier=paid';
+              annualBtn.dataset.unlockUrl = unlockUrl;
             }
-            msg.textContent = (j.message || 'Code applied.') + ' Redirecting…';
-            setTimeout(() => { window.location.href = j.unlockUrl || '/assessment/?tier=paid'; }, 900);
+            msg.textContent = (j.message || 'Code applied.') + ' Opening your report…';
+            // Record the free entitlement on the session (best-effort), then go
+            // straight to the full report. Navigate immediately so the user is
+            // never left on a page that "isn't moving".
+            try {
+              navigator.sendBeacon &&
+                navigator.sendBeacon('/api/checkout/start',
+                  new Blob([JSON.stringify({ plan: 'annual', promoCode: code })],
+                    { type: 'application/json' }));
+            } catch (_) {}
+            window.location.assign(unlockUrl);
+            return;
           }
         } else {
           msg.className = 'promo-msg err';

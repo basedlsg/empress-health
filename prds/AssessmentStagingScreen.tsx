@@ -95,7 +95,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
 
         <fieldset style={styles.fieldset}>
           <legend style={styles.legend}>
-            Are you currently taking hormone therapy (HRT / MHT)?
+            Are you currently taking hormone therapy (MHT)?
           </legend>
           <p style={styles.helper}>
             This includes systemic estrogen, progesterone, or combined therapy.

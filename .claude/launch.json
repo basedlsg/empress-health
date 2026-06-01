@@ -5,7 +5,14 @@
       "name": "empress",
       "runtimeExecutable": "node",
       "runtimeArgs": ["server.js"],
-      "port": 3100
+      "port": 3100,
+      "autoPort": false,
+      "env": {
+        "PORT": "3100",
+        "NODE_ENV": "development",
+        "SESSION_SECRET": "dev-empress-secret-key-123",
+        "MOCK_LLM": "1"
+      }
     }
   ]
 }

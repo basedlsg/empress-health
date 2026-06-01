@@ -6,7 +6,7 @@ const EXAMPLE_QUERIES = [
   'Why do I wake at 3am every night?',
   'What does low estrogen do to my joints?',
   'Is brain fog from perimenopause real?',
-  'How can I reduce hot flashes without HRT?',
+  'How can I reduce hot flashes without MHT?',
 ];
 
 function AskEmpressPage() {

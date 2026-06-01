@@ -429,29 +429,45 @@ if (fs.existsSync(assessmentIndex)) {
 
 
 
-// ✅ Allow only your sites
+// ✅ Allow only your sites (production, dev, and Vercel previews)
 const allowedOrigins = [
   "https://empressnaturals.co",
   "https://www.empressnaturals.co",
   "http://localhost:3000",
+  "http://localhost:3100",
   "https://empress-t348.onrender.com",
   "https://empress-mvp.onrender.com/qa",
   "https://empress-health-site.onrender.com",
   "https://empress-mvp-ai.onrender.com/qa",
   "https://empress-health-backend.onrender.com/",
   "https://empresshealth.ai",
+  "https://www.empresshealth.ai",
   "https://empress-health-ai.onrender.com/"
 ];
 
+function isAllowedOrigin(origin) {
+  if (!origin) return true;                          // same-origin, curl, server-to-server
+  if (allowedOrigins.includes(origin)) return true;
+  try {
+    const { hostname } = new URL(origin);
+    // Any empresshealth.ai (sub)domain + Vercel preview/production deployments.
+    if (hostname === "empresshealth.ai" || hostname.endsWith(".empresshealth.ai")) return true;
+    if (hostname.endsWith(".vercel.app")) return true;
+  } catch (_) { /* malformed Origin — fall through to deny */ }
+  return false;
+}
+
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error("Not allowed by CORS"));
+    // IMPORTANT: never throw here. Throwing turns a same-origin POST whose
+    // Origin header isn't explicitly listed into a 500 (which is exactly what
+    // broke the promo/checkout buttons). Allow known origins; for everything
+    // else proceed WITHOUT CORS headers so the browser still blocks any
+    // cross-origin attempt to read the response.
+    return callback(null, isAllowedOrigin(origin));
   },
   methods: ["GET", "POST", "OPTIONS", "PUT"],
-  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept", "X-CSRF-Token"],
   credentials: true
 }));
 
