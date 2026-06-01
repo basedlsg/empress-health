@@ -930,7 +930,7 @@ export function LuxuryGiftHero({
             YOU WILL GET A LUXURY WELCOME GIFT
           </h2>
           <p style={{ margin: 0, fontSize: "0.92rem", color: "#5a4a14", lineHeight: 1.6 }}>
-            Free with your $139 personalised report — or any $12/month
+            Free with your $129 personalised report — or any $12/month
             installment plan. Hand-picked from the Empress wellness collection.
             Drop your email below and we'll coordinate shipping personally.
           </p>

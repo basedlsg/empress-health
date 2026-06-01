@@ -1755,7 +1755,7 @@ function ReportPricingBlock({
           <span style={s.pricingRecommended}>Recommended</span>
           <span style={s.pricingTier}>Full Report</span>
           <div style={s.pricingPriceRow}>
-            <span style={s.pricingPrice}>$139</span>
+            <span style={s.pricingPrice}>$129</span>
             <span style={s.pricingPriceUnit}>one-time</span>
           </div>
           <ul style={s.pricingFeatures}>
@@ -1774,7 +1774,7 @@ function ReportPricingBlock({
             </li>
           </ul>
           <a href="/membershipoptions" style={s.pricingBtnPaid}>
-            Get full report — $139
+            Get full report — $129
           </a>
           <p style={{ margin: "10px 0 0", fontSize: "12px", color: "rgba(248,246,242,0.65)", textAlign: "center" as const }}>
             or <strong>$12/month</strong> — 12-month installment plan, same access

@@ -447,6 +447,12 @@
     document.querySelectorAll('button[data-plan]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const plan = btn.dataset.plan;
+        // A free-unlock code (CEOOFFER2026) was applied — go straight to the
+        // full report, no payment step.
+        if (btn.dataset.freeUnlock === '1') {
+          window.location.href = btn.dataset.unlockUrl || '/assessment/?tier=paid';
+          return;
+        }
         // Prefer the prominent inline field under the annual CTA; fall back to the
         // collapsible promo input. Either source supplies the code at checkout.
         const inlineCode = (document.getElementById('annual-promo')?.value || '').trim().toUpperCase();
@@ -521,6 +527,18 @@
         if (j.valid) {
           msg.className = 'promo-msg ok';
           msg.textContent = j.message || `Code applied: ${j.discount}`;
+          // Free-unlock codes (CEOOFFER2026): turn the annual button into a free
+          // "Unlock" and send the user straight to the full report — no payment.
+          if (j.freeUnlock) {
+            const annualBtn = document.querySelector('button[data-plan="annual"]');
+            if (annualBtn) {
+              annualBtn.textContent = 'Unlock My Report — Free →';
+              annualBtn.dataset.freeUnlock = '1';
+              annualBtn.dataset.unlockUrl = j.unlockUrl || '/assessment/?tier=paid';
+            }
+            msg.textContent = (j.message || 'Code applied.') + ' Redirecting…';
+            setTimeout(() => { window.location.href = j.unlockUrl || '/assessment/?tier=paid'; }, 900);
+          }
         } else {
           msg.className = 'promo-msg err';
           msg.textContent = j.message || 'That code isn\'t valid.';

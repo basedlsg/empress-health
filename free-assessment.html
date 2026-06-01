@@ -75,15 +75,19 @@
   .intake-form { display: flex; flex-direction: column; gap: 18px; }
   .field { display: flex; flex-direction: column; gap: 7px; }
   .field label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); }
-  .field input {
+  .field input, .field select {
     width: 100%; font-family: inherit; font-size: 16px; color: var(--deep);
     background: #fff; border: 2px solid var(--line); border-radius: 14px;
     padding: 15px 16px; transition: border-color 0.2s ease, box-shadow 0.2s ease;
     -webkit-appearance: none; appearance: none;
   }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23705177' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; cursor: pointer;
+  }
   .field input::placeholder { color: rgba(112,81,119,0.5); }
-  .field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,167,56,0.18); }
-  .field input.invalid { border-color: #B9955B; box-shadow: 0 0 0 3px rgba(185,149,91,0.18); }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,167,56,0.18); }
+  .field input.invalid, .field select.invalid { border-color: #B9955B; box-shadow: 0 0 0 3px rgba(185,149,91,0.18); }
   .field .err { font-size: 12px; color: #8c2f2f; min-height: 0; }
   .intake .cta { width: 100%; margin-top: 8px; }
   .intake .footnote { text-align: center; }
@@ -327,7 +331,10 @@ const state = {
   // intake (collected before the quiz starts)
   firstName: '',
   email: '',
+  phone: '',
   age: '',
+  usState: '',   // US state (the value formerly thought of as "state"); kept separate from this `state` object
+  zip: '',
 };
 let elapsedTimer = null;
 
@@ -390,6 +397,17 @@ function renderWelcome() {
 
 /* ── INTAKE ─────────────────────────────────────────────────────────── */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ZIP_RE = /^\d{5}$/;
+const US_STATES = [
+  'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
+  'Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois',
+  'Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts',
+  'Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada',
+  'New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota',
+  'Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina',
+  'South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington',
+  'West Virginia','Wisconsin','Wyoming',
+];
 
 function startQuiz() {
   state.screen = 'quiz';
@@ -406,13 +424,29 @@ function renderIntake() {
     const errEl = el('div', { class: 'err', id: id + '-err' });
     return { row: el('div', { class: 'field' }, el('label', { for: id }, labelText), input, errEl), input, errEl };
   };
+  const selectField = (id, labelText, options, selectedValue) => {
+    const input = el('select', { id, name: id.replace('intake-', '') });
+    input.appendChild(el('option', { value: '' }, 'Select your state…'));
+    options.forEach((opt) => {
+      const o = el('option', { value: opt }, opt);
+      if (opt === selectedValue) o.setAttribute('selected', 'selected');
+      input.appendChild(o);
+    });
+    const errEl = el('div', { class: 'err', id: id + '-err' });
+    return { row: el('div', { class: 'field' }, el('label', { for: id }, labelText), input, errEl), input, errEl };
+  };
 
   const fName = field('intake-firstName', 'First name',
     { type: 'text', name: 'firstName', placeholder: 'Jane', autocomplete: 'given-name', value: state.firstName });
   const fEmail = field('intake-email', 'Email',
     { type: 'email', name: 'email', placeholder: 'you@example.com', autocomplete: 'email', inputmode: 'email', value: state.email });
+  const fPhone = field('intake-phone', 'Phone (optional)',
+    { type: 'tel', name: 'phone', placeholder: '(555) 123-4567', autocomplete: 'tel', inputmode: 'tel', value: state.phone });
   const fAge = field('intake-age', 'Age',
     { type: 'number', name: 'age', placeholder: '48', autocomplete: 'off', inputmode: 'numeric', min: '18', max: '99', value: state.age });
+  const fState = selectField('intake-state', 'State', US_STATES, state.usState);
+  const fZip = field('intake-zip', 'ZIP code',
+    { type: 'text', name: 'zip', placeholder: '90210', autocomplete: 'postal-code', inputmode: 'numeric', maxlength: '5', value: state.zip });
 
   const setErr = (f, msg) => {
     f.errEl.textContent = msg || '';
@@ -422,31 +456,43 @@ function renderIntake() {
   const submit = () => {
     const firstName = fName.input.value.trim();
     const email = fEmail.input.value.trim();
+    const phone = fPhone.input.value.trim();
     const ageRaw = fAge.input.value.trim();
     const ageNum = Number(ageRaw);
+    const usState = fState.input.value.trim();
+    const zip = fZip.input.value.trim();
+    const phoneDigits = phone.replace(/\D/g, '');
 
     let ok = true;
     if (!firstName) { setErr(fName, 'Please enter your first name.'); ok = false; } else setErr(fName, '');
     if (!EMAIL_RE.test(email)) { setErr(fEmail, 'Please enter a valid email address.'); ok = false; } else setErr(fEmail, '');
+    if (phone && phoneDigits.length < 7) {
+      setErr(fPhone, 'Please enter a valid phone number.'); ok = false;
+    } else setErr(fPhone, '');
     if (!ageRaw || !Number.isFinite(ageNum) || ageNum < 18 || ageNum > 99) {
       setErr(fAge, 'Please enter an age between 18 and 99.'); ok = false;
     } else setErr(fAge, '');
+    if (!usState) { setErr(fState, 'Please select your state.'); ok = false; } else setErr(fState, '');
+    if (!ZIP_RE.test(zip)) { setErr(fZip, 'Please enter a 5-digit ZIP code.'); ok = false; } else setErr(fZip, '');
 
     if (!ok) return;
 
     state.firstName = firstName;
     state.email = email;
+    state.phone = phone;
     state.age = ageNum;
+    state.usState = usState;
+    state.zip = zip;
     startQuiz();
   };
 
   // Submit on Enter from any field.
-  [fName.input, fEmail.input, fAge.input].forEach((inp) => {
+  [fName.input, fEmail.input, fPhone.input, fAge.input, fState.input, fZip.input].forEach((inp) => {
     inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
   });
 
   const form = el('div', { class: 'intake-form' },
-    fName.row, fEmail.row, fAge.row,
+    fName.row, fEmail.row, fPhone.row, fAge.row, fState.row, fZip.row,
     el('button', { class: 'cta', onClick: submit }, 'Continue →'),
   );
 
@@ -619,7 +665,10 @@ async function generateReport() {
   const payload = {
     firstName: state.firstName,
     email: state.email,
+    phone: state.phone,
     age: state.age,
+    state: state.usState,
+    zip: state.zip,
     answers: Object.values(state.answers).map((a) => ({
       domain: a.domain, question: a.question, score: a.score,
     })),

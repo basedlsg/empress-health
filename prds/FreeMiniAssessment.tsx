@@ -14,7 +14,7 @@ import {
  * Rendered when /assessment/?tier=free. Self-contained: its own state
  * machine (intro → quiz → result), its own scoring, no API calls.
  *
- * The "Get Everything — $199" CTA sends the user into the full paid
+ * The "Get Everything — $129" CTA sends the user into the full paid
  * assessment at /assessment/?tier=paid. The "Home" button returns to /.
  */
 
@@ -611,7 +611,7 @@ export function FreeMiniAssessment() {
   <div class="section">
     <h3>Next step — Health Intelligence Report</h3>
     <p class="message">Your full picture is 12 layers deeper. The complete Health Intelligence Report maps all 120 biomarkers, contextualizes your hormonal panel against your symptoms, and delivers a personalized protocol built by menopause specialists.</p>
-    <div class="cta">Unlock your full report at <strong>/assessment/?tier=paid</strong> — $199 one-time, no subscription.</div>
+    <div class="cta">Unlock your full report at <strong>/assessment/?tier=paid</strong> — $129 one-time, no subscription.</div>
   </div>
 
   <div class="footer">
@@ -1048,7 +1048,7 @@ export function FreeMiniAssessment() {
                     fontWeight: 700,
                   }}
                 >
-                  $199
+                  $129
                 </span>
               </div>
               <div

@@ -3732,9 +3732,10 @@ app.get(["/health-assessment", "/health-assessment/"], (_req, res) => {
 // Promo code table — keep small for now, extend or move to DB later.
 const PROMO_CODES = {
   EMPRESS50:  { discount: "50% off",  message: "50% off applied — half-price annual access." },
-  FOUNDER:    { discount: "free",     message: "Founder access — full assessment unlocked at no cost." },
+  FOUNDER:    { discount: "free", freeUnlock: true, message: "Founder access — full report unlocked at no cost." },
   PERIMENO15: { discount: "15% off",  message: "15% off applied at checkout." },
-  CEOOFFER2026: { discount: "Founder offer", message: "Founder code applied — special pricing unlocked at checkout." },
+  // CEO founder offer: unlocks the full ($129) Health Intelligence Report for free.
+  CEOOFFER2026: { discount: "100% off", freeUnlock: true, message: "Founder code applied — your full report is unlocked, free." },
 };
 
 app.post("/api/checkout/start", async (req, res) => {
@@ -3771,7 +3772,15 @@ app.get("/api/checkout/promo", (req, res) => {
   if (!code) return res.json({ valid: false, message: "Enter a code." });
   const hit = PROMO_CODES[code];
   if (!hit) return res.json({ valid: false, message: "That code isn't valid." });
-  return res.json({ valid: true, discount: hit.discount, message: hit.message });
+  return res.json({
+    valid: true,
+    discount: hit.discount,
+    message: hit.message,
+    // When true, the client unlocks the full report immediately (no payment).
+    freeUnlock: !!hit.freeUnlock,
+    // Where the client should send the user once a free-unlock code is applied.
+    unlockUrl: hit.freeUnlock ? "/assessment/?tier=paid" : null,
+  });
 });
 app.get("/events", (_req, res) =>
   res.sendFile(path.join(__dirname, "events.html"))
