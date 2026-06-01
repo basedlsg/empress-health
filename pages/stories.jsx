@@ -248,7 +248,7 @@ function Stories() {
               ],
               [
                 ['№ 040', 'On the long November',                              'Pooja · 53'],
-                ['№ 039', 'A diary of one week off MHT',                       'Anonymous · 48'],
+                ['№ 039', 'A diary of one week off HRT',                       'Anonymous · 48'],
                 ['№ 038', 'My husband, my mother, and the same question',    'Mei · 49'],
                 ['№ 037', 'The conference call I did from the bath',          'Lara · 47'],
                 ['№ 036', 'On finally being heard',                            'Anonymous · 52'],

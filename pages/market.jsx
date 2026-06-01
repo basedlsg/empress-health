@@ -20,7 +20,7 @@ const CATEGORIES = [
     label: 'II.',
     title: 'Supplements',
     subtitle: '& Botanicals',
-    desc: 'Non-MHT options reviewed by our clinical team for evidence quality, not sales volume. Every supplement page links to the research that supports the claim.',
+    desc: 'Non-HRT options reviewed by our clinical team for evidence quality, not sales volume. Every supplement page links to the research that supports the claim.',
     cta: 'Shop Supplements →',
     tone: 'cream',
     tint: 'rgba(247,232,218,0.58)',

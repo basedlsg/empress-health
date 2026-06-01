@@ -226,7 +226,7 @@ const CATEGORY_COMMENTARY: Record<string, CategoryCommentary> = {
   },
   "skin-hair-nails": {
     mechanism:
-      "Collagen loss of ~30% in the first five postmenopausal years is tied to dropping estradiol. Skin thins, wound healing slows, hair thins from the crown, and nail brittleness emerges. Topical retinoids, peptides, hydrolysed collagen, and systemic MHT all have evidence bases.",
+      "Collagen loss of ~30% in the first five postmenopausal years is tied to dropping estradiol. Skin thins, wound healing slows, hair thins from the crown, and nail brittleness emerges. Topical retinoids, peptides, hydrolysed collagen, and systemic HRT all have evidence bases.",
     lifestyle:
       "Daily topical retinoid + SPF 30+, 10–20g hydrolysed collagen peptides with vitamin C, and silk or satin pillowcase to reduce hair friction.",
     clinical:
@@ -250,11 +250,11 @@ const CATEGORY_COMMENTARY: Record<string, CategoryCommentary> = {
   },
   "cardiovascular-whole-body-energy": {
     mechanism:
-      "Estrogen is cardioprotective. After menopause LDL rises, HDL falls, and vascular elasticity drops. Cardiovascular disease becomes the leading cause of death in women. Screening lipids, tracking blood pressure, and considering the 'timing window' for MHT (before age 60 or within 10 years of menopause) are key.",
+      "Estrogen is cardioprotective. After menopause LDL rises, HDL falls, and vascular elasticity drops. Cardiovascular disease becomes the leading cause of death in women. Screening lipids, tracking blood pressure, and considering the 'timing window' for HRT (before age 60 or within 10 years of menopause) are key.",
     lifestyle:
       "Zone-2 cardio 150 min/week plus two resistance sessions, DASH- or Mediterranean-pattern eating, and home BP monitoring 2–3x/week if you have any family history.",
     clinical:
-      "Ask for ApoB, Lp(a) (once in a lifetime), fasting lipid panel, and a coronary calcium score if you have risk factors. Discuss the MHT timing hypothesis.",
+      "Ask for ApoB, Lp(a) (once in a lifetime), fasting lipid panel, and a coronary calcium score if you have risk factors. Discuss the HRT timing hypothesis.",
   },
   "lifestyle-gut-health-nutrition": {
     mechanism:
@@ -509,18 +509,18 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
             {hisResult && (
               <span style={s.coverStageMeta}>
                 {stageLabel(hisResult.stage)}
-                {hisResult.mhtActive ? " · MHT active" : ""}
+                {hisResult.mhtActive ? " · HRT active" : ""}
               </span>
             )}
           </div>
         </div>
       </section>
 
-      {/* ─── MHT BANNER (paid only, MHT active) ─── */}
+      {/* ─── HRT BANNER (paid only, HRT active) ─── */}
       {!isFree && hisResult?.mhtFlag && (
         <section style={s.section}>
           <div style={s.mhtBanner}>
-            <strong style={s.mhtBannerTitle}>MHT overlay in effect</strong>
+            <strong style={s.mhtBannerTitle}>HRT overlay in effect</strong>
             <p style={s.mhtBannerText}>
               You reported active hormone therapy. Your Vasomotor (Domain 1) and
               Genitourinary &amp; Sexual Health (Domain 8) scores reflect a
@@ -1280,7 +1280,7 @@ function PriorityDeepDive({
   commentary: CategoryCommentary
   /** Stage-and-band specific HIS narrative for this domain. Paid + staged only. */
   hisNarrative?: string | null
-  /** MHT overlay copy (D1 / D8 only when user is on MHT). */
+  /** HRT overlay copy (D1 / D8 only when user is on HRT). */
   mhtOverlay?: string | null
 }) {
   // 2026-05-16 slider re-flip: slider 0 = most-mild, 10 = most-severe.
@@ -4035,7 +4035,7 @@ const s: Record<string, React.CSSProperties> = {
     cursor: "pointer",
   },
 
-  /* HIS — MHT overlay banner */
+  /* HIS — HRT overlay banner */
   mhtBanner: {
     background: `${gold}1a`,
     border: `1px solid ${gold}66`,

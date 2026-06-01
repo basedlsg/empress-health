@@ -40,7 +40,7 @@ const UPCOMING = [
   },
   {
     date: '19', month: 'JUL', year: 'MMXXVI',
-    title: 'MHT Decisions: A Q&A Panel',
+    title: 'HRT Decisions: A Q&A Panel',
     speaker: 'Three NAMS-certified practitioners',
     format: 'LIVE · WEBINAR',
     location: 'Zoom — open to all members',

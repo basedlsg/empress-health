@@ -116,7 +116,7 @@ export const CLINICAL_FLAGS: Record<
   number,
   { threshold: number; priority: FlagPriority; referralText: string }
 > = {
-  2:   { threshold: 2, priority: "RECOMMENDED", referralText: "Disabling vasomotor symptoms — evaluate for MHT or non-hormonal pharmacotherapy (fezolinetant, SSRIs/SNRIs)" },
+  2:   { threshold: 2, priority: "RECOMMENDED", referralText: "Disabling vasomotor symptoms — evaluate for HRT or non-hormonal pharmacotherapy (fezolinetant, SSRIs/SNRIs)" },
   41:  { threshold: 2, priority: "URGENT",      referralText: "Severe depressive episodes — immediate mental health referral; PHQ-9 to be administered by licensed clinician" },
   43:  { threshold: 2, priority: "URGENT",      referralText: "Frequent panic attacks — psychiatric or psychological evaluation required" },
   48:  { threshold: 2, priority: "RECOMMENDED", referralText: "Profound identity disconnection — mental health professional support strongly recommended" },
@@ -133,7 +133,7 @@ export const CLINICAL_FLAGS: Record<
   107: { threshold: 2, priority: "RECOMMENDED", referralText: "Autonomic BP/flushing swings — 24-hour ambulatory blood pressure monitoring; cardiology review" },
 }
 
-/** Domains that get an MHT overlay note when the user reports current hormone therapy. */
+/** Domains that get an HRT overlay note when the user reports current hormone therapy. */
 export const MHT_SENSITIVE_DOMAINS: readonly number[] = [1, 8]
 
 /** Domain-level flag threshold: DS ≤ this triggers a mandatory clinical referral note. */
@@ -530,7 +530,7 @@ export type RunAssessmentInput = {
   responses: ResponseMap | Record<number, number | null | undefined>
   /** Staging intake answer: 1 = peri, 2 = meno, 3 = post. */
   stagingResponse: 1 | 2 | 3
-  /** True if the user is currently on MHT — triggers D1/D8 overlay flag. */
+  /** True if the user is currently on HRT — triggers D1/D8 overlay flag. */
   mhtActive?: boolean
 }
 
@@ -545,7 +545,7 @@ export type RunAssessmentInput = {
  *   5. Domain-level clinical flag detection  ← BEFORE composite
  *   6. Composite HIS computation
  *   7. Score interpretation
- *   8. MHT flag determination
+ *   8. HRT flag determination
  */
 export function runAssessment(input: RunAssessmentInput): HISResult {
   const { responses, stagingResponse, mhtActive = false } = input
@@ -635,7 +635,7 @@ export function runAssessment(input: RunAssessmentInput): HISResult {
     assessmentValid = false
   }
 
-  // ── 8. MHT flag ────────────────────────────────────────────────────────
+  // ── 8. HRT flag ────────────────────────────────────────────────────────
   const mhtFlag = mhtActive
 
   return {

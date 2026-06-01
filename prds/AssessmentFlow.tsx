@@ -154,7 +154,7 @@ const DEMO = {
       specialty_id: "nams_certified_mp",
       label: "Menopause-Certified NAMS Practitioner",
       abbreviation: "CMP",
-      reason: "Your vasomotor, sleep, and genitourinary scores point to a hormonal driver best evaluated by a NAMS-certified clinician for MHT suitability.",
+      reason: "Your vasomotor, sleep, and genitourinary scores point to a hormonal driver best evaluated by a NAMS-certified clinician for HRT suitability.",
       find_provider_url: "https://www.menopause.org/for-women/find-a-menopause-practitioner",
       evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-006"],
     },

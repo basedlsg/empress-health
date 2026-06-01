@@ -34,7 +34,7 @@ const DIRECTORY = [
     topic: 'Hormones',
     resources: [
       { type: 'DEEP-DIVE', label: 'What a hot flash actually is', href: '#' },
-      { type: 'PROTOCOL', label: 'MHT: the evidence hierarchy', href: '#' },
+      { type: 'PROTOCOL', label: 'HRT: the evidence hierarchy', href: '#' },
       { type: 'ARTICLE', label: 'Why winter makes vasomotor symptoms worse', href: '#' },
       { type: 'CLINICIAN', label: 'Dr. M. Chen · Vasomotor specialist', href: '#' },
       { type: 'EBOOK', label: 'The Sleep Protocol — vasomotor chapter', href: '#' },
