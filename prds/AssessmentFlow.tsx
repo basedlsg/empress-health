@@ -44,6 +44,20 @@ export type ClinicianMatch = {
   evidence_refs?: string[]
 }
 
+/** A real provider from the menopause directory, matched to the user's
+ *  state / ZIP and shown in the report's clinician section. */
+export type Provider = {
+  name: string
+  qualification?: string
+  category?: string
+  state?: string
+  address?: string
+  phone?: string
+  website?: string
+  linkedin?: string
+  zip?: string
+}
+
 /** Grounded product recommendation. */
 export type ProductRecommendation = {
   product_id?: string
@@ -78,6 +92,11 @@ export type AssessmentApiResult = {
   poi_flag?: boolean
   /** Grounded product recommendations (new API, replaces `products`). */
   groundedProducts?: ProductRecommendation[]
+  /** Real providers from the menopause directory, matched to the user's
+   *  state / ZIP. Rendered in the report's clinician section. */
+  providers?: Provider[]
+  /** State the providers were matched against (for the section heading). */
+  providersState?: string
   /** Data source: "catalog" or "fastapi". */
   source?: string
 }
@@ -145,6 +164,11 @@ const DEMO = {
       { product_name: "Magnesium Glycinate 400mg", shopify_handle: "magnesium-glycinate-400mg", reason: "Supports GABA-A activity for deeper sleep onset and reduced 2–4am waking.", evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-014"] },
       { product_name: "Adaptogen Blend (Ashwagandha KSM-66 + Rhodiola)", shopify_handle: "adaptogen-blend-ashwagandha-rhodiola", reason: "Blunts the HPA-axis cortisol surge that amplifies hot flashes and night sweats.", evidence_refs: ["empress-120-symptom-biomarker-framework-chunk-002"] },
       { product_name: "Triple Lipid Restore 2:4:2", brand: "SkinCeuticals", reason: "Recommended for: dry, thinning skin, loss of elasticity.", empress_alts: ["Rosehip Seed Oil", "Moroccan Gold Oil", "Argan Oil"], thorne_alts: ["Vitamin D + K2 Liquid", "Advanced Bone Support"], source: "marsha-matrix", evidence_refs: [] },
+    ],
+    providersState: "California",
+    providers: [
+      { name: "Amy M. Stoddard, MD", qualification: "Doctor — MD", state: "California", address: "Los Angeles, CA", zip: "90024", phone: "(310) 794-7274", website: "https://www.uclahealth.org/medical-services/obgyn/menopause" },
+      { name: "Mary Jane Minkin, MD", qualification: "OB/GYN — Menopause Specialist", state: "California", address: "San Francisco, CA", zip: "94115", phone: "(415) 600-1234", website: "https://www.menopause.org" },
     ],
   } as unknown as AssessmentApiResult,
 }
@@ -347,6 +371,11 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       user_id: undefined as string | undefined,
       name: user?.firstName ?? "",
       age: user?.age ?? null,
+      email: user?.email ?? null,
+      phone: user?.phone ?? null,
+      // Location → drives doctor recommendations matched to the user's area.
+      state: user?.usState ?? null,
+      zip: user?.zip ?? null,
       symptoms,
       goals: tier === "free" ? "Understand my symptoms" : "Comprehensive symptom relief",
       mood: overall < 50 ? "struggling" : overall <= 65 ? "mixed" : "strong",
@@ -367,6 +396,8 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       responses,
       profile,
       // Server reads these top-level too (server.js line 2734-2744 catalogProfile)
+      state: user?.usState ?? null,
+      zip: user?.zip ?? null,
       priorityCategorySlugs: categoryNames,
       priority_question_ids: priorityQuestionIds,
       priorityQuestionIds,
@@ -381,6 +412,8 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       let clinician: ClinicianMatch | undefined
       let poi_flag: boolean | undefined
       let groundedProducts: ProductRecommendation[] | undefined
+      let providers: Provider[] | undefined
+      let providersState: string | undefined
       let apiSource: string | undefined
 
       // B3 / C2 — Affirmations
@@ -422,6 +455,9 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
           if (data?.clinician) clinician = data.clinician as ClinicianMatch
           if (data?.poi_flag === true) poi_flag = true
           if (data?.source) apiSource = data.source as string
+          // Location-matched providers from the menopause directory.
+          if (Array.isArray(data?.providers)) providers = data.providers as Provider[]
+          if (typeof data?.providersState === "string") providersState = data.providersState
           if (Array.isArray(data?.groundedProducts)) {
             groundedProducts = data.groundedProducts as ProductRecommendation[]
           }
@@ -525,6 +561,8 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
           clinician,
           poi_flag,
           groundedProducts,
+          providers,
+          providersState,
           source: apiSource,
         })
         // NOTE: we no longer flip to the report here. The transition is gated

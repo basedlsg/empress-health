@@ -14,6 +14,14 @@ export type MenopauseStage = "perimenopause" | "menopause" | "post_menopause"
 export type UserProfile = {
   firstName: string
   age: number
+  /** Contact + location captured on the intake screen. Used to email the
+   *  report and to match doctor recommendations to the user's state / ZIP. */
+  email?: string
+  phone?: string
+  /** US state (full name, e.g. "California") — distinct from the menopause
+   *  `stage` field below. Drives location-matched provider recommendations. */
+  usState?: string
+  zip?: string
   /** Stage selection from the paid intake; optional for the free flow. */
   stage?: MenopauseStage
   /** True if the user is currently on hormone therapy. Triggers MHT overlay on D1 and D8. */

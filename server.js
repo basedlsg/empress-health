@@ -2695,6 +2695,25 @@ async function handleCombinedRecommendations(req, res) {
   const requestId = `req-${Date.now().toString(36)}`;
 
   try {
+    // ── Location-matched providers (real doctors near the user) ─────────────
+    // Pulled from the curated menopause directory by the user's state, sorted
+    // by ZIP proximity. Included in every response shape below so the report's
+    // clinician section can show "providers near you in <state>".
+    let locationProviders = [];
+    let providersState = null;
+    try {
+      const { getProvidersByLocation } = require("./lib/providerDirectory");
+      const state = req.body?.profile?.state || req.body?.state || null;
+      const zip   = req.body?.profile?.zip   || req.body?.zip   || null;
+      if (state) {
+        const hit = getProvidersByLocation({ state, zip, k: 4 });
+        locationProviders = hit.providers || [];
+        providersState = hit.matchedState || (locationProviders.length ? state : null);
+      }
+    } catch (provErr) {
+      console.warn(`[${requestId}] provider lookup failed:`, provErr.message);
+    }
+
     // ── Completion gate (runs before auth — validates payload shape only) ───
     const bodyResponses = req.body?.responses || req.body?.answers || null;
     if (bodyResponses) {
@@ -2774,6 +2793,8 @@ async function handleCombinedRecommendations(req, res) {
           affirmations:    fastapiData.affirmations || [],
           recommendations: fastapiData.recommendations || [],
           clinician:       fastapiData.clinician || null,
+          providers:       locationProviders,
+          providersState:  providersState,
           poi_flag:        poiFlag,
           data:            fastapiData,
           message:         "Recommendations generated via FastAPI",
@@ -2834,6 +2855,8 @@ async function handleCombinedRecommendations(req, res) {
           recommendations: [],
           groundedProducts: catalogProducts,
           clinician:       groqData.clinician,
+          providers:       locationProviders,
+          providersState:  providersState,
           poi_flag:        finalPoiFlag,
           message:         "Recommendations generated via curated catalog",
         });

@@ -76,10 +76,10 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
 
   const errorMessage =
     localStage === null && localMht === null
-      ? "Please choose where you are in your transition and whether you're taking hormone therapy (MHT) to continue."
+      ? "Please choose where you are in your transition and whether you're taking hormone therapy (HRT) to continue."
       : localStage === null
         ? "Please choose where you are in your transition to continue."
-        : "Please tell us whether you're currently taking hormone therapy (MHT) to continue."
+        : "Please tell us whether you're currently taking hormone therapy (HRT) to continue."
 
   return (
     <div style={styles.root}>
@@ -97,20 +97,31 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
         </p>
 
         <fieldset id="staging-stage" style={styles.fieldset}>
-          <legend style={styles.legend}>Menopause stage</legend>
-          <div style={styles.optionList}>
+          <legend style={styles.legend}>
+            Menopause stage <span style={styles.legendHint}>— click one</span>
+          </legend>
+          <div style={styles.optionList} role="radiogroup" aria-label="Menopause stage — click one">
             {STAGE_OPTIONS.map((opt) => {
               const selected = localStage === opt.value
               return (
                 <button
                   key={opt.value}
                   type="button"
+                  role="radio"
                   onClick={() => { setLocalStage(opt.value); setShowError(false) }}
                   style={selected ? styles.optionSelected : styles.option}
-                  aria-pressed={selected}
+                  aria-checked={selected}
                 >
-                  <span style={styles.optionTitle}>{opt.title}</span>
-                  <span style={styles.optionDesc}>{opt.description}</span>
+                  <span
+                    aria-hidden="true"
+                    style={selected ? styles.radioDotSelected : styles.radioDot}
+                  >
+                    {selected && <span style={styles.radioDotInner} />}
+                  </span>
+                  <span style={styles.optionTextCol}>
+                    <span style={styles.optionTitle}>{opt.title}</span>
+                    <span style={styles.optionDesc}>{opt.description}</span>
+                  </span>
                 </button>
               )
             })}
@@ -119,7 +130,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
 
         <fieldset id="staging-mht" style={styles.fieldset}>
           <legend style={styles.legend}>
-            Are you currently taking hormone therapy (MHT)?
+            Are you currently taking hormone therapy (HRT)?
           </legend>
           <p style={styles.helper}>
             This includes systemic estrogen, progesterone, or combined therapy.
@@ -133,7 +144,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
               style={localMht === true ? styles.mhtSelected : styles.mhtBtn}
               aria-pressed={localMht === true}
             >
-              Yes, I'm on MHT
+              Yes, I'm on HRT
             </button>
             <button
               type="button"
@@ -257,10 +268,10 @@ const styles: Record<string, React.CSSProperties> = {
   },
   option: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
     textAlign: "left",
-    gap: 4,
+    gap: 14,
     padding: "16px 18px",
     borderRadius: 12,
     border: "1px solid rgba(248,246,242,0.18)",
@@ -272,10 +283,10 @@ const styles: Record<string, React.CSSProperties> = {
   },
   optionSelected: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
     textAlign: "left",
-    gap: 4,
+    gap: 14,
     padding: "16px 18px",
     borderRadius: 12,
     border: `2px solid ${gold}`,
@@ -284,6 +295,50 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "inherit",
     cursor: "pointer",
     boxShadow: "0 8px 22px -12px rgba(216,167,56,0.5)",
+  },
+  legendHint: {
+    fontWeight: 600,
+    color: "rgba(248,246,242,0.6)",
+    textTransform: "none",
+    letterSpacing: "normal",
+  },
+  // Radio circle that makes it obvious each stage is a single-select choice.
+  radioDot: {
+    flex: "0 0 auto",
+    width: 22,
+    height: 22,
+    borderRadius: "50%",
+    border: "2px solid rgba(248,246,242,0.45)",
+    background: "transparent",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxSizing: "border-box",
+  },
+  radioDotSelected: {
+    flex: "0 0 auto",
+    width: 22,
+    height: 22,
+    borderRadius: "50%",
+    border: `2px solid ${gold}`,
+    background: "transparent",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxSizing: "border-box",
+  },
+  radioDotInner: {
+    width: 11,
+    height: 11,
+    borderRadius: "50%",
+    background: gold,
+  },
+  optionTextCol: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: 4,
+    minWidth: 0,
   },
   optionTitle: {
     fontSize: "1rem",

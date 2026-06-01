@@ -23,6 +23,7 @@ import type {
   AffirmationItem,
   ClinicianMatch,
   ProductRecommendation,
+  Provider,
   GroundedAffirmations,
 } from "./AssessmentFlow"
 import type {
@@ -763,6 +764,8 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
       <RecommendationsSection
         recommendations={apiResult.recommendations}
         clinician={apiResult.clinician}
+        providers={apiResult.providers}
+        providersState={apiResult.providersState}
         limit={isFree ? 1 : undefined}
         feedbackCtx={feedbackCtx}
       />
@@ -1536,14 +1539,19 @@ const fallbackRecommendations: RecommendedPerson[] = [
 function RecommendationsSection({
   recommendations,
   clinician,
+  providers,
+  providersState,
   limit,
   feedbackCtx,
 }: {
   recommendations: RecommendedPerson[]
   clinician?: ClinicianMatch
+  providers?: Provider[]
+  providersState?: string
   limit?: number
   feedbackCtx?: FeedbackCtx
 }) {
+  const nearbyProviders = Array.isArray(providers) ? providers.filter((p) => p && p.name) : []
   const source =
     recommendations && recommendations.length > 0
       ? recommendations
@@ -1605,8 +1613,41 @@ function RecommendationsSection({
         </article>
       )}
 
-      {/* Bug F: only show the generic fallback list when no grounded clinician was returned */}
-      {!(clinician && clinician.label) && (
+      {/* Real providers from the menopause directory, matched to the user's
+          state / ZIP. Shown when location was captured at intake. */}
+      {nearbyProviders.length > 0 && (
+        <div style={{ marginTop: clinician && clinician.label ? 8 : 0 }}>
+          <h3 style={s.providersHeading}>
+            Menopause-trained providers{providersState ? ` in ${providersState}` : " near you"}
+          </h3>
+          <p style={s.providersSub}>
+            Vetted from our directory and sorted by proximity to your ZIP code.
+          </p>
+          <div style={s.recList}>
+            {nearbyProviders.map((p, i) => (
+              <article key={i} style={s.recCard}>
+                <h3 style={s.recName}>{p.name}</h3>
+                {(p.qualification || p.category) && (
+                  <p style={s.recSub}>{p.qualification || p.category}</p>
+                )}
+                {p.address && <p style={s.providerMeta}>📍 {p.address}{p.zip ? ` ${p.zip}` : ""}</p>}
+                {p.phone && <p style={s.providerMeta}>📞 {p.phone}</p>}
+                {p.website && (
+                  <p style={s.providerMeta}>
+                    <a href={p.website} target="_blank" rel="noopener noreferrer" style={s.providerLink}>
+                      Visit website →
+                    </a>
+                  </p>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Generic fallback list only when there is neither a grounded clinician
+          nor location-matched providers to show. */}
+      {!(clinician && clinician.label) && nearbyProviders.length === 0 && (
         <div style={s.recList}>
           {list.map((rec, i) => {
             const name = (rec.name as string) || (rec.title as string) || "Recommended specialist"
@@ -3462,6 +3503,31 @@ const s: Record<string, React.CSSProperties> = {
     fontWeight: 600,
   },
   recReason: { margin: 0, fontSize: "0.9rem", lineHeight: 1.55, color: "#5a5a5a" },
+  providersHeading: {
+    margin: "0 0 4px",
+    fontFamily: "'The Seasons', 'Playfair Display', system-ui, sans-serif",
+    fontSize: "1.15rem",
+    fontWeight: 700,
+    color: plum,
+  },
+  providersSub: {
+    margin: "0 0 14px",
+    fontSize: "0.85rem",
+    color: "#705177",
+    lineHeight: 1.5,
+  },
+  providerMeta: {
+    margin: "2px 0 0",
+    fontSize: "0.85rem",
+    lineHeight: 1.5,
+    color: "#5a5a5a",
+  },
+  providerLink: {
+    color: plum,
+    fontWeight: 700,
+    textDecoration: "none",
+    borderBottom: `1px solid ${gold}`,
+  },
 
   /* Products */
   productsIntro: {
