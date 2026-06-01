@@ -1033,7 +1033,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
               <li>Click <em>Print / Save as PDF</em> above (or press <kbd style={s.kbd}>Ctrl</kbd>+<kbd style={s.kbd}>P</kbd> on Windows, <kbd style={s.kbd}>⌘</kbd>+<kbd style={s.kbd}>P</kbd> on Mac).</li>
               <li>In the print dialog, set <strong>Destination</strong> to <strong>Save as PDF</strong>.</li>
               <li>Open <strong>More settings</strong> and turn on <strong>Background graphics</strong> — otherwise the radar chart and score bars will print blank.</li>
-              <li>Turn on <strong>Headers and footers</strong> so the <strong>page number</strong> prints on every page.</li>
+              <li>Turn <strong>Headers and footers</strong> <strong>off</strong> — the report already prints its own page numbers, and switching this off keeps the web address and date from appearing at the edge of every page.</li>
               <li>Paper size <strong>Letter</strong>, margins <strong>Default</strong>, then click <strong>Save</strong>.</li>
             </ol>
             <p style={s.printHintNote}>
@@ -2649,9 +2649,11 @@ const printCSS = `
   /* 12mm bottom reserves room for the page number. Top stays tight to
    * avoid the ~120px blank gap continuation pages used to show. */
   margin: 10mm 14mm 12mm;
-  /* Page numbers on EVERY page. Firefox + Safari honour these margin
-   * boxes directly; Chrome ignores them, so for Chrome the print dialog's
-   * "Headers and footers" toggle supplies the number (see the print tips). */
+  /* Page numbers on EVERY page via CSS — Firefox, Safari, and current
+   * Chrome/Edge all honour these @page margin boxes, so the report supplies
+   * its own page numbers. Users should leave the browser's "Headers and
+   * footers" toggle OFF (the print tips say so) to avoid the page URL/date
+   * printing at the edge of every page. */
   @bottom-center {
     content: counter(page) " / " counter(pages);
     font-family: 'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif;
