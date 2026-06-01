@@ -2708,20 +2708,26 @@ async function handleCombinedRecommendations(req, res) {
       }
     }
 
-    const authToken = requireAuthToken(req, res);
-    if (!authToken || typeof authToken !== "string") {
-      return; // requireAuthToken already sent the response
-    }
+    // Auth is OPTIONAL for recommendations. Authenticated users get the full
+    // upstream pipeline (Render backend / FastAPI). Anonymous users — e.g. the
+    // promo-unlocked 120-question paid assessment (CEOOFFER2026) — fall straight
+    // through to the local curated-catalog generator, which works entirely from
+    // the request-body profile. This keeps the paid report populated with real
+    // grounded products / clinician matches / affirmations for everyone.
+    const authToken = getAuthToken(req);
 
-    const handledByRender = await tryRenderCombined(req, res, authToken, requestId);
-    if (handledByRender) {
-      return;
+    if (authToken && typeof authToken === "string") {
+      const handledByRender = await tryRenderCombined(req, res, authToken, requestId);
+      if (handledByRender) {
+        return;
+      }
     }
 
     let userProfile = await getUserProfileForRecommendations(req);
 
-    // If profile is minimal (just ID) or missing critical fields, try to fetch full profile
-    if (userProfile && (!userProfile.symptoms || !userProfile.goals)) {
+    // If profile is minimal (just ID) or missing critical fields, try to fetch
+    // the full profile from the backend — only possible when we have a token.
+    if (authToken && userProfile && (!userProfile.symptoms || !userProfile.goals)) {
       try {
         const uid = userProfile.user_id || userProfile.id;
         console.log(`[${requestId}] Fetching full profile from backend for user ${uid}`);
@@ -2798,6 +2804,16 @@ async function handleCombinedRecommendations(req, res) {
     if (catalogProfile && (catalogProfile.priorityCategorySlugs?.length || catalogProfile.symptoms || catalogProfile.goals)) {
       try {
         const groqData = await generateGroqFallback(catalogProfile, requestId);
+        // The curated catalog returns PRODUCTS in `recommendations` (clinical
+        // supplements + MARSHA-matrix matches with Empress/Thorne alternatives).
+        // The report renders product cards from `groundedProducts` and treats
+        // `recommendations` as clinician *people* — so surface the catalog
+        // products as groundedProducts, and leave `recommendations` empty so the
+        // clinician section shows the matched clinician (never products
+        // mislabelled as practitioners).
+        const catalogProducts = Array.isArray(groqData.recommendations)
+          ? groqData.recommendations
+          : [];
         // Recompute POI now that we have a profile (whether from DB or request body)
         const finalPoiFlag = (
           Number(catalogProfile.age) < 45 &&
@@ -2815,7 +2831,8 @@ async function handleCombinedRecommendations(req, res) {
           success:         true,
           source:          "catalog",
           affirmations:    groqData.affirmations,
-          recommendations: groqData.recommendations,
+          recommendations: [],
+          groundedProducts: catalogProducts,
           clinician:       groqData.clinician,
           poi_flag:        finalPoiFlag,
           message:         "Recommendations generated via curated catalog",

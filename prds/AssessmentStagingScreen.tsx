@@ -47,15 +47,39 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
   const [localMht, setLocalMht] = useState<boolean | null>(
     stage === null ? null : mhtActive,
   )
+  // When the user taps Continue before answering both questions, we surface a
+  // pointed message instead of leaving a dead, greyed-out button (which read as
+  // "Continue isn't going forward").
+  const [showError, setShowError] = useState(false)
 
   const isValid = localStage !== null && localMht !== null
 
   function handleSubmit() {
-    if (!isValid || localStage === null || localMht === null) return
+    if (!isValid || localStage === null || localMht === null) {
+      // Don't silently no-op — tell the user exactly what's missing and bring
+      // the unanswered question into view.
+      setShowError(true)
+      if (typeof document !== "undefined") {
+        const targetId = localStage === null ? "staging-stage" : "staging-mht"
+        const el = document.getElementById(targetId)
+        if (el && typeof el.scrollIntoView === "function") {
+          el.scrollIntoView({ behavior: "smooth", block: "center" })
+        }
+      }
+      return
+    }
+    setShowError(false)
     setStage(localStage)
     setMhtActive(localMht)
     onContinue()
   }
+
+  const errorMessage =
+    localStage === null && localMht === null
+      ? "Please choose where you are in your transition and whether you're taking hormone therapy (MHT) to continue."
+      : localStage === null
+        ? "Please choose where you are in your transition to continue."
+        : "Please tell us whether you're currently taking hormone therapy (MHT) to continue."
 
   return (
     <div style={styles.root}>
@@ -72,7 +96,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
           different points in the menopause continuum.
         </p>
 
-        <fieldset style={styles.fieldset}>
+        <fieldset id="staging-stage" style={styles.fieldset}>
           <legend style={styles.legend}>Menopause stage</legend>
           <div style={styles.optionList}>
             {STAGE_OPTIONS.map((opt) => {
@@ -81,7 +105,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
                 <button
                   key={opt.value}
                   type="button"
-                  onClick={() => setLocalStage(opt.value)}
+                  onClick={() => { setLocalStage(opt.value); setShowError(false) }}
                   style={selected ? styles.optionSelected : styles.option}
                   aria-pressed={selected}
                 >
@@ -93,7 +117,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
           </div>
         </fieldset>
 
-        <fieldset style={styles.fieldset}>
+        <fieldset id="staging-mht" style={styles.fieldset}>
           <legend style={styles.legend}>
             Are you currently taking hormone therapy (MHT)?
           </legend>
@@ -105,7 +129,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
           <div style={styles.mhtRow}>
             <button
               type="button"
-              onClick={() => setLocalMht(true)}
+              onClick={() => { setLocalMht(true); setShowError(false) }}
               style={localMht === true ? styles.mhtSelected : styles.mhtBtn}
               aria-pressed={localMht === true}
             >
@@ -113,7 +137,7 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
             </button>
             <button
               type="button"
-              onClick={() => setLocalMht(false)}
+              onClick={() => { setLocalMht(false); setShowError(false) }}
               style={localMht === false ? styles.mhtSelected : styles.mhtBtn}
               aria-pressed={localMht === false}
             >
@@ -122,6 +146,11 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
           </div>
         </fieldset>
 
+        {showError && !isValid && (
+          <p role="alert" style={styles.validationError}>
+            {errorMessage}
+          </p>
+        )}
         <div style={styles.ctaRow}>
           <button type="button" onClick={onBack} style={styles.backBtn}>
             ← Back
@@ -129,8 +158,8 @@ export function AssessmentStagingScreen({ onContinue, onBack }: Props) {
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={!isValid}
-            style={isValid ? styles.cta : styles.ctaDisabled}
+            aria-disabled={!isValid}
+            style={isValid ? styles.cta : styles.ctaNeedsInput}
           >
             Continue →
           </button>
@@ -324,17 +353,29 @@ const styles: Record<string, React.CSSProperties> = {
     boxShadow: "0 10px 28px -10px rgba(216,167,56,0.6)",
     fontFamily: "inherit",
   },
-  ctaDisabled: {
+  // "Needs input" state: still clearly a clickable gold button (never a dead,
+  // greyed-out control). Clicking it surfaces a validation message.
+  ctaNeedsInput: {
     padding: "14px 28px",
     borderRadius: 12,
-    border: "1px solid rgba(216,167,56,0.35)",
-    background: "rgba(216,167,56,0.18)",
-    color: "rgba(248,246,242,0.55)",
+    border: `1px solid ${gold}`,
+    background: "rgba(216,167,56,0.85)",
+    color: plum,
     fontSize: "1rem",
     fontWeight: 700,
     letterSpacing: "0.04em",
-    cursor: "not-allowed",
+    cursor: "pointer",
     fontFamily: "inherit",
+  },
+  validationError: {
+    margin: "0 0 2px",
+    padding: "11px 15px",
+    borderRadius: 10,
+    background: "rgba(216,167,56,0.14)",
+    border: "1px solid rgba(216,167,56,0.55)",
+    color: ivory,
+    fontSize: "0.9rem",
+    lineHeight: 1.45,
   },
   disclaimer: {
     fontSize: "0.76rem",
