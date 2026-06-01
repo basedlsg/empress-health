@@ -3755,6 +3755,13 @@ app.get(["/health-assessment", "/health-assessment/"], (_req, res) => {
   return res.redirect(302, "/pricing");
 });
 
+// Vanity link for sharing the full 120-question assessment directly — no
+// paywall, no login. Mirrors the Vercel redirect in vercel.json so it also
+// works in local dev. (Keep ?tier=paid: that's what unlocks the 120-Q flow.)
+app.get(["/start", "/start/"], (_req, res) => {
+  return res.redirect(302, "/assessment/?tier=paid");
+});
+
 /* ───────────────────────── Checkout / paywall ─────────────────────────
  * Gates the paid 120-Q assessment behind a purchase. Stripe is not yet
  * wired in — this stub records the intent in the session, flips a

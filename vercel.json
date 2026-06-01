@@ -12,7 +12,8 @@
     }
   },
   "redirects": [
-    { "source": "/sample-report", "destination": "/assessment/?tier=paid&demo=1", "permanent": false }
+    { "source": "/sample-report", "destination": "/assessment/?tier=paid&demo=1", "permanent": false },
+    { "source": "/start", "destination": "/assessment/?tier=paid", "permanent": false }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
