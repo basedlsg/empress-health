@@ -829,9 +829,6 @@ function gen(){
       </div>
     </div>`;
   }).join('');
-
-  /* Package message */
-  el('pmsg').innerHTML=pkgMsg(hisV,hb.l,dBands,flags.length);
 }
 
 /* ── RING CANVAS ── */
@@ -912,18 +909,6 @@ function domScience(id){
 function domActions(id,band){
   const a={1:{Low:["Book a GP appointment this week — discuss HRT or fezolinetant eligibility","Keep a 2-week hot flash diary: time, duration, triggers (alcohol, caffeine, stress)","Eliminate alcohol and caffeine for 4 weeks","Bedroom: 65–67°F, moisture-wicking bedding, bedside fan"],Moderate:["Track vasomotor triggers for 2 weeks","Paced breathing at flash onset: 4s inhale, 7s hold, 8s exhale","Reduce caffeine by 50%; none after 12pm","Discuss phytoestrogen supplementation with your provider"],High:["Maintain current trigger-avoidance habits","Quarterly reassessment to catch any escalation"]},2:{Low:["Aerobic exercise 30 min, 5×/week — directly increases BDNF","Eliminate alcohol — worsens GABA and serotonin function the following day","Sleep restoration is the #1 cognitive lever — address D1 vasomotor triggers first","Ask your GP about SSRI/SNRI — simultaneously helps mood and vasomotor symptoms"],Moderate:["Aerobic exercise 5×/week for BDNF and serotonin support","Strict sleep/wake schedule 7 days/week, same time ±20 minutes","Alcohol reduction or elimination","Single-task 25-minute focus blocks — reduce demand on impaired working memory"],High:["Maintain aerobic exercise as your primary brain-protective habit","Quarterly HIS reassessment to track cognitive domain trajectory"]},3:{Low:["Request fasting glucose, HbA1c, fasting lipids, thyroid function from your GP","Resistance training 3×/week — most effective metabolic and MSK intervention","Protein: 1.6g/kg bodyweight/day","ECG if palpitations are present — evaluate clinically before attributing to menopause"],Moderate:["Resistance training 2–3×/week for metabolic and joint health","Protein at every meal: 25–30g per sitting","Anti-inflammatory nutrition: omega-3s, colourful vegetables","Annual metabolic panel — vital sign for this stage"],High:["Maintain resistance and impact exercise as primary protective habits","Annual metabolic check regardless of symptoms"]},4:{Low:["Discuss local vaginal estrogen with your GP today — safe, effective, minimally absorbed","Vaginal moisturisers (hyaluronic acid-based) 3×/week","Pelvic floor physiotherapy — addresses both sexual function and bladder control","Discuss ospemifene if vaginal estrogen is declined"],Moderate:["Vaginal moisturiser 3×/week as baseline","Pelvic floor exercises daily","Discuss local vaginal estrogen with your provider","Adequate hydration: 2L water daily"],High:["Vaginal moisturiser as preventive habit even without severe symptoms","Pelvic floor exercises as long-term bladder-control investment"]}};
   return((a[id]||{})[band]||['Monitor this domain quarterly.']).slice(0,4);
-}
-
-function pkgMsg(h,bl,dBands,flagCount){
-  const msgs={Critical:`Your score of ${h} (Critical) — and ${flagCount} clinical flag${flagCount!==1?'s':''} — indicate a body in real distress. The Core Membership combines quarterly reassessment, 24/7 AI support, and clinician matching. Elite gives you direct 1:1 clinician access for the fastest path to a treatment plan.`,Struggling:`Your score of ${h} (Struggling) places you in a key intervention window. Core Membership delivers quarterly HIS tracking so you see your score improve domain by domain. Women at your score level typically gain 15–25 points within 12 weeks with structured support.`,Managing:`Your score of ${h} (Managing) shows targeted improvement opportunity. The Full Report gives you a precision action plan. Core Membership unlocks quarterly tracking to measure your progress as each domain responds.`,Flourishing:`Your score of ${h} (Flourishing) is strong — the Full Report shows exactly what's driving it and what to protect. Core Membership is your long-term advantage: quarterly check-ins throughout the transition.`,Thriving:`Your score of ${h} (Thriving) is exceptional. The Full Report documents your strengths precisely. Core Membership keeps your score moving upward with quarterly reassessment as the transition continues.`};
-  return`<p>${msgs[bl]||msgs.Managing}</p>`;
-}
-
-/* ── PACKAGE CTA ── */
-function pkg(t){
-  const u={essentials:'https://empresshealth.ai/checkout/report',core:'https://empresshealth.ai/checkout/core',elite:'https://empresshealth.ai/checkout/elite'};
-  // Replace alert with: window.location.href = u[t];
-  alert(`→ ${t.toUpperCase()}\n\nIn production replace this line with:\nwindow.location.href = '${u[t]}'\n\nConnect to Stripe, ThriveCart, or your payment processor.`);
 }
 
 /* ── UTILS ── */
