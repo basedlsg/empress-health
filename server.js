@@ -2898,6 +2898,40 @@ app.post("/api/recommendations/combined", handleCombinedRecommendations);
  * via lib/notify.js, and (in future) emails the Empress team when SMTP is
  * configured.
  */
+/* ───────────── Free 12-question screener — lead capture ─────────────
+ * Records the email (+ HIS score) from the free Mini Health Intelligence
+ * screener so the team can collect signups for adoption. Public, CSRF-exempt.
+ * Capture is best-effort via lib/notify (JSONL + console log; SMTP/webhook/DB
+ * delivery is wired in notify.js when configured) — it never blocks the user's
+ * score. NOTE: on serverless (Vercel) the JSONL file is ephemeral; durable
+ * capture needs SMTP_*, a Zapier webhook, or a DB configured. Leads always
+ * appear in the function logs as `[notify:lead] ...`.
+ */
+app.post("/api/free-score-lead", async (req, res) => {
+  try {
+    const { notify } = require("./lib/notify");
+    const b = req.body || {};
+    const email = typeof b.email === "string" ? b.email.trim() : "";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: "A valid email is required." });
+    }
+    await notify("lead", {
+      source:    "free-12q-screener",
+      firstName: typeof b.firstName === "string" ? b.firstName.slice(0, 80) : null,
+      email:     email.slice(0, 200),
+      stage:     typeof b.stage === "string" ? b.stage.slice(0, 40) : null,
+      hrt:       b.hrt === true,
+      his:       Number.isFinite(Number(b.his)) ? Number(b.his) : null,
+      gcs:       Number.isFinite(Number(b.gcs)) ? Number(b.gcs) : null,
+      responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
+    });
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("[free-score-lead] failed:", err.message);
+    return res.json({ ok: true }); // never block the score on a capture hiccup
+  }
+});
+
 app.post("/api/assessment/feedback", async (req, res) => {
   try {
     const { notify } = require("./lib/notify");
@@ -3778,11 +3812,11 @@ app.get(["/health-assessment", "/health-assessment/"], (_req, res) => {
   return res.redirect(302, "/pricing");
 });
 
-// Vanity link for sharing the full 120-question assessment directly — no
-// paywall, no login. Mirrors the Vercel redirect in vercel.json so it also
-// works in local dev. (Keep ?tier=paid: that's what unlocks the 120-Q flow.)
+// Vanity link for sharing the free Mini Health Intelligence screener (the
+// 12-question quiz). This is the primary funnel — collect emails + adoption.
+// Mirrors the Vercel redirect in vercel.json so it also works in local dev.
 app.get(["/start", "/start/"], (_req, res) => {
-  return res.redirect(302, "/assessment/?tier=paid");
+  return res.redirect(302, "/free-assessment");
 });
 
 /* ───────────────────────── Checkout / paywall ─────────────────────────
