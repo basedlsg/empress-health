@@ -421,7 +421,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div class="sr" id="r5"><button class="op" onclick="sel(5,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(5,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(5,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(5,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q07</span><span class="flg fu">🚨 Urgent flag</span></div>
+  <div class="qm"><span class="qn">Q07</span><span class="flg fr">⚠ Flag item</span></div>
   <div class="qt">How often do you feel an underlying sense of tension, nervousness, or sudden unprovoked bouts of anxiety?</div>
   <div class="sr" id="r6"><button class="op" onclick="sel(6,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(6,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(6,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(6,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
@@ -441,7 +441,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div class="sr" id="r8"><button class="op" onclick="sel(8,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(8,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(8,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(8,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q10</span><span class="flg fu">🚨 Urgent flag</span></div>
+  <div class="qm"><span class="qn">Q10</span><span class="flg fr">⚠ Flag item</span></div>
   <div class="qt">How often do you notice your heart suddenly racing, pounding, or skipping a beat while at rest?</div>
   <div class="sr" id="r9"><button class="op" onclick="sel(9,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(9,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(9,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(9,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
@@ -451,7 +451,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div><h3>Genitourinary Symptoms</h3><p>Vaginal & bladder health · MENQOL — Genitourinary Subscale</p></div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q11</span><span class="flg fu">🚨 Urgent flag</span></div>
+  <div class="qm"><span class="qn">Q11</span><span class="flg fr">⚠ Flag item</span></div>
   <div class="qt">To what degree are you experiencing vaginal dryness, irritation, or discomfort during intimate moments?</div>
   <div class="sr" id="r10"><button class="op" onclick="sel(10,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(10,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(10,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(10,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
@@ -549,6 +549,17 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div id="domCards"></div>
 </div></div>
 
+<!-- RECOMMENDED PRODUCTS -->
+<div class="rs rsc">
+<div class="w">
+  <p class="ey2">Report — Recommended Products</p>
+  <div class="rule"></div>
+  <h2 style="font-size:1.25rem;margin-bottom:.4rem;">Products matched to your priority domains</h2>
+  <p style="font-size:.82rem;color:var(--txs);margin-bottom:1rem;">Evidence-based picks for the areas your screener flagged as highest-priority. Always check with your provider before starting a new supplement.</p>
+  <div id="prodSection"></div>
+  <a href="/market" style="display:inline-block;margin-top:1rem;background:var(--plum);color:#fff;font-weight:700;font-size:.875rem;text-decoration:none;padding:.7rem 1.5rem;border-radius:100px;">Browse the curated marketplace →</a>
+</div></div>
+
 <!-- EMPRESS CHAT -->
 <div class="chat">
 <div class="chati">
@@ -629,15 +640,37 @@ const DOMS=[
 const W={perimenopause:[25,40,20,15],menopause:[35,30,20,15],post_menopause:[20,25,25,30]};
 const FLAGS={
   1:{qi:1,t:2,p:"RECOMMENDED",lbl:"Night sweats (Q02)",
-     ref:"Moderate-severe night sweats disrupting sleep — HRT eligibility assessment or non-hormonal treatment (fezolinetant/SSRIs/SNRIs) strongly recommended."},
-  6:{qi:6,t:2,p:"URGENT",lbl:"Anxiety / panic (Q07)",
-     ref:"Moderate-severe anxiety symptoms require clinical support alongside menopause management. Psychological evaluation recommended."},
-  9:{qi:9,t:2,p:"URGENT",lbl:"Heart palpitations (Q10)",
-     ref:"Moderate-severe palpitations at rest — 12-lead ECG and 24-hour Holter monitoring required before attributing to menopause alone. Cardiology referral."},
-  10:{qi:10,t:2,p:"URGENT",lbl:"Vaginal dryness (Q11)",
-      ref:"Moderate-severe GSM — local vaginal estrogen or ospemifene evaluation required. GSM does not self-resolve without treatment."},
+     ref:"Moderate-severe night sweats disrupting sleep — worth discussing HRT eligibility or non-hormonal options (fezolinetant/SSRIs/SNRIs) with your provider."},
+  6:{qi:6,t:2,p:"RECOMMENDED",lbl:"Anxiety / panic (Q07)",
+     ref:"Moderate-severe anxiety symptoms are worth discussing with your provider alongside menopause management."},
+  9:{qi:9,t:2,p:"RECOMMENDED",lbl:"Heart palpitations (Q10)",
+     ref:"Moderate-severe palpitations at rest are worth mentioning to your provider so they can be evaluated rather than attributed to menopause alone."},
+  10:{qi:10,t:2,p:"RECOMMENDED",lbl:"Vaginal dryness (Q11)",
+      ref:"Moderate-severe vaginal dryness (GSM) responds well to treatment such as local vaginal estrogen or ospemifene — worth discussing with your provider, as it does not self-resolve."},
   11:{qi:11,t:2,p:"RECOMMENDED",lbl:"Urinary urgency (Q12)",
-      ref:"Moderate-severe urinary urgency — urogynecology referral and pelvic floor physiotherapy assessment recommended."},
+      ref:"Moderate-severe urinary urgency is worth discussing with your provider; pelvic floor physiotherapy can also help."},
+};
+/* Evidence-based product recommendations per domain (id 1–4). Shown for the
+   user's priority (lowest-scoring) domains on the results page. */
+const PRODUCTS={
+  1:[
+    {n:"Cooling Adaptogen Blend (Ashwagandha KSM-66 + Rhodiola)",w:"Blunts the HPA-axis cortisol surge that intensifies hot flashes and night sweats."},
+    {n:"Magnesium Glycinate 400mg",w:"Calms the nervous system and supports deeper, cooler sleep through the night."},
+  ],
+  2:[
+    {n:"Omega-3 EPA/DHA (2g daily)",w:"Supports mood, focus, and the estradiol–serotonin pathway behind brain fog."},
+    {n:"Active B-Complex (Methylfolate + B12)",w:"Energy and neurotransmitter support for fatigue and mental clarity."},
+    {n:"Magnesium Glycinate 400mg",w:"Eases anxiety and improves sleep onset and quality."},
+  ],
+  3:[
+    {n:"Vitamin D3 + K2",w:"Bone, muscle, and metabolic support as estrogen declines."},
+    {n:"Hydrolysed Collagen + Protein",w:"Preserves muscle mass and joint comfort; supports body composition."},
+    {n:"Omega-3 EPA/DHA",w:"Anti-inflammatory support for joints and cardiovascular health."},
+  ],
+  4:[
+    {n:"Hyaluronic-Acid Vaginal Moisturiser",w:"Non-hormonal relief for dryness and intimate discomfort."},
+    {n:"Sea Buckthorn Oil (Omega-7)",w:"Supports mucosal tissue hydration from the inside out."},
+  ],
 };
 const HB=[{m:85,l:"Thriving",c:"#1D9E75"},{m:70,l:"Flourishing",c:"#639922"},{m:55,l:"Managing",c:"#EF9F27"},{m:40,l:"Struggling",c:"#D85A30"},{m:1,l:"Critical",c:"#A32D2D"}];
 const GB=[{max:7,l:"Minimal",c:"#1D9E75"},{max:14,l:"Mild",c:"#639922"},{max:21,l:"Moderate",c:"#EF9F27"},{max:28,l:"Significant",c:"#C4743B"},{max:36,l:"Severe",c:"#A32D2D"}];
@@ -829,6 +862,15 @@ function gen(){
       </div>
     </div>`;
   }).join('');
+
+  /* Recommended products for the 2 priority (lowest-scoring) domains. */
+  var prio=DOMS.map(function(d,i){return{i:i,s:dS[i]};}).sort(function(a,b){return a.s-b.s;}).slice(0,2).map(function(x){return x.i;});
+  el('prodSection').innerHTML=prio.map(function(di){
+    var ps=PRODUCTS[di+1]||[];
+    if(!ps.length) return '';
+    return '<div style="margin-bottom:1.1rem;"><div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:'+DOMS[di].color+';margin-bottom:.5rem;">For your '+DOMS[di].short+'</div>'+
+      ps.map(function(p){return '<div class="fc fcr"><div><div class="fch">'+p.n+'</div><p class="fcp">'+p.w+'</p></div></div>';}).join('')+'</div>';
+  }).join('');
 }
 
 /* ── RING CANVAS ── */
@@ -874,10 +916,9 @@ function renderFlags(flags){
     el('flagsSection').innerHTML=`<div class="fc fco"><span style="font-size:1rem;">✓</span><div><div class="fch" style="color:var(--green);">No clinical flags triggered</div><p class="fcp">No single response reached the moderate-to-severe threshold on the 5 monitored items. This is a positive finding.</p></div></div>`;
     return;
   }
-  const u=flags.filter(f=>f.p==='URGENT'),r=flags.filter(f=>f.p!=='URGENT');
-  let h=`<p style="font-size:.82rem;color:var(--txm);margin-bottom:.75rem;">${flags.length} clinical flag${flags.length>1?'s':''} triggered — these fire independently of your composite score. A high HIS does not suppress a flag.</p>`;
-  if(u.length){h+=`<p style="font-size:.72rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">Urgent — immediate clinical evaluation recommended</p>`;u.forEach(f=>{h+=`<div class="fc fcu"><span class="fcb fcbu">Urgent</span><div><div class="fch">${f.lbl} (your response: ${R[f.qi]}/3)</div><p class="fcp">${f.ref}</p></div></div>`;});}
-  if(r.length){h+=`<p style="font-size:.72rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin:.75rem 0 .4rem;">Recommended — clinical discussion advised</p>`;r.forEach(f=>{h+=`<div class="fc fcr"><span class="fcb fcbr">Rec.</span><div><div class="fch">${f.lbl} (your response: ${R[f.qi]}/3)</div><p class="fcp">${f.ref}</p></div></div>`;});}
+  let h=`<p style="font-size:.82rem;color:var(--txm);margin-bottom:.75rem;">${flags.length} item${flags.length>1?'s':''} worth discussing with your provider — flagged independently of your composite score, so a high HIS does not suppress them.</p>`;
+  h+=`<p style="font-size:.72rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin:.25rem 0 .4rem;">Recommended — worth a clinical conversation</p>`;
+  flags.forEach(f=>{h+=`<div class="fc fcr"><span class="fcb fcbr">Rec.</span><div><div class="fch">${f.lbl} (your response: ${R[f.qi]}/3)</div><p class="fcp">${f.ref}</p></div></div>`;});
   el('flagsSection').innerHTML=h;
 }
 
@@ -892,7 +933,7 @@ function buildStory(h,bl,g,gl,dS,dBands,flags,sl,topC,topS){
   let html=`<p class="sp lg"><em>"${hn}"</em></p>`;
   html+=`<p class="sp">Your Health Intelligence Score of <strong>${h}/100</strong> and Symptom Severity Score of <strong>${g}/36 (${gl})</strong> together give you two clinical lenses on the same set of responses. The HIS is your wellness score — higher is better. The GCS is your clinical severity score — lower is better. Both are computed from your 12 answers in real time.</p>`;
   html+=`<p class="sp">Your primary concern domain is <strong>${DOMS[topC].name}</strong>. ${dom}</p>`;
-  if(flags.length>0){const u=flags.filter(f=>f.p==='URGENT').length;html+=`<div class="cb ${u>0?'cbr':'cba'}"><h4>${u>0?'⚠ Urgent flags triggered':'▲ Clinical flags triggered'}</h4><p>${flags.length} item${flags.length>1?'s':''} reached the clinical threshold in your responses. Review the Clinical Safety section below. ${u>0?'Urgent flags require clinical evaluation before other interventions.':''}</p></div>`;}
+  if(flags.length>0){html+=`<div class="cb cba"><h4>▲ Clinical flags triggered</h4><p>${flags.length} item${flags.length>1?'s':''} reached the threshold worth discussing with your provider. Review the Clinical Safety section below.</p></div>`;}
   if(mht){html+=`<div class="cbp"><h4>HRT Note</h4><p>You are on hormone therapy. Your D1 (Vasomotor) and D4 (Genitourinary) scores reflect your treated state. This is a positive outcome — your score shows the domains where treatment is working.</p></div>`;}
   html+=`<p class="sp">Your strongest domain is <strong>${DOMS[topS].name}</strong> — a genuine wellness asset to protect and build on as your transition progresses.</p>`;
   return html;
