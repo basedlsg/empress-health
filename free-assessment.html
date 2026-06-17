@@ -9,14 +9,14 @@
 /* ═══════════════ TOKENS ═══════════════ */
 :root{
   --plum:#4A1A3A;--pm:#7B3F63;--pp:#F8F1F5;
-  --gold:#C4956A;--gd:#8B6240;--gp:#FBF0E4;
+  --gold:#D8A738;--gd:#7B3F63;--gp:#FBF0E4;
   --green:#2A7A5A;--gl:#E8F5EF;
-  --amber:#C4743B;--al:#FAF0E8;
+  --amber:#7B3F63;--al:#FAF0E8;
   --red:#8B2E2E;--rl:#FAEAEA;
   --navy:#1C2B4A;
   --cream:#FEFCF8;--cm:#F5F0EB;--bd:#E0D8D0;
   --tx:#1C1C1E;--txm:#3D3D3F;--txs:#6B6B70;
-  --d1:#D85A30;--d2:#534AB7;--d3:#BA7517;--d4:#7F77DD;
+  --d1:#7B3F63;--d2:#534AB7;--d3:#D8A738;--d4:#7F77DD;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -93,8 +93,8 @@ strong{font-weight:600;color:var(--tx);}
 .op{border:1.5px solid var(--bd);border-radius:8px;padding:.55rem .3rem;cursor:pointer;background:#fff;text-align:center;transition:.15s;font-family:'Inter',sans-serif;}
 .op:hover{border-color:var(--pm);background:var(--pp);}
 .op.s0{border-color:#2A7A5A;background:#E8F5EF;}
-.op.s1{border-color:#8B6240;background:#FBF0E4;}
-.op.s2{border-color:#C4743B;background:#FAF0E8;}
+.op.s1{border-color:#7B3F63;background:#FBF0E4;}
+.op.s2{border-color:#7B3F63;background:#FAF0E8;}
 .op.s3{border-color:#8B2E2E;background:#FAEAEA;}
 .on{font-size:1.05rem;font-weight:700;display:block;line-height:1;}
 .ol{font-size:.67rem;font-weight:600;display:block;margin-top:.15rem;line-height:1.2;}
@@ -306,9 +306,6 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
 </head>
 <body>
 
-<a href="https://chat.empresshealth.ai" target="_blank" class="flt">
-  <div class="dot"></div>Empress AI Chat
-</a>
 
 <!-- ══════ S0: LANDING ══════ -->
 <div id="s0" class="screen on">
@@ -325,7 +322,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
     <span class="chip">✦ Free</span>
   </div>
   <button class="cta" onclick="go('s1')">Get My Free Score →</button>
-  <p class="cta-s">Taken by 4,800+ women navigating the menopause transition</p>
+  <p class="cta-s">Taken by 1,000+ women navigating the menopause transition</p>
   <div class="gn">
     <strong>Why the Greene Climacteric Scale?</strong> Developed by Dr John Greene (1998) and validated internationally, the GCS is the clinical gold standard for menopause symptom assessment. Empress Health adapts its domains and 0–3 severity framework to deliver clinical-grade insight in a consumer-accessible format. Your 12 responses generate both an Empress HIS wellness score (higher = better) and a Greene-adapted Symptom Severity Score (lower = better).
   </div>
@@ -351,7 +348,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
     <p>Or surgical/medically-induced. Ages 45–55. Peak vasomotor burden. Metabolic changes beginning.</p>
   </button>
   <button class="sc" onclick="ps('post_menopause',this)">
-    <span class="st" style="background:#C4956A;">Post-menopause</span>
+    <span class="st" style="background:#D8A738;">Post-menopause</span>
     <h3>No period for 12 or more months</h3>
     <p>Natural menopause confirmed. Typically 55+. Genitourinary, metabolic and bone health are the priorities.</p>
   </button>
@@ -386,7 +383,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   </div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q02</span><span class="flg fr">⚠ Flag item</span></div>
+  <div class="qm"><span class="qn">Q02</span></div>
   <div class="qt">How severely have waking up drenched in sweat or feeling overheated disrupted your sleep during the night?</div>
   <div class="sr" id="r1">
     <button class="op" onclick="sel(1,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button>
@@ -441,7 +438,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div class="sr" id="r8"><button class="op" onclick="sel(8,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(8,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(8,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(8,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q10</span><span class="flg fr">⚠ Flag item</span></div>
+  <div class="qm"><span class="qn">Q10</span></div>
   <div class="qt">How often do you notice your heart suddenly racing, pounding, or skipping a beat while at rest?</div>
   <div class="sr" id="r9"><button class="op" onclick="sel(9,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(9,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(9,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(9,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
@@ -456,7 +453,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div class="sr" id="r10"><button class="op" onclick="sel(10,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(10,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(10,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(10,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q12</span><span class="flg fr">⚠ Flag item</span></div>
+  <div class="qm"><span class="qn">Q12</span></div>
   <div class="qt">Have you experienced an increased, urgent need to urinate frequently, or a rise in recurrent urinary tract discomfort?</div>
   <div class="sr" id="r11"><button class="op" onclick="sel(11,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(11,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(11,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(11,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
@@ -562,36 +559,25 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <p style="font-size:.82rem;color:var(--txs);margin-bottom:1rem;">Evidence-based picks for the areas your screener flagged as highest-priority. Always check with your provider before starting a new supplement.</p>
   <div id="prodSection"></div>
   <a href="/market" style="display:inline-block;margin-top:1rem;background:var(--plum);color:#fff;font-weight:700;font-size:.875rem;text-decoration:none;padding:.7rem 1.5rem;border-radius:100px;">Browse the curated marketplace →</a>
-</div></div>
-
-<!-- EMPRESS CHAT -->
-<div class="chat">
-<div class="chati">
-  <p style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:var(--gold);margin-bottom:.5rem;">Immediate Support</p>
-  <h2>Questions about your score?<br>Empress AI is here — 24/7, free.</h2>
-  <p>Neopolis, the Empress Health AI companion, explains your score in plain language, answers clinical questions, and guides you to the care that's right for you — right now, no appointment needed.</p>
-  <a href="https://chat.empresshealth.ai" target="_blank" class="chcta">
-    <div class="dot"></div>Chat with Empress AI — Free
-  </a>
-  <div class="chfs">
-    <div class="chf">✦ Explains your results in plain language</div>
-    <div class="chf">✦ Answers clinical questions anytime</div>
-    <div class="chf">✦ Guides you to the right package</div>
-    <div class="chf">✦ No signup required to start</div>
-  </div>
+  <p style="margin-top:1.1rem;padding:.9rem 1rem;background:var(--cm);border:1px solid var(--bd);border-radius:10px;font-size:.78rem;line-height:1.55;color:var(--txm);">
+    <strong>Disclaimer:</strong> The supplements suggested are for educational purposes only and are not medical advice.
+    Always talk to your doctor before starting a new supplement. Empress Health suggests products from our curated
+    marketplace, nothing more. We can suggest a doctor — just email
+    <a href="mailto:hello@empresshealth.ai" style="color:var(--plum);text-decoration:underline;font-weight:700;">hello@empresshealth.ai</a>.
+  </p>
 </div></div>
 
 <!-- SOCIAL PROOF -->
 <div class="soc">
 <div class="soci">
   <p style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin-bottom:.35rem;">Women who took this screener</p>
-  <h2 style="color:#fff;font-size:1.3rem;margin-bottom:.875rem;">4,800+ women. One shared truth: <em style="color:var(--gold);">it's not in your head.</em></h2>
+  <h2 style="color:#fff;font-size:1.3rem;margin-bottom:.875rem;">1,000+ women. One shared truth: <em style="color:var(--gold);">it's not in your head.</em></h2>
   <div class="tg">
     <div class="tc"><p>"I scored 38 — Critical. My GP had been dismissing me for two years. I printed this report and walked in with data. Three weeks later I have a real treatment plan."</p><div class="tcb">Sarah M. · 47 · Perimenopause · UK</div></div>
     <div class="tc"><p>"The domain breakdown showed my Cognitive/Mood score was 22/100. That single insight changed how I talked about my symptoms. I finally had a name for what was happening."</p><div class="tcb">Jennifer K. · 52 · Menopause · California</div></div>
   </div>
   <div class="str">
-    <div class="st2"><div class="stn">4,800+</div><div class="stl">screeners completed</div></div>
+    <div class="st2"><div class="stn">1,000+</div><div class="stl">screeners completed</div></div>
     <div class="st2"><div class="stn">94%</div><div class="stl">felt "truly seen"</div></div>
     <div class="st2"><div class="stn">89%</div><div class="stl">took clinical action</div></div>
   </div>
@@ -599,7 +585,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
 
 <footer>
 <div style="max-width:740px;margin:0 auto;">
-  <div class="fl"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Methodology</a><a href="https://chat.empresshealth.ai">Empress Chat</a><a href="#">Contact</a></div>
+  <div class="fl"><a href="#">Privacy</a><a href="#">Terms</a><a href="mailto:hello@empresshealth.ai">Contact</a></div>
   <p>Empress Health · 12-Question Mini HIS Screener · Greene Climacteric Scale Adapted (Greene, 1998)<br>
   Wellness assessment tool only — not a medical diagnosis, clinical assessment, or treatment recommendation.<br>
   References: Greene Climacteric Scale · The Menopause Society · MENQOL · SWAN · NHS Inform · NCBI/NIH<br>
@@ -636,15 +622,15 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
 
 /* ── CONSTANTS ── */
 const DOMS=[
-  {id:1,name:"Vasomotor Symptoms",     short:"Vasomotor",      color:"#D85A30",qs:[0,1]},
+  {id:1,name:"Vasomotor Symptoms",     short:"Vasomotor",      color:"#7B3F63",qs:[0,1]},
   {id:2,name:"Cognitive & Psychological",short:"Cognitive/Mood",color:"#534AB7",qs:[2,3,4,5,6]},
-  {id:3,name:"Somatic & Metabolic",    short:"Somatic/Metabolic",color:"#BA7517",qs:[7,8,9]},
+  {id:3,name:"Somatic & Metabolic",    short:"Somatic/Metabolic",color:"#D8A738",qs:[7,8,9]},
   {id:4,name:"Genitourinary Symptoms", short:"Genitourinary",  color:"#7F77DD",qs:[10,11]},
 ];
 const W={perimenopause:[25,40,20,15],menopause:[35,30,20,15],post_menopause:[20,25,25,30]};
 const FLAGS={
   1:{qi:1,t:2,p:"RECOMMENDED",lbl:"Night sweats (Q02)",
-     ref:"Moderate-severe night sweats disrupting sleep — worth discussing HRT eligibility or non-hormonal options (fezolinetant/SSRIs/SNRIs) with your provider."},
+     ref:"Moderate-severe night sweats disrupting sleep — worth discussing your options with a menopause specialist."},
   6:{qi:6,t:2,p:"RECOMMENDED",lbl:"Anxiety / panic (Q07)",
      ref:"Moderate-severe anxiety symptoms are worth discussing with your provider alongside menopause management."},
   9:{qi:9,t:2,p:"RECOMMENDED",lbl:"Heart palpitations (Q10)",
@@ -676,8 +662,8 @@ const PRODUCTS={
     {n:"Sea Buckthorn Oil (Omega-7)",w:"Supports mucosal tissue hydration from the inside out."},
   ],
 };
-const HB=[{m:85,l:"Thriving",c:"#1D9E75"},{m:70,l:"Flourishing",c:"#639922"},{m:55,l:"Managing",c:"#EF9F27"},{m:40,l:"Struggling",c:"#D85A30"},{m:1,l:"Critical",c:"#A32D2D"}];
-const GB=[{max:7,l:"Minimal",c:"#1D9E75"},{max:14,l:"Mild",c:"#639922"},{max:21,l:"Moderate",c:"#EF9F27"},{max:28,l:"Significant",c:"#C4743B"},{max:36,l:"Severe",c:"#A32D2D"}];
+const HB=[{m:85,l:"Thriving",c:"#1D9E75"},{m:70,l:"Flourishing",c:"#639922"},{m:55,l:"Managing",c:"#D8A738"},{m:40,l:"Struggling",c:"#7B3F63"},{m:1,l:"Critical",c:"#A32D2D"}];
+const GB=[{max:7,l:"Minimal",c:"#1D9E75"},{max:14,l:"Mild",c:"#639922"},{max:21,l:"Moderate",c:"#D8A738"},{max:28,l:"Significant",c:"#7B3F63"},{max:36,l:"Severe",c:"#A32D2D"}];
 
 /* ── STATE ── */
 let stage=null,mht=false,R=new Array(12).fill(null),answered=0;
@@ -741,7 +727,7 @@ function his(dScores,stg){
 const getHB=h=>HB.find(b=>h>=b.m)||HB[HB.length-1];
 const getGB=g=>GB.find(b=>g<=b.max)||GB[GB.length-1];
 const getDB=s=>s>=70?'High':s>=35?'Moderate':'Low';
-const getDBStyle=b=>b==='High'?{bg:'#E8F5EF',tx:'#2A7A5A'}:b==='Moderate'?{bg:'#FBF0E4',tx:'#8B6240'}:{bg:'#FAEAEA',tx:'#8B2E2E'};
+const getDBStyle=b=>b==='High'?{bg:'#E8F5EF',tx:'#2A7A5A'}:b==='Moderate'?{bg:'#FBF0E4',tx:'#7B3F63'}:{bg:'#FAEAEA',tx:'#8B2E2E'};
 
 function detectFlags(resp){
   return Object.values(FLAGS)
@@ -801,32 +787,35 @@ function gen(){
   const topS=dS.indexOf(Math.max(...dS));
 
   go('sr');
-  drawRing(hisV,hb.c);
+  // Score presented in white/cream on the plum hero — no colour-coding.
+  var SC='#FEFCF8';
+  drawRing(hisV,SC);
 
   /* Hero */
   el('hscore').textContent=hisV;
   el('hband').textContent=`HIS · ${hb.l}`;
-  el('hband').style.color=hb.c;
+  el('hband').style.color=SC;
   el('hisBand').textContent=hb.l;
-  el('hisBand').style.color=hb.c;
+  el('hisBand').style.color=SC;
   el('hisBandDesc').textContent=bandDesc(hisV,hb.l,stLbl);
   el('rhs').textContent=`12-Question Screener · ${stLbl} · Greene Climacteric Scale`;
   el('gscore').textContent=gcsV;
-  el('gscore').style.color=gb.c;
+  el('gscore').style.color=SC;
   el('gfill').style.width=(gcsV/36*100)+'%';
-  el('gfill').style.background=gb.c;
+  el('gfill').style.background=SC;
   el('gband').textContent=`Symptom Severity · ${gb.l}`;
   el('stageInDomain').textContent=stLbl;
   el('hisMeta').innerHTML=`
     <div class="mi"><div class="ml">Stage</div><div class="mv">${stLbl}</div></div>
-    <div class="mi"><div class="ml">HIS / 100</div><div class="mv" style="color:${hb.c};">${hisV}</div></div>
-    <div class="mi"><div class="ml">GCS / 36</div><div class="mv" style="color:${gb.c};">${gcsV}</div></div>
+    <div class="mi"><div class="ml">HIS / 100</div><div class="mv" style="color:${SC};">${hisV}</div></div>
+    <div class="mi"><div class="ml">GCS / 36</div><div class="mv" style="color:${SC};">${gcsV}</div></div>
     <div class="mi"><div class="ml">Flags</div><div class="mv">${flags.length} triggered</div></div>
     <div class="mi"><div class="ml">Top concern</div><div class="mv">${DOMS[topC].short}</div></div>
     <div class="mi"><div class="ml">HRT</div><div class="mv">${mht?'Active':'No'}</div></div>`;
 
-  /* Scoring logic box */
-  el('slbox').innerHTML=scoringBox(hisV,gcsV,dS,dBands,hb,gb,wts,stLbl);
+  /* Scoring methodology intentionally NOT shown — the formula and weight
+     matrix are proprietary/internal. */
+  el('slbox').innerHTML='';
 
   /* Story */
   el('story').innerHTML=buildStory(hisV,hb.l,gcsV,gb.l,dS,dBands,flags,stLbl,topC,topS);
@@ -837,7 +826,7 @@ function gen(){
     const{bg,tx}=getDBStyle(b);
     return`<div class="dpr">
       <div class="dpd" style="background:${d.color};"></div>
-      <div class="dpn">${d.short} <span style="font-size:.63rem;color:var(--txs);">${w}%</span></div>
+      <div class="dpn">${d.short}</div>
       <div class="dbt" style="flex:1;"><div class="dbf" style="width:${s}%;background:${d.color};"></div></div>
       <div class="dps" style="color:${tx};">${s.toFixed(1)}</div>
       <div class="dpb" style="background:${bg};color:${tx};">${b}</div>
@@ -858,7 +847,7 @@ function gen(){
       <div class="dch">
         <div>
           <h3 style="font-size:.9375rem;margin-bottom:.2rem;">D${i+1} — ${d.name}</h3>
-          <p style="font-size:.7rem;color:var(--txs);margin:0;">${wts[i]}% weight · ${stLbl}</p>
+          <p style="font-size:.7rem;color:var(--txs);margin:0;">${stLbl}</p>
         </div>
         <div class="dcb" style="background:${bg};">
           <div class="dcbn" style="color:${tx};">${s.toFixed(1)}</div>
@@ -879,7 +868,7 @@ function gen(){
   el('prodSection').innerHTML=prio.map(function(di){
     var ps=PRODUCTS[di+1]||[];
     if(!ps.length) return '';
-    return '<div style="margin-bottom:1.1rem;"><div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:'+DOMS[di].color+';margin-bottom:.5rem;">For your '+DOMS[di].short+'</div>'+
+    return '<div style="margin-bottom:1.1rem;"><div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:'+DOMS[di].color+';margin-bottom:.5rem;">For your '+DOMS[di].short+' symptoms</div>'+
       ps.map(function(p){return '<div class="fc fcr"><div><div class="fch">'+p.n+'</div><p class="fcp">'+p.w+'</p></div></div>';}).join('')+'</div>';
   }).join('');
 }
@@ -951,7 +940,7 @@ function buildStory(h,bl,g,gl,dS,dBands,flags,sl,topC,topS){
 }
 
 function domNarrative(id,band){
-  const n={1:{High:"Vasomotor symptoms are minimal or well-managed. Maintain trigger-awareness habits (alcohol, caffeine, stress) and monitor quarterly.",Moderate:"Hot flashes and night sweats are creating a moderate cascade — each episode disrupts sleep and amplifies cognitive and mood symptoms the following day. Vasomotor management is your highest-leverage intervention.",Low:"Severe vasomotor burden is driving a whole-system cascade. Clinical evaluation for HRT or fezolinetant is strongly recommended. Lifestyle measures alone are insufficient at this severity."},2:{High:"Cognitive and psychological resilience is strong. Estradiol's neurochemical impact is not significantly impairing mood, memory, or mental performance at this stage.",Moderate:"Brain fog, mood volatility, and sleep disruption are neurochemical events driven by estradiol's role in serotonin, GABA, and dopamine — not a personality change. Aerobic exercise 5×/week is the highest-evidence non-hormonal intervention.",Low:"Severe cognitive and psychological burden requires active clinical support. Both HRT and SSRIs/SNRIs have strong evidence for this symptom cluster at this stage."},3:{High:"Somatic and metabolic health is well-maintained. Resistance training 3×/week is your primary long-term protective investment.",Moderate:"Joint aches, metabolic shifts, and energy changes reflect estrogen's direct role in muscle, insulin sensitivity, and cardiovascular tone. Resistance training and protein prioritisation are the key interventions.",Low:"Significant somatic and metabolic burden warrants clinical investigation: fasting metabolic panel, thyroid function, and cardiac evaluation if palpitations were flagged."},4:{High:"Genitourinary health is well-preserved. Proactive use of vaginal moisturisers 3×/week is worthwhile even without current symptoms.",Moderate:"Developing GSM and bladder changes reflect estrogen receptor loss in the genitourinary tract. Local vaginal estrogen is safe, highly effective, and minimally absorbed systemically.",Low:"Significant GSM requires clinical evaluation. GSM does not self-resolve. Vaginal estrogen or ospemifene are the evidence-based treatments — please seek clinical evaluation."}};
+  const n={1:{High:"Vasomotor symptoms are minimal or well-managed. Maintain trigger-awareness habits (alcohol, caffeine, stress) and monitor quarterly.",Moderate:"Hot flashes and night sweats are creating a moderate cascade — each episode disrupts sleep and amplifies cognitive and mood symptoms the following day. Vasomotor management is your highest-leverage intervention.",Low:"Severe vasomotor burden is driving a whole-system cascade. Clinical evaluation with a menopause specialist is strongly recommended. Lifestyle measures alone are insufficient at this severity."},2:{High:"Cognitive and psychological resilience is strong. Estradiol's neurochemical impact is not significantly impairing mood, memory, or mental performance at this stage.",Moderate:"Brain fog, mood volatility, and sleep disruption are neurochemical events driven by estradiol's role in serotonin, GABA, and dopamine — not a personality change. Aerobic exercise 5×/week is the highest-evidence non-hormonal intervention.",Low:"Severe cognitive and psychological burden requires active clinical support. There are well-evidenced treatment options worth discussing with a menopause specialist."},3:{High:"Somatic and metabolic health is well-maintained. Resistance training 3×/week is your primary long-term protective investment.",Moderate:"Joint aches, metabolic shifts, and energy changes reflect estrogen's direct role in muscle, insulin sensitivity, and cardiovascular tone. Resistance training and protein prioritisation are the key interventions.",Low:"Significant somatic and metabolic burden warrants clinical investigation: fasting metabolic panel, thyroid function, and cardiac evaluation if palpitations were flagged."},4:{High:"Genitourinary health is well-preserved. Proactive use of vaginal moisturisers 3×/week is worthwhile even without current symptoms.",Moderate:"Developing GSM and bladder changes reflect estrogen receptor loss in the genitourinary tract. Local vaginal estrogen is safe, highly effective, and minimally absorbed systemically.",Low:"Significant GSM requires clinical evaluation. GSM does not self-resolve. Vaginal estrogen or ospemifene are the evidence-based treatments — please seek clinical evaluation."}};
   return(n[id]||{})[band]||'';
 }
 function domScience(id){
@@ -959,7 +948,7 @@ function domScience(id){
   return s[id]||'';
 }
 function domActions(id,band){
-  const a={1:{Low:["Book a GP appointment this week — discuss HRT or fezolinetant eligibility","Keep a 2-week hot flash diary: time, duration, triggers (alcohol, caffeine, stress)","Eliminate alcohol and caffeine for 4 weeks","Bedroom: 65–67°F, moisture-wicking bedding, bedside fan"],Moderate:["Track vasomotor triggers for 2 weeks","Paced breathing at flash onset: 4s inhale, 7s hold, 8s exhale","Reduce caffeine by 50%; none after 12pm","Discuss phytoestrogen supplementation with your provider"],High:["Maintain current trigger-avoidance habits","Quarterly reassessment to catch any escalation"]},2:{Low:["Aerobic exercise 30 min, 5×/week — directly increases BDNF","Eliminate alcohol — worsens GABA and serotonin function the following day","Sleep restoration is the #1 cognitive lever — address D1 vasomotor triggers first","Ask your GP about SSRI/SNRI — simultaneously helps mood and vasomotor symptoms"],Moderate:["Aerobic exercise 5×/week for BDNF and serotonin support","Strict sleep/wake schedule 7 days/week, same time ±20 minutes","Alcohol reduction or elimination","Single-task 25-minute focus blocks — reduce demand on impaired working memory"],High:["Maintain aerobic exercise as your primary brain-protective habit","Quarterly HIS reassessment to track cognitive domain trajectory"]},3:{Low:["Request fasting glucose, HbA1c, fasting lipids, thyroid function from your GP","Resistance training 3×/week — most effective metabolic and MSK intervention","Protein: 1.6g/kg bodyweight/day","ECG if palpitations are present — evaluate clinically before attributing to menopause"],Moderate:["Resistance training 2–3×/week for metabolic and joint health","Protein at every meal: 25–30g per sitting","Anti-inflammatory nutrition: omega-3s, colourful vegetables","Annual metabolic panel — vital sign for this stage"],High:["Maintain resistance and impact exercise as primary protective habits","Annual metabolic check regardless of symptoms"]},4:{Low:["Discuss local vaginal estrogen with your GP today — safe, effective, minimally absorbed","Vaginal moisturisers (hyaluronic acid-based) 3×/week","Pelvic floor physiotherapy — addresses both sexual function and bladder control","Discuss ospemifene if vaginal estrogen is declined"],Moderate:["Vaginal moisturiser 3×/week as baseline","Pelvic floor exercises daily","Discuss local vaginal estrogen with your provider","Adequate hydration: 2L water daily"],High:["Vaginal moisturiser as preventive habit even without severe symptoms","Pelvic floor exercises as long-term bladder-control investment"]}};
+  const a={1:{Low:["Consult a menopause specialist to discuss your options for your vasomotor symptoms — <a href='mailto:hello@empresshealth.ai' style='color:var(--plum);text-decoration:underline;font-weight:700;'>email hello@empresshealth.ai</a>","Keep a 2-week hot flash diary: time, duration, triggers (alcohol, caffeine, stress)","Eliminate alcohol and caffeine for 4 weeks","Bedroom: 65–67°F, moisture-wicking bedding, bedside fan"],Moderate:["Track vasomotor triggers for 2 weeks","Paced breathing at flash onset: 4s inhale, 7s hold, 8s exhale","Reduce caffeine by 50%; none after 12pm","Discuss phytoestrogen supplementation with your provider"],High:["Maintain current trigger-avoidance habits","Quarterly reassessment to catch any escalation"]},2:{Low:["Aerobic exercise 30 min, 5×/week — directly increases BDNF","Eliminate alcohol — worsens GABA and serotonin function the following day","Sleep restoration is the #1 cognitive lever — address D1 vasomotor triggers first","Ask your GP about SSRI/SNRI — simultaneously helps mood and vasomotor symptoms"],Moderate:["Aerobic exercise 5×/week for BDNF and serotonin support","Strict sleep/wake schedule 7 days/week, same time ±20 minutes","Alcohol reduction or elimination","Single-task 25-minute focus blocks — reduce demand on impaired working memory"],High:["Maintain aerobic exercise as your primary brain-protective habit","Quarterly HIS reassessment to track cognitive domain trajectory"]},3:{Low:["Request fasting glucose, HbA1c, fasting lipids, thyroid function from your GP","Resistance training 3×/week — most effective metabolic and MSK intervention","Protein: 1.6g/kg bodyweight/day","ECG if palpitations are present — evaluate clinically before attributing to menopause"],Moderate:["Resistance training 2–3×/week for metabolic and joint health","Protein at every meal: 25–30g per sitting","Anti-inflammatory nutrition: omega-3s, colourful vegetables","Annual metabolic panel — vital sign for this stage"],High:["Maintain resistance and impact exercise as primary protective habits","Annual metabolic check regardless of symptoms"]},4:{Low:["Discuss local vaginal estrogen with your GP today — safe, effective, minimally absorbed","Vaginal moisturisers (hyaluronic acid-based) 3×/week","Pelvic floor physiotherapy — addresses both sexual function and bladder control","Discuss ospemifene if vaginal estrogen is declined"],Moderate:["Vaginal moisturiser 3×/week as baseline","Pelvic floor exercises daily","Discuss local vaginal estrogen with your provider","Adequate hydration: 2L water daily"],High:["Vaginal moisturiser as preventive habit even without severe symptoms","Pelvic floor exercises as long-term bladder-control investment"]}};
   return((a[id]||{})[band]||['Monitor this domain quarterly.']).slice(0,4);
 }
 
