@@ -2919,6 +2919,8 @@ app.post("/api/free-score-lead", async (req, res) => {
       source:    "free-12q-screener",
       firstName: typeof b.firstName === "string" ? b.firstName.slice(0, 80) : null,
       email:     email.slice(0, 200),
+      zip:       typeof b.zip === "string" ? b.zip.replace(/[^\d]/g, "").slice(0, 5) : null,
+      phone:     typeof b.phone === "string" ? b.phone.slice(0, 40) : null,
       stage:     typeof b.stage === "string" ? b.stage.slice(0, 40) : null,
       hrt:       b.hrt === true,
       his:       Number.isFinite(Number(b.his)) ? Number(b.his) : null,

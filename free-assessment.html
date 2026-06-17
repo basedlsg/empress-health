@@ -421,7 +421,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div class="sr" id="r5"><button class="op" onclick="sel(5,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(5,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(5,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(5,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q07</span><span class="flg fr">⚠ Flag item</span></div>
+  <div class="qm"><span class="qn">Q07</span></div>
   <div class="qt">How often do you feel an underlying sense of tension, nervousness, or sudden unprovoked bouts of anxiety?</div>
   <div class="sr" id="r6"><button class="op" onclick="sel(6,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(6,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(6,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(6,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
@@ -451,7 +451,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <div><h3>Genitourinary Symptoms</h3><p>Vaginal & bladder health · MENQOL — Genitourinary Subscale</p></div>
 </div>
 <div class="qc">
-  <div class="qm"><span class="qn">Q11</span><span class="flg fr">⚠ Flag item</span></div>
+  <div class="qm"><span class="qn">Q11</span></div>
   <div class="qt">To what degree are you experiencing vaginal dryness, irritation, or discomfort during intimate moments?</div>
   <div class="sr" id="r10"><button class="op" onclick="sel(10,0,this)"><span class="on">0</span><span class="ol">Not at all</span></button><button class="op" onclick="sel(10,1,this)"><span class="on">1</span><span class="ol">Mild</span></button><button class="op" onclick="sel(10,2,this)"><span class="on">2</span><span class="ol">Moderate</span></button><button class="op" onclick="sel(10,3,this)"><span class="on">3</span><span class="ol">Severe</span></button></div>
 </div>
@@ -477,7 +477,11 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">First name</label>
   <input id="se-name" type="text" placeholder="e.g. Sarah" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
   <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">Email</label>
-  <input id="se-email" type="email" placeholder="you@example.com" autocomplete="email" style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.4rem;">
+  <input id="se-email" type="email" placeholder="you@example.com" autocomplete="email" required style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
+  <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">ZIP code</label>
+  <input id="se-zip" type="text" inputmode="numeric" maxlength="5" placeholder="90210" autocomplete="postal-code" required style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
+  <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">Phone <span style="text-transform:none;letter-spacing:normal;color:var(--txs);opacity:.7;font-weight:500;">(optional)</span></label>
+  <input id="se-phone" type="tel" placeholder="(555) 123-4567" autocomplete="tel" style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.4rem;">
   <p id="se-err" style="display:none;color:#A32D2D;font-size:.82rem;margin:.2rem 0 .6rem;"></p>
   <button class="bsub" id="se-go" onclick="submitEmail()" style="margin-top:1rem;">Reveal My Score →</button>
   <p style="font-size:.72rem;color:var(--txs);text-align:center;margin-top:.7rem;">No spam. We email your results and occasional menopause-wellness tips. Unsubscribe anytime.</p>
@@ -753,10 +757,17 @@ function goEmail(){
 function submitEmail(){
   var name=(document.getElementById('se-name').value||'').trim();
   var email=(document.getElementById('se-email').value||'').trim();
+  var zip=(document.getElementById('se-zip').value||'').replace(/[^\d]/g,'').slice(0,5);
+  var phone=(document.getElementById('se-phone').value||'').trim();
   var err=document.getElementById('se-err');
+  // Email + ZIP are required; phone is optional.
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
     err.textContent='Please enter a valid email address.'; err.style.display='block';
-    return;
+    document.getElementById('se-email').focus(); return;
+  }
+  if(!/^\d{5}$/.test(zip)){
+    err.textContent='Please enter your 5-digit ZIP code.'; err.style.display='block';
+    document.getElementById('se-zip').focus(); return;
   }
   err.style.display='none';
   // Compute the score so we can store/email the lead with its result.
@@ -769,7 +780,7 @@ function submitEmail(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       credentials:'same-origin',
-      body:JSON.stringify({firstName:name,email:email,stage:stage,hrt:mht,his:hisV,gcs:gcsV,responses:resp})
+      body:JSON.stringify({firstName:name,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:hisV,gcs:gcsV,responses:resp})
     }).catch(function(){});
   }catch(e){}
   gen();
