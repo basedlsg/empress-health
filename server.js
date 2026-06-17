@@ -912,7 +912,7 @@ async function generateRecommendations(userProfile, requestId) {
       let evidenceRefs = prod.evidence_refs.slice();
 
       if (retrievedContext.context && process.env.GOOGLE_API_KEY) {
-        const sysPrompt = `You are a women's health content writer. Write only the personalised reason text. Cite no products outside the provided list. Do NOT invent product names, dosages, or brand names. Reference the clinical context provided to ground your reason. Output JSON: {"reason": "...", "evidence_refs": ["chunk-id-1", "chunk-id-2"]}`;
+        const sysPrompt = `You are a women's health content writer. Write only the personalised reason text. Cite no products outside the provided list. Do NOT invent product names, dosages, or brand names. Use the clinical context only to inform your reasoning — do NOT quote it. CRITICAL: Never include citations, references, study names, organisation names, journal names, or years (e.g. do not write "(The Menopause Society, 2023)" or "according to a study"). Write in plain, warm, everyday language with no source attributions of any kind. Output JSON: {"reason": "...", "evidence_refs": ["chunk-id-1", "chunk-id-2"]}`;
         const llmUserPrompt = `Clinical context:\n${retrievedContext.context}\n\nProduct: ${prod.name}\nUser stage: ${stage}, priority areas: ${priorityCategories.join(", ")}\n\nWrite a personalised reason (under 60 words) for why this product is relevant for this user. Include the 1-2 most relevant chunk IDs from the context above as evidence_refs.`;
 
         try {
@@ -2915,18 +2915,94 @@ app.post("/api/free-score-lead", async (req, res) => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({ error: "A valid email is required." });
     }
+    const firstName = typeof b.firstName === "string" ? b.firstName.slice(0, 80) : null;
+    const stage     = typeof b.stage === "string" ? b.stage.slice(0, 40) : null;
+    const his       = Number.isFinite(Number(b.his)) ? Number(b.his) : null;
+    const gcs       = Number.isFinite(Number(b.gcs)) ? Number(b.gcs) : null;
+
     await notify("lead", {
       source:    "free-12q-screener",
-      firstName: typeof b.firstName === "string" ? b.firstName.slice(0, 80) : null,
+      firstName,
       email:     email.slice(0, 200),
       zip:       typeof b.zip === "string" ? b.zip.replace(/[^\d]/g, "").slice(0, 5) : null,
       phone:     typeof b.phone === "string" ? b.phone.slice(0, 40) : null,
-      stage:     typeof b.stage === "string" ? b.stage.slice(0, 40) : null,
+      stage,
       hrt:       b.hrt === true,
-      his:       Number.isFinite(Number(b.his)) ? Number(b.his) : null,
-      gcs:       Number.isFinite(Number(b.gcs)) ? Number(b.gcs) : null,
+      his,
+      gcs,
       responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
     });
+
+    // Best-effort: email the user their own report copy. Sends via SMTP when
+    // configured; otherwise logged to email_outbox.log. Never blocks the score.
+    try {
+      const { sendEmail } = require("./lib/email-sender");
+      // HIS bands (higher = better) and GCS bands (higher = more symptom burden),
+      // mirrored from the free screener client.
+      const HB = [
+        { m: 85, l: "Thriving" }, { m: 70, l: "Flourishing" }, { m: 55, l: "Managing" },
+        { m: 40, l: "Struggling" }, { m: 1, l: "Critical" },
+      ];
+      const GB = [
+        { max: 7, l: "Minimal" }, { max: 14, l: "Mild" }, { max: 21, l: "Moderate" },
+        { max: 28, l: "Significant" }, { max: 36, l: "Severe" },
+      ];
+      const hisBand = his != null ? (HB.find((x) => his >= x.m) || HB[HB.length - 1]).l : "—";
+      const gcsBand = gcs != null ? (GB.find((x) => gcs <= x.max) || GB[GB.length - 1]).l : "—";
+      const hello = firstName ? `Hi ${firstName},` : "Hi there,";
+      const html = `
+        <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#3a2030;">
+          <div style="background:#4A1A3A;padding:28px 24px;border-radius:12px 12px 0 0;text-align:center;">
+            <p style="color:#D8A738;letter-spacing:.18em;font-size:11px;font-weight:700;text-transform:uppercase;margin:0 0 6px;">Empress Health</p>
+            <p style="color:#ffffff;font-size:18px;margin:0;">Your 12-Question Screener Results</p>
+          </div>
+          <div style="background:#FEFCF8;padding:24px;border:1px solid #eee;border-top:0;border-radius:0 0 12px 12px;">
+            <p>${hello}</p>
+            <p>Here is a copy of your results. Keep it for your records or share it with your healthcare provider.</p>
+            <table style="width:100%;border-collapse:collapse;margin:18px 0;">
+              <tr>
+                <td style="padding:12px;background:#fff;border:1px solid #eee;border-radius:8px;width:50%;text-align:center;">
+                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">Health Intelligence</div>
+                  <div style="font-size:34px;font-weight:700;color:#4A1A3A;">${his != null ? his : "—"}<span style="font-size:15px;color:#999;">/100</span></div>
+                  <div style="font-size:13px;color:#7B3F63;">${hisBand}</div>
+                </td>
+                <td style="padding:12px;background:#fff;border:1px solid #eee;border-radius:8px;width:50%;text-align:center;">
+                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">Symptom Burden</div>
+                  <div style="font-size:34px;font-weight:700;color:#4A1A3A;">${gcs != null ? gcs : "—"}<span style="font-size:15px;color:#999;">/36</span></div>
+                  <div style="font-size:13px;color:#7B3F63;">${gcsBand}</div>
+                </td>
+              </tr>
+            </table>
+            ${stage ? `<p style="font-size:13px;color:#7B3F63;margin:0 0 16px;">Life stage: <strong>${stage}</strong></p>` : ""}
+            <p style="font-size:12px;color:#777;line-height:1.7;background:#fff;border:1px solid #eee;border-radius:8px;padding:14px;">
+              <strong>Disclaimer:</strong> This is a wellness assessment tool only — not a medical diagnosis,
+              clinical assessment, or treatment recommendation. Always talk to your doctor before starting a new
+              supplement or treatment. Empress Health suggests products from our curated marketplace; we can also
+              suggest a doctor.
+            </p>
+            <p style="font-size:13px;color:#4A1A3A;">Questions? Contact us. Email:
+              <a href="mailto:hello@empresshealth.ai" style="color:#7B3F63;">hello@empresshealth.ai</a>
+            </p>
+            <p style="font-size:11px;color:#aaa;">© 2025 Empress Health. All rights reserved.</p>
+          </div>
+        </div>`;
+      const text = `${hello}\n\nYour 12-Question Screener results:\n` +
+        `Health Intelligence: ${his != null ? his : "—"}/100 (${hisBand})\n` +
+        `Symptom Burden: ${gcs != null ? gcs : "—"}/36 (${gcsBand})\n` +
+        (stage ? `Life stage: ${stage}\n` : "") +
+        `\nDisclaimer: This is a wellness assessment tool only — not a medical diagnosis. ` +
+        `Always talk to your doctor before starting a new supplement or treatment.\n\n` +
+        `Contact us. Email: hello@empresshealth.ai\n© 2025 Empress Health.`;
+      await sendEmail({
+        to: email.slice(0, 200),
+        subject: "Your Empress Health screener results",
+        html,
+        text,
+      });
+    } catch (mailErr) {
+      console.error("[free-score-lead] email copy failed:", mailErr.message);
+    }
+
     return res.json({ ok: true });
   } catch (err) {
     console.error("[free-score-lead] failed:", err.message);
