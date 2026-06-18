@@ -344,6 +344,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
 <div id="s1" class="screen">
 <div class="bar"><div class="bar-i"><div class="brand">Empress <em>Health</em></div><span class="fbadge">Free Screener</span></div></div>
 <div class="w" style="padding-top:1.5rem;padding-bottom:2.5rem;">
+  <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:var(--pm);text-align:center;margin-bottom:1.1rem;">You Are Seen. You Are Heard.</p>
   <p style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--pm);margin-bottom:.3rem;">Step 1 of 2</p>
   <h2 style="font-size:1.45rem;margin-bottom:.45rem;">Where are you in your journey?</h2>
   <p style="font-size:.85rem;color:var(--txs);margin-bottom:1.1rem;">Your stage determines the weight matrix — clinical priorities shift across the menopause continuum.</p>
@@ -651,24 +652,30 @@ const FLAGS={
 };
 /* Evidence-based product recommendations per domain (id 1–4). Shown for the
    user's priority (lowest-scoring) domains on the results page. */
+/* GUARDRAIL — every product below must be a verbatim entry in
+   data/product_catalog.json (our Pinecone-grounded curated marketplace).
+   Do NOT add generic or off-catalog supplement names here; if it isn't in the
+   catalog, it cannot be recommended. Validated against the catalog at build time
+   by scripts/test-free-quiz-products.mjs. */
 const PRODUCTS={
   1:[
-    {n:"Cooling Adaptogen Blend (Ashwagandha KSM-66 + Rhodiola)",w:"Blunts the HPA-axis cortisol surge that intensifies hot flashes and night sweats."},
+    {n:"Adaptogen Blend (Ashwagandha KSM-66 + Rhodiola 3%)",w:"Blunts the HPA-axis cortisol surge that intensifies hot flashes and night sweats."},
+    {n:"Black Cohosh Extract 40mg (Standardised Triterpene Glycosides)",w:"Standardised extract traditionally used to ease vasomotor frequency and intensity."},
     {n:"Magnesium Glycinate 400mg",w:"Calms the nervous system and supports deeper, cooler sleep through the night."},
   ],
   2:[
-    {n:"Omega-3 EPA/DHA (2g daily)",w:"Supports mood, focus, and the estradiol–serotonin pathway behind brain fog."},
-    {n:"Active B-Complex (Methylfolate + B12)",w:"Energy and neurotransmitter support for fatigue and mental clarity."},
+    {n:"Omega-3 EPA/DHA 2g Daily",w:"Supports mood, focus, and the estradiol–serotonin pathway behind brain fog."},
+    {n:"Active B-Complex (Methylfolate + P5P + Methylcobalamin)",w:"Energy and neurotransmitter support for fatigue and mental clarity."},
     {n:"Magnesium Glycinate 400mg",w:"Eases anxiety and improves sleep onset and quality."},
   ],
   3:[
-    {n:"Vitamin D3 + K2",w:"Bone, muscle, and metabolic support as estrogen declines."},
-    {n:"Hydrolysed Collagen + Protein",w:"Preserves muscle mass and joint comfort; supports body composition."},
-    {n:"Omega-3 EPA/DHA",w:"Anti-inflammatory support for joints and cardiovascular health."},
+    {n:"Vitamin D3 + K2 (D3 5000 IU / K2 MK-7 200mcg)",w:"Bone, muscle, and metabolic support as estrogen declines."},
+    {n:"Marine Collagen Peptides 10g",w:"Supports joint comfort, skin, and lean body composition."},
+    {n:"Omega-3 EPA/DHA 2g Daily",w:"Anti-inflammatory support for joints and cardiovascular health."},
   ],
   4:[
-    {n:"Hyaluronic-Acid Vaginal Moisturiser",w:"Non-hormonal relief for dryness and intimate discomfort."},
-    {n:"Sea Buckthorn Oil (Omega-7)",w:"Supports mucosal tissue hydration from the inside out."},
+    {n:"Non-Hormonal Vaginal Moisturiser (Hyaluronic Acid + Vitamin E, pH-matched)",w:"Non-hormonal, pH-matched relief for dryness and intimate discomfort."},
+    {n:"Phytoestrogen Complex (Red Clover Isoflavones 80mg + Soy Isoflavones)",w:"Plant isoflavones that gently support genitourinary and vasomotor comfort."},
   ],
 };
 const HB=[{m:85,l:"Thriving",c:"#1D9E75"},{m:70,l:"Flourishing",c:"#639922"},{m:55,l:"Managing",c:"#D8A738"},{m:40,l:"Struggling",c:"#7B3F63"},{m:1,l:"Critical",c:"#A32D2D"}];
