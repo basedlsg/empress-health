@@ -432,13 +432,19 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
     })
   }, [responses, categories])
 
-  // Visible composite: prefer HIS when computed, otherwise legacy.
-  const overall = hisResult?.his ?? legacyOverall
-  const overallStatus: CategoryStatus = hisResult
+  // Visible composite: prefer HIS only when it actually produced a score.
+  // When the assessment is too incomplete to score, hisResult exists but
+  // hisResult.his is null (band "Incomplete"). Gate the score, status, band
+  // label, and colour on a SINGLE condition so they can never disagree — the
+  // cover previously showed a legacy number (e.g. 72) next to an "Incomplete"
+  // badge because these were derived from different checks.
+  const hisUsable = hisResult != null && hisResult.his != null
+  const overall = hisUsable ? hisResult.his : legacyOverall
+  const overallStatus: CategoryStatus = hisUsable
     ? hisBandToCategoryStatus(hisResult.hisBand)
     : getCategoryStatus(overall)
-  const overallBandLabel = hisResult ? hisResult.hisBand : null
-  const overallBandColor = hisResult ? hisResult.hisColor : null
+  const overallBandLabel = hisUsable ? hisResult.hisBand : null
+  const overallBandColor = hisUsable ? hisResult.hisColor : null
   const completedLabel = formatCompletedDate(completedAt)
   const totalCategories = categoryScores.length
 

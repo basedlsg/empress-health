@@ -61,10 +61,23 @@ let dbConnected = false;
 let pool = null;
 let sessionStore = undefined;
 
-// Only create pool if database credentials are provided
-if (process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process.env.DB_PASSWORD) {
+// Create a pool if EITHER discrete DB_* vars OR a DATABASE_URL is provided.
+// Serverless hosts (Vercel/Neon/Supabase) typically inject DATABASE_URL, so
+// supporting it means sessions get a real Postgres store there instead of
+// silently falling back to the in-memory MemoryStore (which does not persist
+// across serverless invocations — logins would not stick).
+const hasDiscreteDb = process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process.env.DB_PASSWORD;
+const hasDbUrl = Boolean(process.env.DATABASE_URL);
+if (hasDiscreteDb || hasDbUrl) {
   try {
-    pool = new Pool({
+    pool = new Pool(hasDbUrl ? {
+      connectionString: process.env.DATABASE_URL,
+      // Let sslmode in the connection string govern TLS; DB_SSL=true forces it on.
+      ssl: process.env.DB_SSL === 'true' ? true : undefined,
+      connectionTimeoutMillis: 10000,
+      idleTimeoutMillis: 30000,
+      max: 10
+    } : {
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || 5432,
       database: process.env.DB_NAME,
@@ -314,6 +327,13 @@ if (!sessionSecret) {
   console.warn('⚠️  SESSION_SECRET not set — using insecure dev default');
 }
 
+// Loudly flag the MemoryStore fallback in production: it does not persist across
+// serverless invocations or multiple instances, so logins silently won't stick.
+// Configure DATABASE_URL (or DB_HOST/DB_NAME/DB_USER/DB_PASSWORD) for a real store.
+if (!sessionStore && isProduction) {
+  console.error('❌ No session store configured — falling back to in-memory sessions. Logins will NOT persist on serverless/multi-instance. Set DATABASE_URL or DB_* to fix.');
+}
+
 app.use(session({
   store: sessionStore || undefined,
   secret: sessionSecret || 'dev-only-insecure-default',
@@ -442,19 +462,19 @@ if (fs.existsSync(assessmentIndex)) {
 
 
 // ✅ Allow only your sites (production, dev, and Vercel previews)
+// Origin values are scheme + host only — never a path or trailing slash, so
+// entries like ".../qa" or ".../" can never match a real Origin header. Kept
+// clean here; empresshealth.ai subdomains and *.vercel.app are matched by
+// hostname in isAllowedOrigin() below.
 const allowedOrigins = [
   "https://empressnaturals.co",
   "https://www.empressnaturals.co",
   "http://localhost:3000",
   "http://localhost:3100",
   "https://empress-t348.onrender.com",
-  "https://empress-mvp.onrender.com/qa",
   "https://empress-health-site.onrender.com",
-  "https://empress-mvp-ai.onrender.com/qa",
-  "https://empress-health-backend.onrender.com/",
   "https://empresshealth.ai",
-  "https://www.empresshealth.ai",
-  "https://empress-health-ai.onrender.com/"
+  "https://www.empresshealth.ai"
 ];
 
 function isAllowedOrigin(origin) {
@@ -538,21 +558,7 @@ if (!ZAPIER_CONTACT_WEBHOOK_URL) {
   console.warn('[contact] ZAPIER_CONTACT_WEBHOOK_URL not set — /api/contact will return 503');
 }
 
-// Rate limit /api/chat — relaxed so normal use doesn't hit 429; clear body for monitoring
-const chatLimiter = rateLimit({
-  windowMs: 60_000,
-  max: 60,
-  standardHeaders: true,
-  legacyHeaders: false,
-  handler: (req, res) => {
-    res.status(429).json({
-      error: "Too many requests",
-      message: "Rate limit exceeded for chat. Try again in a minute.",
-      retryAfter: 60
-    });
-  }
-});
-app.use("/api/chat", chatLimiter);
+// (chatLimiter removed with the /api/chat route — /qa has its own llmLimiter.)
 
 // Rate limit /api/shopify — proxies the Storefront GraphQL token, so abusive
 // volume from a single authenticated user would still burn the token's quota.
@@ -627,145 +633,10 @@ function trimHistory(messages, maxTurns = 10) {
   return [...system, ...kept];
 }
 
-app.post("/api/chat", async (req, res) => {
-  try {
-    // Accept both shapes: { message } or { query }
-    const raw =
-      (typeof req.body?.message === "string" ? req.body.message :
-        typeof req.body?.query === "string" ? req.body.query :
-          "");
-
-    const user = raw.trim();
-    if (!user) {
-      return res.status(400).json({ error: "message required" });
-    }
-
-    // Optional: timeout (prevents a hanging request)
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000); // 45s
-
-    const upstream = await fetch("https://empress-mvp-ai.onrender.com/qa", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // Keep if your upstream requires it; otherwise you can remove
-        "Authorization": `Bearer ${process.env.EMPRESS_CHAT_SECRET || ""}`
-      },
-      body: JSON.stringify({ query: user }),
-      signal: controller.signal
-    }).catch(err => {
-      // fetch throws on abort; surface a clean error
-      throw new Error(`Upstream fetch failed: ${err.message}`);
-    });
-    clearTimeout(timeout);
-
-    // Handle non-200s with diagnostic text
-    if (!upstream.ok) {
-      const text = await upstream.text().catch(() => "");
-      console.error("Upstream error:", upstream.status, text);
-      return res
-        .status(upstream.status)
-        .json({ error: "Upstream failed", detail: text || `status ${upstream.status}` });
-    }
-
-    // Be tolerant to either JSON or text
-    const rawText = await upstream.text();
-    let data;
-    try { data = JSON.parse(rawText); } catch { data = { response: rawText }; }
-
-    // Normalize shape so your frontend can always do data.response
-    const response =
-      data?.response ?? data?.answer ?? data?.message ?? "…";
-
-    return res.json({ response });
-  } catch (err) {
-    console.error("API /api/chat error:", err);
-    const msg = err?.message?.includes("aborted") ? "Upstream timeout" : "Internal server error";
-    return res.status(500).json({ error: msg });
-  }
-});
-
-
-/*app.post("/api/chat", async (req, res) => {
-  try {
-    const { message } = req.body || {};
-    if (!message) {
-      return res.status(400).json({ response: "Message is required", count: 0 });
-    }
-
-    // Default payload we'll always return
-    let data = { response: "Sorry, could not get a response from AI.", count: 0 };
-
-    // Timeout setup (15s)
-    const controller = new AbortController();
-    const t = setTimeout(() => controller.abort(), 40000);
-
-    let upstream;
-    try {
-      upstream = await fetch("https://empress-mvp-ai.onrender.com/qa", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "accept": "application/json"
-        },
-        body: JSON.stringify({ query: message }),
-        signal: controller.signal
-      });
-    } catch (err) {
-      clearTimeout(t);
-      if (err.name === "AbortError") {
-        return res.status(504).json({ response: "AI server timed out. Please try again.", count: 0 });
-      }
-      console.error("Network error to upstream:", err);
-      return res.status(502).json({ response: "Upstream unreachable.", count: 0 });
-    }
-
-    clearTimeout(t);
-
-    const contentType = upstream.headers.get("content-type") || "";
-    const status = upstream.status;
-    const raw = await upstream.text(); // read once
-
-    if (!raw.trim()) {
-      // Upstream returned nothing (common with crash/500)
-      console.error("Empty response from upstream. Status:", status);
-      return res.status(502).json({ response: "Upstream returned empty response.", count: 0 });
-    }
-
-    let parsed;
-    if (contentType.includes("application/json")) {
-      try {
-        parsed = JSON.parse(raw);
-      } catch (e) {
-        console.error("Invalid JSON from upstream:", e, "First 200 chars:", raw.slice(0, 200));
-        return res.status(502).json({ response: "Invalid JSON from upstream.", count: 0 });
-      }
-    } else {
-      // Fallback: upstream sent text/HTML (e.g., platform error page)
-      console.warn("Non-JSON upstream response. content-type:", contentType, "status:", status);
-      // Optionally surface a sanitized snippet to help debug
-      return res.status(502).json({
-        response: `Upstream error (status ${status}).`,
-        count: 0
-      });
-    }
-
-    if (!upstream.ok) {
-      // Upstream gave JSON but with an error status
-      const errMsg = parsed?.error || parsed?.message || `HTTP ${status}`;
-      return res.status(502).json({ response: `Upstream error: ${errMsg}`, count: 0 });
-    }
-
-    // Success path
-    data.response = parsed.response || parsed.answer || "Sorry, no response";
-    data.count = parsed.retrieved_documents_count ?? parsed.count ?? 0;
-    return res.status(200).json(data);
-
-  } catch (err) {
-    console.error("Internal server error:", err);
-    return res.status(500).json({ response: "Internal server error", count: 0 });
-  }
-});*/
+// [removed] /api/chat proxied to an external onrender service and was unused
+// by any page (the chat widget posts to the grounded local /qa; the SPA uses
+// /api/chatbot/assessment-notes). The live route + a dead commented copy were
+// deleted in the audit hardening pass. Use /qa for grounded Q&A.
 
 
 
