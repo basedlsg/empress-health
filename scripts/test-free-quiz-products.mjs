@@ -17,34 +17,44 @@ import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const html = readFileSync(join(root, "free-assessment.html"), "utf8");
 const catalog = JSON.parse(readFileSync(join(root, "data", "product_catalog.json"), "utf8"));
 const catalogArr = Array.isArray(catalog) ? catalog : (catalog.products || Object.values(catalog)[0]);
 const catalogNames = new Set(catalogArr.map((p) => p.name));
 
-// Isolate the PRODUCTS object literal.
-const start = html.indexOf("const PRODUCTS={");
-if (start === -1) {
-  console.error("FAIL: could not find `const PRODUCTS={` in free-assessment.html");
-  process.exit(1);
+// Every symptom-score page that recommends products. Each page lists products
+// as `{n:"…",w:"…"}` objects (menopause: `const PRODUCTS={…}`; the config-driven
+// track pages: `products:{…}` inside TRACK). The `{n:"…"` shape is unique to
+// product entries in all of them, so a global match is safe and future-proof.
+const QUIZ_PAGES = ["free-assessment.html", "sleep-assessment.html"];
+
+let totalChecked = 0;
+let anyFail = false;
+
+for (const page of QUIZ_PAGES) {
+  const html = readFileSync(join(root, page), "utf8");
+  const names = [...html.matchAll(/\{n:"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1].replace(/\\"/g, '"'));
+
+  if (names.length === 0) {
+    console.error(`FAIL: no product names parsed from ${page}`);
+    anyFail = true;
+    continue;
+  }
+
+  const offCatalog = names.filter((n) => !catalogNames.has(n));
+  if (offCatalog.length) {
+    console.error(`FAIL: ${offCatalog.length} product(s) in ${page} are NOT in the Pinecone-grounded catalog:`);
+    for (const n of offCatalog) console.error(`  ✗ ${n}`);
+    anyFail = true;
+    continue;
+  }
+
+  totalChecked += names.length;
+  console.log(`  ✓ ${page}: ${names.length} product recommendation(s) catalog-grounded`);
 }
-const block = html.slice(start, html.indexOf("\n};", start) + 3);
 
-// Pull every recommended product name: {n:"..."
-const names = [...block.matchAll(/\{n:"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1].replace(/\\"/g, '"'));
-
-if (names.length === 0) {
-  console.error("FAIL: no product names parsed from the PRODUCTS map");
-  process.exit(1);
-}
-
-const offCatalog = names.filter((n) => !catalogNames.has(n));
-
-if (offCatalog.length) {
-  console.error(`FAIL: ${offCatalog.length} quiz product(s) are NOT in the Pinecone-grounded catalog:`);
-  for (const n of offCatalog) console.error(`  ✗ ${n}`);
+if (anyFail) {
   console.error("\nEvery quiz recommendation must match a name in data/product_catalog.json verbatim.");
   process.exit(1);
 }
 
-console.log(`PASS: all ${names.length} free-quiz product recommendations are catalog-grounded (${catalogNames.size} catalog products).`);
+console.log(`PASS: all ${totalChecked} product recommendations across ${QUIZ_PAGES.length} score pages are catalog-grounded (${catalogNames.size} catalog products).`);
