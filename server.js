@@ -602,6 +602,22 @@ const leadLimiter = rateLimit({
 });
 app.use("/api/free-score-lead", leadLimiter);
 
+// Rate limit the paid-report PDF render: each call spawns a headless-browser
+// render, so a burst of concurrent requests can exhaust memory/CPU even though
+// the route is session-gated.
+const pdfLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 6,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many requests",
+    message: "Please wait a moment before generating another PDF.",
+    retryAfter: 60
+  })
+});
+app.use("/api/report/pdf", pdfLimiter);
+
 // ✅ Simple server-side history cap/summarize hook
 function trimHistory(messages, maxTurns = 10) {
   // keep system + last N pairs

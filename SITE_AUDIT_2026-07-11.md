@@ -6,6 +6,19 @@
 
 ---
 
+## Remediation status — branch `tier0-security-hardening` (2026-07-11)
+
+**Fixed & verified** (all Tier 0 + several Tier 1/2 quick wins):
+`vercel.json` prod mode + secret removed · PII untracked & gitignored · rate limits on `/qa`, `/api/free-trial-report`, `/api/free-score-lead`, `/api/report/pdf` · `nodemailer` + `helmet` installed · global error handler · email HTML-escaping · MHT↔HRT synonym (query-side) · `seed:upsert` repointed · CTA contrast · `npm audit fix` (0 vulns) · `notify.js` await · **chatbot citation snippets now populated** · CSRF exact-path matching · real `npm test` (7 green suites) · `engines` + `.nvmrc`.
+
+**Still requires manual action (cannot be done from code):**
+1. **Set `SESSION_SECRET` as an encrypted Vercel env var and rotate it** before deploying — the old committed value is public in git history. The app now fail-safes by throwing if it is unset in production.
+2. **Purge the already-pushed PII** — `data/affirmation-subscribers.json` is in the initial commit on `origin/main`. Removing it from history needs a coordinated `git filter-repo`/BFG + force-push across all branches (destructive — decide deliberately). Treat the exposed subscriber emails/tokens as compromised.
+
+**Deliberately deferred:** helmet CSP (needs report-only rollout — external scripts), corpus re-embed for MHT/HRT (would flip embedding model given the local `OPENAI_API_KEY`), and all remaining Tier 1–3 items below.
+
+---
+
 ## Overall verdict
 
 The **core engines are genuinely strong** — the HIS clinical scoring engine (`prds/hisEngine.ts`) self-validates at startup with banker's-rounding parity to a Python reference; the grounding pipeline resolves every curated citation; SQL is uniformly parameterized; and the P0/P1 items from the May release report really are fixed *in the source*.

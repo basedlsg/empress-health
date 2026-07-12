@@ -13,7 +13,7 @@
     "test:his": "tsx scripts/test-his-engine.ts",
     "test:assessment-flow": "node scripts/test-assessment-flow.mjs",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "MOCK_LLM=1 node scripts/test-retrieval.mjs && MOCK_LLM=1 node scripts/test-qa.mjs && MOCK_LLM=1 node scripts/test-recommendations.mjs && MOCK_LLM=1 node scripts/test-affirmations.mjs && MOCK_LLM=1 node scripts/test-free-quiz-products.mjs && npm run test:daily && npm run test:his",
     "test:site": "tsx site-bots/supervisor/supervisor.ts",
     "test:site:headed": "tsx site-bots/supervisor/supervisor.ts --headed",
     "report:open": "node -e \"require('child_process').spawn(process.platform==='win32'?'cmd':process.platform==='darwin'?'open':'xdg-open',[process.platform==='win32'?'/c':'','artifacts/reports/latest.html'].filter(Boolean),{stdio:'inherit'})\"",
@@ -24,6 +24,9 @@
     "validate:catalog": "node scripts/validate-catalog.mjs",
     "test:daily": "MOCK_LLM=1 node scripts/test-daily-affirmations.mjs",
     "design:snapshot": "node scripts/snapshot-design-references.mjs"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "keywords": [],
   "author": "",
