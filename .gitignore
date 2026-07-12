@@ -29,6 +29,19 @@ screenshot-*.png
 tsconfig.json
 shopify.ts
 
+# Runtime-written PII / lead capture — must never be committed (health data).
+# Migrate durable storage to Postgres; these files are local scratch only.
+uploads/
+*.jsonl
+data/affirmation-subscribers.json
+
+# Large design-source dumps (Illustrator files, hero exports) — keep optimized
+# web assets in public/ instead; these should live in external asset storage.
+Hero Image/
+Hero Image New/
+EmpressHealth logo - RGB - Modified/
+fwd1012minihealthintelligencereportenginewithchat/
+
 # Large or unnecessary public files
 public/*.zip
 public/**/*.zip

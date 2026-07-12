@@ -5,6 +5,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const cookieParser = require("cookie-parser");
@@ -291,6 +292,17 @@ app.set('trust proxy', 1);
 // Parse cookies
 app.use(cookieParser());
 
+// Security response headers (clickjacking, MIME-sniffing, referrer, HSTS).
+// contentSecurityPolicy is left OFF here on purpose: the marketing pages load
+// several external scripts/fonts (Google Fonts, the /pages Babel+React CDN,
+// third-party widgets), so a default CSP would break them. CSP should be added
+// separately in report-only mode, then enforced once violations are triaged.
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+}));
+
 // Session configuration (persistent store when DB available, else MemoryStore)
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -556,6 +568,39 @@ const shopifyLimiter = rateLimit({
   })
 });
 app.use("/api/shopify", shopifyLimiter);
+
+// Rate limit the public, unauthenticated LLM endpoints. Each call to /qa and
+// /api/free-trial-report reaches Gemini + Pinecone, so an unthrottled loop is a
+// cost-DoS vector. A shared per-IP budget across both is intentional.
+const llmLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many requests",
+    message: "Rate limit exceeded. Please try again in a minute.",
+    retryAfter: 60
+  })
+});
+app.use("/qa", llmLimiter);
+app.use("/api/free-trial-report", llmLimiter);
+
+// Rate limit the public lead capture endpoint hard: it emails a branded copy to
+// a caller-supplied address, so without a cap it is an open spam relay off
+// Empress's sender reputation.
+const leadLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many requests",
+    message: "Too many submissions from this network. Please try again later.",
+    retryAfter: 3600
+  })
+});
+app.use("/api/free-score-lead", leadLimiter);
 
 // ✅ Simple server-side history cap/summarize hook
 function trimHistory(messages, maxTurns = 10) {
@@ -2949,7 +2994,13 @@ app.post("/api/free-score-lead", async (req, res) => {
       ];
       const hisBand = his != null ? (HB.find((x) => his >= x.m) || HB[HB.length - 1]).l : "—";
       const gcsBand = gcs != null ? (GB.find((x) => gcs <= x.max) || GB[GB.length - 1]).l : "—";
+      // Escape caller-supplied fields before interpolating into email HTML.
+      const escHtml = (s) => String(s).replace(/[&<>"']/g, (c) => (
+        { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+      ));
       const hello = firstName ? `Hi ${firstName},` : "Hi there,";
+      const helloHtml = firstName ? `Hi ${escHtml(firstName)},` : "Hi there,";
+      const stageHtml = stage ? escHtml(stage) : "";
       const html = `
         <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#3a2030;">
           <div style="background:#4A1A3A;padding:28px 24px;border-radius:12px 12px 0 0;text-align:center;">
@@ -2957,7 +3008,7 @@ app.post("/api/free-score-lead", async (req, res) => {
             <p style="color:#ffffff;font-size:18px;margin:0;">Your 12-Question Screener Results</p>
           </div>
           <div style="background:#FEFCF8;padding:24px;border:1px solid #eee;border-top:0;border-radius:0 0 12px 12px;">
-            <p>${hello}</p>
+            <p>${helloHtml}</p>
             <p>Here is a copy of your results. Keep it for your records or share it with your healthcare provider.</p>
             <table style="width:100%;border-collapse:collapse;margin:18px 0;">
               <tr>
@@ -2973,7 +3024,7 @@ app.post("/api/free-score-lead", async (req, res) => {
                 </td>
               </tr>
             </table>
-            ${stage ? `<p style="font-size:13px;color:#7B3F63;margin:0 0 16px;">Life stage: <strong>${stage}</strong></p>` : ""}
+            ${stage ? `<p style="font-size:13px;color:#7B3F63;margin:0 0 16px;">Life stage: <strong>${stageHtml}</strong></p>` : ""}
             <p style="font-size:12px;color:#777;line-height:1.7;background:#fff;border:1px solid #eee;border-radius:8px;padding:14px;">
               <strong>Disclaimer:</strong> This is a wellness assessment tool only — not a medical diagnosis,
               clinical assessment, or treatment recommendation. Always talk to your doctor before starting a new
@@ -4197,6 +4248,23 @@ app.use((req, res) => {
       );
   }
   res.status(404).sendFile(path.join(__dirname, "index.html"));
+});
+
+// Global error handler — MUST be last. Express 5 forwards async rejections here.
+// Logs the full error server-side but returns a generic message so stack traces
+// and internal detail never reach the client (previously the default handler did,
+// especially with NODE_ENV=development).
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const requestId = `err-${Date.now().toString(36)}`;
+  console.error(`[${requestId}] Unhandled error on ${req.method} ${req.originalUrl}:`, err && err.stack ? err.stack : err);
+  if (res.headersSent) return next(err);
+  if (req.path.startsWith("/api") || req.path === "/qa") {
+    return res.status(500).json({ error: "Internal server error", requestId });
+  }
+  res.status(500).type("html").send(
+    "<!DOCTYPE html><html><body style='font-family:system-ui;padding:2rem'><h1>Something went wrong</h1><p>Please try again. If this keeps happening, contact support.</p></body></html>"
+  );
 });
 
 // On Vercel (serverless), the runtime invokes the exported handler; never
