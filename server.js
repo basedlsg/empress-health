@@ -560,6 +560,120 @@ function authBackendUnavailable(res, backendResponse, rawText, route) {
   });
 }
 
+/* -------------------- Local (in-app) authentication -------------------- */
+// When a Postgres pool is configured (DATABASE_URL or DB_*), accounts live in
+// OUR `users` table and passwords are verified here with bcrypt. This removes
+// the hard dependency on the external Render auth service, which was suspended
+// together with its database and took login/signup/profile down with it.
+// When no pool exists the handlers fall back to the legacy upstream proxy.
+const bcrypt = require("bcryptjs");
+const BCRYPT_ROUNDS = 12;
+
+// Regenerate the session (fixation protection), write the same state every
+// downstream guard reads (userId / userEmail / userName), issue a CSRF token,
+// and respond in the shape login.html / signup.html already expect.
+function establishAuthSession(req, res, user, extra) {
+  return new Promise((resolve) => {
+    req.session.regenerate((regenErr) => {
+      if (regenErr) {
+        console.error("❌ Error regenerating session:", regenErr);
+        res.status(500).json({ error: "Failed to establish session. Please try again." });
+        return resolve();
+      }
+      req.session.userId = user.id;
+      req.session.userEmail = user.email;
+      req.session.userName =
+        [user.first_name, user.last_name].filter(Boolean).join(" ").trim() || null;
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error("❌ Error saving session:", saveErr);
+          res.status(500).json({ error: "Failed to save session. Please try again." });
+          return resolve();
+        }
+        issueCsrfToken(req, res);
+        res.json({
+          success: true,
+          user: { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name },
+          // Same landing as the legacy flow: straight into the paid assessment.
+          redirect: "/assessment/?tier=paid",
+          ...extra,
+        });
+        resolve();
+      });
+    });
+  });
+}
+
+async function localSignup(req, res, { first_name, last_name, email, phone }, password) {
+  const normEmail = String(email).toLowerCase().trim();
+  const cleanPhone = phone ? String(phone).trim().slice(0, 40) : null;
+  const hashed = await bcrypt.hash(password, BCRYPT_ROUNDS);
+  let row;
+  try {
+    const r = await pool.query(
+      `INSERT INTO users (first_name, last_name, email, phone, hashed_password)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, first_name, last_name, email`,
+      [String(first_name).trim(), String(last_name).trim(), normEmail, cleanPhone, hashed]
+    );
+    row = r.rows[0];
+  } catch (dbErr) {
+    if (dbErr.code === "23505") {
+      // Email already exists. If that row has no password (a legacy record
+      // created while the external auth service owned credentials), let this
+      // signup claim it by setting the password; otherwise it's a real duplicate.
+      try {
+        const claim = await pool.query(
+          `UPDATE users
+              SET hashed_password = $1, first_name = $2, last_name = $3,
+                  phone = COALESCE($4, phone), updated_at = NOW()
+            WHERE email = $5 AND (hashed_password IS NULL OR hashed_password = '')
+        RETURNING id, first_name, last_name, email`,
+          [hashed, String(first_name).trim(), String(last_name).trim(), cleanPhone, normEmail]
+        );
+        if (claim.rows.length) {
+          console.log("✅ Legacy account claimed with new password (local auth):", normEmail);
+          return establishAuthSession(req, res, claim.rows[0], { message: "Account created successfully" });
+        }
+      } catch (claimErr) {
+        console.error("[signup:local] legacy-claim error:", claimErr.message);
+      }
+      return res.status(409).json({ error: "An account with this email already exists. Please log in." });
+    }
+    console.error("[signup:local] DB error:", dbErr.message);
+    return res.status(500).json({ error: "Could not create your account right now. Please try again." });
+  }
+  console.log("✅ User registered (local auth):", normEmail);
+  return establishAuthSession(req, res, row, { message: "Account created successfully" });
+}
+
+async function localLogin(req, res, email, password) {
+  const normEmail = String(email).toLowerCase().trim();
+  let user;
+  try {
+    const r = await pool.query(
+      `SELECT id, first_name, last_name, email, hashed_password, is_active
+         FROM users WHERE email = $1 LIMIT 1`,
+      [normEmail]
+    );
+    user = r.rows[0];
+  } catch (dbErr) {
+    console.error("[login:local] DB error:", dbErr.message);
+    return res.status(503).json({ error: "Sign-in is temporarily unavailable. Please try again in a few minutes." });
+  }
+  // Identical response for unknown email and wrong password — no account enumeration.
+  const ok = !!(user && user.hashed_password && (await bcrypt.compare(password, user.hashed_password)));
+  if (!ok) {
+    return res.status(401).json({ error: "Incorrect email or password." });
+  }
+  if (user.is_active === false) {
+    console.warn(`[login:local] Blocked deactivated user id=${user.id}`);
+    return res.status(403).json({ error: "This account has been deactivated. Please contact support." });
+  }
+  console.log("✅ User logged in (local auth):", normEmail);
+  return establishAuthSession(req, res, user, { message: "Login successful" });
+}
+
 // Contact form rate limiter: 5 requests per 10 minutes per IP
 const contactLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
@@ -1194,6 +1308,12 @@ app.post("/api/signup", authLimiter, async (req, res) => {
       return res.status(400).json({ error: "Password must be at least 8 characters with letters and numbers" });
     }
 
+    // Local account creation in our own Postgres whenever a database is
+    // configured — no dependency on the external auth service.
+    if (pool) {
+      return localSignup(req, res, { first_name, last_name, email, phone }, password);
+    }
+
     // Forward request to backend server
     try {
       const backendResponse = await fetch(`${RENDER_BASE_URL}/api/v1/auth/register`, {
@@ -1390,6 +1510,12 @@ app.post("/api/login", authLimiter, async (req, res) => {
       email: email.toLowerCase().trim(),
       password
     };
+
+    // Local authentication against our own Postgres whenever a database is
+    // configured — no dependency on the external auth service.
+    if (pool) {
+      return localLogin(req, res, loginPayload.email, password);
+    }
 
     let backendResponse;
     try {

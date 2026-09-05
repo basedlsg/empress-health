@@ -11,9 +11,10 @@
 **Fixed & verified** (all Tier 0 + several Tier 1/2 quick wins):
 `vercel.json` prod mode + secret removed · PII untracked & gitignored · rate limits on `/qa`, `/api/free-trial-report`, `/api/free-score-lead`, `/api/report/pdf` · `nodemailer` + `helmet` installed · global error handler · email HTML-escaping · MHT↔HRT synonym (query-side) · `seed:upsert` repointed · CTA contrast · `npm audit fix` (0 vulns) · `notify.js` await · **chatbot citation snippets now populated** · CSRF exact-path matching · real `npm test` (7 green suites) · `engines` + `.nvmrc`.
 
-**Still requires manual action (cannot be done from code):**
-1. **Set `SESSION_SECRET` as an encrypted Vercel env var and rotate it** before deploying — the old committed value is public in git history. The app now fail-safes by throwing if it is unset in production.
-2. **Purge the already-pushed PII** — `data/affirmation-subscribers.json` is in the initial commit on `origin/main`. Removing it from history needs a coordinated `git filter-repo`/BFG + force-push across all branches (destructive — decide deliberately). Treat the exposed subscriber emails/tokens as compromised.
+**Auth outage (2026-09-05) & resolution — no longer depends on Render:** the external Render auth backend *and its Postgres* were suspended, taking login/signup/profile down with the error "Authentication server returned invalid response." Resolved by moving authentication **in-app**: bcrypt-hashed passwords in our own `users` table on a Neon Postgres (`empress-auth-db`, provisioned via the Vercel marketplace and injected as `DATABASE_URL`), with sessions persisted in Postgres too (this also closes the MemoryStore finding). `SESSION_SECRET` was set in Vercel Production via the CLI. Existing accounts from the Render database could not be migrated (that DB is unreachable) — users re-register; a legacy row with no password can be claimed by signing up with the same email. The legacy Render proxy remains only as a fallback when no database is configured.
+
+**Still requires manual action:**
+1. **Purge the already-pushed PII** — `data/affirmation-subscribers.json` is in the initial commit on `origin/main`. Removing it from history needs a coordinated `git filter-repo`/BFG + force-push across all branches (destructive — decide deliberately). Treat the exposed subscriber emails/tokens as compromised.
 
 **Deliberately deferred:** helmet CSP (needs report-only rollout — external scripts), corpus re-embed for MHT/HRT (would flip embedding model given the local `OPENAI_API_KEY`), and all remaining Tier 1–3 items below.
 
