@@ -537,6 +537,29 @@ function redactSecrets(obj) {
   return out;
 }
 
+// The upstream auth service (Render) returns a non-JSON HTML page when it is
+// suspended, sleeping, or erroring — observed live as HTTP 503 with
+// `x-render-routing: suspend` and a "Service Suspended" body. Previously the
+// browser saw "Authentication server returned invalid response." plus the raw
+// HTML, and the team chased it as an app bug. Surface it as a clear, non-leaky
+// 503 and name the real cause in the server log.
+function authBackendUnavailable(res, backendResponse, rawText, route) {
+  const label = route === "signup" ? "Sign-up" : "Sign-in";
+  const routing = (backendResponse && backendResponse.headers.get("x-render-routing")) || "";
+  const suspended = routing === "suspend" || /service suspended/i.test(rawText || "");
+  const status = backendResponse ? backendResponse.status : "n/a";
+  console.error(
+    `[${route}] Auth backend ${RENDER_BASE_URL} returned HTTP ${status} with a non-JSON body` +
+    (suspended
+      ? " — the Render service is SUSPENDED (x-render-routing: suspend). This is an infrastructure outage, not an app bug: resume the service in the Render dashboard (check billing/plan)."
+      : ". Upstream is unavailable or misconfigured (RENDER_BASE_URL).")
+  );
+  return res.status(503).json({
+    error: `${label} is temporarily unavailable while we restore our authentication service. Please try again in a few minutes.`,
+    code: suspended ? "AUTH_BACKEND_SUSPENDED" : "AUTH_BACKEND_UNAVAILABLE"
+  });
+}
+
 // Contact form rate limiter: 5 requests per 10 minutes per IP
 const contactLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
@@ -1193,7 +1216,19 @@ app.post("/api/signup", authLimiter, async (req, res) => {
         backendResponse.headers.get('x-auth-token') ||
         backendResponse.headers.get('x-access-token');
 
-      const backendData = await backendResponse.json();
+      // Read as text first: when the auth service is suspended it returns an
+      // HTML page, and `.json()` would throw straight into a generic 500.
+      const responseText = await backendResponse.text();
+      let backendData = {};
+      if (responseText) {
+        try {
+          backendData = JSON.parse(responseText);
+        } catch (jsonErr) {
+          return authBackendUnavailable(res, backendResponse, responseText, "signup");
+        }
+      } else if (!backendResponse.ok) {
+        return authBackendUnavailable(res, backendResponse, "", "signup");
+      }
 
       // Log full backend response for debugging (secrets redacted)
       console.log('🔍 Backend registration response:', JSON.stringify(redactSecrets(backendData), null, 2));
@@ -1379,14 +1414,11 @@ app.post("/api/login", authLimiter, async (req, res) => {
       try {
         backendData = JSON.parse(responseText);
       } catch (jsonErr) {
-        console.error("❌ Invalid JSON from login backend:", jsonErr.message);
-        if (!backendResponse.ok) {
-          return res.status(backendResponse.status).json({
-            error: "Authentication server returned invalid response.",
-            detail: responseText.substring(0, 200)
-          });
-        }
+        // Non-JSON body = the auth service is down/suspended, not a bad login.
+        return authBackendUnavailable(res, backendResponse, responseText, "login");
       }
+    } else if (!backendResponse.ok) {
+      return authBackendUnavailable(res, backendResponse, "", "login");
     }
 
     if (!backendResponse.ok) {
