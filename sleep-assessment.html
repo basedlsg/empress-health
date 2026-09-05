@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Empress Health — Free Menopause Sleep Score</title>
+<meta name="description" content="Menopause is stealing your sleep. Answer 12 questions and get your free Sleep Score — see exactly how disrupted your sleep is, and what to do about it.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════ TOKENS (shared with free-assessment.html) ═══════════════ */
+:root{
+  --plum:#4A1A3A;--pm:#7B3F63;--pp:#F8F1F5;
+  --gold:#D8A738;--gd:#7B3F63;--gp:#FBF0E4;
+  --green:#2A7A5A;--gl:#E8F5EF;
+  --amber:#7B3F63;--al:#FAF0E8;
+  --red:#8B2E2E;--rl:#FAEAEA;
+  --navy:#1C2B4A;
+  --cream:#FEFCF8;--cm:#F5F0EB;--bd:#E0D8D0;
+  --tx:#1C1C1E;--txm:#3D3D3F;--txs:#6B6B70;
+  --d1:#534AB7;--d2:#7B3F63;--d3:#D8A738;--d4:#7F77DD;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--tx);line-height:1.65;-webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:'Playfair Display',serif;color:var(--plum);line-height:1.2;}
+p{color:var(--txm);}
+strong{font-weight:600;color:var(--tx);}
+:focus-visible{outline:2px solid var(--pm);outline-offset:2px;}
+
+/* LAYOUT */
+.screen{display:none;}.screen.on{display:block;}
+.w{max-width:740px;margin:0 auto;padding:0 1.25rem;}
+
+/* TOP BAR */
+.bar{background:var(--plum);padding:.875rem 1.25rem;position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(74,26,58,.3);}
+.bar-i{max-width:740px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.brand{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:#fff;}
+.brand em{color:var(--gold);font-style:normal;}
+.fbadge{font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold);background:rgba(196,149,106,.15);border:1px solid rgba(196,149,106,.3);
+  padding:3px 10px;border-radius:100px;}
+
+/* HERO */
+.hero{background:var(--plum);padding:4rem 1.25rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.hero::before,.hero::after{content:'';position:absolute;border-radius:50%;background:rgba(196,149,106,.07);}
+.hero::before{width:420px;height:420px;top:-110px;right:-110px;}
+.hero::after{width:280px;height:280px;bottom:-70px;left:-80px;}
+.hi{max-width:640px;margin:0 auto;position:relative;z-index:1;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.875rem;}
+.hero h1{color:#fff;font-size:2.5rem;margin-bottom:.875rem;}
+.hero h1 em{color:var(--gold);font-style:normal;}
+.hero p{color:rgba(255,255,255,.7);font-size:.9375rem;max-width:500px;margin:0 auto 2rem;line-height:1.7;}
+.hbul{list-style:none;margin:0 auto 1.75rem;padding:0;display:inline-block;text-align:left;}
+.hbul li{position:relative;padding-left:1.4rem;margin:.45rem 0;color:rgba(255,255,255,.85);font-size:1rem;line-height:1.4;}
+.hbul li::before{content:'✦';position:absolute;left:0;color:var(--gold);}
+.hbul li.hbul-big{font-size:1.4rem;font-weight:800;color:#fff;margin-top:.7rem;}
+.hclose{color:rgba(255,255,255,.62);font-size:.85rem;line-height:1.7;max-width:520px;margin:1.75rem auto 0;}
+.cta{display:inline-block;background:var(--gold);color:var(--plum);padding:.875rem 2.75rem;border-radius:100px;font-size:.9375rem;font-weight:700;cursor:pointer;border:none;font-family:'Inter',sans-serif;letter-spacing:.02em;transition:.2s;box-shadow:0 4px 24px rgba(196,149,106,.4);}
+.cta:hover{background:var(--gd);transform:translateY(-2px);}
+.cta-s{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:.5rem;}
+
+/* STAGE CARDS */
+.sc{border:1px solid var(--bd);border-radius:10px;padding:1rem 1.25rem;cursor:pointer;background:#fff;text-align:left;transition:.15s;display:block;width:100%;margin-bottom:.625rem;}
+.sc:hover{border-color:var(--pm);}
+.sc.sel{border:2px solid var(--pm);background:var(--pp);}
+.st{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:100px;color:#fff;display:inline-block;margin-bottom:.4rem;}
+.sc h3{font-size:.9rem;font-weight:600;color:var(--tx);margin-bottom:.2rem;font-family:'Inter',sans-serif;}
+.sc p{font-size:.77rem;color:var(--txs);margin:0;}
+
+/* QUESTION FORM */
+.dh{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;border-radius:10px;margin-bottom:.875rem;border:1px solid var(--bd);background:#fff;}
+.dn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff;flex-shrink:0;}
+.dh h3{font-size:.875rem;font-weight:600;color:var(--tx);margin:0;font-family:'Inter',sans-serif;}
+.dh p{font-size:.7rem;color:var(--txs);margin:2px 0 0;}
+.qc{border:1px solid var(--bd);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.75rem;background:#fff;}
+.qm{display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem;flex-wrap:wrap;}
+.qn{font-size:.67rem;font-weight:700;color:var(--txs);background:var(--cm);border:1px solid var(--bd);padding:2px 6px;border-radius:100px;}
+.qt{font-size:.875rem;color:var(--tx);line-height:1.5;font-weight:500;margin-bottom:.75rem;}
+.qh{font-size:.7rem;color:var(--txs);margin:-.5rem 0 .75rem;}
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;}
+.op{border:1.5px solid var(--bd);border-radius:8px;padding:.55rem .3rem;cursor:pointer;background:#fff;text-align:center;transition:.15s;font-family:'Inter',sans-serif;}
+.op:hover{border-color:var(--pm);background:var(--pp);}
+.op.s0{border-color:#2A7A5A;background:#E8F5EF;}
+.op.s1{border-color:#7B3F63;background:#FBF0E4;}
+.op.s2{border-color:#7B3F63;background:#FAF0E8;}
+.op.s3{border-color:#8B2E2E;background:#FAEAEA;}
+.on{font-size:1.05rem;font-weight:700;display:block;line-height:1;}
+.ol{font-size:.67rem;font-weight:600;display:block;margin-top:.15rem;line-height:1.2;}
+.pnote{text-align:center;font-size:.75rem;color:var(--txs);margin:.5rem 0;}
+.bsub{width:100%;padding:.875rem;border-radius:100px;font-size:.9375rem;font-weight:700;cursor:pointer;background:var(--plum);color:#fff;border:none;font-family:'Inter',sans-serif;transition:.15s;margin-top:.875rem;}
+.bsub:hover{background:var(--pm);}
+.bsub:disabled{opacity:.4;cursor:not-allowed;}
+
+/* ══════════════ REPORT ══════════════ */
+.rh{background:var(--plum);padding:2.75rem 1.25rem 2.25rem;text-align:center;position:relative;overflow:hidden;}
+.rh::before{content:'';position:absolute;top:-80px;right:-80px;width:360px;height:360px;border-radius:50%;background:rgba(196,149,106,.08);}
+.rhi{max-width:740px;margin:0 auto;position:relative;z-index:1;}
+.rhl{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
+.rhs{font-size:.82rem;color:rgba(255,255,255,.8);margin-bottom:1.1rem;}
+.ds{display:flex;justify-content:center;align-items:center;gap:2.25rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.sb{text-align:center;}
+.sw{position:relative;width:120px;height:120px;margin:0 auto .5rem;}
+.sc2{position:absolute;top:0;left:0;}
+.si{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.sn{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:700;color:#fff;line-height:1;}
+.ss{font-size:.68rem;color:rgba(255,255,255,.75);}
+.sdiv{width:1px;height:90px;background:rgba(255,255,255,.14);}
+.gb{text-align:center;}
+.gn2{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:700;line-height:1;}
+.go{font-size:.68rem;color:rgba(255,255,255,.75);}
+.gt{height:8px;background:rgba(255,255,255,.14);border-radius:4px;overflow:hidden;margin:.375rem 0;}
+.gf{height:8px;border-radius:4px;transition:width .8s ease;}
+.sm{font-size:.72rem;color:rgba(255,255,255,.65);margin-top:.2rem;}
+.band{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin-bottom:.35rem;}
+.bdesc{font-size:.82rem;color:rgba(255,255,255,.68);max-width:460px;margin:0 auto 1.25rem;line-height:1.7;}
+.mr{display:flex;justify-content:center;gap:1.75rem;flex-wrap:wrap;}
+.mi{text-align:center;}
+.ml{font-size:.56rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.8);margin-bottom:.1rem;}
+.mv{font-size:.8rem;font-weight:500;color:rgba(255,255,255,.85);}
+
+/* Download bar */
+.dlb{background:var(--cm);border-bottom:1px solid var(--bd);padding:.625rem 1.25rem;}
+.dlbi{max-width:740px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;}
+.dlb p{font-size:.78rem;color:var(--txs);margin:0;}
+.bts{display:flex;gap:.4rem;flex-wrap:wrap;}
+.btd{background:var(--plum);color:#fff;padding:.45rem 1.1rem;border-radius:100px;font-size:.78rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:.3rem;}
+.btr{background:transparent;border:1px solid var(--bd);color:var(--txs);padding:.45rem 1rem;border-radius:100px;font-size:.78rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;}
+
+/* Report sections */
+.rs{padding:1.875rem 1.25rem;border-bottom:1px solid var(--bd);}
+.rsw{background:#fff;}.rsc{background:var(--cm);}
+.ey2{font-size:.63rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--pm);margin-bottom:.3rem;}
+.rule{width:34px;height:3px;background:var(--pm);border-radius:2px;margin-bottom:1rem;}
+.sp{font-size:.9rem;color:var(--txm);line-height:1.8;margin-bottom:.875rem;}
+.sp.lg{font-size:.9875rem;color:var(--tx);font-style:italic;}
+.cb{border-radius:8px;padding:.875rem 1.1rem;margin:.875rem 0;}
+.cbp{background:var(--pp);border-left:4px solid var(--pm);}
+.cba{background:var(--al);border-left:4px solid var(--amber);}
+.cb h4{font-size:.8rem;font-weight:600;color:var(--tx);margin-bottom:.25rem;}
+.cb p{font-size:.8rem;color:var(--txm);margin:0;line-height:1.6;}
+
+/* Domain bars */
+.dpg{display:grid;gap:.45rem;}
+.dpr{display:grid;grid-template-columns:32px 1fr 90px 56px 68px;gap:.45rem;align-items:center;padding:.6rem .875rem;border-radius:8px;border:1px solid var(--bd);background:#fff;}
+.dpd{width:10px;height:10px;border-radius:50%;}
+.dpn{font-size:.8rem;font-weight:500;color:var(--tx);}
+.dbt{height:6px;background:var(--bd);border-radius:3px;}
+.dbf{height:6px;border-radius:3px;transition:width .7s ease;}
+.dps{font-size:.8rem;font-weight:600;text-align:right;}
+.dpb{font-size:.65rem;padding:2px 7px;border-radius:100px;font-weight:600;text-align:center;}
+
+/* Domain detail cards */
+.dc{border-left:4px solid;border-radius:0 10px 10px 0;padding:1.1rem 1.25rem;margin-bottom:.875rem;background:#fff;border:1px solid var(--bd);}
+.dch{display:flex;align-items:flex-start;justify-content:space-between;gap:.875rem;margin-bottom:.75rem;}
+.dcb{flex-shrink:0;padding:.5rem .875rem;border-radius:8px;text-align:center;}
+.dcbn{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;line-height:1;}
+.dcbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;margin-top:.12rem;}
+.dct{font-size:.85rem;color:var(--txm);line-height:1.75;margin-bottom:.625rem;}
+.dcs{font-size:.74rem;color:var(--txs);font-style:italic;border-left:3px solid var(--bd);padding-left:.75rem;margin-bottom:.625rem;line-height:1.55;}
+.ab{background:var(--cm);border-radius:8px;padding:.7rem .9rem;}
+.abl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--pm);margin-bottom:.4rem;}
+.ai{display:flex;gap:.35rem;font-size:.78rem;color:var(--txm);margin-bottom:.3rem;line-height:1.5;}
+.an{font-weight:700;color:var(--pm);flex-shrink:0;}
+
+/* Flags */
+.fc{display:flex;gap:.625rem;padding:.75rem .9rem;border-radius:8px;margin-bottom:.4rem;align-items:flex-start;}
+.fcr{background:var(--al);border-left:4px solid var(--amber);}
+.fco{background:var(--gl);border-left:4px solid var(--green);}
+.fcb{flex-shrink:0;padding:2px 8px;border-radius:100px;font-size:.6rem;font-weight:700;text-transform:uppercase;margin-top:1px;}
+.fcbr{background:var(--amber);color:#fff;}
+.fch{font-size:.85rem;font-weight:600;color:var(--tx);margin-bottom:2px;}
+.fcp{font-size:.77rem;color:var(--txm);line-height:1.55;margin:0;}
+
+/* Cross-score CTA */
+.u120{background:linear-gradient(135deg,var(--plum),#7B3F63);padding:2.25rem 1.25rem;text-align:center;}
+.u120i{max-width:600px;margin:0 auto;}
+.u120i h2{color:#fff;font-size:1.5rem;margin-bottom:.5rem;}
+.u120i p{color:rgba(255,255,255,.68);font-size:.875rem;margin-bottom:1.25rem;line-height:1.65;}
+.u120-cta{display:inline-block;background:var(--gold);color:var(--plum);padding:.825rem 2.25rem;border-radius:100px;font-size:.9375rem;font-weight:700;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:.2s;text-decoration:none;}
+.u120-cta:hover{background:var(--gd);transform:translateY(-2px);}
+.u120-alt{display:block;margin-top:.8rem;font-size:.78rem;color:rgba(255,255,255,.6);}
+.u120-alt a{color:var(--gold);text-decoration:underline;}
+
+/* Footer */
+footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem;text-align:center;font-size:.68rem;line-height:1.8;}
+.fl{display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;margin-bottom:.75rem;}
+.fl a{color:rgba(255,255,255,.5);text-decoration:none;}
+
+/* Print */
+@media print{
+  .bar,.u120,footer{display:none!important;}
+  .screen:not(#sr){display:none!important;}
+  #sr{display:block!important;}
+  .dlb{display:none!important;}
+  .rh{background:#FEFCF8!important;color:#4A1A3A!important;border:1px solid #e7dccd;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .rh .sn,.rh .gn2,.rh .band,.rh #hisBand{color:#4A1A3A!important;}
+  .rh .rhs,.rh .ss,.rh .go,.rh .sm,.rh .bdesc,.rh .ml,.rh .mv{color:#5a3a4d!important;}
+  .rh .rhl{color:#9a6a1f!important;}
+  .rh a{color:#7B3F63!important;}
+  .rs{page-break-inside:avoid;}
+  @page{margin:1.5cm 2cm;size:A4;}
+}
+@media(max-width:580px){
+  .hero h1{font-size:1.85rem;}
+  .dpr{grid-template-columns:26px 1fr 50px 60px;}
+  .dbt{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ S0: LANDING ══════ -->
+<div id="s0" class="screen on">
+<div class="hero">
+<div class="hi">
+  <p class="ey">Free Menopause Sleep Score</p>
+  <h1>12 Questions.<br><em>Get Your Sleep Back.</em></h1>
+  <p>Menopause is one of the biggest disruptors of sleep in a woman's life — and one of the least talked about. This screener maps exactly how your sleep is being affected, in 3 minutes.</p>
+  <ul class="hbul">
+    <li>Takes only 3 minutes</li>
+    <li>Sleep Score + Sleep Burden dual output</li>
+    <li>4 sleep domains, clinically informed</li>
+    <li class="hbul-big">Free</li>
+  </ul>
+  <button class="cta" onclick="go('s1')">Get My Free Sleep Score →</button>
+  <p class="cta-s">From the team behind the Empress Health Intelligence Score</p>
+  <p class="hclose">Sleep disruption is the single greatest amplifier of every other menopause symptom — brain fog, fatigue, mood, and metabolism all follow sleep. When sleep recovers, everything else improves. The assessment is private, and you'll see your score immediately.</p>
+</div>
+</div>
+</div>
+
+<!-- ══════ S1: STAGE ══════ -->
+<div id="s1" class="screen">
+<div class="bar"><div class="bar-i"><div class="brand">Empress <em>Health</em></div><span class="fbadge">Free Sleep Score</span></div></div>
+<div class="w" style="padding-top:1.5rem;padding-bottom:2.5rem;">
+  <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:var(--pm);text-align:center;margin-bottom:1.1rem;">You Are Seen. You Are Heard.</p>
+  <p style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--pm);margin-bottom:.3rem;">Step 1 of 2</p>
+  <h2 style="font-size:1.45rem;margin-bottom:.45rem;">Where are you in your journey?</h2>
+  <p style="font-size:.85rem;color:var(--txs);margin-bottom:1.1rem;">Sleep priorities shift across the menopause continuum — night sweats dominate in menopause, while insomnia patterns often persist after. Your stage tunes the weighting.</p>
+  <button class="sc" onclick="ps('perimenopause',this)">
+    <span class="st" style="background:#534AB7;">Perimenopause</span>
+    <h3>My periods have become irregular</h3>
+    <p>Still menstruating but experiencing symptoms. Ages 38–51. Sleep-onset trouble and 2–4am waking often appear first.</p>
+  </button>
+  <button class="sc" onclick="ps('menopause',this)">
+    <span class="st" style="background:#1D9E75;">Menopause</span>
+    <h3>No period for less than 12 months</h3>
+    <p>Or surgical/medically-induced. Ages 45–55. Peak night-sweat disruption of sleep.</p>
+  </button>
+  <button class="sc" onclick="ps('post_menopause',this)">
+    <span class="st" style="background:#D8A738;">Post-menopause</span>
+    <h3>No period for 12 or more months</h3>
+    <p>Natural menopause confirmed. Typically 55+. Insomnia and sleep-apnea risk rise; night sweats usually ease.</p>
+  </button>
+  <label style="display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--txs);cursor:pointer;padding:.7rem;background:var(--cm);border-radius:8px;margin:.625rem 0;">
+    <input type="checkbox" id="mhtBox" style="width:14px;height:14px;accent-color:var(--pm);">
+    Currently on menopausal hormone therapy (MHT)
+  </label>
+  <button id="s1n" onclick="go('s2')" disabled style="width:100%;padding:.875rem;border-radius:100px;font-size:.9375rem;font-weight:700;cursor:not-allowed;opacity:.42;background:var(--plum);color:#fff;border:none;font-family:'Inter',sans-serif;">Begin the 12 Questions →</button>
+</div>
+</div>
+
+<!-- ══════ S2: QUESTIONS (rendered from TRACK config) ══════ -->
+<div id="s2" class="screen">
+<div class="bar"><div class="bar-i"><div class="brand">Empress <em>Health</em></div><span class="fbadge">Step 2 of 2</span></div></div>
+<div class="w" style="padding-top:1.25rem;">
+<div style="background:var(--cm);border:1px solid var(--bd);border-radius:8px;padding:.7rem 1rem;margin-bottom:1.1rem;">
+  <p style="font-size:.78rem;color:var(--txm);"><strong>Rate each over the past month.</strong>&nbsp; 0 = Not at all &nbsp;·&nbsp; 1 = Mild &nbsp;·&nbsp; 2 = Moderate &nbsp;·&nbsp; 3 = Severe</p>
+</div>
+<div id="qHost"></div>
+<div class="pnote" id="pn">Answer all 12 questions to generate your score — 0 of 12 answered</div>
+<button class="bsub" id="bsub" onclick="goEmail()" disabled>See My Sleep Score →</button>
+<div style="height:2rem;"></div>
+</div>
+</div>
+
+<!-- ══════ EMAIL GATE ══════ -->
+<div id="se" class="screen">
+<div class="bar"><div class="bar-i"><div class="brand">Empress <em>Health</em></div><span class="fbadge">Almost there</span></div></div>
+<div class="w" style="padding-top:1.75rem;padding-bottom:2.5rem;max-width:460px;">
+  <p style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--pm);margin-bottom:.3rem;">Your score is ready</p>
+  <h2 style="font-size:1.45rem;margin-bottom:.45rem;">Where should we send your results?</h2>
+  <p style="font-size:.85rem;color:var(--txs);margin-bottom:1.1rem;">Enter your details to reveal your Sleep Score and get a copy emailed to you.</p>
+  <label for="se-name" style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">First name</label>
+  <input id="se-name" type="text" placeholder="e.g. Sarah" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
+  <label for="se-email" style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">Email</label>
+  <input id="se-email" type="email" placeholder="you@example.com" autocomplete="email" required style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
+  <label for="se-zip" style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">ZIP code</label>
+  <input id="se-zip" type="text" inputmode="numeric" maxlength="5" placeholder="90210" autocomplete="postal-code" required style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
+  <label for="se-phone" style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">Phone <span style="text-transform:none;letter-spacing:normal;color:var(--txs);opacity:.7;font-weight:500;">(optional)</span></label>
+  <input id="se-phone" type="tel" placeholder="(555) 123-4567" autocomplete="tel" style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.4rem;">
+  <p id="se-err" style="display:none;color:#A32D2D;font-size:.82rem;margin:.2rem 0 .6rem;" role="alert"></p>
+  <button class="bsub" id="se-go" onclick="submitEmail()" style="margin-top:1rem;">Reveal My Sleep Score →</button>
+  <p style="font-size:.72rem;color:var(--txs);text-align:center;margin-top:.7rem;">No spam. We email your results and occasional sleep &amp; menopause-wellness tips. Unsubscribe anytime.</p>
+</div>
+</div>
+
+<!-- ══════ REPORT ══════ -->
+<div id="sr" class="screen">
+
+<div class="rh">
+<div class="rhi">
+  <p class="rhl">Your Empress Sleep Score</p>
+  <p class="rhs" id="rhs">12-Question Sleep Screener</p>
+  <div class="ds">
+    <div class="sb">
+      <div class="sw">
+        <canvas id="rc" class="sc2" width="120" height="120"></canvas>
+        <div class="si"><div class="sn" id="hscore">—</div><div class="ss">/ 100</div></div>
+      </div>
+      <div class="sm" id="hband">Sleep Score · —</div>
+    </div>
+    <div class="sdiv"></div>
+    <div class="gb">
+      <div class="gn2" id="gscore">—</div>
+      <div class="go">/ 36 sleep burden points</div>
+      <div class="gt" style="width:120px;margin:.375rem auto 0;"><div class="gf" id="gfill" style="width:0%;"></div></div>
+      <div class="sm" id="gband">Sleep Burden · —</div>
+    </div>
+  </div>
+  <div class="band" id="hisBand">—</div>
+  <div class="bdesc" id="hisBandDesc">—</div>
+  <div class="mr" id="hisMeta"></div>
+</div>
+</div>
+
+<div class="dlb"><div class="dlbi">
+  <p>Your personalised sleep report is ready</p>
+  <div class="bts">
+    <button class="btd" onclick="window.print()">⬇ Save as PDF</button>
+    <button class="btr" onclick="retake()">↺ Retake</button>
+  </div>
+</div></div>
+
+<!-- PAGE 1: SCORE SUMMARY -->
+<div class="rs rsw">
+<div class="w">
+  <p class="ey2">Sleep Report — Score Summary</p>
+  <div class="rule"></div>
+  <div id="story"></div>
+</div></div>
+
+<!-- PAGE 2: DOMAIN PROFILE -->
+<div class="rs rsc">
+<div class="w">
+  <p class="ey2">Sleep Report — Your 4 Sleep Domains</p>
+  <div class="rule"></div>
+  <h2 style="font-size:1.25rem;margin-bottom:.5rem;">Domain Scores &amp; Profile</h2>
+  <p style="font-size:.82rem;color:var(--txs);margin-bottom:1rem;">Domain weights shift by stage — the sleep priorities that matter most for <span id="stageInDomain">your stage</span> are reflected in the composite.</p>
+  <div class="dpg" id="dpg"></div>
+</div></div>
+
+<!-- PAGE 3: CLINICAL ANALYSIS -->
+<div class="rs rsw">
+<div class="w">
+  <p class="ey2">Sleep Report — Clinical Analysis &amp; Safety</p>
+  <div class="rule"></div>
+  <div id="flagsSection" style="margin-bottom:1.1rem;"></div>
+  <div id="domCards"></div>
+</div></div>
+
+<!-- RECOMMENDED PRODUCTS -->
+<div class="rs rsc">
+<div class="w">
+  <p class="ey2">Sleep Report — Recommended Products</p>
+  <div class="rule"></div>
+  <h2 style="font-size:1.25rem;margin-bottom:.4rem;">Products matched to your priority sleep domains</h2>
+  <p style="font-size:.82rem;color:var(--txs);margin-bottom:1rem;">Evidence-based picks for the areas your screener flagged as highest-priority. Always check with your provider before starting a new supplement.</p>
+  <div id="prodSection"></div>
+  <a href="/market" style="display:inline-block;margin-top:1rem;background:var(--plum);color:#fff;font-weight:700;font-size:.875rem;text-decoration:none;padding:.7rem 1.5rem;border-radius:100px;">Browse the curated marketplace →</a>
+  <p style="margin-top:1.1rem;padding:.9rem 1rem;background:var(--cm);border:1px solid var(--bd);border-radius:10px;font-size:.78rem;line-height:1.55;color:var(--txm);">
+    <strong>Disclaimer:</strong> The supplements suggested are for educational purposes only and are not medical advice.
+    Always talk to your doctor before starting a new supplement. Empress Health suggests products from our curated
+    marketplace, nothing more. We can suggest a doctor — just email
+    <a href="mailto:hello@empresshealth.ai" style="color:var(--plum);text-decoration:underline;font-weight:700;">hello@empresshealth.ai</a>.
+  </p>
+</div></div>
+
+<!-- CROSS-SCORE CTA -->
+<div class="u120">
+<div class="u120i">
+  <h2>Sleep is one lens. See the whole picture.</h2>
+  <p>Your Sleep Score maps one domain — but sleep, mood, brain fog, and energy move together. The free 12-question Health Intelligence Score screens all four clinical domains of your menopause transition.</p>
+  <a class="u120-cta" href="/free-assessment">Take the Free Menopause Score →</a>
+  <span class="u120-alt">Want the complete clinical map? <a href="/pricing">Explore the full 120-question assessment</a></span>
+</div>
+</div>
+
+<footer>
+<div style="max-width:740px;margin:0 auto;">
+  <div class="fl"><a href="/privacypolicy">Privacy</a><a href="/cookies">Cookies</a><a href="mailto:hello@empresshealth.ai">Contact</a></div>
+  <p><strong style="color:rgba(255,255,255,.9);">Disclaimer:</strong> This is a wellness assessment tool only — not a medical diagnosis, clinical assessment, or treatment recommendation. It does not diagnose insomnia, sleep apnea, or any sleep disorder. The supplements and options suggested are for educational purposes only and are not medical advice. Always talk to your doctor before starting a new supplement. Empress Health suggests products from our curated marketplace, nothing more — we can also suggest a doctor.<br><br>
+  Contact us. Email: <a href="mailto:hello@empresshealth.ai" style="color:var(--gold);text-decoration:underline;">hello@empresshealth.ai</a><br>
+  © 2025 Empress Health. All rights reserved.</p>
+</div></footer>
+</div><!-- /sr -->
+
+<!-- ═══════════════ TRACK CONFIG + SCORING ENGINE ═══════════════
+
+  This page uses the SAME engine as free-assessment.html, but every piece of
+  track-specific content lives in the TRACK object below. To launch the next
+  symptom score (Low Libido, Brain Fog, Fatigue): copy this file, replace
+  TRACK, done. The engine below the config line does not change.
+
+  FORMULA (identical to the Health Intelligence Score)
+  ────────────────────────────────────────────────────
+  Scale         : 0–3 per item
+  Reverse score : item_score = 3 − raw
+  Domain score  : DS_d = [Σ(3−raw_i) / (n_d × 3)] × 100   → 0–100
+  Burden score  : SB   = Σ raw_responses                   → 0–36
+  Sleep Score   : SLS  = MAX(1, ROUND(Σ w_{d,stage}/100 × DS_d)) → 1–100
+
+  GUARDRAIL — every product in TRACK.products must be a verbatim entry in
+  data/product_catalog.json. Validated by scripts/test-free-quiz-products.mjs.
+═══════════════════════════════════════════════════════════════ -->
+<script>
+
+/* ══════════════════ TRACK CONFIG (swap this to clone) ══════════════════ */
+const TRACK={
+  id:"sleep",
+  scoreName:"Sleep Score",
+  scoreAbbr:"SLS",
+  burdenName:"Sleep Burden",
+  submitLabel:"See My Sleep Score →",
+
+  doms:[
+    {id:1,name:"Sleep Continuity",  short:"Continuity",     color:"#534AB7",qs:[0,1,2],
+     sub:"Falling asleep & staying asleep"},
+    {id:2,name:"Night Disruptors",  short:"Disruptors",     color:"#7B3F63",qs:[3,4,5],
+     sub:"Night sweats & unrestorative sleep"},
+    {id:3,name:"Daytime Impact",    short:"Daytime",        color:"#D8A738",qs:[6,7,8],
+     sub:"Fatigue, sleepiness & brain fog"},
+    {id:4,name:"Mind & Habits",     short:"Mind/Habits",    color:"#7F77DD",qs:[9,10,11],
+     sub:"Mood, worry & sleep aids"},
+  ],
+
+  questions:[
+    /* D1 — Sleep Continuity */
+    {q:"How long does it take you to fall asleep after getting into bed?",
+     hint:"0 = under 15 minutes · 3 = regularly over an hour"},
+    {q:"How often do you wake during the night and struggle to fall back asleep?"},
+    {q:"Do you wake specifically in the 2–4am window and find you can't return to sleep?"},
+    /* D2 — Night Disruptors */
+    {q:"How often do night sweats or hot flashes wake you or disrupt your sleep?"},
+    {q:"How often do you get less sleep than you need to feel functional the next day?"},
+    {q:"How often do you wake feeling unrested, as if you barely slept?"},
+    /* D3 — Daytime Impact */
+    {q:"How much does poor sleep leave you fatigued or physically drained during the day?"},
+    {q:"Do you feel irresistibly sleepy during the day even after a full night in bed?"},
+    {q:"How much does poor sleep worsen your focus, memory, or brain fog the next day?"},
+    /* D4 — Mind & Habits */
+    {q:"How much does poor sleep affect your mood, irritability, or anxiety?"},
+    {q:"How worried or distressed do you feel about your sleep?"},
+    {q:"How often do you rely on alcohol, medication, or supplements to fall or stay asleep?"},
+  ],
+
+  /* Stage-specific domain weights — every row sums to 100. */
+  weights:{perimenopause:[30,25,25,20],menopause:[25,35,25,15],post_menopause:[35,20,25,20]},
+
+  /* Clinical flags: raw ≥ t → provider-conversation language. qi is 0-based. */
+  flags:{
+    2:{qi:2,t:2,p:"RECOMMENDED",lbl:"2–4am waking (Q03)",
+       ref:"Regular waking in the 2–4am window is a classic cortisol-pattern disruption of the menopause transition — worth discussing with your provider, and very responsive to targeted support."},
+    3:{qi:3,t:2,p:"RECOMMENDED",lbl:"Night sweats disrupting sleep (Q04)",
+       ref:"Moderate-severe night sweats fragmenting your sleep are treatable — this is worth a conversation with a menopause specialist rather than something to endure."},
+    7:{qi:7,t:2,p:"RECOMMENDED",lbl:"Daytime sleepiness (Q08)",
+       ref:"Severe daytime sleepiness despite adequate time in bed can indicate obstructive sleep apnea, which becomes significantly more common after menopause. Ask your provider about a sleep study — it is a simple, definitive test."},
+    11:{qi:11,t:2,p:"RECOMMENDED",lbl:"Sleep-aid reliance (Q12)",
+        ref:"Regular reliance on alcohol or medication to sleep is worth reviewing with your provider — alcohol in particular fragments second-half-of-night sleep and worsens night sweats."},
+  },
+
+  /* Bands for the composite (higher = better) and the burden (lower = better). */
+  scoreBands:[{m:85,l:"Restorative",c:"#1D9E75"},{m:70,l:"Steady",c:"#639922"},{m:55,l:"Fragmented",c:"#D8A738"},{m:40,l:"Disrupted",c:"#7B3F63"},{m:1,l:"Depleted",c:"#A32D2D"}],
+  burdenBands:[{max:7,l:"Minimal",c:"#1D9E75"},{max:14,l:"Mild",c:"#639922"},{max:21,l:"Moderate",c:"#D8A738"},{max:28,l:"Significant",c:"#7B3F63"},{max:36,l:"Severe",c:"#A32D2D"}],
+
+  /* GUARDRAIL — verbatim names from data/product_catalog.json only. */
+  products:{
+    1:[
+      {n:"Low-Dose Melatonin 0.5mg (Prolonged Release)",w:"Physiological-dose, prolonged-release support for sleep onset and the 2–4am waking pattern."},
+      {n:"Magnesium Glycinate 400mg",w:"Supports GABA-A receptor activity for deeper sleep onset and fewer night wakings."},
+      {n:"Vitex (Chaste Tree Berry) 400mg Standardised Extract",w:"Cycle-supportive botanical traditionally used where progesterone decline disrupts sleep in perimenopause."},
+    ],
+    2:[
+      {n:"Cooling Pillow Protector / Mattress Pad (Phase-Change Material)",w:"Absorbs body heat during nocturnal vasomotor events so night sweats wake you less."},
+      {n:"Black Cohosh Extract 40mg (Standardised Triterpene Glycosides)",w:"Standardised extract traditionally used to ease the night sweats that fragment sleep."},
+      {n:"Mulberry Silk Pillowcase (22 Momme)",w:"Temperature-regulating sleep surface that stays cooler through the night."},
+    ],
+    3:[
+      {n:"Active B-Complex (Methylfolate + P5P + Methylcobalamin)",w:"Daytime energy and neurotransmitter support while your sleep recovers."},
+      {n:"Omega-3 EPA/DHA 2g Daily",w:"Supports the mood and cognitive pathways that sleep loss hits hardest."},
+      {n:"MCT Oil C8/C10 (Brain & Energy Support)",w:"Clean daytime cognitive fuel that doesn't disturb sleep like late caffeine does."},
+    ],
+    4:[
+      {n:"Adaptogen Blend (Ashwagandha KSM-66 + Rhodiola 3%)",w:"Blunts the evening cortisol surge behind wired-but-tired nights and sleep anxiety."},
+      {n:"Magnesium Glycinate 400mg",w:"Calms the nervous system — a gentler foundation than alcohol or sedatives for winding down."},
+    ],
+  },
+
+  bandDesc:{
+    Restorative:(sl)=>`Your sleep is genuinely restorative across all 4 domains — a real asset during the ${sl} transition, when sleep is usually the first thing to go. The goal now is protecting it.`,
+    Steady:(sl)=>`Your sleep is holding steady with targeted areas to improve. Because sleep amplifies every other ${sl} symptom, small gains here pay off across mood, focus, and energy.`,
+    Fragmented:(sl)=>`Your sleep is measurably fragmented — and fragmented sleep quietly amplifies brain fog, fatigue, and mood symptoms the next day. Structured sleep support typically produces visible change within 4–8 weeks.`,
+    Disrupted:(sl)=>`Your sleep is significantly disrupted across multiple domains. This is a key intervention window: sleep is the highest-leverage symptom of the ${sl} transition — when sleep recovers, mood, focus, and energy usually follow.`,
+    Depleted:(sl)=>`Your sleep is severely depleted. This is not 'just menopause' or something to push through — it is a measurable, treatable state, and clinical evaluation is strongly recommended. Prioritising sleep is the single most effective thing you can do for every other symptom.`,
+  },
+
+  storyHeadline:{
+    Restorative:"Your sleep is a genuine strength — protect it.",
+    Steady:"Your sleep is holding — with clear room to reclaim more.",
+    Fragmented:"Your sleep is fragmented — and it's quietly taxing your days.",
+    Disrupted:"Your sleep is significantly disrupted — and your body is paying for it daily.",
+    Depleted:"Your body is running on severely depleted sleep.",
+  },
+
+  domInsight:{
+    1:"Sleep continuity — falling asleep and staying asleep — is where the menopause transition shows up first. Estradiol and progesterone decline directly affect sleep-onset chemistry and the stability of sleep through the night.",
+    2:"Night-time disruptors are a force multiplier: every night sweat that wakes you fragments sleep architecture, elevates next-day cortisol, and amplifies brain fog, fatigue, and mood symptoms.",
+    3:"Daytime impact is where sleep debt collects — the fatigue, sleepiness, and brain fog you feel by afternoon are downstream of what happened (or didn't) overnight.",
+    4:"The mind-and-habits loop is real: worry about sleep raises arousal, which worsens sleep, which deepens the worry. Alcohol and sedatives feel like solutions but fragment sleep further.",
+  },
+
+  domNarrative:{
+    1:{High:"Sleep continuity is strong — you fall asleep and stay asleep with minimal disruption. Protect this with a consistent sleep/wake schedule, even on weekends.",
+       Moderate:"Sleep onset or night-waking is measurably disrupted. The 2–4am waking pattern in particular tracks the overnight cortisol rise of the menopause transition — highly responsive to consistent wind-down routines, temperature control, and targeted support.",
+       Low:"Severe continuity disruption — trouble falling asleep, staying asleep, or both. CBT-I (cognitive behavioural therapy for insomnia) is the gold-standard first-line treatment and outperforms sleeping pills long-term. Ask your provider for a referral or an evidence-based digital CBT-I program."},
+    2:{High:"Night-time disruptors are minimal or well-managed. Keep your bedroom cool (65–67°F) as insurance — the thermoregulatory zone narrows through the transition.",
+       Moderate:"Night sweats or unrestorative sleep are moderately disrupting your nights. Cooling the sleep environment is the highest-leverage immediate step; if night sweats persist, they are treatable — talk to a menopause specialist.",
+       Low:"Severe night-time disruption is driving a whole-system cascade. Vasomotor management is your highest-leverage intervention — clinical options are effective, and lifestyle measures alone are usually insufficient at this severity."},
+    3:{High:"Daytime function is well-preserved — your sleep, whatever its imperfections, is doing its restorative job.",
+       Moderate:"Sleep debt is measurably collecting in your days: fatigue, sleepiness, or fog by afternoon. Anchor your wake time (same time daily, light exposure within 30 minutes) — it is the single strongest lever on daytime energy.",
+       Low:"Severe daytime impairment — especially irresistible sleepiness despite adequate time in bed — warrants clinical evaluation, including screening for sleep apnea, before attributing everything to menopause."},
+    4:{High:"Your relationship with sleep is healthy — low worry, no reliance on aids. That psychological ease is itself protective of sleep.",
+       Moderate:"Sleep worry or occasional reliance on aids is creeping in. Wind-down routines and limiting the bed to sleep (stimulus control) break the worry-arousal loop before it entrenches.",
+       Low:"High sleep distress or regular reliance on alcohol/medication to sleep. Both are treatable patterns — CBT-I directly targets sleep anxiety, and your provider can help you taper sleep aids safely. Alcohol especially fragments second-half-of-night sleep."},
+  },
+
+  domScience:{
+    1:"Estradiol supports serotonin and melatonin synthesis; progesterone is a positive GABA-A modulator. Their decline directly destabilises sleep onset and maintenance.",
+    2:"Night sweats arise from a narrowed hypothalamic thermoregulatory zone — each event triggers an arousal that fragments deep and REM sleep, even when you don't fully wake.",
+    3:"One night of fragmented sleep measurably impairs working memory, glucose regulation, and mood the following day — sleep debt is physiological, not attitudinal.",
+    4:"Hyperarousal is the engine of chronic insomnia. CBT-I outperforms sedatives in trials because it treats the arousal loop, not just the symptom.",
+  },
+
+  domActions:{
+    1:{Low:["Ask your provider about CBT-I — the gold-standard, first-line insomnia treatment. <a href='mailto:hello@empresshealth.ai' style='color:var(--plum);text-decoration:underline;font-weight:700;'>We can suggest a provider: hello@empresshealth.ai</a>","Fix your wake time first — same time 7 days/week, ±20 minutes","If awake >20 minutes at night: leave the bed, low light, return only when sleepy","Keep a 2-week sleep diary (bedtime, wake time, night wakings) to bring to your provider"],
+      Moderate:["Consistent wind-down: same 30-minute routine nightly, screens out of the last 30","Anchor your wake time — consistency beats duration for continuity","No caffeine after 12pm; it has a 6-hour half-life","2–4am waking: try a 4-7-8 breathing cycle before checking the clock — and don't check the clock"],
+      High:["Protect your schedule consistency — it is doing the work","Reassess quarterly; continuity is usually the first domain to shift"]},
+    2:{Low:["Discuss night-sweat treatment with a menopause specialist — clinical options are effective at this severity","Bedroom 65–67°F, moisture-wicking bedding, cooling mattress layer","Eliminate alcohol for 4 weeks — it directly triggers nocturnal vasomotor events","Track night-sweat frequency for 2 weeks to quantify the pattern for your provider"],
+      Moderate:["Cool the room to 65–67°F and switch to breathable, moisture-wicking bedding","Alcohol and late spicy meals are the two most common night-sweat triggers — trial 4 weeks without","Paced breathing at a night-waking: 4s inhale, 7s hold, 8s exhale","If night sweats persist, they are treatable — raise them with your provider"],
+      High:["Keep the bedroom cool as preventive insurance","Monitor for change as your stage progresses"]},
+    3:{Low:["Rule out sleep apnea if sleepiness is severe — ask your provider about a sleep study","Morning light within 30 minutes of waking — the strongest circadian anchor","Protect a consistent wake time even after a bad night; sleeping in deepens the cycle","Strategic 20-minute nap before 2pm if needed — never longer, never later"],
+      Moderate:["Get outside light within 30 minutes of waking, 10+ minutes","Move the body daily — even a 20-minute walk measurably improves that night's sleep","Front-load caffeine before noon only","If afternoon crashes persist, review iron, B12, and thyroid with your GP"],
+      High:["Maintain your morning light + movement routine","Keep naps strategic (short, early) if you take them"]},
+    4:{Low:["Ask your provider about CBT-I — it directly treats sleep anxiety and outperforms sedatives long-term","Plan an alcohol-free month — measure the difference in night wakings","If using sleep medication regularly, ask your provider about a safe taper plan — do not stop abruptly","Move worry out of the bed: 10-minute 'worry journal' earlier in the evening"],
+      Moderate:["Stimulus control: bed is for sleep — reading, scrolling, and worrying happen elsewhere","Replace the nightcap: alcohol shortens sleep onset but fragments the second half of the night","Try a wind-down alternative: magnesium, warm shower, or a body-scan practice","Cap the worry loop: clock face turned away, no time-checking at night"],
+      High:["Your low-worry, low-aid pattern is protective — keep it","Stay alert to creeping 'occasional' aids becoming nightly"]},
+  },
+};
+
+/* ══════════════════ ENGINE (identical logic to free-assessment.html) ══════════════════ */
+
+const DOMS=TRACK.doms, W=TRACK.weights, FLAGS=TRACK.flags, PRODUCTS=TRACK.products;
+const HB=TRACK.scoreBands, GB=TRACK.burdenBands;
+const NQ=TRACK.questions.length;
+
+/* ── STATE ── */
+let stage=null,mht=false,R=new Array(NQ).fill(null),answered=0;
+
+/* ── RENDER QUESTIONS FROM CONFIG ── */
+(function renderQuestions(){
+  let h="",qn=0;
+  DOMS.forEach((d,di)=>{
+    h+=`<div class="dh"${di>0?' style="margin-top:1.25rem;"':''}><div class="dn" style="background:${d.color};">S${d.id}</div>
+      <div><h3>${d.name}</h3><p>${d.sub}</p></div></div>`;
+    d.qs.forEach(qi=>{
+      const q=TRACK.questions[qi];
+      qn++;
+      const opts=[["0","Not at all"],["1","Mild"],["2","Moderate"],["3","Severe"]]
+        .map(([v,l])=>`<button class="op" onclick="sel(${qi},${v},this)"><span class="on">${v}</span><span class="ol">${l}</span></button>`).join("");
+      h+=`<div class="qc">
+        <div class="qm"><span class="qn">Q${String(qn).padStart(2,"0")}</span></div>
+        <div class="qt">${q.q}</div>
+        ${q.hint?`<div class="qh">${q.hint}</div>`:""}
+        <div class="sr" id="r${qi}">${opts}</div>
+      </div>`;
+    });
+  });
+  document.getElementById("qHost").innerHTML=h;
+})();
+
+/* ── NAV ── */
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');window.scrollTo(0,0);}
+function retake(){R=new Array(NQ).fill(null);answered=0;stage=null;
+  document.querySelectorAll('.op').forEach(b=>b.className='op');
+  document.querySelectorAll('.sc').forEach(b=>b.classList.remove('sel'));
+  const n=document.getElementById('s1n');n.disabled=true;n.style.cursor='not-allowed';n.style.opacity='.42';
+  const sb=document.getElementById('bsub');sb.disabled=true;
+  document.getElementById('pn').textContent=`Answer all ${NQ} questions to generate your score — 0 of ${NQ} answered`;
+  go('s0');}
+
+/* ── STAGE ── */
+function ps(s,btn){
+  stage=s;
+  document.querySelectorAll('.sc').forEach(b=>{b.classList.remove('sel');});
+  btn.classList.add('sel');
+  const n=document.getElementById('s1n');
+  n.disabled=false;n.style.cursor='pointer';n.style.opacity='1';
+}
+
+/* ── OPTION SELECT ── */
+function sel(qi,val,btn){
+  const was=R[qi]!==null;
+  document.getElementById('r'+qi).querySelectorAll('.op').forEach(b=>b.className='op');
+  btn.classList.add('s'+val);
+  R[qi]=val;
+  if(!was)answered++;
+  document.getElementById('pn').textContent=`${answered} of ${NQ} answered${answered===NQ?' — ready to score!':''}`;
+  const sb=document.getElementById('bsub');
+  if(answered===NQ){sb.disabled=false;sb.textContent=TRACK.submitLabel;}
+}
+
+/* ── SCORING ── */
+const is=raw=>3-raw;
+function dscore(domIdx,resp){
+  const d=DOMS[domIdx],n=d.qs.length;
+  const sum=d.qs.reduce((a,qi)=>a+is(resp[qi]||0),0);
+  return Math.round((sum/(n*3))*1000)/10;
+}
+const burden=resp=>resp.reduce((a,v)=>a+(v||0),0);
+function composite(dScores,stg){
+  const wts=W[stg];
+  const t=dScores.reduce((a,s,i)=>a+(wts[i]/100)*s,0);
+  return Math.max(1,Math.min(100,Math.round(t)));
+}
+const getHB=h=>HB.find(b=>h>=b.m)||HB[HB.length-1];
+const getGB=g=>GB.find(b=>g<=b.max)||GB[GB.length-1];
+const getDB=s=>s>=70?'High':s>=35?'Moderate':'Low';
+const getDBStyle=b=>b==='High'?{bg:'#E8F5EF',tx:'#2A7A5A'}:b==='Moderate'?{bg:'#FBF0E4',tx:'#7B3F63'}:{bg:'#FAEAEA',tx:'#8B2E2E'};
+function detectFlags(resp){
+  return Object.values(FLAGS)
+    .filter(f=>(resp[f.qi]||0)>=f.t)
+    .sort((a,b)=>(a.p==='URGENT'?0:1)-(b.p==='URGENT'?0:1));
+}
+
+/* ── EMAIL GATE ── */
+function goEmail(){
+  if(answered<NQ) return;
+  mht=document.getElementById('mhtBox').checked;
+  go('se');
+}
+function submitEmail(){
+  var name=(document.getElementById('se-name').value||'').trim();
+  var email=(document.getElementById('se-email').value||'').trim();
+  var zip=(document.getElementById('se-zip').value||'').replace(/[^\d]/g,'').slice(0,5);
+  var phone=(document.getElementById('se-phone').value||'').trim();
+  var err=document.getElementById('se-err');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    err.textContent='Please enter a valid email address.'; err.style.display='block';
+    document.getElementById('se-email').focus(); return;
+  }
+  if(!/^\d{5}$/.test(zip)){
+    err.textContent='Please enter your 5-digit ZIP code.'; err.style.display='block';
+    document.getElementById('se-zip').focus(); return;
+  }
+  err.style.display='none';
+  var resp=R.map(function(v){return v===null?0:v;});
+  var dS=DOMS.map(function(_,i){return dscore(i,resp);});
+  var scoreV=composite(dS,stage), burdenV=burden(resp);
+  try{
+    fetch('/api/free-score-lead',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      credentials:'same-origin',
+      body:JSON.stringify({track:TRACK.id,firstName:name,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:scoreV,gcs:burdenV,responses:resp})
+    }).catch(function(){});
+  }catch(e){}
+  gen();
+}
+
+/* ── GENERATE REPORT ── */
+function gen(){
+  const resp=R.map(v=>v===null?0:v);
+  const dS=DOMS.map((_,i)=>dscore(i,resp));
+  const scoreV=composite(dS,stage);
+  const burdenV=burden(resp);
+  const hb=getHB(scoreV),gb=getGB(burdenV);
+  const dBands=dS.map(s=>getDB(s));
+  const flags=detectFlags(resp);
+  const stLbl={perimenopause:'Perimenopause',menopause:'Menopause',post_menopause:'Post-Menopause'}[stage];
+  const topC=dS.indexOf(Math.min(...dS));
+  const topS=dS.indexOf(Math.max(...dS));
+
+  go('sr');
+  var SC='#FEFCF8';
+  drawRing(scoreV,SC);
+
+  el('hscore').textContent=scoreV;
+  el('hband').textContent=`${TRACK.scoreAbbr} · ${hb.l}`;
+  el('hband').style.color=SC;
+  el('hisBand').textContent=hb.l;
+  el('hisBand').style.color=SC;
+  el('hisBandDesc').textContent=(TRACK.bandDesc[hb.l]||function(){return ''})(stLbl);
+  el('rhs').textContent=`12-Question Sleep Screener · ${stLbl}`;
+  el('gscore').textContent=burdenV;
+  el('gscore').style.color=SC;
+  el('gfill').style.width=(burdenV/36*100)+'%';
+  el('gfill').style.background=SC;
+  el('gband').textContent=`${TRACK.burdenName} · ${gb.l}`;
+  el('stageInDomain').textContent=stLbl;
+  el('hisMeta').innerHTML=`
+    <div class="mi"><div class="ml">Stage</div><div class="mv">${stLbl}</div></div>
+    <div class="mi"><div class="ml">${TRACK.scoreAbbr} / 100</div><div class="mv" style="color:${SC};">${scoreV}</div></div>
+    <div class="mi"><div class="ml">Burden / 36</div><div class="mv" style="color:${SC};">${burdenV}</div></div>
+    <div class="mi"><div class="ml">Flags</div><div class="mv">${flags.length} triggered</div></div>
+    <div class="mi"><div class="ml">Top concern</div><div class="mv">${DOMS[topC].short}</div></div>
+    <div class="mi"><div class="ml">MHT</div><div class="mv">${mht?'Active':'No'}</div></div>`;
+
+  el('story').innerHTML=buildStory(scoreV,hb.l,burdenV,gb.l,flags,stLbl,topC,topS);
+
+  const wts=W[stage];
+  el('dpg').innerHTML=DOMS.map((d,i)=>{
+    const s=dS[i],b=dBands[i];
+    const{bg,tx}=getDBStyle(b);
+    return`<div class="dpr">
+      <div class="dpd" style="background:${d.color};"></div>
+      <div class="dpn">${d.short}</div>
+      <div class="dbt" style="flex:1;"><div class="dbf" style="width:${s}%;background:${d.color};"></div></div>
+      <div class="dps" style="color:${tx};">${s.toFixed(1)}</div>
+      <div class="dpb" style="background:${bg};color:${tx};">${b}</div>
+    </div>`;
+  }).join('');
+
+  renderFlags(flags);
+
+  el('domCards').innerHTML=DOMS.map((d,i)=>{
+    const s=dS[i],b=dBands[i];
+    const{bg,tx}=getDBStyle(b);
+    const nar=(TRACK.domNarrative[i+1]||{})[b]||'';
+    const sci=TRACK.domScience[i+1]||'';
+    const acts=((TRACK.domActions[i+1]||{})[b]||['Monitor this domain quarterly.']).slice(0,4);
+    return`<div class="dc" style="border-left-color:${d.color};">
+      <div class="dch">
+        <div>
+          <h3 style="font-size:.9375rem;margin-bottom:.2rem;">S${i+1} — ${d.name}</h3>
+          <p style="font-size:.7rem;color:var(--txs);margin:0;">${stLbl}</p>
+        </div>
+        <div class="dcb" style="background:${bg};">
+          <div class="dcbn" style="color:${tx};">${s.toFixed(1)}</div>
+          <div class="dcbl" style="color:${tx};">${b}</div>
+        </div>
+      </div>
+      <div class="dct">${nar}</div>
+      <div class="dcs">${sci}</div>
+      <div class="ab">
+        <div class="abl">Priority actions — S${i+1} ${d.name}</div>
+        ${acts.map((a,j)=>`<div class="ai"><span class="an">${j+1}.</span><span>${a}</span></div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  var prio=DOMS.map(function(d,i){return{i:i,s:dS[i]};}).sort(function(a,b){return a.s-b.s;}).slice(0,2).map(function(x){return x.i;});
+  el('prodSection').innerHTML=prio.map(function(di){
+    var ps=PRODUCTS[di+1]||[];
+    if(!ps.length) return '';
+    return '<div style="margin-bottom:1.1rem;"><div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:'+DOMS[di].color+';margin-bottom:.5rem;">For your '+DOMS[di].short+' priority</div>'+
+      ps.map(function(p){return '<div class="fc fcr"><div><div class="fch">'+p.n+'</div><p class="fcp">'+p.w+'</p></div></div>';}).join('')+'</div>';
+  }).join('');
+}
+
+/* ── RING CANVAS ── */
+function drawRing(v,c){
+  const cv=document.getElementById('rc');if(!cv)return;
+  const ctx=cv.getContext('2d'),cx=60,cy=60,r=52,lw=7;
+  ctx.clearRect(0,0,120,120);
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=lw;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(v/100)*Math.PI*2);
+  ctx.strokeStyle=c;ctx.lineWidth=lw;ctx.lineCap='round';ctx.stroke();
+}
+
+/* ── FLAGS ── */
+function renderFlags(flags){
+  if(!flags.length){
+    el('flagsSection').innerHTML=`<div class="fc fco"><span style="font-size:1rem;">✓</span><div><div class="fch" style="color:var(--green);">No clinical flags triggered</div><p class="fcp">No single response reached the moderate-to-severe threshold on the ${Object.keys(FLAGS).length} monitored items. This is a positive finding.</p></div></div>`;
+    return;
+  }
+  let h=`<p style="font-size:.82rem;color:var(--txm);margin-bottom:.75rem;">${flags.length} item${flags.length>1?'s':''} worth discussing with your provider — flagged independently of your composite score, so a high ${TRACK.scoreName} does not suppress them.</p>`;
+  h+=`<p style="font-size:.72rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin:.25rem 0 .4rem;">Recommended — worth a clinical conversation</p>`;
+  flags.forEach(f=>{h+=`<div class="fc fcr"><span class="fcb fcbr">Rec.</span><div><div class="fch">${f.lbl} (your response: ${R[f.qi]}/3)</div><p class="fcp">${f.ref}</p></div></div>`;});
+  el('flagsSection').innerHTML=h;
+}
+
+/* ── STORY ── */
+function buildStory(score,bl,g,gl,flags,sl,topC,topS){
+  const hn=TRACK.storyHeadline[bl]||'';
+  const dom=TRACK.domInsight[topC+1]||'';
+  let html=`<p class="sp lg"><em>"${hn}"</em></p>`;
+  html+=`<p class="sp">Your ${TRACK.scoreName} of <strong>${score}/100</strong> and ${TRACK.burdenName} of <strong>${g}/36 (${gl})</strong> give you two lenses on the same 12 answers. The ${TRACK.scoreName} is your wellness composite — higher is better. The ${TRACK.burdenName} is your symptom-severity sum — lower is better.</p>`;
+  html+=`<p class="sp">Your primary concern is <strong>${DOMS[topC].name}</strong>. ${dom}</p>`;
+  if(flags.length>0){html+=`<div class="cb cba"><h4>▲ Clinical flags triggered</h4><p>${flags.length} item${flags.length>1?'s':''} reached the threshold worth discussing with your provider. Review the Clinical Safety section below.</p></div>`;}
+  if(mht){html+=`<div class="cbp cb"><h4>MHT Note</h4><p>You are on menopausal hormone therapy. Your Night Disruptors score reflects your treated state — if night sweats still fragment your sleep on treatment, that is specifically worth raising with your prescriber.</p></div>`;}
+  html+=`<p class="sp">Your strongest domain is <strong>${DOMS[topS].name}</strong> — a genuine asset to protect while you work on the priority areas. And because sleep drives mood, focus, and energy, improvements here compound: <strong>fix sleep first, and the rest gets easier.</strong></p>`;
+  return html;
+}
+
+/* ── UTILS ── */
+function el(id){return document.getElementById(id);}
+</script>
+</body>
+</html>

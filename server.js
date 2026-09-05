@@ -5,6 +5,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const cookieParser = require("cookie-parser");
@@ -60,10 +61,23 @@ let dbConnected = false;
 let pool = null;
 let sessionStore = undefined;
 
-// Only create pool if database credentials are provided
-if (process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process.env.DB_PASSWORD) {
+// Create a pool if EITHER discrete DB_* vars OR a DATABASE_URL is provided.
+// Serverless hosts (Vercel/Neon/Supabase) typically inject DATABASE_URL, so
+// supporting it means sessions get a real Postgres store there instead of
+// silently falling back to the in-memory MemoryStore (which does not persist
+// across serverless invocations — logins would not stick).
+const hasDiscreteDb = process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process.env.DB_PASSWORD;
+const hasDbUrl = Boolean(process.env.DATABASE_URL);
+if (hasDiscreteDb || hasDbUrl) {
   try {
-    pool = new Pool({
+    pool = new Pool(hasDbUrl ? {
+      connectionString: process.env.DATABASE_URL,
+      // Let sslmode in the connection string govern TLS; DB_SSL=true forces it on.
+      ssl: process.env.DB_SSL === 'true' ? true : undefined,
+      connectionTimeoutMillis: 10000,
+      idleTimeoutMillis: 30000,
+      max: 10
+    } : {
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || 5432,
       database: process.env.DB_NAME,
@@ -291,6 +305,17 @@ app.set('trust proxy', 1);
 // Parse cookies
 app.use(cookieParser());
 
+// Security response headers (clickjacking, MIME-sniffing, referrer, HSTS).
+// contentSecurityPolicy is left OFF here on purpose: the marketing pages load
+// several external scripts/fonts (Google Fonts, the /pages Babel+React CDN,
+// third-party widgets), so a default CSP would break them. CSP should be added
+// separately in report-only mode, then enforced once violations are triaged.
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+}));
+
 // Session configuration (persistent store when DB available, else MemoryStore)
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -300,6 +325,13 @@ if (!sessionSecret) {
     throw new Error('SESSION_SECRET environment variable is required in production');
   }
   console.warn('⚠️  SESSION_SECRET not set — using insecure dev default');
+}
+
+// Loudly flag the MemoryStore fallback in production: it does not persist across
+// serverless invocations or multiple instances, so logins silently won't stick.
+// Configure DATABASE_URL (or DB_HOST/DB_NAME/DB_USER/DB_PASSWORD) for a real store.
+if (!sessionStore && isProduction) {
+  console.error('❌ No session store configured — falling back to in-memory sessions. Logins will NOT persist on serverless/multi-instance. Set DATABASE_URL or DB_* to fix.');
 }
 
 app.use(session({
@@ -430,19 +462,19 @@ if (fs.existsSync(assessmentIndex)) {
 
 
 // ✅ Allow only your sites (production, dev, and Vercel previews)
+// Origin values are scheme + host only — never a path or trailing slash, so
+// entries like ".../qa" or ".../" can never match a real Origin header. Kept
+// clean here; empresshealth.ai subdomains and *.vercel.app are matched by
+// hostname in isAllowedOrigin() below.
 const allowedOrigins = [
   "https://empressnaturals.co",
   "https://www.empressnaturals.co",
   "http://localhost:3000",
   "http://localhost:3100",
   "https://empress-t348.onrender.com",
-  "https://empress-mvp.onrender.com/qa",
   "https://empress-health-site.onrender.com",
-  "https://empress-mvp-ai.onrender.com/qa",
-  "https://empress-health-backend.onrender.com/",
   "https://empresshealth.ai",
-  "https://www.empresshealth.ai",
-  "https://empress-health-ai.onrender.com/"
+  "https://www.empresshealth.ai"
 ];
 
 function isAllowedOrigin(origin) {
@@ -505,6 +537,143 @@ function redactSecrets(obj) {
   return out;
 }
 
+// The upstream auth service (Render) returns a non-JSON HTML page when it is
+// suspended, sleeping, or erroring — observed live as HTTP 503 with
+// `x-render-routing: suspend` and a "Service Suspended" body. Previously the
+// browser saw "Authentication server returned invalid response." plus the raw
+// HTML, and the team chased it as an app bug. Surface it as a clear, non-leaky
+// 503 and name the real cause in the server log.
+function authBackendUnavailable(res, backendResponse, rawText, route) {
+  const label = route === "signup" ? "Sign-up" : "Sign-in";
+  const routing = (backendResponse && backendResponse.headers.get("x-render-routing")) || "";
+  const suspended = routing === "suspend" || /service suspended/i.test(rawText || "");
+  const status = backendResponse ? backendResponse.status : "n/a";
+  console.error(
+    `[${route}] Auth backend ${RENDER_BASE_URL} returned HTTP ${status} with a non-JSON body` +
+    (suspended
+      ? " — the Render service is SUSPENDED (x-render-routing: suspend). This is an infrastructure outage, not an app bug: resume the service in the Render dashboard (check billing/plan)."
+      : ". Upstream is unavailable or misconfigured (RENDER_BASE_URL).")
+  );
+  return res.status(503).json({
+    error: `${label} is temporarily unavailable while we restore our authentication service. Please try again in a few minutes.`,
+    code: suspended ? "AUTH_BACKEND_SUSPENDED" : "AUTH_BACKEND_UNAVAILABLE"
+  });
+}
+
+/* -------------------- Local (in-app) authentication -------------------- */
+// When a Postgres pool is configured (DATABASE_URL or DB_*), accounts live in
+// OUR `users` table and passwords are verified here with bcrypt. This removes
+// the hard dependency on the external Render auth service, which was suspended
+// together with its database and took login/signup/profile down with it.
+// When no pool exists the handlers fall back to the legacy upstream proxy.
+const bcrypt = require("bcryptjs");
+const BCRYPT_ROUNDS = 12;
+
+// Regenerate the session (fixation protection), write the same state every
+// downstream guard reads (userId / userEmail / userName), issue a CSRF token,
+// and respond in the shape login.html / signup.html already expect.
+function establishAuthSession(req, res, user, extra) {
+  return new Promise((resolve) => {
+    req.session.regenerate((regenErr) => {
+      if (regenErr) {
+        console.error("❌ Error regenerating session:", regenErr);
+        res.status(500).json({ error: "Failed to establish session. Please try again." });
+        return resolve();
+      }
+      req.session.userId = user.id;
+      req.session.userEmail = user.email;
+      req.session.userName =
+        [user.first_name, user.last_name].filter(Boolean).join(" ").trim() || null;
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error("❌ Error saving session:", saveErr);
+          res.status(500).json({ error: "Failed to save session. Please try again." });
+          return resolve();
+        }
+        issueCsrfToken(req, res);
+        res.json({
+          success: true,
+          user: { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name },
+          // Same landing as the legacy flow: straight into the paid assessment.
+          redirect: "/assessment/?tier=paid",
+          ...extra,
+        });
+        resolve();
+      });
+    });
+  });
+}
+
+async function localSignup(req, res, { first_name, last_name, email, phone }, password) {
+  const normEmail = String(email).toLowerCase().trim();
+  const cleanPhone = phone ? String(phone).trim().slice(0, 40) : null;
+  const hashed = await bcrypt.hash(password, BCRYPT_ROUNDS);
+  let row;
+  try {
+    const r = await pool.query(
+      `INSERT INTO users (first_name, last_name, email, phone, hashed_password)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, first_name, last_name, email`,
+      [String(first_name).trim(), String(last_name).trim(), normEmail, cleanPhone, hashed]
+    );
+    row = r.rows[0];
+  } catch (dbErr) {
+    if (dbErr.code === "23505") {
+      // Email already exists. If that row has no password (a legacy record
+      // created while the external auth service owned credentials), let this
+      // signup claim it by setting the password; otherwise it's a real duplicate.
+      try {
+        const claim = await pool.query(
+          `UPDATE users
+              SET hashed_password = $1, first_name = $2, last_name = $3,
+                  phone = COALESCE($4, phone), updated_at = NOW()
+            WHERE email = $5 AND (hashed_password IS NULL OR hashed_password = '')
+        RETURNING id, first_name, last_name, email`,
+          [hashed, String(first_name).trim(), String(last_name).trim(), cleanPhone, normEmail]
+        );
+        if (claim.rows.length) {
+          console.log("✅ Legacy account claimed with new password (local auth):", normEmail);
+          return establishAuthSession(req, res, claim.rows[0], { message: "Account created successfully" });
+        }
+      } catch (claimErr) {
+        console.error("[signup:local] legacy-claim error:", claimErr.message);
+      }
+      return res.status(409).json({ error: "An account with this email already exists. Please log in." });
+    }
+    console.error("[signup:local] DB error:", dbErr.message);
+    return res.status(500).json({ error: "Could not create your account right now. Please try again." });
+  }
+  console.log("✅ User registered (local auth):", normEmail);
+  return establishAuthSession(req, res, row, { message: "Account created successfully" });
+}
+
+async function localLogin(req, res, email, password) {
+  const normEmail = String(email).toLowerCase().trim();
+  let user;
+  try {
+    const r = await pool.query(
+      `SELECT id, first_name, last_name, email, hashed_password, is_active
+         FROM users WHERE email = $1 LIMIT 1`,
+      [normEmail]
+    );
+    user = r.rows[0];
+  } catch (dbErr) {
+    console.error("[login:local] DB error:", dbErr.message);
+    return res.status(503).json({ error: "Sign-in is temporarily unavailable. Please try again in a few minutes." });
+  }
+  // Identical response for unknown email and wrong password — no account enumeration.
+  const ok = !!(user && user.hashed_password && (await bcrypt.compare(password, user.hashed_password)));
+  if (!ok) {
+    return res.status(401).json({ error: "Incorrect email or password." });
+  }
+  if (user.is_active === false) {
+    console.warn(`[login:local] Blocked deactivated user id=${user.id}`);
+    return res.status(403).json({ error: "This account has been deactivated. Please contact support." });
+  }
+  console.log("✅ User logged in (local auth):", normEmail);
+  return establishAuthSession(req, res, user, { message: "Login successful" });
+}
+
 // Contact form rate limiter: 5 requests per 10 minutes per IP
 const contactLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
@@ -526,21 +695,7 @@ if (!ZAPIER_CONTACT_WEBHOOK_URL) {
   console.warn('[contact] ZAPIER_CONTACT_WEBHOOK_URL not set — /api/contact will return 503');
 }
 
-// Rate limit /api/chat — relaxed so normal use doesn't hit 429; clear body for monitoring
-const chatLimiter = rateLimit({
-  windowMs: 60_000,
-  max: 60,
-  standardHeaders: true,
-  legacyHeaders: false,
-  handler: (req, res) => {
-    res.status(429).json({
-      error: "Too many requests",
-      message: "Rate limit exceeded for chat. Try again in a minute.",
-      retryAfter: 60
-    });
-  }
-});
-app.use("/api/chat", chatLimiter);
+// (chatLimiter removed with the /api/chat route — /qa has its own llmLimiter.)
 
 // Rate limit /api/shopify — proxies the Storefront GraphQL token, so abusive
 // volume from a single authenticated user would still burn the token's quota.
@@ -557,6 +712,55 @@ const shopifyLimiter = rateLimit({
 });
 app.use("/api/shopify", shopifyLimiter);
 
+// Rate limit the public, unauthenticated LLM endpoints. Each call to /qa and
+// /api/free-trial-report reaches Gemini + Pinecone, so an unthrottled loop is a
+// cost-DoS vector. A shared per-IP budget across both is intentional.
+const llmLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many requests",
+    message: "Rate limit exceeded. Please try again in a minute.",
+    retryAfter: 60
+  })
+});
+app.use("/qa", llmLimiter);
+app.use("/api/free-trial-report", llmLimiter);
+
+// Rate limit the public lead capture endpoint hard: it emails a branded copy to
+// a caller-supplied address, so without a cap it is an open spam relay off
+// Empress's sender reputation.
+const leadLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many requests",
+    message: "Too many submissions from this network. Please try again later.",
+    retryAfter: 3600
+  })
+});
+app.use("/api/free-score-lead", leadLimiter);
+
+// Rate limit the paid-report PDF render: each call spawns a headless-browser
+// render, so a burst of concurrent requests can exhaust memory/CPU even though
+// the route is session-gated.
+const pdfLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 6,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many requests",
+    message: "Please wait a moment before generating another PDF.",
+    retryAfter: 60
+  })
+});
+app.use("/api/report/pdf", pdfLimiter);
+
 // ✅ Simple server-side history cap/summarize hook
 function trimHistory(messages, maxTurns = 10) {
   // keep system + last N pairs
@@ -566,145 +770,10 @@ function trimHistory(messages, maxTurns = 10) {
   return [...system, ...kept];
 }
 
-app.post("/api/chat", async (req, res) => {
-  try {
-    // Accept both shapes: { message } or { query }
-    const raw =
-      (typeof req.body?.message === "string" ? req.body.message :
-        typeof req.body?.query === "string" ? req.body.query :
-          "");
-
-    const user = raw.trim();
-    if (!user) {
-      return res.status(400).json({ error: "message required" });
-    }
-
-    // Optional: timeout (prevents a hanging request)
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000); // 45s
-
-    const upstream = await fetch("https://empress-mvp-ai.onrender.com/qa", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // Keep if your upstream requires it; otherwise you can remove
-        "Authorization": `Bearer ${process.env.EMPRESS_CHAT_SECRET || ""}`
-      },
-      body: JSON.stringify({ query: user }),
-      signal: controller.signal
-    }).catch(err => {
-      // fetch throws on abort; surface a clean error
-      throw new Error(`Upstream fetch failed: ${err.message}`);
-    });
-    clearTimeout(timeout);
-
-    // Handle non-200s with diagnostic text
-    if (!upstream.ok) {
-      const text = await upstream.text().catch(() => "");
-      console.error("Upstream error:", upstream.status, text);
-      return res
-        .status(upstream.status)
-        .json({ error: "Upstream failed", detail: text || `status ${upstream.status}` });
-    }
-
-    // Be tolerant to either JSON or text
-    const rawText = await upstream.text();
-    let data;
-    try { data = JSON.parse(rawText); } catch { data = { response: rawText }; }
-
-    // Normalize shape so your frontend can always do data.response
-    const response =
-      data?.response ?? data?.answer ?? data?.message ?? "…";
-
-    return res.json({ response });
-  } catch (err) {
-    console.error("API /api/chat error:", err);
-    const msg = err?.message?.includes("aborted") ? "Upstream timeout" : "Internal server error";
-    return res.status(500).json({ error: msg });
-  }
-});
-
-
-/*app.post("/api/chat", async (req, res) => {
-  try {
-    const { message } = req.body || {};
-    if (!message) {
-      return res.status(400).json({ response: "Message is required", count: 0 });
-    }
-
-    // Default payload we'll always return
-    let data = { response: "Sorry, could not get a response from AI.", count: 0 };
-
-    // Timeout setup (15s)
-    const controller = new AbortController();
-    const t = setTimeout(() => controller.abort(), 40000);
-
-    let upstream;
-    try {
-      upstream = await fetch("https://empress-mvp-ai.onrender.com/qa", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "accept": "application/json"
-        },
-        body: JSON.stringify({ query: message }),
-        signal: controller.signal
-      });
-    } catch (err) {
-      clearTimeout(t);
-      if (err.name === "AbortError") {
-        return res.status(504).json({ response: "AI server timed out. Please try again.", count: 0 });
-      }
-      console.error("Network error to upstream:", err);
-      return res.status(502).json({ response: "Upstream unreachable.", count: 0 });
-    }
-
-    clearTimeout(t);
-
-    const contentType = upstream.headers.get("content-type") || "";
-    const status = upstream.status;
-    const raw = await upstream.text(); // read once
-
-    if (!raw.trim()) {
-      // Upstream returned nothing (common with crash/500)
-      console.error("Empty response from upstream. Status:", status);
-      return res.status(502).json({ response: "Upstream returned empty response.", count: 0 });
-    }
-
-    let parsed;
-    if (contentType.includes("application/json")) {
-      try {
-        parsed = JSON.parse(raw);
-      } catch (e) {
-        console.error("Invalid JSON from upstream:", e, "First 200 chars:", raw.slice(0, 200));
-        return res.status(502).json({ response: "Invalid JSON from upstream.", count: 0 });
-      }
-    } else {
-      // Fallback: upstream sent text/HTML (e.g., platform error page)
-      console.warn("Non-JSON upstream response. content-type:", contentType, "status:", status);
-      // Optionally surface a sanitized snippet to help debug
-      return res.status(502).json({
-        response: `Upstream error (status ${status}).`,
-        count: 0
-      });
-    }
-
-    if (!upstream.ok) {
-      // Upstream gave JSON but with an error status
-      const errMsg = parsed?.error || parsed?.message || `HTTP ${status}`;
-      return res.status(502).json({ response: `Upstream error: ${errMsg}`, count: 0 });
-    }
-
-    // Success path
-    data.response = parsed.response || parsed.answer || "Sorry, no response";
-    data.count = parsed.retrieved_documents_count ?? parsed.count ?? 0;
-    return res.status(200).json(data);
-
-  } catch (err) {
-    console.error("Internal server error:", err);
-    return res.status(500).json({ response: "Internal server error", count: 0 });
-  }
-});*/
+// [removed] /api/chat proxied to an external onrender service and was unused
+// by any page (the chat widget posts to the grounded local /qa; the SPA uses
+// /api/chatbot/assessment-notes). The live route + a dead commented copy were
+// deleted in the audit hardening pass. Use /qa for grounded Q&A.
 
 
 
@@ -1239,6 +1308,12 @@ app.post("/api/signup", authLimiter, async (req, res) => {
       return res.status(400).json({ error: "Password must be at least 8 characters with letters and numbers" });
     }
 
+    // Local account creation in our own Postgres whenever a database is
+    // configured — no dependency on the external auth service.
+    if (pool) {
+      return localSignup(req, res, { first_name, last_name, email, phone }, password);
+    }
+
     // Forward request to backend server
     try {
       const backendResponse = await fetch(`${RENDER_BASE_URL}/api/v1/auth/register`, {
@@ -1261,7 +1336,19 @@ app.post("/api/signup", authLimiter, async (req, res) => {
         backendResponse.headers.get('x-auth-token') ||
         backendResponse.headers.get('x-access-token');
 
-      const backendData = await backendResponse.json();
+      // Read as text first: when the auth service is suspended it returns an
+      // HTML page, and `.json()` would throw straight into a generic 500.
+      const responseText = await backendResponse.text();
+      let backendData = {};
+      if (responseText) {
+        try {
+          backendData = JSON.parse(responseText);
+        } catch (jsonErr) {
+          return authBackendUnavailable(res, backendResponse, responseText, "signup");
+        }
+      } else if (!backendResponse.ok) {
+        return authBackendUnavailable(res, backendResponse, "", "signup");
+      }
 
       // Log full backend response for debugging (secrets redacted)
       console.log('🔍 Backend registration response:', JSON.stringify(redactSecrets(backendData), null, 2));
@@ -1424,6 +1511,12 @@ app.post("/api/login", authLimiter, async (req, res) => {
       password
     };
 
+    // Local authentication against our own Postgres whenever a database is
+    // configured — no dependency on the external auth service.
+    if (pool) {
+      return localLogin(req, res, loginPayload.email, password);
+    }
+
     let backendResponse;
     try {
       backendResponse = await fetch(`${RENDER_BASE_URL}/api/v1/auth/login`, {
@@ -1447,14 +1540,11 @@ app.post("/api/login", authLimiter, async (req, res) => {
       try {
         backendData = JSON.parse(responseText);
       } catch (jsonErr) {
-        console.error("❌ Invalid JSON from login backend:", jsonErr.message);
-        if (!backendResponse.ok) {
-          return res.status(backendResponse.status).json({
-            error: "Authentication server returned invalid response.",
-            detail: responseText.substring(0, 200)
-          });
-        }
+        // Non-JSON body = the auth service is down/suspended, not a bad login.
+        return authBackendUnavailable(res, backendResponse, responseText, "login");
       }
+    } else if (!backendResponse.ok) {
+      return authBackendUnavailable(res, backendResponse, "", "login");
     }
 
     if (!backendResponse.ok) {
@@ -2920,8 +3010,31 @@ app.post("/api/free-score-lead", async (req, res) => {
     const his       = Number.isFinite(Number(b.his)) ? Number(b.his) : null;
     const gcs       = Number.isFinite(Number(b.gcs)) ? Number(b.gcs) : null;
 
+    // Track config — one 12-question score per symptom (sleep first). Unknown or
+    // absent track falls back to the menopause Health Intelligence Score. Add a
+    // config entry here when a new symptom-score page ships.
+    const TRACKS = {
+      menopause: {
+        source: "free-12q-screener", screener: "12-Question Screener",
+        scoreLabel: "Health Intelligence", burdenLabel: "Symptom Burden",
+        subject: "Your Empress Health screener results",
+        hb: [{ m: 85, l: "Thriving" }, { m: 70, l: "Flourishing" }, { m: 55, l: "Managing" }, { m: 40, l: "Struggling" }, { m: 1, l: "Critical" }],
+        gb: [{ max: 7, l: "Minimal" }, { max: 14, l: "Mild" }, { max: 21, l: "Moderate" }, { max: 28, l: "Significant" }, { max: 36, l: "Severe" }],
+      },
+      sleep: {
+        source: "free-sleep-score", screener: "Sleep Score",
+        scoreLabel: "Sleep Score", burdenLabel: "Sleep Burden",
+        subject: "Your Empress Health Sleep Score",
+        hb: [{ m: 85, l: "Restorative" }, { m: 70, l: "Steady" }, { m: 55, l: "Fragmented" }, { m: 40, l: "Disrupted" }, { m: 1, l: "Depleted" }],
+        gb: [{ max: 7, l: "Minimal" }, { max: 14, l: "Mild" }, { max: 21, l: "Moderate" }, { max: 28, l: "Significant" }, { max: 36, l: "Severe" }],
+      },
+    };
+    const trackKey = (typeof b.track === "string" && TRACKS[b.track]) ? b.track : "menopause";
+    const T = TRACKS[trackKey];
+
     await notify("lead", {
-      source:    "free-12q-screener",
+      source:    T.source,
+      track:     trackKey,
       firstName,
       email:     email.slice(0, 200),
       zip:       typeof b.zip === "string" ? b.zip.replace(/[^\d]/g, "").slice(0, 5) : null,
@@ -2937,43 +3050,43 @@ app.post("/api/free-score-lead", async (req, res) => {
     // configured; otherwise logged to email_outbox.log. Never blocks the score.
     try {
       const { sendEmail } = require("./lib/email-sender");
-      // HIS bands (higher = better) and GCS bands (higher = more symptom burden),
-      // mirrored from the free screener client.
-      const HB = [
-        { m: 85, l: "Thriving" }, { m: 70, l: "Flourishing" }, { m: 55, l: "Managing" },
-        { m: 40, l: "Struggling" }, { m: 1, l: "Critical" },
-      ];
-      const GB = [
-        { max: 7, l: "Minimal" }, { max: 14, l: "Mild" }, { max: 21, l: "Moderate" },
-        { max: 28, l: "Significant" }, { max: 36, l: "Severe" },
-      ];
+      // Band labels come from the resolved track (composite higher = better,
+      // burden higher = worse), mirrored from the free screener client.
+      const HB = T.hb;
+      const GB = T.gb;
       const hisBand = his != null ? (HB.find((x) => his >= x.m) || HB[HB.length - 1]).l : "—";
       const gcsBand = gcs != null ? (GB.find((x) => gcs <= x.max) || GB[GB.length - 1]).l : "—";
+      // Escape caller-supplied fields before interpolating into email HTML.
+      const escHtml = (s) => String(s).replace(/[&<>"']/g, (c) => (
+        { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+      ));
       const hello = firstName ? `Hi ${firstName},` : "Hi there,";
+      const helloHtml = firstName ? `Hi ${escHtml(firstName)},` : "Hi there,";
+      const stageHtml = stage ? escHtml(stage) : "";
       const html = `
         <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#3a2030;">
           <div style="background:#4A1A3A;padding:28px 24px;border-radius:12px 12px 0 0;text-align:center;">
             <p style="color:#D8A738;letter-spacing:.18em;font-size:11px;font-weight:700;text-transform:uppercase;margin:0 0 6px;">Empress Health</p>
-            <p style="color:#ffffff;font-size:18px;margin:0;">Your 12-Question Screener Results</p>
+            <p style="color:#ffffff;font-size:18px;margin:0;">Your ${T.screener} Results</p>
           </div>
           <div style="background:#FEFCF8;padding:24px;border:1px solid #eee;border-top:0;border-radius:0 0 12px 12px;">
-            <p>${hello}</p>
+            <p>${helloHtml}</p>
             <p>Here is a copy of your results. Keep it for your records or share it with your healthcare provider.</p>
             <table style="width:100%;border-collapse:collapse;margin:18px 0;">
               <tr>
                 <td style="padding:12px;background:#fff;border:1px solid #eee;border-radius:8px;width:50%;text-align:center;">
-                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">Health Intelligence</div>
+                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">${T.scoreLabel}</div>
                   <div style="font-size:34px;font-weight:700;color:#4A1A3A;">${his != null ? his : "—"}<span style="font-size:15px;color:#999;">/100</span></div>
                   <div style="font-size:13px;color:#7B3F63;">${hisBand}</div>
                 </td>
                 <td style="padding:12px;background:#fff;border:1px solid #eee;border-radius:8px;width:50%;text-align:center;">
-                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">Symptom Burden</div>
+                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">${T.burdenLabel}</div>
                   <div style="font-size:34px;font-weight:700;color:#4A1A3A;">${gcs != null ? gcs : "—"}<span style="font-size:15px;color:#999;">/36</span></div>
                   <div style="font-size:13px;color:#7B3F63;">${gcsBand}</div>
                 </td>
               </tr>
             </table>
-            ${stage ? `<p style="font-size:13px;color:#7B3F63;margin:0 0 16px;">Life stage: <strong>${stage}</strong></p>` : ""}
+            ${stage ? `<p style="font-size:13px;color:#7B3F63;margin:0 0 16px;">Life stage: <strong>${stageHtml}</strong></p>` : ""}
             <p style="font-size:12px;color:#777;line-height:1.7;background:#fff;border:1px solid #eee;border-radius:8px;padding:14px;">
               <strong>Disclaimer:</strong> This is a wellness assessment tool only — not a medical diagnosis,
               clinical assessment, or treatment recommendation. Always talk to your doctor before starting a new
@@ -2986,16 +3099,16 @@ app.post("/api/free-score-lead", async (req, res) => {
             <p style="font-size:11px;color:#aaa;">© 2025 Empress Health. All rights reserved.</p>
           </div>
         </div>`;
-      const text = `${hello}\n\nYour 12-Question Screener results:\n` +
-        `Health Intelligence: ${his != null ? his : "—"}/100 (${hisBand})\n` +
-        `Symptom Burden: ${gcs != null ? gcs : "—"}/36 (${gcsBand})\n` +
+      const text = `${hello}\n\nYour ${T.screener} results:\n` +
+        `${T.scoreLabel}: ${his != null ? his : "—"}/100 (${hisBand})\n` +
+        `${T.burdenLabel}: ${gcs != null ? gcs : "—"}/36 (${gcsBand})\n` +
         (stage ? `Life stage: ${stage}\n` : "") +
         `\nDisclaimer: This is a wellness assessment tool only — not a medical diagnosis. ` +
         `Always talk to your doctor before starting a new supplement or treatment.\n\n` +
         `Contact us. Email: hello@empresshealth.ai\n© 2025 Empress Health.`;
       await sendEmail({
         to: email.slice(0, 200),
-        subject: "Your Empress Health screener results",
+        subject: T.subject,
         html,
         text,
       });
@@ -3878,6 +3991,13 @@ app.get("/askempress", (_req, res) =>
 app.get("/free-assessment", (_req, res) =>
   res.sendFile(path.join(__dirname, "free-assessment.html"))
 );
+
+// Free 12-question Sleep Score (first of the four symptom tracks:
+// sleep, low libido, brain fog, fatigue). Same engine as /free-assessment;
+// track-specific content lives in the page's TRACK config.
+app.get(["/sleep-assessment", "/sleep-score"], (_req, res) =>
+  res.sendFile(path.join(__dirname, "sleep-assessment.html"))
+);
 app.get("/pricing", (_req, res) =>
   res.sendFile(path.join(__dirname, "pricing.html"))
 );
@@ -4197,6 +4317,23 @@ app.use((req, res) => {
       );
   }
   res.status(404).sendFile(path.join(__dirname, "index.html"));
+});
+
+// Global error handler — MUST be last. Express 5 forwards async rejections here.
+// Logs the full error server-side but returns a generic message so stack traces
+// and internal detail never reach the client (previously the default handler did,
+// especially with NODE_ENV=development).
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const requestId = `err-${Date.now().toString(36)}`;
+  console.error(`[${requestId}] Unhandled error on ${req.method} ${req.originalUrl}:`, err && err.stack ? err.stack : err);
+  if (res.headersSent) return next(err);
+  if (req.path.startsWith("/api") || req.path === "/qa") {
+    return res.status(500).json({ error: "Internal server error", requestId });
+  }
+  res.status(500).type("html").send(
+    "<!DOCTYPE html><html><body style='font-family:system-ui;padding:2rem'><h1>Something went wrong</h1><p>Please try again. If this keeps happening, contact support.</p></body></html>"
+  );
 });
 
 // On Vercel (serverless), the runtime invokes the exported handler; never

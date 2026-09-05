@@ -77,6 +77,10 @@ const SYNONYMS = {
   "sweats":           ["sweats", "vasomotor", "night sweats", "nocturnal"],
   "menopause":        ["menopause", "menopause", "perimenopause", "climacteric"],
   "perimenopause":    ["perimenopause", "perimenopausal", "menopause"],
+  // Keep in sync with lib/retrieval.js: bridge the MHT (current site copy) and
+  // HRT (corpus) terminology so a re-embed maps them to the same tokens.
+  "mht":              ["mht", "hrt", "hormone therapy", "hormone"],
+  "hrt":              ["hrt", "mht", "hormone therapy", "hormone"],
   "mood":             ["mood", "anxiety", "emotional", "depression", "psychological"],
   "anxiety":          ["anxiety", "anxious", "mood", "emotional", "psychological"],
   "depression":       ["depression", "depressed", "mood", "phq"],

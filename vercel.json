@@ -26,10 +26,9 @@
     { "source": "/public/(.*)", "destination": "/$1" }
   ],
   "env": {
-    "NODE_ENV": "development",
+    "NODE_ENV": "production",
     "MOCK_LLM": "0",
     "ALLOW_UNGROUNDED_FASTAPI": "0",
-    "VERCEL_DEMO": "1",
-    "SESSION_SECRET": "vercel-demo-only-not-a-real-secret-fffffffffffffffff"
+    "VERCEL_DEMO": "1"
   }
 }
