@@ -43,6 +43,14 @@ prds/dist
 /public/coverphotos/whatisempress.png
 /public/expert4.png
 
+# === Large design-source dumps (mirrors .gitignore) — not referenced at
+# runtime; the biggest single file here (281MB total in Hero Image/) is
+# what broke `vercel --prod` with "File size limit exceeded (100 MB)". ===
+/Hero Image
+/Hero Image New
+/EmpressHealth logo - RGB - Modified
+/fwd1012minihealthintelligencereportenginewithchat
+
 # === Heavy reference docs not needed at runtime ===
 /Health Assessment Report (1).pdf
 /Empress_Full_Assessment_Questions.docx
