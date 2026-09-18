@@ -22,6 +22,7 @@ const { callGemini } = require("./lib/gemini");
 const retrieval = require("./lib/retrieval");
 const { issueCsrfToken, verifyCsrfMiddleware } = require("./lib/csrf");
 const dailyAffirmations = require("./lib/daily-affirmations");
+const accessCodes = require("./lib/access-codes");
 // Init retrieval on startup (non-blocking; will auto-init on first call if missed)
 retrieval.init().catch((err) => console.warn("[retrieval] Deferred init warning:", err.message));
 
@@ -297,6 +298,7 @@ if (hasDiscreteDb || hasDbUrl) {
 // Inject pg pool into daily-affirmations module (null-safe — module handles file fallback)
 if (pool) {
   dailyAffirmations.setPool(pool);
+  accessCodes.setPool(pool);
 }
 
 // Parse JSON bodies for /api routes
@@ -744,6 +746,36 @@ const leadLimiter = rateLimit({
   })
 });
 app.use("/api/free-score-lead", leadLimiter);
+
+// A completed paid assessment sends one transactional result summary to the
+// address the member entered at the start. Keep this separate from the free
+// screener budget so either funnel cannot starve the other.
+const assessmentEmailLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many result-email requests. Please try again later.",
+    retryAfter: 3600,
+  }),
+});
+app.use("/api/assessment/report-email", assessmentEmailLimiter);
+
+// /api/checkout/start can mail an access code to a caller-supplied address,
+// and /api/checkout/promo does a code lookup — both need a cap so neither
+// becomes a spam relay or a code-guessing surface.
+const checkoutLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({
+    error: "Too many checkout requests. Please try again later.",
+    retryAfter: 3600,
+  }),
+});
+app.use(["/api/checkout/start", "/api/checkout/promo"], checkoutLimiter);
 
 // Rate limit the paid-report PDF render: each call spawns a headless-browser
 // render, so a burst of concurrent requests can exhaust memory/CPU even though
@@ -3123,6 +3155,76 @@ app.post("/api/free-score-lead", async (req, res) => {
   }
 });
 
+/**
+ * Email a concise, transactional copy of the completed paid assessment.
+ * The full interactive report remains in the browser; this message preserves
+ * the score, all ten domain scores, priorities, and personalised affirmations.
+ *
+ * CSRF protection applies (the assessment client obtains /api/csrf first), and
+ * the per-session delivery key makes React retries / page refreshes idempotent.
+ */
+app.post("/api/assessment/report-email", async (req, res) => {
+  try {
+    const {
+      normaliseAssessmentEmailPayload,
+      renderAssessmentResultEmail,
+    } = require("./lib/assessment-report-email");
+    const { sendEmail, getEmailDeliveryConfig } = require("./lib/email-sender");
+    const payload = normaliseAssessmentEmailPayload(req.body);
+    const delivery = getEmailDeliveryConfig();
+
+    // A file log is useful for development and CI, but it is not delivery.
+    // Fail loudly in production instead of telling a member an email was sent.
+    if (isProduction && !delivery.smtpReady) {
+      console.error("[assessment-email] SMTP is not fully configured; refusing false-success response.");
+      return res.status(503).json({
+        error: "Email delivery is temporarily unavailable. Please use Print / Save as PDF for now.",
+        code: "EMAIL_NOT_CONFIGURED",
+      });
+    }
+
+    const deliveryKey = String(req.body && req.body.deliveryKey || "").slice(0, 160);
+    if (deliveryKey && req.session) {
+      const prior = req.session.assessmentEmailDeliveries || {};
+      if (prior[deliveryKey] === payload.to) {
+        return res.json({ ok: true, delivered: delivery.smtpReady, mode: delivery.surface, deduplicated: true });
+      }
+    }
+
+    const message = renderAssessmentResultEmail(payload);
+    const result = await sendEmail({
+      to: payload.to,
+      subject: message.subject,
+      html: message.html,
+      text: message.text,
+    });
+
+    if (deliveryKey && req.session) {
+      req.session.assessmentEmailDeliveries = {
+        ...(req.session.assessmentEmailDeliveries || {}),
+        [deliveryKey]: payload.to,
+      };
+    }
+
+    console.log(
+      `[assessment-email] sender=${delivery.sender || "unconfigured"} surface=${result.mode} recipient=${payload.to}`
+    );
+    return res.json({
+      ok: true,
+      delivered: result.mode === "smtp",
+      mode: result.mode,
+      messageId: result.messageId,
+    });
+  } catch (err) {
+    const message = err && err.message ? err.message : "Could not send assessment results.";
+    const isValidation = /required|valid email|valid Health Intelligence/i.test(message);
+    console.error("[assessment-email] failed:", message);
+    return res.status(isValidation ? 400 : 502).json({
+      error: isValidation ? message : "We could not email your results. Please use Print / Save as PDF and try again later.",
+    });
+  }
+});
+
 app.post("/api/assessment/feedback", async (req, res) => {
   try {
     const { notify } = require("./lib/notify");
@@ -4049,6 +4151,23 @@ app.post("/api/checkout/start", async (req, res) => {
       req.session.paidAt       = new Date().toISOString();
     }
 
+    // Optional: mail the member an access code for the full 120-question
+    // report so they can return to it later (e.g. on another device) without
+    // re-purchasing. Best-effort — never blocks completing checkout.
+    const email = typeof req.body?.email === "string" ? req.body.email.trim() : "";
+    if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      try {
+        const { code } = await accessCodes.issueCode({ email, plan, note: "post-checkout" });
+        const { sendEmail } = require("./lib/email-sender");
+        const { normalisePaidAccessEmailPayload, renderPaidAccessEmail } = require("./lib/paid-access-email");
+        const payload = normalisePaidAccessEmailPayload({ email, firstName: req.body?.firstName, code });
+        const message = renderPaidAccessEmail(payload);
+        await sendEmail({ to: payload.to, subject: message.subject, html: message.html, text: message.text });
+      } catch (mailErr) {
+        console.error("[checkout] access-code email failed:", mailErr.message);
+      }
+    }
+
     // TODO: replace this stub with a real Stripe Checkout Session URL.
     return res.json({
       ok: true,
@@ -4062,20 +4181,46 @@ app.post("/api/checkout/start", async (req, res) => {
   }
 });
 
-app.get("/api/checkout/promo", (req, res) => {
+app.get("/api/checkout/promo", async (req, res) => {
   const code = String(req.query.code || "").trim().toUpperCase();
   if (!code) return res.json({ valid: false, message: "Enter a code." });
+
   const hit = PROMO_CODES[code];
-  if (!hit) return res.json({ valid: false, message: "That code isn't valid." });
-  return res.json({
-    valid: true,
-    discount: hit.discount,
-    message: hit.message,
-    // When true, the client unlocks the full report immediately (no payment).
-    freeUnlock: !!hit.freeUnlock,
-    // Where the client should send the user once a free-unlock code is applied.
-    unlockUrl: hit.freeUnlock ? "/assessment/?tier=paid" : null,
-  });
+  if (hit) {
+    return res.json({
+      valid: true,
+      discount: hit.discount,
+      message: hit.message,
+      // When true, the client unlocks the full report immediately (no payment).
+      freeUnlock: !!hit.freeUnlock,
+      // Where the client should send the user once a free-unlock code is applied.
+      unlockUrl: hit.freeUnlock ? "/assessment/?tier=paid" : null,
+    });
+  }
+
+  // Not a static promo — check individually-issued access codes (emailed to
+  // a specific person via /api/checkout/start or minted directly).
+  try {
+    const issued = await accessCodes.redeemCode(code);
+    if (issued.valid) {
+      if (req.session) {
+        req.session.tierPaid = true;
+        req.session.plan     = issued.plan || req.session.plan || "annual";
+        req.session.paidAt   = new Date().toISOString();
+      }
+      return res.json({
+        valid: true,
+        discount: "free",
+        message: "Access code applied — your full report is unlocked.",
+        freeUnlock: true,
+        unlockUrl: "/assessment/?tier=paid",
+      });
+    }
+  } catch (err) {
+    console.error("[checkout] access-code lookup failed:", err.message);
+  }
+
+  return res.json({ valid: false, message: "That code isn't valid." });
 });
 app.get("/events", (_req, res) =>
   res.sendFile(path.join(__dirname, "events.html"))

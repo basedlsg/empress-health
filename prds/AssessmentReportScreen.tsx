@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useAssessment } from "./AssessmentProvider"
 import { AssessmentSiteNav } from "./AssessmentSiteNav"
 import {
@@ -49,6 +49,11 @@ import {
 type Props = {
   onRetake: () => void
   apiResult: AssessmentApiResult
+}
+
+type EmailDeliveryState = {
+  status: "idle" | "sending" | "sent" | "test" | "error"
+  message: string
 }
 
 /* ───── Grounding metadata ─────
@@ -447,6 +452,15 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
   const overallBandColor = hisUsable ? hisResult.hisColor : null
   const completedLabel = formatCompletedDate(completedAt)
   const totalCategories = categoryScores.length
+  const affirmationItems = useMemo(
+    () => normaliseAffirmations(apiResult.affirmations),
+    [apiResult.affirmations],
+  )
+  const [emailDelivery, setEmailDelivery] = useState<EmailDeliveryState>({
+    status: "idle",
+    message: "",
+  })
+  const emailAttempted = useRef(false)
 
   const findCategory = (id: number): AssessmentCategory | undefined =>
     categories.find((c) => c.id === id)
@@ -462,6 +476,83 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
     tier: isFree ? "free" : "paid",
     completedAt: completedAt ?? null,
   }
+
+  const sendReportEmail = useCallback(async () => {
+    if (isFree || !user?.email) return
+    setEmailDelivery({ status: "sending", message: `Emailing a copy to ${user.email}…` })
+
+    try {
+      const csrfResponse = await fetch("/api/csrf", {
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      })
+      if (!csrfResponse.ok) throw new Error("Could not start secure email delivery.")
+      const csrfData = await csrfResponse.json()
+      if (!csrfData?.csrfToken) throw new Error("Could not start secure email delivery.")
+
+      const response = await fetch("/api/assessment/report-email", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfData.csrfToken,
+        },
+        body: JSON.stringify({
+          deliveryKey: `${completedAt || "completed"}:${user.email.toLowerCase()}`,
+          email: user.email,
+          firstName: user.firstName,
+          overall,
+          band: overallBandLabel || overallStatus,
+          stage,
+          completedAt,
+          categoryScores,
+          priorities,
+          affirmations: affirmationItems.map((item) => item.text),
+        }),
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(data?.error || "We could not email your results.")
+      }
+
+      if (data?.mode === "log") {
+        setEmailDelivery({
+          status: "test",
+          message: "Email delivery is in test mode; your result copy was captured in the local outbox.",
+        })
+      } else {
+        setEmailDelivery({
+          status: "sent",
+          message: `A copy of your results was emailed to ${user.email}.`,
+        })
+      }
+    } catch (error) {
+      setEmailDelivery({
+        status: "error",
+        message: error instanceof Error ? error.message : "We could not email your results.",
+      })
+    }
+  }, [
+    affirmationItems,
+    categoryScores,
+    completedAt,
+    isFree,
+    overall,
+    overallBandLabel,
+    overallStatus,
+    priorities,
+    stage,
+    user,
+  ])
+
+  // Email the result summary once the completed paid report is visible. The
+  // ref prevents React StrictMode's development-only effect replay from
+  // producing duplicate messages; the server also deduplicates by session.
+  useEffect(() => {
+    if (isFree || !user?.email || emailAttempted.current) return
+    emailAttempted.current = true
+    void sendReportEmail()
+  }, [isFree, sendReportEmail, user?.email])
 
   return (
     <div style={s.page}>
@@ -760,7 +851,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
       {/* ─── 05 AFFIRMATIONS ─── */}
       {/* Free tier shows only 1 to preview the experience and encourage upgrade. */}
       <AffirmationsSection
-        affirmations={normaliseAffirmations(apiResult.affirmations)}
+        affirmations={affirmationItems}
         limit={isFree ? 1 : undefined}
         feedbackCtx={feedbackCtx}
       />
@@ -788,7 +879,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
 
       {/* Non-fatal API errors: only surface when BOTH affirmations and recs are empty. */}
       {apiResult.errors.length > 0 &&
-        normaliseAffirmations(apiResult.affirmations).length === 0 &&
+        affirmationItems.length === 0 &&
         apiResult.recommendations.length === 0 && (
           <section style={s.section}>
             <p style={s.errorNote}>
@@ -806,7 +897,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
             categoryScores,
             priorities,
             strengths,
-            affirmations: normaliseAffirmations(apiResult.affirmations).map((a) => a.text),
+            affirmations: affirmationItems.map((a) => a.text),
             recommendations: apiResult.recommendations,
             completedAt,
           }}
@@ -1025,6 +1116,20 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
 
       {/* ─── ACTIONS ─── */}
       <section style={s.ctaSection} className="empress-report-cta">
+        {!isFree && emailDelivery.status !== "idle" && (
+          <div
+            data-testid="assessment-email-status"
+            role={emailDelivery.status === "error" ? "alert" : "status"}
+            style={emailDelivery.status === "error" ? s.emailStatusError : s.emailStatus}
+          >
+            <span>{emailDelivery.message}</span>
+            {emailDelivery.status === "error" && (
+              <button type="button" onClick={sendReportEmail} style={s.emailRetryBtn}>
+                Try email again
+              </button>
+            )}
+          </div>
+        )}
         <div style={s.ctaRow}>
           {!isFree && (
             <button type="button" onClick={() => window.print()} style={s.printBtn}>
@@ -4019,6 +4124,43 @@ const s: Record<string, React.CSSProperties> = {
     display: "flex",
     gap: 16,
     flexWrap: "wrap" as const,
+  },
+  emailStatus: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 14,
+    padding: "14px 18px",
+    borderRadius: 10,
+    border: `1px solid ${gold}66`,
+    background: `${gold}18`,
+    color: plum,
+    fontSize: "0.9rem",
+    lineHeight: 1.5,
+  },
+  emailStatusError: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 14,
+    padding: "14px 18px",
+    borderRadius: 10,
+    border: "1px solid #C0392B55",
+    background: "#FFF4F2",
+    color: "#8E2F25",
+    fontSize: "0.9rem",
+    lineHeight: 1.5,
+  },
+  emailRetryBtn: {
+    flex: "0 0 auto",
+    padding: "8px 14px",
+    borderRadius: 999,
+    border: `1px solid ${plum}`,
+    background: "#fff",
+    color: plum,
+    fontSize: "0.82rem",
+    fontWeight: 700,
+    cursor: "pointer",
   },
   printBtn: {
     padding: "14px 28px",
