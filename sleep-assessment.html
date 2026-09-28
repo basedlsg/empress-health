@@ -207,6 +207,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   .dbt{display:none;}
 }
 </style>
+  <script src="/api/analytics.js" defer></script>
 </head>
 <body>
 
@@ -636,11 +637,31 @@ function composite(dScores,stg){
 const getHB=h=>HB.find(b=>h>=b.m)||HB[HB.length-1];
 const getGB=g=>GB.find(b=>g<=b.max)||GB[GB.length-1];
 const getDB=s=>s>=70?'High':s>=35?'Moderate':'Low';
+// Domain scores are higher-is-better, so the raw 'Low' band means the domain
+// needs the most support. Show it in words people read correctly.
+const bandLabel=b=>({High:'Doing well',Moderate:'Needs attention',Low:'Priority'})[b]||b;
 const getDBStyle=b=>b==='High'?{bg:'#E8F5EF',tx:'#2A7A5A'}:b==='Moderate'?{bg:'#FBF0E4',tx:'#7B3F63'}:{bg:'#FAEAEA',tx:'#8B2E2E'};
 function detectFlags(resp){
   return Object.values(FLAGS)
     .filter(f=>(resp[f.qi]||0)>=f.t)
     .sort((a,b)=>(a.p==='URGENT'?0:1)-(b.p==='URGENT'?0:1));
+}
+
+
+/* Full results for the emailed copy + the saved record: the same domain
+   scores, top concern, actions, flags and product picks the page shows. */
+function reportPayload(resp,dS){
+  const strip=h=>String(h||'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
+  const bands=dS.map(getDB);
+  const order=dS.map((s,i)=>({s,i})).sort((a,b)=>a.s-b.s);
+  const top=order[0].i, strong=order[order.length-1].i;
+  return {
+    domains:DOMS.map((d,i)=>({name:d.name,score:Math.round(dS[i]),band:bandLabel(bands[i])})),
+    topConcern:{name:DOMS[top].name,summary:strip((TRACK.domNarrative[top+1]||{})[bands[top]]),actions:((TRACK.domActions[top+1]||{})[bands[top]]||[]).slice(0,4).map(strip)},
+    strongest:DOMS[strong].name,
+    flags:detectFlags(resp).map(f=>({label:f.lbl,note:f.ref,response:resp[f.qi]})),
+    products:order.slice(0,2).flatMap(x=>(PRODUCTS[x.i+1]||[]).map(p=>({name:p.n,why:p.w,for:DOMS[x.i].short})))
+  };
 }
 
 /* ── EMAIL GATE ── */
@@ -672,7 +693,7 @@ function submitEmail(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       credentials:'same-origin',
-      body:JSON.stringify({track:TRACK.id,firstName:name,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:scoreV,gcs:burdenV,responses:resp})
+      body:JSON.stringify({track:TRACK.id,firstName:name,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:scoreV,gcs:burdenV,responses:resp,report:reportPayload(resp,dS)})
     }).catch(function(){});
   }catch(e){}
   gen();
@@ -727,7 +748,7 @@ function gen(){
       <div class="dpn">${d.short}</div>
       <div class="dbt" style="flex:1;"><div class="dbf" style="width:${s}%;background:${d.color};"></div></div>
       <div class="dps" style="color:${tx};">${s.toFixed(1)}</div>
-      <div class="dpb" style="background:${bg};color:${tx};">${b}</div>
+      <div class="dpb" style="background:${bg};color:${tx};">${bandLabel(b)}</div>
     </div>`;
   }).join('');
 
@@ -747,7 +768,7 @@ function gen(){
         </div>
         <div class="dcb" style="background:${bg};">
           <div class="dcbn" style="color:${tx};">${s.toFixed(1)}</div>
-          <div class="dcbl" style="color:${tx};">${b}</div>
+          <div class="dcbl" style="color:${tx};">${bandLabel(b)}</div>
         </div>
       </div>
       <div class="dct">${nar}</div>

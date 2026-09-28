@@ -136,6 +136,11 @@
     .plan .btn { margin-top: auto; }
     .plan .current-tag { position: absolute; top: -12px; left: var(--space-sm); font: 700 0.6875rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; background: var(--color-gold); color: var(--color-plum); border-radius: 999px; padding: 6px 10px; }
 
+    .results { display: grid; gap: 12px; }
+    .result { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 16px var(--space-sm); }
+    .result .r-score { font: 800 1.5rem/1 var(--font-display); color: var(--color-plum); }
+    .result .r-score small { font: 400 0.95rem/1 var(--font-body); color: var(--color-muted); }
+    .result .r-meta { color: var(--color-muted); font-size: 0.95rem; margin: 4px 0 0; }
     .acct-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; padding-top: var(--space-sm); border-top: 1px solid var(--color-card-border); }
     .loading { color: var(--color-muted); padding: var(--space-lg) 0; text-align: center; }
 
@@ -149,6 +154,7 @@
     @media (max-width: 420px) { .row2 { grid-template-columns: 1fr; } }
     @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:hover:not(:disabled) { transform: none; } }
   </style>
+  <script src="/api/analytics.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -257,6 +263,12 @@
           <p class="fine" id="naturals-fine">Check out with <strong id="naturals-email"></strong> — the code is tied to that email.</p>
         </div>
       </div>
+
+      <section id="results-wrap" hidden style="margin-bottom:var(--space-md);">
+        <h2>Your results</h2>
+        <p class="lede" style="margin-bottom:var(--space-xs);">Every assessment you complete while signed in is saved here.</p>
+        <div class="results" id="results"></div>
+      </section>
 
       <h2>Membership</h2>
       <p class="lede" id="plans-lede" style="margin-bottom:0;">Change or cancel any time. Paid plans renew monthly.</p>
@@ -440,6 +452,31 @@
       }
     }
 
+    var RETAKE = { "free-12q-screener": "/free-assessment", "free-sleep-score": "/sleep-assessment", "paid-120": "/assessment/?tier=paid" };
+    function renderResults() {
+      var list = state.results || [];
+      $("results-wrap").hidden = list.length === 0;
+      var wrap = $("results"); wrap.innerHTML = "";
+      list.forEach(function (r) {
+        var card = document.createElement("article");
+        card.className = "card result";
+        var left = document.createElement("div");
+        var h = document.createElement("h3"); h.textContent = r.label; left.appendChild(h);
+        var meta = document.createElement("p"); meta.className = "r-meta";
+        var when = r.completedAt ? new Date(r.completedAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+        meta.textContent = [when, r.band, r.stage ? String(r.stage).replace(/_/g, " ") : ""].filter(Boolean).join(" · ");
+        left.appendChild(meta);
+        var right = document.createElement("div");
+        right.style.cssText = "display:flex;align-items:center;gap:16px;";
+        var sc = document.createElement("div"); sc.className = "r-score";
+        sc.innerHTML = (r.score == null ? "—" : String(Number(r.score))) + " <small>/ 100</small>";
+        var again = document.createElement("a"); again.className = "ghost"; again.href = RETAKE[r.kind] || "/"; again.textContent = "Take again";
+        right.appendChild(sc); right.appendChild(again);
+        card.appendChild(left); card.appendChild(right);
+        wrap.appendChild(card);
+      });
+    }
+
     function render() {
       $("loading").hidden = true;
       if (!state.authenticated) {
@@ -459,6 +496,7 @@
       $("plans-lede").textContent = state.billingConfigured
         ? "Change or cancel any time. Paid plans renew monthly."
         : "Essential and Premium open for sign-up very soon. Your account is ready for them.";
+      renderResults();
       renderPlans();
       renderNaturals();
     }

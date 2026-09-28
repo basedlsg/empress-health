@@ -508,6 +508,9 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
           categoryScores,
           priorities,
           affirmations: affirmationItems.map((item) => item.text),
+          // Saved server-side with the result (not emailed).
+          responses,
+          mhtActive,
         }),
       })
       const data = await response.json().catch(() => ({}))
@@ -541,6 +544,8 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
     overallBandLabel,
     overallStatus,
     priorities,
+    responses,
+    mhtActive,
     stage,
     user,
   ])

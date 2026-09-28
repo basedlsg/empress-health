@@ -508,6 +508,9 @@ app.use(cors({
 // Membership tiers, Stripe billing + webhook, Empress Naturals hand-off.
 // Must precede express.json(): the Stripe webhook verifies the raw body.
 require("./lib/membership-routes").registerMembershipRoutes(app, { getPool: () => pool });
+// Durable store for every email / quiz result / contact message.
+const captureStore = require("./lib/capture-store");
+captureStore.configure({ getPool: () => pool });
 
 app.use(express.json({ limit: "1mb" }));
 
@@ -650,6 +653,7 @@ async function localSignup(req, res, { first_name, last_name, email, phone }, pa
     return res.status(500).json({ error: "Could not create your account right now. Please try again." });
   }
   console.log("✅ User registered (local auth):", normEmail);
+  await captureStore.captureEmail({ email: normEmail, firstName: row.first_name, source: "signup", userId: row.id });
   return establishAuthSession(req, res, row, { message: "Account created successfully" });
 }
 
@@ -2092,11 +2096,7 @@ app.post("/api/auth/logout", (req, res) => {
  * in contact.html (P2 bug fix).
  */
 app.post("/api/contact", contactLimiter, async (req, res) => {
-  if (!ZAPIER_CONTACT_WEBHOOK_URL) {
-    return res.status(503).json({ error: "Contact form is currently unavailable. Please try again later." });
-  }
-
-  let { name, email, phone, message } = req.body;
+  let { name, email, phone, message } = req.body || {};
 
   // Coerce to strings and length-cap each field.
   name    = String(name    ?? '').slice(0, 100).trim();
@@ -2115,27 +2115,113 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
     return res.status(400).json({ error: "Message is required." });
   }
 
-  try {
-    const zapiResp = await fetch(ZAPIER_CONTACT_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name, email, phone, message,
-        timestamp: new Date().toISOString(),
-        source: 'Empress Health Contact Form'
-      }),
-      signal: AbortSignal.timeout(10_000)
-    });
+  // 1. Keep it. The message is safe once it's in the database, whatever
+  //    happens to delivery below.
+  const [messageId] = await Promise.all([
+    captureStore.saveContactMessage({ name, email, phone, message }),
+    captureStore.captureEmail({ email, firstName: name, source: "contact-form" }),
+  ]);
 
-    if (!zapiResp.ok) {
-      console.error('[contact] Zapier webhook returned', zapiResp.status);
-      return res.status(502).json({ error: "Failed to deliver message. Please try again." });
+  // 2. Deliver to the team inbox over SMTP, Reply-To the visitor. (This used
+  //    to depend solely on a Zapier webhook that was never configured in
+  //    production, so every submission was rejected.)
+  let delivered = false;
+  const { sendEmail, getEmailDeliveryConfig } = require("./lib/email-sender");
+  const delivery = getEmailDeliveryConfig();
+  const inbox = process.env.CONTACT_INBOX || delivery.sender;
+  if (delivery.smtpReady && inbox) {
+    try {
+      const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+      await sendEmail({
+        to: inbox,
+        subject: `Website contact: ${name.slice(0, 60)}`,
+        headers: { "Reply-To": email },
+        html: `<div style="font-family:Arial,sans-serif;max-width:600px;color:#1f1b2d;">
+          <h2 style="color:#3f1449;margin:0 0 12px;">New message from empresshealth.ai</h2>
+          <p><strong>Name:</strong> ${esc(name)}<br><strong>Email:</strong> ${esc(email)}${phone ? `<br><strong>Phone:</strong> ${esc(phone)}` : ""}</p>
+          <div style="white-space:pre-wrap;background:#fffaf1;border:1px solid #ececf1;border-radius:8px;padding:14px;">${esc(message)}</div>
+          <p style="color:#6e6a7a;font-size:12px;">Reply to this email to answer ${esc(name)} directly.</p>
+        </div>`,
+        text: `New message from empresshealth.ai\n\nName: ${name}\nEmail: ${email}\n${phone ? `Phone: ${phone}\n` : ""}\n${message}\n`,
+      });
+      delivered = true;
+    } catch (err) {
+      console.error("[contact] SMTP delivery failed:", err.message);
     }
+  }
 
-    return res.json({ ok: true });
+  // 3. Optional Zapier hand-off, when configured.
+  if (ZAPIER_CONTACT_WEBHOOK_URL) {
+    try {
+      const zapiResp = await fetch(ZAPIER_CONTACT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, message, timestamp: new Date().toISOString(), source: 'Empress Health Contact Form' }),
+        signal: AbortSignal.timeout(10_000)
+      });
+      if (zapiResp.ok) delivered = true;
+      else console.error('[contact] Zapier webhook returned', zapiResp.status);
+    } catch (err) {
+      console.error('[contact] Webhook error:', err.message);
+    }
+  }
+
+  if (delivered) await captureStore.markContactDelivered(messageId);
+  if (!delivered && !messageId) {
+    return res.status(502).json({ error: "We couldn't send your message. Please email hello@empresshealth.ai directly." });
+  }
+  return res.json({ ok: true });
+});
+
+// Google Analytics loader. Every page includes <script src="/api/analytics.js">;
+// it is a no-op until GA_MEASUREMENT_ID (G-XXXXXXX) is set in the environment,
+// so turning analytics on is a settings change, not a code change.
+app.get("/api/analytics.js", (_req, res) => {
+  const id = String(process.env.GA_MEASUREMENT_ID || "").trim();
+  res.type("application/javascript");
+  res.set("Cache-Control", "public, max-age=300, s-maxage=300");
+  if (!/^G-[A-Z0-9]{4,16}$/.test(id)) return res.send("/* analytics not configured */");
+  return res.send(`(function(){var s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id=${id}";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","${id}");})();`);
+});
+
+// Save an email the moment it's entered (e.g. the assessment intake), so it is
+// kept even if the visitor stops before the end.
+const captureLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
+app.post("/api/capture/email", captureLimiter, async (req, res) => {
+  const b = req.body || {};
+  const source = typeof b.source === "string" && /^[a-z0-9-]{1,60}$/.test(b.source) ? b.source : "site";
+  const ctx = b.context && typeof b.context === "object" ? b.context : null;
+  const ok = await captureStore.captureEmail({
+    email: typeof b.email === "string" ? b.email : "",
+    firstName: typeof b.firstName === "string" ? b.firstName : null,
+    source,
+    userId: req.session && Number.isInteger(req.session.userId) ? req.session.userId : null,
+    context: ctx,
+  });
+  return res.status(ok ? 200 : 400).json({ ok });
+});
+
+// Email delivery check for operators: verifies the SMTP login WITHOUT sending
+// anything. Guarded by EMAIL_HEALTH_TOKEN so it can't be used to probe SMTP.
+app.get("/api/health/email", async (req, res) => {
+  const token = process.env.EMAIL_HEALTH_TOKEN;
+  if (!token || req.get("x-health-token") !== token) return res.status(404).end();
+  const { getEmailDeliveryConfig } = require("./lib/email-sender");
+  const cfg = getEmailDeliveryConfig();
+  const out = { smtpReady: cfg.smtpReady, sender: cfg.sender, host: process.env.SMTP_HOST || null, port: process.env.SMTP_PORT || null };
+  if (!cfg.smtpReady) return res.json({ ...out, verified: false, error: "SMTP not fully configured" });
+  try {
+    const nodemailer = require("nodemailer");
+    const port = Number(process.env.SMTP_PORT || 587);
+    const t = nodemailer.createTransport({
+      host: process.env.SMTP_HOST, port, secure: port === 465,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      connectionTimeout: 10000, greetingTimeout: 10000,
+    });
+    await t.verify();
+    return res.json({ ...out, verified: true });
   } catch (err) {
-    console.error('[contact] Webhook error:', err.message);
-    return res.status(502).json({ error: "Failed to deliver message. Please try again." });
+    return res.json({ ...out, verified: false, error: String(err && err.message || err).slice(0, 300) });
   }
 });
 
@@ -3082,72 +3168,39 @@ app.post("/api/free-score-lead", async (req, res) => {
       responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
     });
 
-    // Best-effort: email the user their own report copy. Sends via SMTP when
-    // configured; otherwise logged to email_outbox.log. Never blocks the score.
+    // Durable copy: the email itself + her answers and scores.
+    const capture = require("./lib/capture-store");
+    const sessionUserId = req.session && Number.isInteger(req.session.userId) ? req.session.userId : null;
+    const HB = T.hb;
+    const GB = T.gb;
+    const hisBand = his != null ? (HB.find((x) => his >= x.m) || HB[HB.length - 1]).l : "—";
+    const gcsBand = gcs != null ? (GB.find((x) => gcs <= x.max) || GB[GB.length - 1]).l : "—";
+    const { renderFreeScoreEmail, normaliseReport } = require("./lib/free-score-email");
+    const report = normaliseReport(b.report);
+    await Promise.all([
+      capture.captureEmail({
+        email, firstName, source: T.source, userId: sessionUserId,
+        context: {
+          zip: typeof b.zip === "string" ? b.zip.replace(/[^\d]/g, "").slice(0, 5) : null,
+          phone: typeof b.phone === "string" ? b.phone.slice(0, 40) : null,
+        },
+      }),
+      capture.saveSubmission({
+        kind: T.source, email, firstName, userId: sessionUserId, stage, score: his, band: hisBand,
+        scores: { burden: gcs, burdenBand: gcsBand, hrt: b.hrt === true, domains: report.domains, flags: report.flags },
+        responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
+      }),
+    ]);
+
+    // Email her the full results report. Never blocks the score.
     try {
       const { sendEmail } = require("./lib/email-sender");
-      // Band labels come from the resolved track (composite higher = better,
-      // burden higher = worse), mirrored from the free screener client.
-      const HB = T.hb;
-      const GB = T.gb;
-      const hisBand = his != null ? (HB.find((x) => his >= x.m) || HB[HB.length - 1]).l : "—";
-      const gcsBand = gcs != null ? (GB.find((x) => gcs <= x.max) || GB[GB.length - 1]).l : "—";
-      // Escape caller-supplied fields before interpolating into email HTML.
-      const escHtml = (s) => String(s).replace(/[&<>"']/g, (c) => (
-        { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
-      ));
-      const hello = firstName ? `Hi ${firstName},` : "Hi there,";
-      const helloHtml = firstName ? `Hi ${escHtml(firstName)},` : "Hi there,";
-      const stageHtml = stage ? escHtml(stage) : "";
-      const html = `
-        <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#3a2030;">
-          <div style="background:#4A1A3A;padding:28px 24px;border-radius:12px 12px 0 0;text-align:center;">
-            <p style="color:#D8A738;letter-spacing:.18em;font-size:11px;font-weight:700;text-transform:uppercase;margin:0 0 6px;">Empress Health</p>
-            <p style="color:#ffffff;font-size:18px;margin:0;">Your ${T.screener} Results</p>
-          </div>
-          <div style="background:#FEFCF8;padding:24px;border:1px solid #eee;border-top:0;border-radius:0 0 12px 12px;">
-            <p>${helloHtml}</p>
-            <p>Here is a copy of your results. Keep it for your records or share it with your healthcare provider.</p>
-            <table style="width:100%;border-collapse:collapse;margin:18px 0;">
-              <tr>
-                <td style="padding:12px;background:#fff;border:1px solid #eee;border-radius:8px;width:50%;text-align:center;">
-                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">${T.scoreLabel}</div>
-                  <div style="font-size:34px;font-weight:700;color:#4A1A3A;">${his != null ? his : "—"}<span style="font-size:15px;color:#999;">/100</span></div>
-                  <div style="font-size:13px;color:#7B3F63;">${hisBand}</div>
-                </td>
-                <td style="padding:12px;background:#fff;border:1px solid #eee;border-radius:8px;width:50%;text-align:center;">
-                  <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7B3F63;">${T.burdenLabel}</div>
-                  <div style="font-size:34px;font-weight:700;color:#4A1A3A;">${gcs != null ? gcs : "—"}<span style="font-size:15px;color:#999;">/36</span></div>
-                  <div style="font-size:13px;color:#7B3F63;">${gcsBand}</div>
-                </td>
-              </tr>
-            </table>
-            ${stage ? `<p style="font-size:13px;color:#7B3F63;margin:0 0 16px;">Life stage: <strong>${stageHtml}</strong></p>` : ""}
-            <p style="font-size:12px;color:#777;line-height:1.7;background:#fff;border:1px solid #eee;border-radius:8px;padding:14px;">
-              <strong>Disclaimer:</strong> This is a wellness assessment tool only — not a medical diagnosis,
-              clinical assessment, or treatment recommendation. Always talk to your doctor before starting a new
-              supplement or treatment. Empress Health suggests products from our curated marketplace; we can also
-              suggest a doctor.
-            </p>
-            <p style="font-size:13px;color:#4A1A3A;">Questions? Contact us. Email:
-              <a href="mailto:hello@empresshealth.ai" style="color:#7B3F63;">hello@empresshealth.ai</a>
-            </p>
-            <p style="font-size:11px;color:#aaa;">© 2025 Empress Health. All rights reserved.</p>
-          </div>
-        </div>`;
-      const text = `${hello}\n\nYour ${T.screener} results:\n` +
-        `${T.scoreLabel}: ${his != null ? his : "—"}/100 (${hisBand})\n` +
-        `${T.burdenLabel}: ${gcs != null ? gcs : "—"}/36 (${gcsBand})\n` +
-        (stage ? `Life stage: ${stage}\n` : "") +
-        `\nDisclaimer: This is a wellness assessment tool only — not a medical diagnosis. ` +
-        `Always talk to your doctor before starting a new supplement or treatment.\n\n` +
-        `Contact us. Email: hello@empresshealth.ai\n© 2025 Empress Health.`;
-      await sendEmail({
-        to: email.slice(0, 200),
-        subject: T.subject,
-        html,
-        text,
+      const message = renderFreeScoreEmail({
+        track: T, firstName, stage, score: his, scoreBand: hisBand, burden: gcs, burdenBand: gcsBand,
+        report: b.report,
+        siteUrl: process.env.PUBLIC_SITE_URL || (isProduction ? "https://empresshealth.ai" : `http://localhost:${PORT}`),
       });
+      await sendEmail({ to: email.slice(0, 200), subject: message.subject, html: message.html, text: message.text });
     } catch (mailErr) {
       console.error("[free-score-lead] email copy failed:", mailErr.message);
     }
@@ -3194,6 +3247,17 @@ app.post("/api/assessment/report-email", async (req, res) => {
         return res.json({ ok: true, delivered: delivery.smtpReady, mode: delivery.surface, deduplicated: true });
       }
     }
+
+    const sessionUserId = req.session && Number.isInteger(req.session.userId) ? req.session.userId : null;
+    await Promise.all([
+      captureStore.captureEmail({ email: payload.to, firstName: payload.firstName, source: "paid-assessment-complete", userId: sessionUserId }),
+      captureStore.saveSubmission({
+        kind: "paid-120", email: payload.to, firstName: payload.firstName, userId: sessionUserId,
+        stage: payload.stage, score: payload.overall, band: payload.band,
+        scores: { categories: payload.categoryScores, priorities: payload.priorities, mhtActive: req.body && req.body.mhtActive === true },
+        responses: req.body && req.body.responses && typeof req.body.responses === "object" ? req.body.responses : null,
+      }),
+    ]);
 
     const message = renderAssessmentResultEmail(payload);
     const result = await sendEmail({
@@ -4372,6 +4436,10 @@ app.post("/api/affirmations/subscribe", express.json(), async (req, res) => {
   }
 
   try {
+    await captureStore.captureEmail({
+      email, firstName: profile && profile.name, source: "daily-affirmations",
+      userId: Number.isInteger(req.session && req.session.userId) ? req.session.userId : null,
+    });
     const result = await dailyAffirmations.subscribe({ ...profile, email });
     return res.json({
       subscriberId: result.subscriberId,

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import { useAssessment } from "./AssessmentProvider"
 import { AssessmentSiteNav } from "./AssessmentSiteNav"
 
@@ -28,6 +28,20 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
   const [age, setAge] = useState("")
   const [usState, setUsState] = useState("")
   const [zip, setZip] = useState("")
+
+  // Signed-in members: start from what we already know about her.
+  useEffect(() => {
+    let cancelled = false
+    fetch("/api/account", { credentials: "include" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((acct) => {
+        if (cancelled || !acct?.authenticated || !acct.user) return
+        setFirstName((v) => v || acct.user.firstName || "")
+        setEmail((v) => v || acct.user.email || "")
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
 
   // Promo code (CEOOFFER2026 unlocks the full report free).
   const [promo, setPromo] = useState("")
@@ -77,9 +91,35 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
     }
   }
 
+  // Save the intake email as soon as it's entered, so it is kept even if she
+  // stops before the end. Fire-and-forget: never delays starting the questions.
+  function captureIntake() {
+    const addr = email.trim()
+    if (!addr) return
+    void (async () => {
+      try {
+        const t = await fetch("/api/csrf", { credentials: "include" }).then((r) => r.json())
+        await fetch("/api/capture/email", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json", "X-CSRF-Token": t?.csrfToken || "" },
+          body: JSON.stringify({
+            email: addr,
+            firstName: firstName.trim(),
+            source: tier === "free" ? "free-assessment-intake" : "paid-assessment-intake",
+            context: { age: parsedAge, state: usState.trim() || null, zip: zip.trim() || null, phone: phone.trim() || null },
+          }),
+        })
+      } catch {
+        /* best-effort */
+      }
+    })()
+  }
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (!isValid) return
+    captureIntake()
     setUser({
       firstName: firstName.trim(),
       age: parsedAge,
