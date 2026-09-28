@@ -2173,10 +2173,11 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   return res.json({ ok: true });
 });
 
-// Google Analytics loader. Every page includes <script src="/api/analytics.js">;
+// Google Analytics loader. Every page includes <script src="/api/analytics">;
+// (Not "/api/analytics.js": Vercel treats /api/*.js as function files and redirects.)
 // it is a no-op until GA_MEASUREMENT_ID (G-XXXXXXX) is set in the environment,
 // so turning analytics on is a settings change, not a code change.
-app.get("/api/analytics.js", (_req, res) => {
+app.get("/api/analytics", (_req, res) => {
   const id = String(process.env.GA_MEASUREMENT_ID || "").trim();
   res.type("application/javascript");
   res.set("Cache-Control", "public, max-age=300, s-maxage=300");

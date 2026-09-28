@@ -32,6 +32,8 @@ if (fs.existsSync(pagesDir)) {
 
 // 3. Stage the report-heroes (already at public/report-heroes — no-op here).
 
+const KEEP_PUBLIC_VERSION = new Set(["expertblogs.html"]);
+
 const entries = await readdir(ROOT, { withFileTypes: true });
 let copied = 0;
 let skipped = 0;
@@ -39,17 +41,15 @@ let skipped = 0;
 for (const e of entries) {
   if (!e.isFile()) continue;
   if (!e.name.endsWith(".html")) continue;
+  // public/expertblogs.html is a separately maintained (committed) version and
+  // is what the live Education page serves; the root file is an older variant.
+  if (KEEP_PUBLIC_VERSION.has(e.name)) { skipped++; continue; }
   const src = path.join(ROOT, e.name);
   const dst = path.join(PUBLIC_DIR, e.name);
   try {
-    // Skip if the public/ version is already newer (idempotent re-runs).
-    const sSrc = await stat(src);
-    let needCopy = true;
-    try {
-      const sDst = await stat(dst);
-      if (sDst.mtimeMs >= sSrc.mtimeMs) needCopy = false;
-    } catch {}
-    if (!needCopy) { skipped++; continue; }
+    // Always copy: the root file is the source of truth. An mtime "newer"
+    // check skipped every file on Vercel (a fresh checkout gives all files the
+    // same mtime), so a stale committed public/ copy was served instead.
     await copyFile(src, dst);
     copied++;
   } catch (err) {
