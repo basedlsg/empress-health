@@ -28,7 +28,7 @@
  */
 
 import { chromium } from "playwright"
-import { mkdirSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -36,6 +36,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const repoRoot = join(__dirname, "..")
 const outDir = join(repoRoot, "artifacts", "assessment-test")
 const shotDir = join(outDir, "screenshots")
+const emailOutbox = join(repoRoot, "email_outbox.log")
 mkdirSync(shotDir, { recursive: true })
 
 const args = process.argv.slice(2)
@@ -76,6 +77,9 @@ async function shot(page, name) {
 }
 
 const t0 = Date.now()
+const outboxLinesBefore = existsSync(emailOutbox)
+  ? readFileSync(emailOutbox, "utf8").trim().split("\n").filter(Boolean).length
+  : 0
 console.log(`[+0.00s] Launching browser (headless=${headless}, baseUrl=${baseUrl})`)
 
 const browser = await chromium.launch({ headless, slowMo })
@@ -123,20 +127,26 @@ try {
   if (!resp || !resp.ok()) {
     throw new Error(`Initial navigation returned HTTP ${resp ? resp.status() : "no response"}`)
   }
-  // Wait for the SPA to mount and the Begin button to appear.
-  const beginBtn = page.getByRole("button", { name: /BEGIN MY ASSESSMENT/i })
-  await beginBtn.waitFor({ timeout: 15000 })
+  // The CTA has a validation-oriented accessible name while disabled, so wait
+  // for the form first, populate every required paid-intake field, then locate
+  // the enabled Begin button.
+  await page.locator("form").waitFor({ timeout: 15000 })
   await shot(page, "entry-loaded")
   pushStep("Entry screen rendered", "pass")
 
   await page.getByLabel(/First name/i).fill("Test Sarah")
   await page.getByLabel(/^Age$/i).fill("48")
+  await page.getByLabel(/^Email$/i).fill("assessment-e2e@empress-health-test.invalid")
+  await page.getByLabel(/^State$/i).selectOption({ label: "California" })
+  await page.getByLabel(/ZIP code/i).fill("90210")
+  const beginBtn = page.getByRole("button", { name: /BEGIN MY ASSESSMENT/i })
+  await beginBtn.waitFor({ timeout: 5000 })
   await shot(page, "entry-filled")
   await beginBtn.click()
-  pushStep("Submit entry form (firstName=Test Sarah, age=48)", "pass")
+  pushStep("Submit required contact + location intake", "pass")
 
   /* ───── Step 2 — Staging screen ───── */
-  const periBtn = page.getByRole("button", { name: /^Perimenopause/ })
+  const periBtn = page.getByRole("radio", { name: /^Perimenopause/ })
   await periBtn.waitFor({ timeout: 10000 })
   await shot(page, "staging-loaded")
   pushStep("Staging screen rendered", "pass")
@@ -183,19 +193,48 @@ try {
     }
   }
 
-  /* ───── Step 4 — Loading screen ───── */
+  /* ───── Step 4 — Optional notes screen ───── */
+  await page.getByText(/Before we build your report/i).waitFor({ timeout: 10000 })
+  await shot(page, "notes-screen")
+  await page.getByRole("button", { name: /Generate My Report/ }).click()
+  pushStep("Optional notes step completed", "pass")
+
+  /* ───── Step 5 — Loading screen ───── */
   await page
     .getByText(/Building your Health Intelligence/i)
     .waitFor({ timeout: 10000 })
   await shot(page, "loading-screen")
   pushStep("Loading screen rendered", "pass")
 
-  /* ───── Step 5 — Report screen ───── */
+  /* ───── Step 6 — Report screen + transactional email ───── */
   await page
     .getByText(/Health Intelligence Score/i)
     .waitFor({ timeout: 30000 })
   await shot(page, "report-screen")
   pushStep("Report screen rendered (Health Intelligence Score visible)", "pass")
+
+  const emailStatus = page.getByTestId("assessment-email-status")
+  await emailStatus.waitFor({ timeout: 15000 })
+  await page.waitForFunction(
+    () => /emailed|captured in the local outbox/i.test(
+      document.querySelector('[data-testid="assessment-email-status"]')?.textContent || "",
+    ),
+    null,
+    { timeout: 15000 },
+  )
+  const emailStatusText = await emailStatus.textContent()
+  if (!/emailed|captured in the local outbox/i.test(emailStatusText || "")) {
+    throw new Error(`Unexpected result-email status: ${emailStatusText}`)
+  }
+  if (baseUrl.startsWith("http://localhost")) {
+    const outboxLinesAfter = existsSync(emailOutbox)
+      ? readFileSync(emailOutbox, "utf8").trim().split("\n").filter(Boolean).length
+      : 0
+    if (outboxLinesAfter !== outboxLinesBefore + 1) {
+      throw new Error(`Expected one local result email, outbox changed by ${outboxLinesAfter - outboxLinesBefore}`)
+    }
+  }
+  pushStep("Assessment result email accepted by delivery pipeline", "pass")
 
   // Scroll through the report and snap a full-page shot for visual review.
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
