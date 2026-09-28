@@ -403,6 +403,16 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       priorityQuestionIds,
     }
 
+    // Each enrichment call gets a hard cap. The score itself is computed
+    // client-side, so a slow or overloaded LLM upstream must never hold the
+    // report hostage — past the cap we render without that section.
+    const FETCH_TIMEOUT_MS = 20000
+    const fetchWithTimeout = (url: string, init: RequestInit) => {
+      const ctrl = new AbortController()
+      const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS)
+      return fetch(url, { ...init, signal: ctrl.signal }).finally(() => clearTimeout(timer))
+    }
+
     async function fetchAll() {
       const errors: string[] = []
       let affirmations: string[] | GroundedAffirmations = []
@@ -415,10 +425,14 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       let providers: Provider[] | undefined
       let providersState: string | undefined
       let apiSource: string | undefined
+      let combinedAffirmations: string[] | GroundedAffirmations | undefined
+
+      // The calls below are independent, so they run in parallel — run
+      // sequentially, slow LLM upstreams stacked into minutes of loading.
 
       // B3 / C2 — Affirmations
-      try {
-        const res = await fetch("/api/recommendations/affirmations/generate", {
+      const affirmationsTask = (async () => { try {
+        const res = await fetchWithTimeout("/api/recommendations/affirmations/generate", {
           method: "POST",
           headers,
           credentials: "include",
@@ -435,11 +449,11 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
         }
       } catch (e) {
         errors.push(`Affirmations: ${(e as Error).message}`)
-      }
+      } })()
 
       // B4 / C3 — Combined doctor / clinician recommendations
-      try {
-        const res = await fetch("/api/recommendations/combined", {
+      const combinedTask = (async () => { try {
+        const res = await fetchWithTimeout("/api/recommendations/combined", {
           method: "POST",
           headers,
           credentials: "include",
@@ -461,35 +475,34 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
           if (Array.isArray(data?.groundedProducts)) {
             groundedProducts = data.groundedProducts as ProductRecommendation[]
           }
-          // Grounded affirmations — prefer the structured payload when available.
-          if (Array.isArray(affirmations) && (affirmations as string[]).length === 0) {
-            const fromCombined = data?.affirmations ?? data?.data?.affirmations
-            if (
-              fromCombined &&
-              !Array.isArray(fromCombined) &&
-              Array.isArray(fromCombined?.affirmations)
-            ) {
-              // New grounded shape: { affirmations, citations, legacyStrings }
-              affirmations = fromCombined as GroundedAffirmations
-            } else if (Array.isArray(fromCombined)) {
-              affirmations = (fromCombined as unknown[]).filter(
-                (x: unknown): x is string => typeof x === "string"
-              )
-            }
+          // Grounded affirmations — used below when the dedicated
+          // affirmations call came back empty.
+          const fromCombined = data?.affirmations ?? data?.data?.affirmations
+          if (
+            fromCombined &&
+            !Array.isArray(fromCombined) &&
+            Array.isArray(fromCombined?.affirmations)
+          ) {
+            // New grounded shape: { affirmations, citations, legacyStrings }
+            combinedAffirmations = fromCombined as GroundedAffirmations
+          } else if (Array.isArray(fromCombined)) {
+            combinedAffirmations = (fromCombined as unknown[]).filter(
+              (x: unknown): x is string => typeof x === "string"
+            )
           }
         } else {
           errors.push(`Recommendations: HTTP ${res.status}`)
         }
       } catch (e) {
         errors.push(`Recommendations: ${(e as Error).message}`)
-      }
+      } })()
 
       // 07 — Recommended Products (paid tier only). Powered by FastAPI's
       // /product-recommendations RAG endpoint; proxied by the Node server at
       // /api/recommendations/products.
-      if (tier === "paid") {
+      const productsTask = (async () => { if (tier === "paid") {
         try {
-          const res = await fetch("/api/recommendations/products", {
+          const res = await fetchWithTimeout("/api/recommendations/products", {
             method: "POST",
             headers,
             credentials: "include",
@@ -513,19 +526,19 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
         } catch (e) {
           errors.push(`Products: ${(e as Error).message}`)
         }
-      }
+      } })()
 
       // Chatbot notes — fire-and-forget POST that ships the free-text
       // captures from the post-questions notes screen to the chatbot
       // evaluation endpoint. Errors are non-blocking: the report still
       // renders even if the chatbot endpoint is down. We only send when
       // at least one of the textareas has content.
-      if (
+      const notesTask = (async () => { if (
         tier === "paid" &&
         (additionalNotes.trim() !== "" || currentMedications.trim() !== "")
       ) {
         try {
-          const res = await fetch("/api/chatbot/assessment-notes", {
+          const res = await fetchWithTimeout("/api/chatbot/assessment-notes", {
             method: "POST",
             headers,
             credentials: "include",
@@ -549,6 +562,16 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
         } catch (e) {
           errors.push(`ChatbotNotes: ${(e as Error).message}`)
         }
+      } })()
+
+      await Promise.all([affirmationsTask, combinedTask, productsTask, notesTask])
+
+      if (
+        combinedAffirmations &&
+        Array.isArray(affirmations) &&
+        (affirmations as string[]).length === 0
+      ) {
+        affirmations = combinedAffirmations
       }
 
       if (!cancelled) {
