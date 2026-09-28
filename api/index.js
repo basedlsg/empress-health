@@ -11,6 +11,7 @@ const fs = require("fs");
 try { fs.readFileSync(__dirname + "/../index.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../signup.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../login.html"); } catch {}
+try { fs.readFileSync(__dirname + "/../account.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../contact.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../founderstory.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../ourstory.html"); } catch {}

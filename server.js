@@ -505,6 +505,10 @@ app.use(cors({
   credentials: true
 }));
 
+// Membership tiers, Stripe billing + webhook, Empress Naturals hand-off.
+// Must precede express.json(): the Stripe webhook verifies the raw body.
+require("./lib/membership-routes").registerMembershipRoutes(app, { getPool: () => pool });
+
 app.use(express.json({ limit: "1mb" }));
 
 // Auth rate limiter: 10 requests per 15 minutes on login/signup
@@ -4086,6 +4090,9 @@ app.get("/ebookguides", (_req, res) =>
 );
 app.get("/contact", (_req, res) =>
   res.sendFile(path.join(__dirname, "contact.html"))
+);
+app.get("/account", (_req, res) =>
+  res.sendFile(path.join(__dirname, "account.html"))
 );
 app.get("/askempress", (_req, res) =>
   res.sendFile(path.join(__dirname, "askempress.html"))

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Account — Empress Health</title>
+  <meta name="description" content="Sign in or create your Empress Health account. Choose Free, Essential or Premium membership, and shop Empress Naturals with your member discount." />
+  <link rel="icon" type="image/png" href="/public/EmpressHealthlogo-new.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Empress Health" />
+  <meta property="og:title" content="Your Account — Empress Health" />
+  <meta property="og:description" content="Sign in or create your Empress Health account." />
+  <meta property="og:url" content="https://empresshealth.ai/account" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-plum: #3f1449;
+      --color-plum-light: #4b2577;
+      --color-gold: #D8A738;
+      --color-ivory: #fffaf1;
+      --color-card-bg: #FFFFFF;
+      --color-card-border: rgba(63,20,73,0.08);
+      --color-card-shadow: 0 2px 12px rgba(42,15,63,0.05);
+      --color-soft: #faf8ff;
+      --color-border: #ececf1;
+      --color-ink: #1f1b2d;
+      --color-muted: #6e6a7a;
+      --color-error: #8B2E2E;       /* muted red — NOT the clinical Priority red */
+      --color-error-bg: #FAEAEA;
+      --color-ok: #2A7A5A;
+      --color-ok-bg: #E8F5EF;
+      --shadow: 0 10px 30px rgba(16,16,32,0.08);
+      --radius-sm: 8px; --radius: 12px; --radius-md: 14px; --radius-lg: 20px;
+      --space-1: 4px; --space-xs: 16px; --space-sm: 24px; --space-md: 32px; --space-lg: 60px;
+      --font-display: 'Poppins', Georgia, serif;
+      --font-body: 'Newsreader', Georgia, 'Times New Roman', serif;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; background: var(--color-ivory); color: var(--color-ink);
+      font: 400 1.0625rem/1.55 var(--font-body);
+    }
+    a { color: var(--color-plum); }
+    img { display: block; max-width: 100%; }
+    .skip { position: absolute; left: -999px; top: 0; background: var(--color-plum); color: #fff; padding: 8px 14px; z-index: 10; }
+    .skip:focus { left: 8px; top: 8px; }
+    :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+
+    /* ── Top bar ── */
+    .bar { border-bottom: 1px solid var(--color-card-border); background: var(--color-ivory); }
+    .bar-inner { max-width: 1080px; margin: 0 auto; padding: 14px var(--space-xs); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--color-plum); }
+    .brand img { width: 40px; height: 40px; }
+    .brand span { font: 700 1.05rem/1 var(--font-display); letter-spacing: -0.01em; }
+    .bar-link { font: 600 0.8125rem/1 var(--font-display); color: var(--color-plum); text-decoration: none; letter-spacing: 0.02em; }
+    .bar-link:hover { text-decoration: underline; }
+
+    main { max-width: 1080px; margin: 0 auto; padding: var(--space-md) var(--space-xs) var(--space-lg); }
+    .eyebrow { font: 700 0.75rem/1.3 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-plum-light); margin: 0 0 10px; }
+    .eyebrow::after { content: ""; display: block; width: 36px; height: 2px; background: var(--color-gold); margin-top: 10px; }
+    h1 { font: 700 clamp(2rem, 6vw, 2.5rem)/1.15 var(--font-display); color: var(--color-plum); margin: 0 0 14px; letter-spacing: -0.015em; }
+    h2 { font: 700 1.5rem/1.2 var(--font-display); color: var(--color-plum); margin: 0 0 8px; letter-spacing: -0.01em; }
+    h3 { font: 600 1.125rem/1.3 var(--font-display); color: var(--color-plum); margin: 0; }
+    .lede { color: var(--color-muted); max-width: 34rem; margin: 0 0 var(--space-sm); }
+
+    .notice { border-radius: var(--radius); padding: 12px 16px; margin: 0 0 var(--space-sm); font-size: 0.975rem; }
+    .notice.ok { background: var(--color-ok-bg); color: var(--color-ok); }
+    .notice.err { background: var(--color-error-bg); color: var(--color-error); }
+    .notice.info { background: var(--color-soft); color: var(--color-plum); border: 1px solid var(--color-card-border); }
+    [hidden] { display: none !important; }
+
+    /* ── Signed-out layout ── */
+    .auth { display: grid; gap: var(--space-md); }
+    .auth-intro ul { list-style: none; padding: 0; margin: var(--space-sm) 0 0; display: grid; gap: 14px; }
+    .auth-intro li { padding-left: 22px; position: relative; }
+    .auth-intro li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 8px; border-radius: 50%; background: var(--color-gold); }
+    .auth-intro li strong { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; color: var(--color-plum); }
+
+    .card { background: var(--color-card-bg); border: 1px solid var(--color-card-border); border-radius: var(--radius-lg); box-shadow: var(--color-card-shadow); }
+    .auth-card { padding: var(--space-sm); }
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--color-soft); border: 1px solid var(--color-card-border); border-radius: 999px; padding: 4px; margin-bottom: var(--space-sm); }
+    .tab { appearance: none; border: 0; background: transparent; border-radius: 999px; padding: 10px 12px; font: 600 0.875rem/1 var(--font-display); color: var(--color-muted); cursor: pointer; min-height: 44px; }
+    .tab[aria-selected="true"] { background: var(--color-plum); color: #fff; }
+
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font: 600 0.8125rem/1.3 var(--font-display); color: var(--color-ink); margin-bottom: 6px; }
+    .field .opt { color: var(--color-muted); font-weight: 400; font-family: var(--font-body); }
+    .field input { width: 100%; font: 400 1rem/1.4 var(--font-body); color: var(--color-ink); background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 11px 12px; min-height: 46px; }
+    .field input:focus { outline: 2px solid var(--color-gold); outline-offset: 0; border-color: transparent; }
+    .field small { display: block; color: var(--color-muted); font-size: 0.875rem; margin-top: 6px; }
+    .row2 { display: grid; gap: 0 12px; grid-template-columns: 1fr 1fr; }
+    .check { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 18px; font-size: 0.95rem; }
+    .check input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--color-plum); flex: none; }
+
+    .btn { appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: var(--radius); padding: 12px 24px; min-height: 46px; font: 600 0.9375rem/1.2 var(--font-display); cursor: pointer; text-decoration: none; transition: box-shadow 150ms cubic-bezier(0.4,0,0.2,1), transform 150ms cubic-bezier(0.4,0,0.2,1), filter 150ms cubic-bezier(0.4,0,0.2,1); }
+    .btn.primary { background: var(--color-plum); color: #fff; border: 1px solid var(--color-plum); }
+    .btn.secondary { background: transparent; color: var(--color-plum); border: 1px solid var(--color-plum); }
+    .btn.gold { background: var(--color-gold); color: var(--color-plum); border: 1px solid var(--color-gold); }
+    .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow); filter: brightness(1.06); }
+    .btn:disabled { cursor: not-allowed; filter: grayscale(0.4); opacity: 0.7; }
+    .btn.block { width: 100%; }
+    .ghost { background: none; border: 0; padding: 0; font: 600 0.875rem/1.3 var(--font-display); color: var(--color-plum); cursor: pointer; text-decoration: none; }
+    .ghost:hover { text-decoration: underline; }
+    .form-foot { text-align: center; margin: 16px 0 0; font-size: 0.95rem; color: var(--color-muted); }
+
+    /* ── Signed-in layout ── */
+    .acct-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: var(--space-md); }
+    .acct-head h1 { margin: 0; }
+    .acct-meta { color: var(--color-muted); margin: 6px 0 0; }
+    .plan-pill { display: inline-block; font: 700 0.75rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; padding: 6px 12px; background: var(--color-plum); color: #fff; vertical-align: middle; }
+    .plan-pill.free { background: var(--color-soft); color: var(--color-plum); border: 1px solid var(--color-card-border); }
+
+    .naturals { display: grid; gap: var(--space-sm); padding: var(--space-sm); margin-bottom: var(--space-md); background: var(--color-plum); color: #fff; border-radius: var(--radius-lg); }
+    .naturals .eyebrow { color: var(--color-gold); }
+    .naturals h2 { color: #fff; }
+    .naturals p { margin: 0; color: rgba(255,255,255,0.86); }
+    .code-box { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; background: rgba(255,255,255,0.08); border: 1px dashed rgba(216,167,56,0.7); border-radius: var(--radius); padding: 14px 16px; }
+    .code-box code { font: 700 1.125rem/1.2 var(--font-display); letter-spacing: 0.06em; color: #fff; word-break: break-all; }
+    .code-box .ghost { color: var(--color-gold); }
+    .naturals .fine { font-size: 0.9rem; color: rgba(255,255,255,0.72); }
+
+    .plans { display: grid; gap: var(--space-xs); margin: var(--space-xs) 0 var(--space-md); }
+    .plan { padding: var(--space-sm); display: flex; flex-direction: column; gap: 14px; position: relative; }
+    .plan.current { border: 2px solid var(--color-plum); }
+    .plan .price { font: 800 2rem/1 var(--font-display); color: var(--color-plum); }
+    .plan .price small { font: 400 1rem/1 var(--font-body); color: var(--color-muted); }
+    .plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 0.975rem; }
+    .plan li { padding-left: 20px; position: relative; }
+    .plan li::before { content: ""; position: absolute; left: 2px; top: 0.55em; width: 7px; height: 7px; border-radius: 50%; background: var(--color-gold); }
+    .plan li.benefit { font-weight: 500; color: var(--color-plum); }
+    .plan .btn { margin-top: auto; }
+    .plan .current-tag { position: absolute; top: -12px; left: var(--space-sm); font: 700 0.6875rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; background: var(--color-gold); color: var(--color-plum); border-radius: 999px; padding: 6px 10px; }
+
+    .acct-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; padding-top: var(--space-sm); border-top: 1px solid var(--color-card-border); }
+    .loading { color: var(--color-muted); padding: var(--space-lg) 0; text-align: center; }
+
+    @media (min-width: 760px) {
+      main { padding-top: var(--space-lg); }
+      .auth { grid-template-columns: 1.05fr 1fr; align-items: start; gap: var(--space-lg); }
+      .auth-card { padding: var(--space-md); }
+      .plans { grid-template-columns: repeat(3, 1fr); }
+      .naturals { grid-template-columns: 1.2fr 1fr; align-items: center; padding: var(--space-md); }
+    }
+    @media (max-width: 420px) { .row2 { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:hover:not(:disabled) { transform: none; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="brand" href="/"><img src="/public/EmpressHealthlogo-new.png" alt="" width="40" height="40"><span>Empress Health</span></a>
+      <a class="bar-link" href="/">Back to site</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <div id="notice" class="notice" role="status" hidden></div>
+    <p id="loading" class="loading">Loading your account…</p>
+
+    <!-- ════════ SIGNED OUT ════════ -->
+    <section id="signed-out" class="auth" hidden>
+      <div class="auth-intro">
+        <p class="eyebrow">Your Empress Health account</p>
+        <h1>Sign in, or join us.</h1>
+        <p class="lede">One account for your assessment results, your membership, and your member pricing at Empress Naturals.</p>
+        <ul>
+          <li><strong>Free</strong> — your account, the free symptom scores, and Ask Empress.</li>
+          <li><strong>Essential · $9/month</strong> — 10% off every Empress Naturals order.</li>
+          <li><strong>Premium · $19/month</strong> — 15% off every Empress Naturals order.</li>
+        </ul>
+      </div>
+
+      <div class="card auth-card">
+        <div class="tabs" role="tablist" aria-label="Account">
+          <button class="tab" role="tab" id="tab-signin" aria-controls="panel-signin" aria-selected="true">Sign in</button>
+          <button class="tab" role="tab" id="tab-signup" aria-controls="panel-signup" aria-selected="false">Create account</button>
+        </div>
+
+        <div id="form-error" class="notice err" role="alert" hidden></div>
+
+        <form id="panel-signin" role="tabpanel" aria-labelledby="tab-signin" novalidate>
+          <div class="field">
+            <label for="si-email">Email</label>
+            <input id="si-email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="si-password">Password</label>
+            <input id="si-password" type="password" autocomplete="current-password" required minlength="8">
+          </div>
+          <button class="btn primary block" type="submit">Sign in</button>
+          <p class="form-foot">New to Empress Health? <button type="button" class="ghost" data-go="signup">Create an account</button></p>
+        </form>
+
+        <form id="panel-signup" role="tabpanel" aria-labelledby="tab-signup" novalidate hidden>
+          <div class="row2">
+            <div class="field">
+              <label for="su-first">First name</label>
+              <input id="su-first" type="text" autocomplete="given-name" required maxlength="100">
+            </div>
+            <div class="field">
+              <label for="su-last">Last name</label>
+              <input id="su-last" type="text" autocomplete="family-name" required maxlength="100">
+            </div>
+          </div>
+          <div class="field">
+            <label for="su-email">Email</label>
+            <input id="su-email" type="email" autocomplete="email" required>
+            <small>Use the email you shop with at Empress Naturals — that's how your member discount finds you.</small>
+          </div>
+          <div class="field">
+            <label for="su-phone">Phone <span class="opt">(optional)</span></label>
+            <input id="su-phone" type="tel" autocomplete="tel" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="su-password">Password</label>
+            <input id="su-password" type="password" autocomplete="new-password" required minlength="8" aria-describedby="su-password-hint">
+            <small id="su-password-hint">At least 8 characters, with letters and numbers.</small>
+          </div>
+          <label class="check" for="su-terms">
+            <input id="su-terms" type="checkbox" required>
+            <span>I agree to the <a href="/privacypolicy" target="_blank" rel="noopener">terms of use and privacy policy</a>.</span>
+          </label>
+          <button class="btn primary block" type="submit">Create account</button>
+          <p class="form-foot">Already have an account? <button type="button" class="ghost" data-go="signin">Sign in</button></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ════════ SIGNED IN ════════ -->
+    <section id="signed-in" hidden>
+      <div class="acct-head">
+        <div>
+          <p class="eyebrow">Your account</p>
+          <h1 id="greeting">Welcome back.</h1>
+          <p class="acct-meta"><span id="acct-email"></span> · <span id="acct-plan" class="plan-pill free">Free</span></p>
+        </div>
+      </div>
+
+      <div id="naturals" class="naturals" hidden>
+        <div>
+          <p class="eyebrow">Empress Naturals member pricing</p>
+          <h2 id="naturals-title">15% off every order</h2>
+          <p id="naturals-copy">Your membership carries over to the Empress Naturals shop. Your discount is applied at checkout.</p>
+        </div>
+        <div style="display:grid;gap:14px;">
+          <div class="code-box" id="code-box" hidden>
+            <code id="naturals-code"></code>
+            <button type="button" class="ghost" id="copy-code">Copy code</button>
+          </div>
+          <a class="btn gold block" id="shop-btn" href="/api/naturals/go">Shop Empress Naturals</a>
+          <p class="fine" id="naturals-fine">Check out with <strong id="naturals-email"></strong> — the code is tied to that email.</p>
+        </div>
+      </div>
+
+      <h2>Membership</h2>
+      <p class="lede" id="plans-lede" style="margin-bottom:0;">Change or cancel any time. Paid plans renew monthly.</p>
+      <div class="plans" id="plans"></div>
+
+      <div class="acct-actions">
+        <button type="button" class="btn secondary" id="manage-billing" hidden>Manage billing</button>
+        <a class="ghost" href="/assessment/?tier=paid">Go to my Health Intelligence assessment</a>
+        <a class="ghost" href="/askempress">Ask Empress</a>
+        <button type="button" class="ghost" id="sign-out">Sign out</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var state = null;
+
+    function getCookie(name) {
+      var m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+      return m ? decodeURIComponent(m[1]) : "";
+    }
+    async function ensureCsrf() {
+      if (getCookie("csrf_token")) return;
+      await fetch("/api/csrf", { credentials: "same-origin" });
+    }
+    async function postJson(url, body) {
+      await ensureCsrf();
+      var res = await fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": getCookie("csrf_token") },
+        body: JSON.stringify(body || {})
+      });
+      var data = {};
+      try { data = await res.json(); } catch (e) {}
+      if (!res.ok) throw new Error(data.error || data.message || "Something went wrong. Please try again.");
+      return data;
+    }
+
+    function showNotice(kind, text) {
+      var n = $("notice");
+      if (!text) { n.hidden = true; return; }
+      n.className = "notice " + kind; n.textContent = text; n.hidden = false;
+    }
+    function formError(text) {
+      var e = $("form-error");
+      e.textContent = text || ""; e.hidden = !text;
+    }
+    function setBusy(btn, busy, label) {
+      if (!btn) return;
+      if (busy) { btn.dataset.label = btn.textContent; btn.textContent = label || "One moment…"; btn.disabled = true; }
+      else { btn.textContent = btn.dataset.label || btn.textContent; btn.disabled = false; }
+    }
+
+    function safeNext() {
+      var n = new URLSearchParams(location.search).get("next") || "";
+      return /^\/(?!\/)[^\s:@\\]*$/.test(n) ? n : "";
+    }
+
+    /* ── Tabs ── */
+    function selectTab(which) {
+      var signin = which !== "signup";
+      $("tab-signin").setAttribute("aria-selected", String(signin));
+      $("tab-signup").setAttribute("aria-selected", String(!signin));
+      $("panel-signin").hidden = !signin;
+      $("panel-signup").hidden = signin;
+      formError("");
+      (signin ? $("si-email") : $("su-first")).focus();
+    }
+    $("tab-signin").addEventListener("click", function () { selectTab("signin"); });
+    $("tab-signup").addEventListener("click", function () { selectTab("signup"); });
+    document.querySelectorAll("[data-go]").forEach(function (b) {
+      b.addEventListener("click", function () { selectTab(b.getAttribute("data-go")); });
+    });
+
+    async function afterAuth() {
+      var next = safeNext();
+      if (next) { location.assign(next); return; }
+      await load();
+      window.scrollTo(0, 0);
+    }
+
+    $("panel-signin").addEventListener("submit", async function (ev) {
+      ev.preventDefault();
+      formError("");
+      var email = $("si-email").value.trim(), password = $("si-password").value;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return formError("Please enter a valid email address.");
+      if (password.length < 8) return formError("Your password is at least 8 characters.");
+      var btn = ev.submitter || this.querySelector("button[type=submit]");
+      setBusy(btn, true, "Signing in…");
+      try { await postJson("/api/login", { email: email, password: password }); await afterAuth(); }
+      catch (e) { formError(e.message); }
+      finally { setBusy(btn, false); }
+    });
+
+    $("panel-signup").addEventListener("submit", async function (ev) {
+      ev.preventDefault();
+      formError("");
+      var body = {
+        first_name: $("su-first").value.trim(),
+        last_name: $("su-last").value.trim(),
+        email: $("su-email").value.trim(),
+        phone: $("su-phone").value.trim() || null,
+        password: $("su-password").value,
+        terms_accepted: $("su-terms").checked
+      };
+      if (!body.first_name || !body.last_name) return formError("Please enter your first and last name.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) return formError("Please enter a valid email address.");
+      if (body.password.length < 8 || !/[a-zA-Z]/.test(body.password) || !/[0-9]/.test(body.password)) {
+        return formError("Your password needs at least 8 characters, with letters and numbers.");
+      }
+      if (!body.terms_accepted) return formError("Please agree to the terms of use and privacy policy.");
+      var btn = ev.submitter || this.querySelector("button[type=submit]");
+      setBusy(btn, true, "Creating your account…");
+      try { await postJson("/api/signup", body); await afterAuth(); }
+      catch (e) { formError(e.message); }
+      finally { setBusy(btn, false); }
+    });
+
+    /* ── Signed-in rendering ── */
+    var BENEFITS = {
+      free: ["Your Empress Health account", "Free symptom scores", "Ask Empress, our menopause Q&A"],
+      essential: ["Everything in Free", "10% off every Empress Naturals order"],
+      premium: ["Everything in Free", "15% off every Empress Naturals order"]
+    };
+
+    function renderPlans() {
+      var wrap = $("plans"); wrap.innerHTML = "";
+      state.tiers.forEach(function (t) {
+        var isCurrent = t.id === state.tier;
+        var card = document.createElement("article");
+        card.className = "card plan" + (isCurrent ? " current" : "");
+        var price = t.priceMonthlyUSD === 0 ? "$0" : "$" + t.priceMonthlyUSD;
+        var items = BENEFITS[t.id].map(function (b) {
+          return '<li' + (/Empress Naturals/.test(b) ? ' class="benefit"' : "") + ">" + b + "</li>";
+        }).join("");
+        card.innerHTML =
+          (isCurrent ? '<span class="current-tag">Your plan</span>' : "") +
+          "<h3>" + t.name + "</h3>" +
+          '<div class="price">' + price + (t.priceMonthlyUSD ? " <small>/ month</small>" : "") + "</div>" +
+          "<ul>" + items + "</ul>";
+        var btn = document.createElement("button");
+        btn.type = "button";
+        if (isCurrent) {
+          btn.className = "btn secondary block"; btn.textContent = "Current plan"; btn.disabled = true;
+        } else if (t.id === "free") {
+          btn.className = "btn secondary block";
+          btn.textContent = "Switch to Free";
+          if (state.canManageBilling) btn.addEventListener("click", openPortal);
+          else btn.disabled = true;
+        } else if (!state.billingConfigured) {
+          btn.className = "btn secondary block"; btn.textContent = "Opening soon"; btn.disabled = true;
+        } else {
+          var upgrading = state.tier === "free" || (state.tier === "essential" && t.id === "premium");
+          btn.className = "btn " + (upgrading ? "primary" : "secondary") + " block";
+          btn.textContent = (state.tier === "free" ? "Choose " : "Switch to ") + t.name;
+          btn.addEventListener("click", function () { choosePlan(t.id, btn); });
+        }
+        card.appendChild(btn);
+        wrap.appendChild(card);
+      });
+    }
+
+    function renderNaturals() {
+      var d = state.naturalsDiscount;
+      var box = $("naturals");
+      if (!d) { box.hidden = true; return; }
+      box.hidden = false;
+      $("naturals-title").textContent = d.percent + "% off every order";
+      $("naturals-email").textContent = state.user.email;
+      if (d.code) {
+        $("code-box").hidden = false;
+        $("naturals-code").textContent = d.code;
+        $("naturals-copy").textContent = "Your membership carries over to the Empress Naturals shop. Use the button and your discount is applied at checkout automatically — or enter the code yourself.";
+      } else {
+        $("code-box").hidden = true;
+        $("naturals-copy").textContent = "Your member code is being set up — it's usually ready within a minute. The button below applies it as soon as it's ready.";
+      }
+    }
+
+    function render() {
+      $("loading").hidden = true;
+      if (!state.authenticated) {
+        $("signed-in").hidden = true;
+        $("signed-out").hidden = false;
+        return;
+      }
+      $("signed-out").hidden = true;
+      $("signed-in").hidden = false;
+      var name = state.user && state.user.firstName;
+      $("greeting").textContent = name ? "Welcome, " + name + "." : "Welcome back.";
+      $("acct-email").textContent = state.user.email || "";
+      var tierInfo = state.tiers.filter(function (t) { return t.id === state.tier; })[0] || { name: "Free" };
+      $("acct-plan").textContent = tierInfo.name;
+      $("acct-plan").className = "plan-pill" + (state.tier === "free" ? " free" : "");
+      $("manage-billing").hidden = !state.canManageBilling;
+      $("plans-lede").textContent = state.billingConfigured
+        ? "Change or cancel any time. Paid plans renew monthly."
+        : "Essential and Premium open for sign-up very soon. Your account is ready for them.";
+      renderPlans();
+      renderNaturals();
+    }
+
+    async function load() {
+      var res = await fetch("/api/account", { credentials: "same-origin", cache: "no-store" });
+      state = await res.json();
+      if (!res.ok) throw new Error(state.error || "Could not load your account.");
+      render();
+      return state;
+    }
+
+    async function choosePlan(tier, btn) {
+      showNotice();
+      setBusy(btn, true, "Opening secure checkout…");
+      try {
+        var data = await postJson("/api/subscription/checkout", { tier: tier });
+        if (data.url) { location.assign(data.url); return; }
+        await load();
+        showNotice("ok", "Your plan is now " + (tier.charAt(0).toUpperCase() + tier.slice(1)) + ".");
+      } catch (e) {
+        showNotice("err", e.message);
+        setBusy(btn, false);
+      }
+    }
+
+    async function openPortal() {
+      showNotice();
+      try {
+        var data = await postJson("/api/subscription/portal");
+        if (data.url) location.assign(data.url);
+      } catch (e) { showNotice("err", e.message); }
+    }
+    $("manage-billing").addEventListener("click", openPortal);
+
+    $("copy-code").addEventListener("click", async function () {
+      try {
+        await navigator.clipboard.writeText($("naturals-code").textContent);
+        this.textContent = "Copied";
+        var b = this; setTimeout(function () { b.textContent = "Copy code"; }, 1800);
+      } catch (e) {}
+    });
+
+    $("sign-out").addEventListener("click", async function () {
+      try { await postJson("/api/auth/logout"); } catch (e) {}
+      await load();
+    });
+
+    // Returning from Stripe Checkout: the webhook grants the plan, which can
+    // lag the redirect by a few seconds — poll briefly.
+    async function handleCheckoutReturn() {
+      var p = new URLSearchParams(location.search);
+      var result = p.get("checkout");
+      if (!result) return;
+      history.replaceState(null, "", location.pathname);
+      if (result === "cancelled") { showNotice("info", "Checkout cancelled — you haven't been charged."); return; }
+      if (result !== "success") return;
+      showNotice("info", "Payment received. Activating your membership…");
+      for (var i = 0; i < 10; i++) {
+        if (state && state.tier !== "free" && state.naturalsDiscount && state.naturalsDiscount.code) break;
+        await new Promise(function (r) { setTimeout(r, 2000); });
+        await load();
+      }
+      if (state.tier !== "free") showNotice("ok", "Welcome to " + $("acct-plan").textContent + ". Your Empress Naturals discount is ready.");
+      else showNotice("info", "Payment received — your membership will appear here within a few minutes.");
+    }
+
+    if (new URLSearchParams(location.search).get("mode") === "signup") selectTab("signup");
+    load()
+      .then(handleCheckoutReturn)
+      .catch(function (e) { $("loading").hidden = true; showNotice("err", e.message); });
+  })();
+  </script>
+</body>
+</html>
