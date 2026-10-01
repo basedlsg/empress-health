@@ -2,6 +2,54 @@
 // Signup — split hero, glass-warm form card, 3-step rail below.
 
 function SignupPage() {
+  const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const fields = event.currentTarget.elements;
+    const payload = {
+      first_name: fields.first_name.value.trim(),
+      last_name: fields.last_name.value.trim(),
+      email: fields.email.value.trim(),
+      phone: fields.phone.value.trim() || null,
+      password: fields.password.value,
+      terms_accepted: fields.terms_accepted.checked,
+    };
+    setError('');
+    setSuccess('');
+    if (!payload.first_name || !payload.last_name || !payload.email) {
+      setError('Please enter your name and email address.');
+      return;
+    }
+    if (payload.password.length < 8 || !/[a-zA-Z]/.test(payload.password) || !/[0-9]/.test(payload.password)) {
+      setError('Password must be at least 8 characters with letters and numbers.');
+      return;
+    }
+    if (!payload.terms_accepted) {
+      setError('Please agree to the terms of use and privacy policy.');
+      return;
+    }
+    setBusy(true);
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) throw new Error(data.error || 'Could not create your account. Please try again.');
+      setSuccess('Account created. Redirecting…');
+      const next = new URLSearchParams(window.location.search).get('next');
+      window.location.assign('/account' + (next ? '?next=' + encodeURIComponent(next) : ''));
+    } catch (err) {
+      setError(err.message || 'Network error. Please try again.');
+      setBusy(false);
+    }
+  }
+
   return (
     <div style={{ background: 'var(--surface)', position: 'relative', overflow: 'hidden' }}>
 
@@ -44,21 +92,20 @@ function SignupPage() {
             {/* Form in glass-warm card */}
             <div className="glass-warm" style={{ marginTop: 40, padding: 40, borderRadius: 'var(--r-xl)' }}>
               {/* Error / success messages — preserved from legacy */}
-              <div id="error-message" style={{
-                display: 'none', padding: '12px 16px', marginBottom: 16,
+              <div id="error-message" role="alert" aria-live="polite" style={{
+                display: error ? 'block' : 'none', padding: '12px 16px', marginBottom: 16,
                 background: 'rgba(200,60,60,0.08)', border: '1px solid rgba(200,60,60,0.25)',
                 borderRadius: 'var(--r-md)', color: '#a03030',
                 fontFamily: 'var(--font-body)', fontSize: 14,
-              }} />
-              <div id="success-message" style={{
-                display: 'none', padding: '12px 16px', marginBottom: 16,
+              }}>{error}</div>
+              <div id="success-message" role="status" aria-live="polite" style={{
+                display: success ? 'block' : 'none', padding: '12px 16px', marginBottom: 16,
                 background: 'rgba(60,140,80,0.08)', border: '1px solid rgba(60,140,80,0.22)',
                 borderRadius: 'var(--r-md)', color: '#2a6e40',
                 fontFamily: 'var(--font-body)', fontSize: 14,
-              }} />
+              }}>{success}</div>
 
-              <form id="signup-form" noValidate>
-                <input type="hidden" id="_csrf" name="_csrf" value="" />
+              <form id="signup-form" method="post" onSubmit={handleSubmit} noValidate>
 
                 {/* Name row */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
@@ -100,8 +147,8 @@ function SignupPage() {
                   </span>
                 </label>
 
-                <button type="submit" id="submit-btn" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: 16, padding: '16px 28px' }}>
-                  Create Account {Icon.arrow(16)}
+                <button type="submit" id="submit-btn" disabled={busy} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: 16, padding: '16px 28px' }}>
+                  {busy ? 'Creating account…' : <>Create Account {Icon.arrow(16)}</>}
                 </button>
               </form>
 
@@ -163,54 +210,7 @@ function SignupPage() {
 
       <Footer base="" />
 
-      {/* ── FUNCTIONAL SCRIPT (preserved from legacy) ── */}
-      <script dangerouslySetInnerHTML={{ __html: `
-        function getCookie(name) {
-          const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + '=([^;]*)'));
-          return match ? decodeURIComponent(match[1]) : null;
-        }
-        function refreshCsrfToken() {
-          const t = getCookie('csrf_token');
-          if (t) { window.__csrfToken = t; const h = document.getElementById('_csrf'); if (h) h.value = t; }
-        }
-        function fetchWithCsrf(url, opts) {
-          opts = opts || {}; opts.headers = opts.headers || {};
-          const token = window.__csrfToken || getCookie('csrf_token') || '';
-          if (token) opts.headers['X-CSRF-Token'] = token;
-          opts.credentials = opts.credentials || 'include';
-          return fetch(url, opts);
-        }
-        refreshCsrfToken();
-        const form = document.getElementById('signup-form');
-        const errorEl = document.getElementById('error-message');
-        const successEl = document.getElementById('success-message');
-        const submitBtn = document.getElementById('submit-btn');
-        function showError(msg) { errorEl.textContent = msg; errorEl.style.display = 'block'; successEl.style.display = 'none'; }
-        function showSuccess(msg) { successEl.textContent = msg; successEl.style.display = 'block'; errorEl.style.display = 'none'; }
-        form && form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const pw = document.getElementById('password').value;
-          if (pw.length < 8 || !/[a-zA-Z]/.test(pw) || !/[0-9]/.test(pw)) { showError('Password must be at least 8 characters with letters and numbers'); return; }
-          submitBtn.disabled = true; submitBtn.textContent = 'Creating Account…';
-          const formData = {
-            first_name: document.getElementById('first_name').value.trim(),
-            last_name: document.getElementById('last_name').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            password: pw,
-            terms_accepted: document.getElementById('terms_accepted').checked
-          };
-          try {
-            const res = await fetchWithCsrf('/api/signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
-            const data = await res.json();
-            if (res.ok && data.success) {
-              refreshCsrfToken();
-              if (data.token) localStorage.setItem('authToken', data.token);
-              setTimeout(() => { window.location.href = data.redirect || '/membershipsurvey'; }, 100);
-            } else { showError(data.error || 'Failed to create account. Please try again.'); submitBtn.disabled = false; submitBtn.textContent = 'Create Account'; }
-          } catch (err) { showError('Network error. Please check your connection and try again.'); submitBtn.disabled = false; submitBtn.textContent = 'Create Account'; }
-        });
-      `}} />
+
     </div>
   );
 }

@@ -2,6 +2,40 @@
 // Login — quieter than signup, single glass-warm card, editorial welcome line.
 
 function LoginPage() {
+  const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const email = form.elements.email.value.trim();
+    const password = form.elements.password.value;
+    setError('');
+    setSuccess('');
+    if (!email || !password) {
+      setError('Please enter your email and password.');
+      return;
+    }
+    setBusy(true);
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) throw new Error(data.error || 'Sign in failed. Please try again.');
+      setSuccess('Logged in. Redirecting…');
+      const next = new URLSearchParams(window.location.search).get('next');
+      window.location.assign('/account' + (next ? '?next=' + encodeURIComponent(next) : ''));
+    } catch (err) {
+      setError(err.message || 'Network error. Please try again.');
+      setBusy(false);
+    }
+  }
+
   return (
     <div style={{ background: 'var(--surface)', position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
 
@@ -54,20 +88,19 @@ function LoginPage() {
 
               {/* Error / success banners — preserved from legacy */}
               <div id="error-message" role="alert" aria-live="polite" style={{
-                display: 'none', padding: '12px 16px', marginBottom: 16,
+                display: error ? 'block' : 'none', padding: '12px 16px', marginBottom: 16,
                 background: 'rgba(200,60,60,0.08)', border: '1px solid rgba(200,60,60,0.25)',
                 borderRadius: 'var(--r-md)', color: '#a03030',
                 fontFamily: 'var(--font-body)', fontSize: 14,
-              }} />
+              }}>{error}</div>
               <div id="success-message" role="status" aria-live="polite" style={{
-                display: 'none', padding: '12px 16px', marginBottom: 16,
+                display: success ? 'block' : 'none', padding: '12px 16px', marginBottom: 16,
                 background: 'rgba(60,140,80,0.08)', border: '1px solid rgba(60,140,80,0.22)',
                 borderRadius: 'var(--r-md)', color: '#2a6e40',
                 fontFamily: 'var(--font-body)', fontSize: 14,
-              }} />
+              }}>{success}</div>
 
-              <form id="login-form" noValidate>
-                <input type="hidden" id="_csrf" name="_csrf" value="" />
+              <form id="login-form" method="post" onSubmit={handleSubmit} noValidate>
 
                 <div style={{ marginBottom: 20 }}>
                   <label htmlFor="email" style={labelStyle}>Email</label>
@@ -80,11 +113,11 @@ function LoginPage() {
                 </div>
 
                 <div style={{ textAlign: 'right', marginBottom: 28 }}>
-                  <a href="/forgot-password" style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--plum-soft)', textDecoration: 'underline', textUnderlineOffset: 3 }}>Forgot your password?</a>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--plum-soft)' }}>Password reset is being set up.</span>
                 </div>
 
-                <button type="submit" id="submit-btn" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: 16, padding: '16px 28px' }}>
-                  Log In {Icon.arrow(16)}
+                <button type="submit" id="submit-btn" disabled={busy} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: 16, padding: '16px 28px' }}>
+                  {busy ? 'Signing in…' : <>Log In {Icon.arrow(16)}</>}
                 </button>
               </form>
 
@@ -101,53 +134,7 @@ function LoginPage() {
 
       <Footer base="" />
 
-      {/* ── FUNCTIONAL SCRIPT (preserved from legacy) ── */}
-      <script dangerouslySetInnerHTML={{ __html: `
-        function getCookie(name) {
-          const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + '=([^;]*)'));
-          return match ? decodeURIComponent(match[1]) : null;
-        }
-        function refreshCsrfToken() {
-          const t = getCookie('csrf_token');
-          if (t) { window.__csrfToken = t; const h = document.getElementById('_csrf'); if (h) h.value = t; }
-        }
-        function fetchWithCsrf(url, opts) {
-          opts = opts || {}; opts.headers = opts.headers || {};
-          const token = window.__csrfToken || getCookie('csrf_token') || '';
-          if (token) opts.headers['X-CSRF-Token'] = token;
-          opts.credentials = opts.credentials || 'include';
-          return fetch(url, opts);
-        }
-        refreshCsrfToken();
-        const form = document.getElementById('login-form');
-        const errorEl = document.getElementById('error-message');
-        const successEl = document.getElementById('success-message');
-        const submitBtn = document.getElementById('submit-btn');
-        function showError(msg) { errorEl.textContent = msg; errorEl.style.display = 'block'; successEl.style.display = 'none'; }
-        function showSuccess(msg) { successEl.textContent = msg; successEl.style.display = 'block'; errorEl.style.display = 'none'; }
-        function hideMessages() { errorEl.style.display = 'none'; successEl.style.display = 'none'; }
-        form && form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          hideMessages();
-          const email = document.getElementById('email').value.trim();
-          const password = document.getElementById('password').value;
-          if (!email || !password) { showError('Please enter your email and password.'); return; }
-          submitBtn.disabled = true; submitBtn.textContent = 'Signing in…';
-          try {
-            const res = await fetchWithCsrf('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-            let data = {}; try { data = await res.json(); } catch (_) {}
-            if (res.ok && data.success) {
-              refreshCsrfToken();
-              if (data.token) { try { localStorage.setItem('authToken', data.token); } catch (_) {} }
-              showSuccess('Logged in. Redirecting…');
-              setTimeout(() => { window.location.href = data.redirect || '/'; }, 250);
-            } else {
-              const msg = data.error || data.message || 'Sign in failed. Please check your email and password.';
-              showError(msg); submitBtn.disabled = false; submitBtn.textContent = 'Log In';
-            }
-          } catch (err) { showError('Network error. Please check your connection and try again.'); submitBtn.disabled = false; submitBtn.textContent = 'Log In'; }
-        });
-      `}} />
+
     </div>
   );
 }
