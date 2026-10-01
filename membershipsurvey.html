@@ -513,6 +513,7 @@
       </details>
 
       <a href="/faq" class="home-link">FAQ</a>
+      <a href="#" id="logout-btn" class="logout-link" style="display: none;">Logout</a>
     </div>
   </header>
 
@@ -585,7 +586,6 @@
         <li><a href="/betacomingsoon">AI Coach</a></li>
       </ul>
     </details>
-    <a href="#" id="logout-btn" class="logout-link" style="display: none;">Logout</a>
   </div>
 
   <div class="nav-dim" id="nav-dim" hidden></div>
@@ -2796,11 +2796,16 @@
       }
 
       try {
+        const csrfResponse = await fetch('/api/csrf', { credentials: 'same-origin' });
+        if (!csrfResponse.ok) throw new Error('Could not prepare sign-out');
+        const { csrfToken } = await csrfResponse.json();
         const response = await fetch('/api/auth/logout', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+          },
+          credentials: 'same-origin'
         });
 
         const data = await response.json();
@@ -2845,4 +2850,3 @@
   </script>
 </body>
 </html>
-
