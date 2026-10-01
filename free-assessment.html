@@ -527,7 +527,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
 </div>
 
 <div class="dlb"><div class="dlbi">
-  <p>Your personalised report is ready</p>
+  <p id="deliveryStatus">Your personalised report is ready</p>
   <div class="bts">
     <button class="btd" onclick="window.print()">⬇ Save as PDF</button>
     <button class="btr" onclick="retake()">↺ Retake</button>
@@ -580,7 +580,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
 </div></div>
 
 <!-- CROSS-SCORE: SLEEP -->
-<div class="u120">
+<div class="u120" id="sleepFollowup">
 <div class="u120i">
   <h2>Menopause is likely stealing your sleep.</h2>
   <p>Sleep is the single greatest amplifier of every other symptom you just scored — brain fog, fatigue, and mood all follow it. Our free 12-question Sleep Score shows exactly how disrupted your sleep is, and what to do about it.</p>
@@ -764,6 +764,20 @@ function detectFlags(resp){
     .sort((a,b)=>(a.p==='URGENT'?0:1)-(b.p==='URGENT'?0:1));
 }
 
+const SYMPTOM_NAMES=[
+  'hot flashes','night sweats','brain fog','fatigue','mood changes','sleep disruption',
+  'anxiety','joint or muscle discomfort','weight or metabolism changes',
+  'heart palpitations','vaginal discomfort','urinary discomfort'
+];
+const SEVERITY=['not reported','mild','moderate','severe'];
+function topSymptoms(resp){
+  return resp.map((rating,index)=>({rating,index}))
+    .filter(item=>item.rating>0)
+    .sort((a,b)=>b.rating-a.rating||a.index-b.index)
+    .slice(0,3)
+    .map(item=>`${SYMPTOM_NAMES[item.index]} (${SEVERITY[item.rating]})`);
+}
+
 
 /* Full results for the emailed copy + the saved record: the same domain
    scores, top concern, actions, flags and product picks the page shows. */
@@ -772,12 +786,15 @@ function reportPayload(resp,dS){
   const bands=dS.map(getDB);
   const order=dS.map((s,i)=>({s,i})).sort((a,b)=>a.s-b.s);
   const top=order[0].i, strong=order[order.length-1].i;
+  const symptoms=topSymptoms(resp);
   return {
     domains:DOMS.map((d,i)=>({name:d.name,score:Math.round(dS[i]),band:bandLabel(bands[i])})),
-    topConcern:{name:DOMS[top].name,summary:strip(domNarrative(top+1,bands[top])),actions:(domActions(top+1,bands[top])||[]).slice(0,4).map(strip)},
+    topConcern:symptoms.length
+      ? {name:DOMS[top].name,summary:`Your highest-rated answers: ${symptoms.join(', ')}.`,actions:(domActions(top+1,bands[top])||[]).slice(0,4).map(strip)}
+      : {name:'No symptoms reported',summary:'You rated all 12 symptoms as not present in the past month.',actions:['Save this snapshot and repeat the screener if your symptoms change.']},
     strongest:DOMS[strong].name,
     flags:detectFlags(resp).map(f=>({label:f.lbl,note:f.ref,response:resp[f.qi]})),
-    products:order.slice(0,2).flatMap(x=>(PRODUCTS[x.i+1]||[]).map(p=>({name:p.n,why:p.w,for:DOMS[x.i].short})))
+    products:symptoms.length ? order.slice(0,2).flatMap(x=>(PRODUCTS[x.i+1]||[]).map(p=>({name:p.n,why:p.w,for:DOMS[x.i].short}))) : []
   };
 }
 
@@ -786,7 +803,7 @@ function goEmail(){
   if(answered<12) return;
   go('se');
 }
-function submitEmail(){
+async function submitEmail(){
   var name=(document.getElementById('se-name').value||'').trim();
   var email=(document.getElementById('se-email').value||'').trim();
   var zip=(document.getElementById('se-zip').value||'').replace(/[^\d]/g,'').slice(0,5);
@@ -807,15 +824,27 @@ function submitEmail(){
   var dS=DOMS.map(function(_,i){return ds(i,resp);});
   var hisV=his(dS,stage), gcsV=gcs(resp);
   window.__empressLeadName = name;
+  const button=document.getElementById('se-go');
+  button.disabled=true;button.textContent='Saving your results…';
   try{
-    fetch('/api/free-score-lead',{
+    const response=await fetch('/api/free-score-lead',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       credentials:'same-origin',
       body:JSON.stringify({firstName:name,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:hisV,gcs:gcsV,responses:resp,report:reportPayload(resp,dS)})
-    }).catch(function(){});
-  }catch(e){}
-  gen();
+    });
+    const result=await response.json();
+    if(!response.ok||!result.ok) throw new Error(result.error||'We could not save your results. Please try again.');
+    gen();
+    el('deliveryStatus').textContent=result.emailSent
+      ? 'Your personalised report is ready and a copy was emailed to you.'
+      : 'Your personalised report is ready. Email delivery is unavailable; please save a PDF copy.';
+  }catch(e){
+    err.textContent=e.message||'We could not save your results. Please try again.';
+    err.style.display='block';
+  }finally{
+    button.disabled=false;button.textContent='Reveal My Score →';
+  }
 }
 
 /* ── GENERATE REPORT ── */
@@ -827,6 +856,7 @@ function gen(){
   const hb=getHB(hisV),gb=getGB(gcsV);
   const dBands=dS.map(s=>getDB(s));
   const flags=detectFlags(resp);
+  el('sleepFollowup').style.display=(resp[1]>0||resp[5]>0)?'':'none';
   const wts=W[stage];
   const stLbl={perimenopause:'Perimenopause',menopause:'Menopause',post_menopause:'Post-Menopause'}[stage];
   const topC=dS.indexOf(Math.min(...dS));
@@ -864,7 +894,7 @@ function gen(){
   el('slbox').innerHTML='';
 
   /* Story */
-  el('story').innerHTML=buildStory(hisV,hb.l,gcsV,gb.l,dS,dBands,flags,stLbl,topC,topS);
+  el('story').innerHTML=buildStory(hisV,hb.l,gcsV,gb.l,dS,dBands,flags,stLbl,topC,topS,resp);
 
   /* Domain bars */
   el('dpg').innerHTML=DOMS.map((d,i)=>{
@@ -911,12 +941,12 @@ function gen(){
 
   /* Recommended products for the 2 priority (lowest-scoring) domains. */
   var prio=DOMS.map(function(d,i){return{i:i,s:dS[i]};}).sort(function(a,b){return a.s-b.s;}).slice(0,2).map(function(x){return x.i;});
-  el('prodSection').innerHTML=prio.map(function(di){
+  el('prodSection').innerHTML=topSymptoms(resp).length ? prio.map(function(di){
     var ps=PRODUCTS[di+1]||[];
     if(!ps.length) return '';
     return '<div style="margin-bottom:1.1rem;"><div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:'+DOMS[di].color+';margin-bottom:.5rem;">For your '+DOMS[di].short+' symptoms</div>'+
       ps.map(function(p){return '<div class="fc fcr"><div><div class="fch">'+p.n+'</div><p class="fcp">'+p.w+'</p></div></div>';}).join('')+'</div>';
-  }).join('');
+  }).join('') : '<p>Your answers did not identify a priority domain for products.</p>';
 }
 
 /* ── RING CANVAS ── */
@@ -973,15 +1003,19 @@ function bandDesc(h,l,sl){
   return{Thriving:`Strong wellness across all 4 domains. Your ${sl} transition is being managed with genuine resilience. The goal is protecting this advantage as the transition continues.`,Flourishing:`Good overall wellness with targeted areas for improvement. Precision support in your weaker domains will meaningfully elevate your ${sl} experience.`,Managing:`Moderate symptom burden with measurable quality-of-life impact. Structured clinical and lifestyle support in your priority areas will produce visible change within 8–12 weeks.`,Struggling:`Significant multi-domain symptom burden. You are in a key intervention window — women at your score level responding to the right support typically see 15–25 point HIS gains within 12 weeks.`,Critical:`High symptom burden across multiple systems. This is not 'just getting older' — it is a measurable, treatable physiological state. Immediate clinical evaluation is strongly recommended.`}[l]||'';
 }
 
-function buildStory(h,bl,g,gl,dS,dBands,flags,sl,topC,topS){
+function buildStory(h,bl,g,gl,dS,dBands,flags,sl,topC,topS,resp){
   const hn={Thriving:`Your ${sl} transition is being managed with real strength.`,Flourishing:`Good overall wellness — with one clear opportunity for targeted improvement.`,Managing:`You are managing — but the symptom cost is measurable in your domain scores.`,Struggling:`Your symptoms are real, measurable, and significantly impacting your quality of life.`,Critical:`Your body is carrying a substantial symptom burden across multiple systems.`}[bl]||'';
-  const dom={1:`Vasomotor symptoms are a force multiplier — each hot flash or night sweat disrupts sleep architecture, elevates cortisol, and amplifies cognitive and mood symptoms the following day.`,2:`Cognitive and psychological symptoms are neurochemical events driven by estradiol's role in BDNF, serotonin, and GABA — not stress, not ageing, not weakness.`,3:`Somatic and metabolic changes reflect estrogen's direct role in muscle protein synthesis, insulin sensitivity, and cardiovascular tone.`,4:`Genitourinary symptoms are the most progressive and most under-treated aspect of the transition. GSM does not self-resolve without treatment.`}[topC+1]||'';
   let html=`<p class="sp lg"><em>"${hn}"</em></p>`;
   html+=`<p class="sp">Your Health Intelligence Score of <strong>${h}/100</strong> and Symptom Severity Score of <strong>${g}/36 (${gl})</strong> together give you two clinical lenses on the same set of responses. The HIS is your wellness score — higher is better. The GCS is your clinical severity score — lower is better. Both are computed from your 12 answers in real time.</p>`;
-  html+=`<p class="sp">Your primary concern domain is <strong>${DOMS[topC].name}</strong>. ${dom}</p>`;
+  const symptoms=topSymptoms(resp);
+  if(symptoms.length){
+    html+=`<p class="sp">Your highest-rated answers were <strong>${symptoms.join(', ')}</strong>. Your lowest-scoring domain is <strong>${DOMS[topC].name}</strong>; review its detail and next steps below.</p>`;
+  }else{
+    html+=`<p class="sp">You reported no symptoms across these 12 questions in the past month. There is no priority concern from this screener today. Save this snapshot and repeat it if anything changes.</p>`;
+  }
   if(flags.length>0){html+=`<div class="cb cba"><h4>▲ Clinical flags triggered</h4><p>${flags.length} item${flags.length>1?'s':''} reached the threshold worth discussing with your provider. Review the Clinical Safety section below.</p></div>`;}
   if(mht){html+=`<div class="cbp"><h4>HRT Note</h4><p>You are on hormone therapy. Your D1 (Vasomotor) and D4 (Genitourinary) scores reflect your treated state. This is a positive outcome — your score shows the domains where treatment is working.</p></div>`;}
-  html+=`<p class="sp">Your strongest domain is <strong>${DOMS[topS].name}</strong> — a genuine wellness asset to protect and build on as your transition progresses.</p>`;
+  if(symptoms.length) html+=`<p class="sp">Your highest-scoring domain is <strong>${DOMS[topS].name}</strong>.</p>`;
   return html;
 }
 

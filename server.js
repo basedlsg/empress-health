@@ -2190,6 +2190,12 @@ app.get("/api/analytics", (_req, res) => {
 const captureLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
 app.post("/api/capture/email", captureLimiter, async (req, res) => {
   const b = req.body || {};
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(b.email || ""))) {
+    return res.status(400).json({ ok: false, error: "A valid email address is required." });
+  }
+  if (!pool) {
+    return res.status(503).json({ ok: false, error: "We cannot save your email right now. Please try again." });
+  }
   const source = typeof b.source === "string" && /^[a-z0-9-]{1,60}$/.test(b.source) ? b.source : "site";
   const ctx = b.context && typeof b.context === "object" ? b.context : null;
   const ok = await captureStore.captureEmail({
@@ -2199,7 +2205,9 @@ app.post("/api/capture/email", captureLimiter, async (req, res) => {
     userId: req.session && Number.isInteger(req.session.userId) ? req.session.userId : null,
     context: ctx,
   });
-  return res.status(ok ? 200 : 400).json({ ok });
+  return res.status(ok ? 200 : 503).json(ok ? { ok: true } : {
+    ok: false, error: "We cannot save your email right now. Please try again."
+  });
 });
 
 // Email delivery check for operators: verifies the SMTP login WITHOUT sending
@@ -3114,15 +3122,11 @@ app.post("/api/recommendations/combined", handleCombinedRecommendations);
 /* ───────────── Free 12-question screener — lead capture ─────────────
  * Records the email (+ HIS score) from the free Mini Health Intelligence
  * screener so the team can collect signups for adoption. Public, CSRF-exempt.
- * Capture is best-effort via lib/notify (JSONL + console log; SMTP/webhook/DB
- * delivery is wired in notify.js when configured) — it never blocks the user's
- * score. NOTE: on serverless (Vercel) the JSONL file is ephemeral; durable
- * capture needs SMTP_*, a Zapier webhook, or a DB configured. Leads always
- * appear in the function logs as `[notify:lead] ...`.
+ * Requires both the email and result to be stored in Postgres before the
+ * browser reveals the score. The JSONL notification is only an operator copy.
  */
 app.post("/api/free-score-lead", async (req, res) => {
   try {
-    const { notify } = require("./lib/notify");
     const b = req.body || {};
     const email = typeof b.email === "string" ? b.email.trim() : "";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -3155,20 +3159,6 @@ app.post("/api/free-score-lead", async (req, res) => {
     const trackKey = (typeof b.track === "string" && TRACKS[b.track]) ? b.track : "menopause";
     const T = TRACKS[trackKey];
 
-    await notify("lead", {
-      source:    T.source,
-      track:     trackKey,
-      firstName,
-      email:     email.slice(0, 200),
-      zip:       typeof b.zip === "string" ? b.zip.replace(/[^\d]/g, "").slice(0, 5) : null,
-      phone:     typeof b.phone === "string" ? b.phone.slice(0, 40) : null,
-      stage,
-      hrt:       b.hrt === true,
-      his,
-      gcs,
-      responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
-    });
-
     // Durable copy: the email itself + her answers and scores.
     const capture = require("./lib/capture-store");
     const sessionUserId = req.session && Number.isInteger(req.session.userId) ? req.session.userId : null;
@@ -3178,7 +3168,7 @@ app.post("/api/free-score-lead", async (req, res) => {
     const gcsBand = gcs != null ? (GB.find((x) => gcs <= x.max) || GB[GB.length - 1]).l : "—";
     const { renderFreeScoreEmail, normaliseReport } = require("./lib/free-score-email");
     const report = normaliseReport(b.report);
-    await Promise.all([
+    const [emailSaved, submissionId] = await Promise.all([
       capture.captureEmail({
         email, firstName, source: T.source, userId: sessionUserId,
         context: {
@@ -3192,8 +3182,17 @@ app.post("/api/free-score-lead", async (req, res) => {
         responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
       }),
     ]);
+    if (!emailSaved || !submissionId) {
+      return res.status(503).json({ ok: false, error: "We could not save your results. Please try again." });
+    }
 
-    // Email her the full results report. Never blocks the score.
+    await require("./lib/notify").notify("lead", {
+      source: T.source, track: trackKey, firstName, email: email.slice(0, 200), stage,
+      his, gcs, responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
+    });
+
+    // The saved result is available even when email delivery is unavailable.
+    let emailSent = false;
     try {
       const { sendEmail } = require("./lib/email-sender");
       const message = renderFreeScoreEmail({
@@ -3201,15 +3200,16 @@ app.post("/api/free-score-lead", async (req, res) => {
         report: b.report,
         siteUrl: process.env.PUBLIC_SITE_URL || (isProduction ? "https://empresshealth.ai" : `http://localhost:${PORT}`),
       });
-      await sendEmail({ to: email.slice(0, 200), subject: message.subject, html: message.html, text: message.text });
+      const delivery = await sendEmail({ to: email.slice(0, 200), subject: message.subject, html: message.html, text: message.text });
+      emailSent = delivery.mode === "smtp";
     } catch (mailErr) {
       console.error("[free-score-lead] email copy failed:", mailErr.message);
     }
 
-    return res.json({ ok: true });
+    return res.json({ ok: true, emailSent });
   } catch (err) {
     console.error("[free-score-lead] failed:", err.message);
-    return res.json({ ok: true }); // never block the score on a capture hiccup
+    return res.status(503).json({ ok: false, error: "We could not save your results. Please try again." });
   }
 });
 
@@ -3231,16 +3231,6 @@ app.post("/api/assessment/report-email", async (req, res) => {
     const payload = normaliseAssessmentEmailPayload(req.body);
     const delivery = getEmailDeliveryConfig();
 
-    // A file log is useful for development and CI, but it is not delivery.
-    // Fail loudly in production instead of telling a member an email was sent.
-    if (isProduction && !delivery.smtpReady) {
-      console.error("[assessment-email] SMTP is not fully configured; refusing false-success response.");
-      return res.status(503).json({
-        error: "Email delivery is temporarily unavailable. Please use Print / Save as PDF for now.",
-        code: "EMAIL_NOT_CONFIGURED",
-      });
-    }
-
     const deliveryKey = String(req.body && req.body.deliveryKey || "").slice(0, 160);
     if (deliveryKey && req.session) {
       const prior = req.session.assessmentEmailDeliveries || {};
@@ -3250,7 +3240,7 @@ app.post("/api/assessment/report-email", async (req, res) => {
     }
 
     const sessionUserId = req.session && Number.isInteger(req.session.userId) ? req.session.userId : null;
-    await Promise.all([
+    const [emailSaved, submissionId] = await Promise.all([
       captureStore.captureEmail({ email: payload.to, firstName: payload.firstName, source: "paid-assessment-complete", userId: sessionUserId }),
       captureStore.saveSubmission({
         kind: "paid-120", email: payload.to, firstName: payload.firstName, userId: sessionUserId,
@@ -3259,6 +3249,22 @@ app.post("/api/assessment/report-email", async (req, res) => {
         responses: req.body && req.body.responses && typeof req.body.responses === "object" ? req.body.responses : null,
       }),
     ]);
+    if (!emailSaved || !submissionId) {
+      return res.status(503).json({
+        error: "We could not save your assessment results. Please try again.",
+        code: "RESULTS_NOT_SAVED",
+      });
+    }
+
+    // A file log is useful for development and CI, but it is not delivery.
+    // Save the results first, then report SMTP availability accurately.
+    if (isProduction && !delivery.smtpReady) {
+      console.error("[assessment-email] SMTP is not fully configured; results saved without an email copy.");
+      return res.status(503).json({
+        error: "Your results were saved, but email delivery is temporarily unavailable. Please use Print / Save as PDF for now.",
+        code: "EMAIL_NOT_CONFIGURED",
+      });
+    }
 
     const message = renderAssessmentResultEmail(payload);
     const result = await sendEmail({

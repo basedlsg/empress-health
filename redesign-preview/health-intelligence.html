@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Health Intelligence Report — Empress Health</title>
+<meta name="description" content="The Empress Health Intelligence assessment: 120 health markers across 10 body systems, no blood draws, about 15 minutes. Included with Essential and Premium membership.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>
+  /* arriving from a paid plan (?plan=essential|premium): hide "join" prompts, show "begin" ones instead */
+  if (/[?&]plan=(essential|premium)\b/i.test(location.search)) document.documentElement.classList.add('is-member');
+</script>
+</head>
+<body>
+<header id="site-header"></header>
+
+<main id="main">
+
+<section class="page-hero">
+  <div class="container split">
+    <div>
+      <span class="eyebrow">Included with Essential &amp; Premium</span>
+      <h1>Your Peri+ Menopause Health Intelligence</h1>
+      <p class="lede">The most comprehensive menopause assessment we offer — a guided look at your whole picture that becomes the Consult Report you bring to your next appointment.</p>
+      <div class="stats-row">
+        <div><strong>120</strong><span>Health markers</span></div>
+        <div><strong>10</strong><span>Body systems</span></div>
+        <div><strong>0</strong><span>Blood draws</span></div>
+        <div><strong>~15</strong><span>Minutes</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="intake" id="start">
+        <form class="intake-form js-signup" data-thanks="Thank you — your Health Intelligence assessment is ready to begin." novalidate>
+          <div class="fields">
+            <div>
+              <label for="hi-name">First name</label>
+              <input id="hi-name" type="text" autocomplete="given-name" placeholder="Maria">
+            </div>
+            <div>
+              <label for="hi-age">Age</label>
+              <input id="hi-age" type="text" inputmode="numeric" placeholder="48">
+            </div>
+            <div class="wide">
+              <label for="hi-email">Email</label>
+              <input id="hi-email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            </div>
+            <div class="wide">
+              <label for="hi-phone">Phone <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+              <input id="hi-phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567">
+            </div>
+            <div>
+              <label for="hi-state">State</label>
+              <select id="hi-state">
+                <option value="">Select your state</option>
+                <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+                <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+                <option>District of Columbia</option><option>Florida</option><option>Georgia</option><option>Hawaii</option>
+                <option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option>
+                <option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option>
+                <option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option>
+                <option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option>
+                <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option>
+                <option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option>
+                <option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+                <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option>
+                <option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option>
+                <option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+              </select>
+            </div>
+            <div>
+              <label for="hi-zip">ZIP code</label>
+              <input id="hi-zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="90210">
+            </div>
+          </div>
+          <button class="btn btn-gold" type="submit">Begin my assessment →</button>
+        </form>
+        <small class="signup-msg on-light-msg">We use your state and ZIP to suggest menopause-trained doctors near you. Included with Essential and Premium — no separate charge.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">What it looks at</span>
+      <h2>120 health markers, across 10 body systems</h2>
+      <p class="lede">Hormonal change rarely stays in one place. The assessment asks about each system in turn, so patterns that look unrelated on their own can be seen together.</p>
+    </div>
+    <div class="grid g-5">
+      <div class="card reveal"><div class="card-icon">✦</div><h3>Hormonal &amp; cycle</h3><p>Where you are in the transition, and how your cycle has changed.</p></div>
+      <div class="card reveal"><div class="card-icon">◷</div><h3>Sleep</h3><p>Falling asleep, staying asleep, night sweats and early waking.</p></div>
+      <div class="card reveal"><div class="card-icon">❋</div><h3>Vasomotor</h3><p>Hot flashes, chills, flushing and how often they interrupt your day.</p></div>
+      <div class="card reveal"><div class="card-icon">✧</div><h3>Mood &amp; stress</h3><p>Irritability, low mood, anxiety and how you're coping week to week.</p></div>
+      <div class="card reveal"><div class="card-icon">◍</div><h3>Cognition</h3><p>Focus, memory, word-finding and the brain fog nobody warned you about.</p></div>
+      <div class="card reveal"><div class="card-icon">♡</div><h3>Heart &amp; metabolic</h3><p>Energy, weight changes, appetite and known risk factors in your history.</p></div>
+      <div class="card reveal"><div class="card-icon">◆</div><h3>Bone, joints &amp; muscle</h3><p>Aches, stiffness, strength and activity you've had to give up.</p></div>
+      <div class="card reveal"><div class="card-icon">❉</div><h3>Skin, hair &amp; nails</h3><p>Dryness, thinning, texture changes and what you've already tried.</p></div>
+      <div class="card reveal"><div class="card-icon">✽</div><h3>Urogenital &amp; sexual health</h3><p>Dryness, discomfort, bladder changes and libido — asked plainly, without embarrassment.</p></div>
+      <div class="card reveal"><div class="card-icon">◎</div><h3>Digestive &amp; general</h3><p>Gut changes, headaches, medications, supplements and family history.</p></div>
+    </div>
+    <p class="plan-note">No blood draws — every answer comes from you. Nothing here is a diagnosis; it's a structured picture you and your clinician can work from.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>Four steps, at your own pace</h2>
+    </div>
+    <div class="grid g-4">
+      <div class="step reveal">
+        <div class="num">1</div>
+        <h3>Join a plan</h3>
+        <p>Your full assessment opens as soon as you become an Essential or Premium member.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">2</div>
+        <h3>Answer at your pace</h3>
+        <p>About 15 minutes in total. Stop whenever you like — your progress is saved for when you come back.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">3</div>
+        <h3>Get your Consult Report</h3>
+        <p>Empress turns your answers into a clear, printable summary: patterns, timeline and the questions worth asking.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">4</div>
+        <h3>Bring it to your doctor</h3>
+        <p>Walk in with years of symptoms already written down, so a short appointment goes further.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-sand">
+  <div class="container split">
+    <div class="reveal">
+      <span class="eyebrow">What you get</span>
+      <h2>Your Consult Report</h2>
+      <p class="lede">One document, written for the person across the desk from you — and for you to keep.</p>
+      <ul class="checklist" style="margin-top:24px">
+        <li>Which symptoms cluster together, and how strongly each one affects you</li>
+        <li>A timeline of when things started and how they've changed</li>
+        <li>Specific questions worth asking at your next appointment</li>
+        <li>Which type of doctor, specialist or therapist may be the right one to see</li>
+        <li>Printable, and yours to download or email whenever you need it</li>
+      </ul>
+      <div class="cta-row join-only" style="margin-top:24px">
+        <a class="btn btn-gold" href="pricing.html">See membership plans</a>
+      </div>
+      <div class="cta-row member-only" style="margin-top:24px">
+        <a class="btn btn-gold" href="#start">Begin my assessment ↑</a>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="doc">
+        <div class="doc-head"><strong>Consult Report</strong><span>Prepared for<br>your appointment</span></div>
+        <div class="doc-row"><label>Sleep</label><div class="meter"><i style="width:78%"></i></div></div>
+        <div class="doc-row"><label>Vasomotor</label><div class="meter"><i style="width:64%"></i></div></div>
+        <div class="doc-row"><label>Mood</label><div class="meter"><i style="width:45%"></i></div></div>
+        <div class="doc-row"><label>Cognition</label><div class="meter"><i style="width:57%"></i></div></div>
+        <div class="doc-row"><label>Skin &amp; hair</label><div class="meter"><i style="width:38%"></i></div></div>
+        <div class="doc-note"><strong>Questions to ask your clinician:</strong> whether hormone therapy suits your history,
+          which screening makes sense for your symptoms, and options for broken sleep.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="container narrow">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Compare</span>
+      <h2>Free assessment or full assessment?</h2>
+      <p class="lede">Start free. The full version is there when you want the whole picture.</p>
+    </div>
+    <div class="table-wrap reveal">
+      <table class="compare" style="min-width:520px">
+        <thead>
+          <tr>
+            <th scope="col">What you get</th>
+            <th scope="col">Free assessment</th>
+            <th scope="col" class="hl">Health Intelligence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Time it takes</td><td>3 minutes</td><td class="hl">About 15 minutes</td></tr>
+          <tr><td>Questions</td><td>8 questions</td><td class="hl">120 health markers, 10 body systems</td></tr>
+          <tr><td>Your personal snapshot</td><td class="yes">✓</td><td class="yes hl">✓</td></tr>
+          <tr><td>Emailed to you</td><td class="yes">✓</td><td class="yes hl">✓</td></tr>
+          <tr><td>Consult Report for appointments</td><td class="no">—</td><td class="yes hl">✓</td></tr>
+          <tr><td>Symptom timeline</td><td class="no">—</td><td class="yes hl">✓</td></tr>
+          <tr><td>Doctors near you to consider</td><td class="no">—</td><td class="yes hl">✓</td></tr>
+          <tr><td>Save and come back later</td><td class="no">—</td><td class="yes hl">✓</td></tr>
+          <tr><td>Cost</td><td>Free</td><td class="hl">Included with membership</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="ask">
+  <div class="container split">
+    <div class="reveal">
+      <span class="eyebrow light">Private by design</span>
+      <h2>Your data, your control</h2>
+      <p class="lede">What you tell Empress about your body is some of the most personal information you have. We treat it that way.</p>
+    </div>
+    <div class="reveal">
+      <ul class="ask-points">
+        <li><span class="ico">🔒</span><span><strong>Encrypted</strong>Enterprise-grade encryption protects everything you share.</span></li>
+        <li><span class="ico">✦</span><span><strong>Shared only with your consent</strong>Your personal health information is never shared without your explicit permission.</span></li>
+        <li><span class="ico">♡</span><span><strong>Yours to take with you</strong>Download your report or email it to yourself at any time.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="join-only">
+      <h2>Your full assessment opens once you join.</h2>
+      <p class="lede">Included with Essential and Premium — no separate charge.</p>
+      <a class="btn btn-gold btn-lg" href="pricing.html">See membership plans →</a>
+      <p class="microcopy" style="margin-top:18px">Not ready? <a class="text-link" href="assessment.html">Take the free 3-minute assessment</a> first.</p>
+    </div>
+    <div class="member-only">
+      <h2>Ready when you are.</h2>
+      <p class="lede">About 15 minutes, and you can stop and come back. It's included with your membership.</p>
+      <a class="btn btn-gold btn-lg" href="#start">Begin my assessment ↑</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer id="site-footer"></footer>
+<script src="app.js"></script>
+</body>
+</html>

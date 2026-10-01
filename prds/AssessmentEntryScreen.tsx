@@ -28,6 +28,8 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
   const [age, setAge] = useState("")
   const [usState, setUsState] = useState("")
   const [zip, setZip] = useState("")
+  const [saveError, setSaveError] = useState("")
+  const [saving, setSaving] = useState(false)
 
   // Signed-in members: start from what we already know about her.
   useEffect(() => {
@@ -91,15 +93,12 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
     }
   }
 
-  // Save the intake email as soon as it's entered, so it is kept even if she
-  // stops before the end. Fire-and-forget: never delays starting the questions.
-  function captureIntake() {
+  // Confirm the intake email is stored before moving to sensitive questions.
+  async function captureIntake() {
     const addr = email.trim()
     if (!addr) return
-    void (async () => {
-      try {
-        const t = await fetch("/api/csrf", { credentials: "include" }).then((r) => r.json())
-        await fetch("/api/capture/email", {
+    const t = await fetch("/api/csrf", { credentials: "include" }).then((r) => r.json())
+    const response = await fetch("/api/capture/email", {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json", "X-CSRF-Token": t?.csrfToken || "" },
@@ -109,26 +108,31 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
             source: tier === "free" ? "free-assessment-intake" : "paid-assessment-intake",
             context: { age: parsedAge, state: usState.trim() || null, zip: zip.trim() || null, phone: phone.trim() || null },
           }),
-        })
-      } catch {
-        /* best-effort */
-      }
-    })()
+    })
+    if (!response.ok) throw new Error("We cannot save your details right now. Please try again.")
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (!isValid) return
-    captureIntake()
-    setUser({
-      firstName: firstName.trim(),
-      age: parsedAge,
-      email: email.trim() || undefined,
-      phone: phone.trim() || undefined,
-      usState: usState.trim() || undefined,
-      zip: zip.trim() || undefined,
-    })
-    onBegin()
+    if (!isValid || saving) return
+    setSaveError("")
+    setSaving(true)
+    try {
+      await captureIntake()
+      setUser({
+        firstName: firstName.trim(),
+        age: parsedAge,
+        email: email.trim() || undefined,
+        phone: phone.trim() || undefined,
+        usState: usState.trim() || undefined,
+        zip: zip.trim() || undefined,
+      })
+      onBegin()
+    } catch {
+      setSaveError("We cannot save your details right now. Please try again.")
+    } finally {
+      setSaving(false)
+    }
   }
 
   const categoryCount = categories.length
@@ -146,6 +150,7 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
       <style>{scopedCss}</style>
       <AssessmentSiteNav variant="dark" />
       <form onSubmit={handleSubmit} style={styles.card} noValidate>
+        {saveError && <p role="alert" style={{ color: "#9c2b34" }}>{saveError}</p>}
         <span style={styles.brand}>EMPRESS HEALTH.AI</span>
 
         <h1 style={styles.headline}>
@@ -270,11 +275,11 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
 
         <button
           type="submit"
-          disabled={!isValid}
-          style={isValid ? styles.cta : styles.ctaDisabled}
+          disabled={!isValid || saving}
+          style={isValid && !saving ? styles.cta : styles.ctaDisabled}
           aria-label={isValid ? ctaLabel : "Fill in the required fields to begin"}
         >
-          {ctaLabel}
+          {saving ? "SAVING YOUR DETAILS…" : ctaLabel}
         </button>
 
         {!isFree && (

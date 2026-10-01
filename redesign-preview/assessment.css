@@ -1,0 +1,103 @@
+/* Empress Health — assessment flow */
+
+.quiz-wrap{
+  min-height:calc(100vh - var(--header-h));
+  background:
+    radial-gradient(90% 60% at 50% 0%,#F8ECDC 0%,rgba(248,236,220,0) 70%),
+    var(--cream);
+  padding-block:clamp(28px,5vw,64px) 96px;
+}
+.quiz{max-width:760px;margin-inline:auto;padding-inline:var(--gutter)}
+
+/* progress */
+.progress-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+.progress-head span{font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--plum-600)}
+.back-btn{background:none;border:0;color:var(--muted);cursor:pointer;font-size:.9rem;padding:4px 0}
+.back-btn:hover{color:var(--plum)}
+.bar{height:8px;border-radius:999px;background:var(--plum-100);overflow:hidden;margin-bottom:40px}
+.bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--plum-600));transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+/* question card */
+.q-card{
+  background:#fff;border:1px solid rgba(63,20,74,.08);border-radius:var(--r-xl);
+  padding:clamp(28px,4vw,48px);box-shadow:var(--shadow);
+}
+.q-card h1{font-size:clamp(1.7rem,3.2vw,2.3rem);margin-bottom:.35em}
+.q-hint{color:var(--muted);font-size:.96rem;margin-bottom:28px}
+
+.options{display:grid;gap:12px;margin-bottom:28px}
+.options.two{grid-template-columns:1fr 1fr}
+@media (max-width:620px){.options.two{grid-template-columns:1fr}}
+.opt{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  padding:18px 22px;border-radius:var(--r);border:1.5px solid rgba(63,20,74,.15);
+  background:var(--cream);color:var(--ink);font-size:1rem;cursor:pointer;
+  transition:all .16s ease;
+}
+.opt:hover{border-color:var(--plum);background:#fff;transform:translateY(-1px)}
+.opt[aria-pressed="true"]{border-color:var(--plum);background:var(--plum);color:#fff;box-shadow:var(--shadow-sm)}
+.opt .tick{
+  flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(63,20,74,.25);
+  display:grid;place-items:center;font-size:.75rem;color:transparent;background:#fff;
+}
+.opt[aria-pressed="true"] .tick{background:var(--gold);border-color:var(--gold);color:#3A2508}
+.q-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.q-foot .microcopy{margin:0}
+
+/* email step */
+.email-form{display:grid;gap:14px;margin-bottom:20px}
+.email-form input{
+  padding:17px 22px;border-radius:var(--r);border:1.5px solid rgba(63,20,74,.18);
+  font:inherit;font-size:1rem;background:var(--cream);color:var(--ink);
+}
+.email-form input:focus{border-color:var(--plum);background:#fff;outline:none}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;color:var(--muted);line-height:1.5}
+.consent input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--plum)}
+.err{color:#A1342F;font-size:.9rem;margin:0 0 12px}
+
+/* results */
+.result-hero{text-align:center;margin-bottom:36px}
+.stage-badge{
+  display:inline-block;padding:8px 20px;border-radius:999px;background:var(--gold-soft);
+  color:#6B4B08;font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;
+}
+.result-card{background:#fff;border:1px solid rgba(63,20,74,.08);border-radius:var(--r-lg);padding:30px;margin-bottom:20px}
+.result-card h3{margin-bottom:16px}
+.sym-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.sym-row label{flex:none;width:130px;font-size:.9rem;font-weight:600;color:var(--plum)}
+.sym-row .meter{flex:1;height:10px;border-radius:999px;background:var(--plum-100);overflow:hidden}
+.sym-row .meter i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--plum-600));width:0;transition:width .8s ease}
+.next-list{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.next-list li{display:flex;gap:14px;font-size:1rem;color:#4A3A4E}
+.next-list .n{
+  flex:none;width:30px;height:30px;border-radius:50%;background:var(--plum);color:var(--gold-soft);
+  display:grid;place-items:center;font-family:var(--display);font-size:.95rem;
+}
+.upsell{
+  background:linear-gradient(120deg,var(--plum),#5A2168);color:#fff;border-radius:var(--r-lg);
+  padding:34px;margin-top:28px;text-align:center;
+}
+.upsell h3{color:#fff}
+.upsell p{color:rgba(255,255,255,.8);font-size:.98rem;max-width:48ch;margin-inline:auto}
+.upsell .btn{margin-top:8px}
+/* member version: the Health Intelligence step, styled like the band under the plans on pricing.html */
+.upsell-next{
+  display:grid;gap:6px;max-width:46ch;margin:22px auto 20px;padding:20px 24px;text-align:left;
+  background:rgba(255,255,255,.08);border:1px solid rgba(240,199,90,.35);border-radius:var(--r);
+}
+.upsell-next .upsell-kicker{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-bright)}
+.upsell-next strong{font-family:var(--display);font-size:1.3rem;font-weight:600;color:#fff}
+.upsell-next span:last-child{color:rgba(255,255,255,.82);font-size:.95rem;line-height:1.55}
+.result-note{font-size:.86rem;color:var(--muted);text-align:center;margin-top:28px;line-height:1.6}
+
+@media (max-width:560px){
+  .sym-row{flex-wrap:wrap;gap:6px}
+  .sym-row label{width:100%}
+  .sym-row .meter{width:100%}
+}
+
+.field-note{
+  display:flex;gap:8px;align-items:flex-start;margin:0;
+  font-size:.86rem;line-height:1.5;color:var(--muted);
+  background:var(--cream);border:1px solid rgba(63,20,74,.08);border-radius:var(--r-sm);padding:12px 14px;
+}
