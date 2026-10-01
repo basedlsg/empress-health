@@ -9,9 +9,12 @@ node_modules
 .git
 .github
 .cursor
+/.env
+/.env.*
 
 # === Build artifacts (Vercel rebuilds via buildCommand) ===
 prds/dist
+/public/assessment
 
 # === Legacy HTML files at repo root ===
 # DO NOT ignore these — scripts/copy-legacy-html-to-public.mjs reads them

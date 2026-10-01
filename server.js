@@ -360,6 +360,33 @@ app.get("/api/csrf", (req, res) => {
   return res.json({ csrfToken: token });
 });
 
+// Keep the full assessment and its JS assets behind an actual entitlement.
+// This middleware runs before public/ static serving in local development.
+app.use(["/assessment", "/public/assessment"], async (req, res, next) => {
+  res.set("Referrer-Policy", "no-referrer");
+  if (req.session && req.session.promoUnlocked === true) return next();
+  const userId = req.session && req.session.userId;
+  if (!userId) {
+    const target = /^\/assessment(?:\/|\?|$)/.test(req.originalUrl) && isSafeRedirectTarget(req.originalUrl)
+      ? req.originalUrl : "/assessment/?tier=paid";
+    return res.redirect(302, "/account?next=" + encodeURIComponent(target));
+  }
+  if (!pool) return res.status(503).send("Membership status is temporarily unavailable.");
+  try {
+    const result = await pool.query(
+      "SELECT subscription_tier, subscription_status FROM users WHERE id = $1 LIMIT 1",
+      [userId]
+    );
+    const user = result.rows[0];
+    if (user && ["essential", "premium"].includes(user.subscription_tier) &&
+        ["active", "trialing", "past_due"].includes(user.subscription_status)) return next();
+    return res.redirect(302, "/account");
+  } catch (err) {
+    console.error("[assessment gate] membership lookup failed:", err.message);
+    return res.status(503).send("Membership status is temporarily unavailable.");
+  }
+});
+
 // Serve /public at /public (e.g., /public/EmpressHealthlogo.png)
 app.use("/public", express.static(path.join(__dirname, "public")));
 
@@ -404,19 +431,9 @@ if (fs.existsSync(assessmentIndex)) {
   // Express 5 may normalize "/assessment/" to "/assessment". Do not redirect between
   // them — that caused a 302 loop (Location: /assessment/). Serve index for both.
   //
-  // Auth gate: the PAID assessment calls /api/recommendations/affirmations/generate
-  // and /api/recommendations/combined, which require an authenticated session.
-  // The FREE Mini Assessment is self-contained (no API calls) and does not need
-  // a session — its intro even advertises "No account required".
-  //
-  // Behavior:
-  //   - ?tier=free         → TEMPORARILY DISABLED. Free Mini / 30-question
-  //                          free assessment is hidden for now; redirect to
-  //                          ?tier=paid. Remove this redirect to re-enable.
-  //   - ?tier=paid         → serve SPA directly (free→paid upgrade must not
-  //                          ricochet users back through /signup)
-  //   - default (no tier)  → require session; otherwise bounce through /signup
-  //                          and return them to /assessment/?tier=paid
+  // The middleware above verifies membership for the entry page and assets.
+  // The free tier is temporarily disabled; visitors use the separate free
+  // assessment page instead.
   app.get(["/assessment", "/assessment/"], (req, res) => {
     const tier = req.query && typeof req.query.tier === "string" ? req.query.tier : null;
 
@@ -425,20 +442,7 @@ if (fs.existsSync(assessmentIndex)) {
       return res.redirect(302, "/assessment/?tier=paid");
     }
 
-    if (tier === "paid") {
-      return res.sendFile(assessmentIndex);
-    }
-
-    if (!req.session || !req.session.userId) {
-      const rawNext = req.originalUrl && req.originalUrl.startsWith("/assessment")
-        ? req.originalUrl
-        : "/assessment/?tier=paid";
-      // Validate the next target to prevent open-redirect attacks.
-      const next = isSafeRedirectTarget(rawNext) ? rawNext : "/assessment/?tier=paid";
-      console.log("[assessment gate] no session, redirecting via signup ->", next);
-      return res.redirect("/signup?next=" + encodeURIComponent(next));
-    }
-    res.sendFile(assessmentIndex);
+    res.type("html").sendFile(assessmentIndex);
   });
 } else {
   console.warn(
@@ -2208,6 +2212,87 @@ app.post("/api/capture/email", captureLimiter, async (req, res) => {
   return res.status(ok ? 200 : 503).json(ok ? { ok: true } : {
     ok: false, error: "We cannot save your email right now. Please try again."
   });
+});
+
+// Save the redesign intake and return a short-lived token for the member
+// assessment. The token carries no personal details in the URL.
+app.post("/api/assessment/intake-handoff", captureLimiter, async (req, res) => {
+  const body = req.body || {};
+  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+  const firstName = typeof body.firstName === "string" ? body.firstName.trim() : "";
+  const age = Number(body.age);
+  const state = typeof body.state === "string" ? body.state.trim() : "";
+  const zip = typeof body.zip === "string" ? body.zip.trim() : "";
+  const phone = typeof body.phone === "string" ? body.phone.trim().slice(0, 40) : "";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255 ||
+      !firstName || firstName.length > 80 || !Number.isInteger(age) || age < 18 || age > 120 ||
+      !state || state.length > 80 || !/^\d{5}$/.test(zip)) {
+    return res.status(400).json({ ok: false, error: "Please enter your name, age, email, state, and five-digit ZIP code." });
+  }
+  const token = await captureStore.createIntakeHandoff({ email, firstName, age, state, zip, phone });
+  if (!token) return res.status(503).json({ ok: false, error: "We cannot save your details right now. Please try again." });
+  res.set("Cache-Control", "no-store");
+  return res.json({ ok: true, token });
+});
+
+app.get("/api/assessment/intake-handoff", async (req, res) => {
+  res.set("Cache-Control", "no-store");
+  if (!req.session || !req.session.userId) return res.status(401).json({ ok: false });
+  if (!pool) return res.status(503).json({ ok: false });
+  const token = typeof req.query.token === "string" ? req.query.token : "";
+  try {
+    const result = await pool.query("SELECT email FROM users WHERE id = $1 LIMIT 1", [req.session.userId]);
+    const email = result.rows[0] && result.rows[0].email;
+    const intake = await captureStore.getIntakeHandoff({ token, email });
+    if (!intake) return res.status(404).json({ ok: false });
+    return res.json({ ok: true, intake });
+  } catch (err) {
+    console.error("[assessment handoff] lookup failed:", err.message);
+    return res.status(503).json({ ok: false });
+  }
+});
+
+// Save the eight-question redesign preview with its email. The preview is a
+// separate Vercel project, so its same-origin /api rewrite calls this route.
+app.post("/api/preview-assessment", captureLimiter, async (req, res) => {
+  const body = req.body || {};
+  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255) {
+    return res.status(400).json({ ok: false, error: "A valid email address is required." });
+  }
+  const allowed = {
+    age: ["u40", "40-44", "45-49", "50-54", "55-59", "60+"],
+    cycle: ["regular", "changing", "rare", "none12", "na"],
+    symptoms: ["sleep", "hot-flashes", "brain-fog", "mood", "anxiety", "energy", "weight", "joints", "hair-skin", "libido"],
+    duration: ["<6m", "6-12m", "1-3y", "3y+"],
+    impact: ["low", "mid", "high", "severe"],
+    care: ["no", "dismissed", "helped", "treatment"],
+    tried: ["sleep-hygiene", "diet", "exercise", "supplements", "hrt", "therapy", "nothing"],
+    goal: ["sleep", "energy", "mood", "clarity", "body", "answers"],
+  };
+  const raw = body.answers && typeof body.answers === "object" ? body.answers : {};
+  const responses = {};
+  for (const [key, values] of Object.entries(allowed)) {
+    const value = raw[key];
+    if (key === "symptoms" || key === "tried") {
+      if (!Array.isArray(value) || value.length > values.length || value.some((v) => !values.includes(v))) {
+        return res.status(400).json({ ok: false, error: "Please complete the assessment before saving." });
+      }
+      responses[key] = [...new Set(value)];
+    } else {
+      if (!values.includes(value)) return res.status(400).json({ ok: false, error: "Please complete the assessment before saving." });
+      responses[key] = value;
+    }
+  }
+  const firstName = typeof body.firstName === "string" ? body.firstName.trim().slice(0, 80) : null;
+  const [emailSaved, submissionId] = await Promise.all([
+    captureStore.captureEmail({ email, firstName, source: "preview-assessment", context: { phone: typeof body.phone === "string" ? body.phone.slice(0, 40) : null } }),
+    captureStore.saveSubmission({ kind: "preview-8q", email, firstName, stage: responses.cycle, band: responses.impact, responses }),
+  ]);
+  if (!emailSaved || !submissionId) {
+    return res.status(503).json({ ok: false, error: "We could not save your answers right now. Please try again." });
+  }
+  return res.json({ ok: true });
 });
 
 // Email delivery check for operators: verifies the SMTP login WITHOUT sending
@@ -4052,9 +4137,7 @@ app.get("/mockmenopausemonth", (_req, res) =>
 app.get("/founderstory", (_req, res) =>
   res.sendFile(path.join(__dirname, "founderstory.html"))
 );
-app.get("/membershipoptions", (_req, res) =>
-  res.sendFile(path.join(__dirname, "membershipoptions.html"))
-);
+app.get("/membershipoptions", (_req, res) => res.redirect(302, "/account"));
 app.get("/ourstory", (_req, res) =>
   res.sendFile(path.join(__dirname, "ourstory.html"))
 );
@@ -4178,9 +4261,7 @@ app.get("/free-assessment", (_req, res) =>
 app.get(["/sleep-assessment", "/sleep-score"], (_req, res) =>
   res.sendFile(path.join(__dirname, "sleep-assessment.html"))
 );
-app.get("/pricing", (_req, res) =>
-  res.sendFile(path.join(__dirname, "pricing.html"))
-);
+app.get("/pricing", (_req, res) => res.redirect(302, "/account"));
 
 // Friendly alias for marketing CTAs — routes through the paywall.
 // Lives OUTSIDE the conditional `if (fs.existsSync(assessmentIndex))` block
@@ -4197,12 +4278,10 @@ app.get(["/start", "/start/"], (_req, res) => {
   return res.redirect(302, "/free-assessment");
 });
 
-/* ───────────────────────── Checkout / paywall ─────────────────────────
- * Gates the paid 120-Q assessment behind a purchase. Stripe is not yet
- * wired in — this stub records the intent in the session, flips a
- * `tierPaid` flag, and redirects into the assessment. When Stripe is
- * added later, `/api/checkout/start` should return a Stripe Checkout
- * Session URL; the assessment route already checks `req.session.tierPaid`. */
+/* ───────────────────────── Legacy report checkout ─────────────────────────
+ * The old $129/$12 report purchase is not a Stripe product. Never grant
+ * assessment access from a checkout intent; membership Checkout owns payment.
+ */
 
 // Promo code table — keep small for now, extend or move to DB later.
 const PROMO_CODES = {
@@ -4215,44 +4294,14 @@ const PROMO_CODES = {
 
 app.post("/api/checkout/start", async (req, res) => {
   try {
-    const plan = req.body && req.body.plan === "monthly" ? "monthly" : "annual";
     const promoCode = typeof req.body?.promoCode === "string"
       ? req.body.promoCode.trim().toUpperCase()
       : null;
-
-    // Record intent on the session so the assessment route can verify entitlement.
-    if (req.session) {
-      req.session.tierPaid     = true;
-      req.session.plan         = plan;
-      req.session.priceUSD     = plan === "monthly" ? 12 : 129;
-      req.session.promoApplied = promoCode && PROMO_CODES[promoCode] ? promoCode : null;
-      req.session.paidAt       = new Date().toISOString();
+    if (!promoCode || !PROMO_CODES[promoCode]?.freeUnlock) {
+      return res.status(503).json({ ok: false, error: "Choose a membership to start the full assessment." });
     }
-
-    // Optional: mail the member an access code for the full 120-question
-    // report so they can return to it later (e.g. on another device) without
-    // re-purchasing. Best-effort — never blocks completing checkout.
-    const email = typeof req.body?.email === "string" ? req.body.email.trim() : "";
-    if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      try {
-        const { code } = await accessCodes.issueCode({ email, plan, note: "post-checkout" });
-        const { sendEmail } = require("./lib/email-sender");
-        const { normalisePaidAccessEmailPayload, renderPaidAccessEmail } = require("./lib/paid-access-email");
-        const payload = normalisePaidAccessEmailPayload({ email, firstName: req.body?.firstName, code });
-        const message = renderPaidAccessEmail(payload);
-        await sendEmail({ to: payload.to, subject: message.subject, html: message.html, text: message.text });
-      } catch (mailErr) {
-        console.error("[checkout] access-code email failed:", mailErr.message);
-      }
-    }
-
-    // TODO: replace this stub with a real Stripe Checkout Session URL.
-    return res.json({
-      ok: true,
-      redirect: "/assessment/?tier=paid",
-      plan,
-      promoApplied: req.session?.promoApplied || null,
-    });
+    if (req.session) req.session.promoUnlocked = true;
+    return res.json({ ok: true, redirect: "/assessment/?tier=paid", promoApplied: promoCode });
   } catch (err) {
     console.error("[checkout] start failed:", err.message);
     return res.status(500).json({ ok: false, error: "Could not start checkout." });
@@ -4265,6 +4314,7 @@ app.get("/api/checkout/promo", async (req, res) => {
 
   const hit = PROMO_CODES[code];
   if (hit) {
+    if (hit.freeUnlock && req.session) req.session.promoUnlocked = true;
     return res.json({
       valid: true,
       discount: hit.discount,
@@ -4282,7 +4332,7 @@ app.get("/api/checkout/promo", async (req, res) => {
     const issued = await accessCodes.redeemCode(code);
     if (issued.valid) {
       if (req.session) {
-        req.session.tierPaid = true;
+        req.session.promoUnlocked = true;
         req.session.plan     = issued.plan || req.session.plan || "annual";
         req.session.paidAt   = new Date().toISOString();
       }

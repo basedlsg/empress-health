@@ -44,7 +44,7 @@
     "express-session": "^1.18.1",
     "helmet": "^8.2.0",
     "node-fetch": "^3.3.2",
-    "nodemailer": "^9.0.3",
+    "nodemailer": "^10.0.13",
     "pg": "^8.11.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

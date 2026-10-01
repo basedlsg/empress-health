@@ -159,13 +159,12 @@ function logoHTML(onDark) {
     '<div class="container">' +
       '<div class="footer-top">' +
         '<div><h3>Menopause science, in plain language</h3>' +
-        '<p>One email a week: what the research says, what our experts make of it, and what to try. ' +
-        '<strong style="color:#fff">Sign up and we\'ll send you a one-time 10% welcome discount on Empress Naturals.</strong></p></div>' +
-        '<div><form class="signup js-signup" data-thanks="You\'re on the list — your welcome code is on its way." novalidate>' +
+        '<p>Join the Empress Health updates list for news about menopause support and the site launch.</p></div>' +
+        '<div><form class="signup js-signup" data-thanks="Your email was saved. We\'ll be in touch." novalidate>' +
           '<label class="visually-hidden" for="footer-email">Email address</label>' +
           '<input id="footer-email" type="email" placeholder="you@example.com" autocomplete="email" required>' +
-          '<button class="btn btn-gold" type="submit">Send my welcome code</button>' +
-        '</form><small class="signup-msg">One-time 10% welcome code, sent by email. Members save 10–15% on every order. No spam, unsubscribe anytime.</small></div>' +
+          '<button class="btn btn-gold" type="submit">Join the updates list</button>' +
+        '</form><small class="signup-msg">We save your email so we can contact you about Empress Health.</small></div>' +
       '</div>' +
       '<div class="footer-grid">' +
         '<div class="footer-brand">' + logoHTML(true) +
@@ -237,7 +236,7 @@ function logoHTML(onDark) {
 
 /* ---------- email forms: saved to the Empress API (Postgres) ---------- */
 var API_BASE = '';  // same-origin: /api/* is proxied to empresshealth.ai by vercel.json
-var ASSESSMENT_URL = 'https://empresshealth.ai/assessment/?tier=paid';
+var ASSESSMENT_URL = 'https://empresshealth.ai/assessment';
 document.addEventListener('submit', function (e) {
   var form = e.target;
   if (!form.classList || !form.classList.contains('js-signup')) return;
@@ -258,29 +257,39 @@ document.addEventListener('submit', function (e) {
   });
   var nameEl = form.querySelector('#hi-name');
   var btn = form.querySelector('button[type=submit]');
+  if (isHI && (!nameEl.value.trim() || !/^\d+$/.test(ctx.age || '') || Number(ctx.age) < 18 || Number(ctx.age) > 120 || !ctx.state || !/^\d{5}$/.test(ctx.zip || ''))) {
+    if (msg) msg.textContent = 'Please enter your first name, age, state, and five-digit ZIP code.';
+    return;
+  }
   if (btn) btn.disabled = true;
   fetch(API_BASE + '/api/csrf', { credentials: 'same-origin' })
     .then(function (r) { return r.json(); })
     .then(function (t) {
-      return fetch(API_BASE + '/api/capture/email', {
+      return fetch(API_BASE + (isHI ? '/api/assessment/intake-handoff' : '/api/capture/email'), {
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': t.csrfToken },
-        body: JSON.stringify({ email: v, firstName: nameEl ? nameEl.value : null, source: source, context: ctx })
+        body: JSON.stringify(isHI
+          ? { email: v, firstName: nameEl.value.trim(), age: Number(ctx.age), state: ctx.state, zip: ctx.zip, phone: ctx.phone || '' }
+          : { email: v, firstName: nameEl ? nameEl.value : null, source: source, context: ctx })
       });
     })
-    .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && j.ok; }); })
-    .catch(function () { return false; })
-    .then(function (ok) {
-      if (!ok) {
+    .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && j.ok ? j : null; }); })
+    .catch(function () { return null; })
+    .then(function (saved) {
+      if (!saved) {
         if (btn) btn.disabled = false;
-        if (msg) msg.textContent = "We couldn't save your email just now. Please try again in a moment.";
+        if (msg) msg.textContent = "We couldn't save your details just now. Please try again in a moment.";
+        return;
+      }
+      if (isHI) {
+        if (msg) msg.textContent = 'Saved. Opening your member assessment…';
+        location.assign(ASSESSMENT_URL + '?tier=paid&intake=' + encodeURIComponent(saved.token));
         return;
       }
       var thanks = form.getAttribute('data-thanks') || "You're on the list. Welcome.";
-      var extra = isHI ? '<a class="btn btn-gold" style="margin-top:16px;display:inline-block" href="' + ASSESSMENT_URL + '">Begin my assessment →</a>' : '';
-      form.outerHTML = '<div class="signup-done"><p style="margin:0;font-weight:600">✦ ' + thanks + '</p>' + extra + '</div>';
-      if (msg && !isHI) msg.textContent = "Saved — we'll be in touch at " + v + '.';
+      form.outerHTML = '<div class="signup-done"><p style="margin:0;font-weight:600">✦ ' + thanks + '</p></div>';
+      if (msg) msg.textContent = "Saved — we'll be in touch at " + v + '.';
     });
 });
 

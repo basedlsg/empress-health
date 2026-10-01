@@ -327,7 +327,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
 </div>
 
 <div class="dlb"><div class="dlbi">
-  <p>Your personalised sleep report is ready</p>
+  <p id="deliveryStatus">Your personalised sleep report is ready</p>
   <div class="bts">
     <button class="btd" onclick="window.print()">⬇ Save as PDF</button>
     <button class="btr" onclick="retake()">↺ Retake</button>
@@ -384,7 +384,7 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <h2>Sleep is one lens. See the whole picture.</h2>
   <p>Your Sleep Score maps one domain — but sleep, mood, brain fog, and energy move together. The free 12-question Health Intelligence Score screens all four clinical domains of your menopause transition.</p>
   <a class="u120-cta" href="/free-assessment">Take the Free Menopause Score →</a>
-  <span class="u120-alt">Want the complete clinical map? <a href="/pricing">Explore the full 120-question assessment</a></span>
+  <span class="u120-alt">Want the complete clinical map? <a href="/account">Explore the full 120-question assessment</a></span>
 </div>
 </div>
 
@@ -670,7 +670,7 @@ function goEmail(){
   mht=document.getElementById('mhtBox').checked;
   go('se');
 }
-function submitEmail(){
+async function submitEmail(){
   var name=(document.getElementById('se-name').value||'').trim();
   var email=(document.getElementById('se-email').value||'').trim();
   var zip=(document.getElementById('se-zip').value||'').replace(/[^\d]/g,'').slice(0,5);
@@ -688,15 +688,27 @@ function submitEmail(){
   var resp=R.map(function(v){return v===null?0:v;});
   var dS=DOMS.map(function(_,i){return dscore(i,resp);});
   var scoreV=composite(dS,stage), burdenV=burden(resp);
+  const button=document.getElementById('se-go');
+  button.disabled=true;button.textContent='Saving your results…';
   try{
-    fetch('/api/free-score-lead',{
+    const response=await fetch('/api/free-score-lead',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       credentials:'same-origin',
       body:JSON.stringify({track:TRACK.id,firstName:name,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:scoreV,gcs:burdenV,responses:resp,report:reportPayload(resp,dS)})
-    }).catch(function(){});
-  }catch(e){}
-  gen();
+    });
+    const result=await response.json();
+    if(!response.ok||!result.ok) throw new Error(result.error||'We could not save your results. Please try again.');
+    gen();
+    document.getElementById('deliveryStatus').textContent=result.emailSent
+      ? 'Your sleep report is ready and a copy was emailed to you.'
+      : 'Your sleep report is ready. Email delivery is unavailable; please save a PDF copy.';
+  }catch(e){
+    err.textContent=e.message||'We could not save your results. Please try again.';
+    err.style.display='block';
+  }finally{
+    button.disabled=false;button.textContent='Reveal My Sleep Score →';
+  }
 }
 
 /* ── GENERATE REPORT ── */

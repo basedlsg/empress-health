@@ -1,6 +1,5 @@
-/* Empress Health — free assessment prototype
-   Renders a short multi-step questionnaire, captures an email, and shows a snapshot.
-   Nothing is sent anywhere; answers live in memory only. */
+/* Empress Health — free assessment preview.
+   Saves the visitor's answers and email before showing the snapshot. */
 
 (function () {
   'use strict';
@@ -120,11 +119,11 @@
     }
   ];
 
-  var SYMPTOM_LABELS = {
-    'sleep': 'Sleep', 'hot-flashes': 'Vasomotor', 'brain-fog': 'Cognition', 'mood': 'Mood',
-    'anxiety': 'Mood', 'energy': 'Energy', 'weight': 'Metabolic', 'joints': 'Joints',
-    'hair-skin': 'Skin & hair', 'libido': 'Intimacy'
-  };
+  function answerLabel(id, value) {
+    var question = QUESTIONS.filter(function (q) { return q.id === id; })[0];
+    var option = question && question.options.filter(function (o) { return o.v === value; })[0];
+    return option ? option.label : 'Not answered';
+  }
 
   var answers = {};
   var step = 0;                       // 0..QUESTIONS.length-1 = questions, then email, then results
@@ -138,11 +137,6 @@
   var params = new URLSearchParams(location.search);
   var focus = params.get('focus');
   if (focus) answers.symptoms = [focus];
-
-  /* ?plan=essential|premium means she arrived from a paid plan on the pricing page:
-     the results then point her to the Health Intelligence assessment instead of selling plans again */
-  var PLAN_NAMES = { essential: 'Essential', premium: 'Premium' };
-  var plan = PLAN_NAMES[(params.get('plan') || '').toLowerCase()] || null;
 
   backBtn.addEventListener('click', function () {
     if (step > 0) { step--; render(); }
@@ -218,9 +212,8 @@
 
   function renderEmail() {
     var card = el('<div class="q-card"></div>');
-    card.appendChild(el('<h1>Where should we send your report?</h1>'));
-    card.appendChild(el('<p class="q-hint">Your results are ready. We send your report to your email so you ' +
-      'have a copy to keep, re-read and bring to an appointment.</p>'));
+    card.appendChild(el('<h1>Save your assessment</h1>'));
+    card.appendChild(el('<p class="q-hint">Enter your email to save your answers. Your snapshot will appear next, and you can print or save it as a PDF.</p>'));
 
     var form = el('<form class="email-form" novalidate></form>');
     var firstName = el('<input type="text" name="firstName" placeholder="First name" autocomplete="given-name">');
@@ -229,24 +222,18 @@
     form.appendChild(firstName);
     form.appendChild(email);
     form.appendChild(phone);
-    form.appendChild(el('<p class="field-note">✉ Your report will be sent to this email address. ' +
-      'We use it to send your results and never share it with anyone else. ' +
-      'A phone number is optional — it only helps us reach you if something needs a follow-up.</p>'));
-
-    var consent = el('<label class="consent"><input type="checkbox" checked>' +
-      '<span>Also send me one short science-backed note each week. I can unsubscribe anytime.</span></label>');
-    form.appendChild(consent);
+    form.appendChild(el('<p class="field-note">Your email and answers are stored with Empress Health. A phone number is optional.</p>'));
 
     var errBox = el('<p class="err" hidden></p>');
     form.appendChild(errBox);
 
-    var submit = el('<button class="btn btn-gold btn-block" type="submit">Email me my report →</button>');
+    var submit = el('<button class="btn btn-gold btn-block" type="submit">Save and view my snapshot →</button>');
     form.appendChild(submit);
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var v = email.value.trim();
       if (!v) {
-        errBox.textContent = 'Please add your email address — that is where we send your report.';
+        errBox.textContent = 'Please add your email address to save your answers.';
         errBox.hidden = false;
         email.focus();
         return;
@@ -260,9 +247,19 @@
       answers.email = v;
       answers.phone = phone.value.trim();      /* optional — never blocks submission */
       answers.firstName = firstName.value.trim();
-      sendReportEmail(answers);                /* best-effort — never blocks showing the results */
-      step++;
-      render();
+      submit.disabled = true;
+      submit.textContent = 'Saving your answers…';
+      savePreview(answers).then(function (ok) {
+        if (!ok) {
+          errBox.textContent = 'We could not save your answers. Please try again.';
+          errBox.hidden = false;
+          submit.disabled = false;
+          submit.textContent = 'Save and view my snapshot →';
+          return;
+        }
+        step++;
+        render();
+      });
     });
     card.appendChild(form);
 
@@ -270,21 +267,19 @@
     stage.appendChild(card);
   }
 
-  /* Fires the moment she submits her email — she still sees results
-     instantly either way, this only affects whether a copy lands in her
-     inbox. Failures are logged to the console, not shown to her. */
-  function sendReportEmail(a) {
-    fetch('/api/send-report', {
+  function savePreview(a) {
+    return fetch('/api/preview-assessment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: a.email,
         firstName: a.firstName,
+        phone: a.phone,
         answers: a
       })
-    }).catch(function (err) {
-      console.error('send-report failed:', err);
-    });
+    }).then(function (response) { return response.ok ? response.json() : { ok: false }; })
+      .then(function (result) { return result.ok === true; })
+      .catch(function () { return false; });
   }
 
   function estimateStage() {
@@ -300,40 +295,50 @@
   function renderResults() {
     var st = estimateStage();
     var syms = answers.symptoms || [];
-    var name = answers.firstName ? (', ' + answers.firstName) : '';
-
     var wrap = document.createElement('div');
-
-    wrap.appendChild(el(
+    var hero = el(
       '<div class="result-hero">' +
         '<span class="stage-badge">' + st.name + '</span>' +
-        '<h1>Here is your snapshot' + name + '</h1>' +
+        '<h1>Here is your snapshot</h1>' +
         '<p class="lede" style="margin-inline:auto">' + st.line + '</p>' +
       '</div>'
-    ));
+    );
+    hero.querySelector('h1').textContent = 'Here is your snapshot' + (answers.firstName ? ', ' + answers.firstName : '');
+    wrap.appendChild(hero);
+
+    var summary = el('<div class="result-card"><h3>Your appointment summary</h3></div>');
+    [
+      ['Age range', answerLabel('age', answers.age)],
+      ['Cycle pattern', answerLabel('cycle', answers.cycle)],
+      ['How long', answerLabel('duration', answers.duration)],
+      ['Daily impact', answerLabel('impact', answers.impact)],
+      ['Care so far', answerLabel('care', answers.care)],
+      ['What you have tried', (answers.tried || []).map(function (v) { return answerLabel('tried', v); }).join(', ')],
+      ['What you want to improve', answerLabel('goal', answers.goal)]
+    ].forEach(function (pair) {
+      var line = document.createElement('p');
+      line.className = 'summary-line';
+      var strong = document.createElement('strong');
+      strong.textContent = pair[0] + ': ';
+      line.appendChild(strong);
+      line.appendChild(document.createTextNode(pair[1] || 'None selected'));
+      summary.appendChild(line);
+    });
+    wrap.appendChild(summary);
 
     /* symptom clusters */
-    var clusters = {};
-    syms.forEach(function (s) {
-      var k = SYMPTOM_LABELS[s] || 'Other';
-      clusters[k] = (clusters[k] || 0) + 1;
-    });
-    var impactBoost = { low: 35, mid: 55, high: 75, severe: 88 }[answers.impact] || 50;
-    var rows = Object.keys(clusters).map(function (k) {
-      return { k: k, pct: Math.min(96, impactBoost + clusters[k] * 12) };
-    }).sort(function (a, b) { return b.pct - a.pct; });
-
-    var symCard = el('<div class="result-card"><h3>What you told us</h3></div>');
-    if (rows.length) {
-      rows.forEach(function (r) {
-        symCard.appendChild(el('<div class="sym-row"><label>' + r.k + '</label>' +
-          '<div class="meter"><i data-w="' + r.pct + '"></i></div></div>'));
+    var symCard = el('<div class="result-card"><h3>Areas you selected</h3></div>');
+    if (syms.length) {
+      syms.forEach(function (symptom) {
+        var line = document.createElement('p');
+        line.className = 'summary-line';
+        line.textContent = answerLabel('symptoms', symptom);
+        symCard.appendChild(line);
       });
     } else {
       symCard.appendChild(el('<p class="q-hint" style="margin:0">You did not flag specific symptoms — the assessment is still a useful baseline to track against.</p>'));
     }
-    symCard.appendChild(el('<p class="q-hint" style="margin:18px 0 0">These bars reflect how strongly you rated each area today. ' +
-      'They are a starting point for tracking, not a diagnosis.</p>'));
+    symCard.appendChild(el('<p class="q-hint" style="margin:18px 0 0">These are the areas you selected, not individual severity scores.</p>'));
     wrap.appendChild(symCard);
 
     /* next steps */
@@ -374,46 +379,30 @@
         'what, how often, how bad, and what you have already tried. Empress builds that for you.</p></div>'));
     }
 
-    /* next step: members go on to the full assessment; everyone else sees the plans */
-    if (plan) {
-      wrap.appendChild(el(
-        '<div class="upsell">' +
-          '<h3>Your full Consult Report</h3>' +
-          '<p>A printable summary of your symptom patterns, your timeline, and the specific questions ' +
-          'worth asking your clinician — included with your ' + plan + ' membership.</p>' +
-          '<div class="upsell-next">' +
-            '<span class="upsell-kicker">Your next step</span>' +
-            '<strong>Health Intelligence assessment</strong>' +
-            '<span>120 health markers across 10 body systems, no blood draws, about 15 minutes — ' +
-            'and it becomes your Consult Report.</span>' +
-          '</div>' +
-          '<a class="btn btn-gold" href="health-intelligence.html?plan=' + plan.toLowerCase() + '">Start my Health Intelligence assessment →</a>' +
-        '</div>'
-      ));
-    } else {
-      wrap.appendChild(el(
+    /* Membership status is verified on empresshealth.ai, never inferred from a URL. */
+    wrap.appendChild(el(
         '<div class="upsell">' +
           '<h3>Your full Consult Report</h3>' +
           '<p>A printable summary of your symptom patterns, your timeline, and the specific questions ' +
           'worth asking your clinician — included with every membership, alongside unlimited Ask Empress and tracking.</p>' +
           '<p style="font-size:1.6rem;font-family:var(--display);color:#fff;margin:14px 0 6px">From $9/month</p>' +
-          '<p style="font-size:.85rem">Essential $9/mo or $90/yr · Premium $19/mo or $190/yr</p>' +
+          '<p style="font-size:.85rem">Essential $9/month · Premium $19/month</p>' +
           '<a class="btn btn-gold" href="pricing.html">See membership plans</a>' +
         '</div>'
-      ));
-    }
+    ));
 
     wrap.appendChild(el('<p class="result-note">Empress Health provides education and wellness guidance only. ' +
       'It does not diagnose, treat or prescribe, and it is not a substitute for professional medical advice. ' +
       'Always consult your doctor about your health and treatment decisions.<br>' +
-      '<em>Prototype: your snapshot was emailed to you, but your answers are not saved anywhere.</em></p>'));
+      'Your answers were saved. Use your browser’s Print command to keep a PDF copy.</p>'));
+
+    var printButton = el('<button type="button" class="btn btn-gold">Print or save as PDF</button>');
+    printButton.addEventListener('click', function () { window.print(); });
+    wrap.appendChild(printButton);
 
     stage.innerHTML = '';
     stage.appendChild(wrap);
 
-    requestAnimationFrame(function () {
-      stage.querySelectorAll('.sym-row .meter i').forEach(function (i) { i.style.width = i.dataset.w + '%'; });
-    });
   }
 
   function render() {

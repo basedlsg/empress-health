@@ -4,6 +4,7 @@ import { AssessmentSiteNav } from "./AssessmentSiteNav"
 
 type Props = {
   onBegin: () => void
+  initialError?: string
 }
 
 // Full US states (+ DC) so anyone can self-identify. Provider matching covers
@@ -20,7 +21,7 @@ const US_STATES = [
   "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
 ]
 
-export function AssessmentEntryScreen({ onBegin }: Props) {
+export function AssessmentEntryScreen({ onBegin, initialError = "" }: Props) {
   const { setUser, totalQuestions, categories, tier } = useAssessment()
   const [firstName, setFirstName] = useState("")
   const [email, setEmail] = useState("")
@@ -28,7 +29,7 @@ export function AssessmentEntryScreen({ onBegin }: Props) {
   const [age, setAge] = useState("")
   const [usState, setUsState] = useState("")
   const [zip, setZip] = useState("")
-  const [saveError, setSaveError] = useState("")
+  const [saveError, setSaveError] = useState(initialError)
   const [saving, setSaving] = useState(false)
 
   // Signed-in members: start from what we already know about her.

@@ -1,11 +1,11 @@
 // scripts/copy-legacy-html-to-public.mjs
 // Vercel deploy helper. Copies every *.html at the repo root into public/
 // so Vercel serves them as static assets at canonical URLs (/signup, etc.).
-// Also stages the Vite assessment SPA build into public/assessment/.
+// The paid Vite assessment is served by Express behind the membership gate.
 // Also stages the redesign bundle into public/pages/.
 // Run by vercel.json's buildCommand.
 
-import { readdir, copyFile, mkdir, stat, cp } from "node:fs/promises";
+import { readdir, copyFile, mkdir, cp, rm } from "node:fs/promises";
 import path from "node:path";
 import fs from "node:fs";
 
@@ -14,15 +14,12 @@ const PUBLIC_DIR = path.join(ROOT, "public");
 
 await mkdir(PUBLIC_DIR, { recursive: true });
 
-// 1. Stage Vite-built assessment SPA at /public/assessment/
-const assessmentDist = path.join(ROOT, "prds", "dist");
-if (fs.existsSync(assessmentDist)) {
-  await mkdir(path.join(PUBLIC_DIR, "assessment"), { recursive: true });
-  await cp(assessmentDist, path.join(PUBLIC_DIR, "assessment"), { recursive: true });
-  console.log("staged prds/dist/ → public/assessment/");
-}
+// Older builds copied the paid Vite SPA into public/assessment. Vercel serves
+// outputDirectory files before rewrites, so that copy bypasses the membership
+// gate. It is generated output; the current build lives in prds/dist instead.
+await rm(path.join(PUBLIC_DIR, "assessment"), { recursive: true, force: true });
 
-// 2. Stage the Empathetic Elegance redesign bundle at /public/pages/
+// 1. Stage the Empathetic Elegance redesign bundle at /public/pages/
 const pagesDir = path.join(ROOT, "pages");
 if (fs.existsSync(pagesDir)) {
   await mkdir(path.join(PUBLIC_DIR, "pages"), { recursive: true });
@@ -30,7 +27,7 @@ if (fs.existsSync(pagesDir)) {
   console.log("staged pages/ → public/pages/");
 }
 
-// 3. Stage the report-heroes (already at public/report-heroes — no-op here).
+// 2. Stage the report-heroes (already at public/report-heroes — no-op here).
 
 const KEEP_PUBLIC_VERSION = new Set(["expertblogs.html"]);
 

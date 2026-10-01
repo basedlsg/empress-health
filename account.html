@@ -330,6 +330,20 @@
       var n = new URLSearchParams(location.search).get("next") || "";
       return /^\/(?!\/)[^\s:@\\]*$/.test(n) ? n : "";
     }
+    function isAssessmentNext(value) { return /^\/assessment(?:\/|\?|$)/.test(value || ""); }
+    function pendingAssessment() {
+      var next = safeNext();
+      if (next && isAssessmentNext(next)) sessionStorage.setItem("empress-assessment-next", next);
+      var stored = sessionStorage.getItem("empress-assessment-next") || "";
+      return isAssessmentNext(stored) && /^\/(?!\/)[^\s:@\\]*$/.test(stored) ? stored : "";
+    }
+    function continueToAssessment() {
+      var next = pendingAssessment();
+      if (!next || !state || (state.tier !== "essential" && state.tier !== "premium")) return false;
+      sessionStorage.removeItem("empress-assessment-next");
+      location.assign(next);
+      return true;
+    }
 
     /* ── Tabs ── */
     function selectTab(which) {
@@ -348,10 +362,34 @@
     });
 
     async function afterAuth() {
-      var next = safeNext();
-      if (next) { location.assign(next); return; }
+      var requestedNext = safeNext();
+      if (requestedNext && !isAssessmentNext(requestedNext)) {
+        location.assign(requestedNext);
+        return;
+      }
+      var next = pendingAssessment();
       await load();
+      if (next && continueToAssessment()) return;
+      if (next) showNotice("info", "Your details are saved. Choose a membership below to continue the assessment.");
+      if (await openRequestedPlan()) return;
       window.scrollTo(0, 0);
+    }
+
+    async function openRequestedPlan() {
+      var requested = new URLSearchParams(location.search).get("plan");
+      if (requested !== "essential" && requested !== "premium") return false;
+      if (!state || !state.authenticated) return false;
+      history.replaceState(null, "", location.pathname);
+      if (state.tier === requested) {
+        showNotice("ok", "Your " + requested + " membership is active.");
+        return true;
+      }
+      if (!state.billingConfigured) {
+        showNotice("info", "Secure subscription checkout is being set up. Your account is ready, and you have not been charged.");
+        return true;
+      }
+      await choosePlan(requested, null);
+      return true;
     }
 
     $("panel-signin").addEventListener("submit", async function (ev) {
@@ -394,8 +432,8 @@
     /* ── Signed-in rendering ── */
     var BENEFITS = {
       free: ["Your Empress Health account", "Free symptom scores", "Ask Empress, our menopause Q&A"],
-      essential: ["Everything in Free", "10% off every Empress Naturals order"],
-      premium: ["Everything in Free", "15% off every Empress Naturals order"]
+      essential: ["Everything in Free", "Full Health Intelligence assessment", "10% off every Empress Naturals order"],
+      premium: ["Everything in Free", "Full Health Intelligence assessment", "15% off every Empress Naturals order"]
     };
 
     function renderPlans() {
@@ -516,9 +554,13 @@
         var data = await postJson("/api/subscription/checkout", { tier: tier });
         if (data.url) { location.assign(data.url); return; }
         await load();
-        showNotice("ok", "Your plan is now " + (tier.charAt(0).toUpperCase() + tier.slice(1)) + ".");
+        if (state.tier === tier) showNotice("ok", "Your plan is now " + (tier.charAt(0).toUpperCase() + tier.slice(1)) + ".");
+        else showNotice("info", data.pending
+          ? "Your plan change needs payment confirmation. Your current plan remains active until then."
+          : "Your plan change is processing. It will appear here after payment confirmation.");
       } catch (e) {
         showNotice("err", e.message);
+      } finally {
         setBusy(btn, false);
       }
     }
@@ -542,6 +584,7 @@
 
     $("sign-out").addEventListener("click", async function () {
       try { await postJson("/api/auth/logout"); } catch (e) {}
+      sessionStorage.removeItem("empress-assessment-next");
       await load();
     });
 
@@ -556,17 +599,26 @@
       if (result !== "success") return;
       showNotice("info", "Payment received. Activating your membership…");
       for (var i = 0; i < 10; i++) {
-        if (state && state.tier !== "free" && state.naturalsDiscount && state.naturalsDiscount.code) break;
+        if (state && state.tier !== "free" &&
+            (!state.naturalsConfigured || (state.naturalsDiscount && state.naturalsDiscount.code))) break;
         await new Promise(function (r) { setTimeout(r, 2000); });
         await load();
       }
-      if (state.tier !== "free") showNotice("ok", "Welcome to " + $("acct-plan").textContent + ". Your Empress Naturals discount is ready.");
+      if (state.tier !== "free" && continueToAssessment()) return;
+      if (state.tier !== "free") showNotice("ok", "Welcome to " + $("acct-plan").textContent + ". Your membership is active.");
       else showNotice("info", "Payment received — your membership will appear here within a few minutes.");
     }
 
     if (new URLSearchParams(location.search).get("mode") === "signup") selectTab("signup");
+    pendingAssessment();
     load()
-      .then(handleCheckoutReturn)
+      .then(async function () {
+        await handleCheckoutReturn();
+        if (!new URLSearchParams(location.search).has("checkout") && continueToAssessment()) return;
+        await openRequestedPlan();
+        if (state.authenticated && state.tier === "free" && pendingAssessment())
+          showNotice("info", "Your details are saved. Choose a membership below to continue the assessment.");
+      })
       .catch(function (e) { $("loading").hidden = true; showNotice("err", e.message); });
   })();
   </script>

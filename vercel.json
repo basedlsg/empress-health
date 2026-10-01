@@ -8,18 +8,24 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 30,
-      "excludeFiles": "{public/**,Hero Image/**,EmpressHealth logo - RGB - Modified/**,design-references/**,prds/dist/**,empress-free-trial-assessment.pdf,Health Assessment Report (1).pdf,pages/**,site-bots/**,scripts/**,docs/**,*.docx,*.csv,artifacts/**}"
+      "includeFiles": "prds/dist/assets/**",
+      "excludeFiles": "{.env,.env.*,public/**,Hero Image/**,EmpressHealth logo - RGB - Modified/**,design-references/**,empress-free-trial-assessment.pdf,Health Assessment Report (1).pdf,pages/**,site-bots/**,scripts/**,docs/**,*.docx,*.csv,artifacts/**}"
     }
   },
   "redirects": [
     { "source": "/sample-report", "destination": "/assessment/?tier=paid&demo=1", "permanent": false },
+    { "source": "/pricing", "destination": "/account", "permanent": false },
+    { "source": "/pricing.html", "destination": "/account", "permanent": false },
+    { "source": "/membershipoptions", "destination": "/account", "permanent": false },
+    { "source": "/membershipoptions.html", "destination": "/account", "permanent": false },
     { "source": "/start", "destination": "/free-assessment", "permanent": false }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/assessment", "destination": "/api/index" },
+    { "source": "/assessment/(.*)", "destination": "/api/index" },
     { "source": "/qa", "destination": "/api/index" },
     { "source": "/free-assessment", "destination": "/free-assessment.html" },
-    { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/health-assessment", "destination": "/api/index" },
     { "source": "/r", "destination": "/pages/home" },
     { "source": "/r/:slug", "destination": "/pages/:slug" },

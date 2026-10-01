@@ -63,6 +63,8 @@
 }
 .result-card{background:#fff;border:1px solid rgba(63,20,74,.08);border-radius:var(--r-lg);padding:30px;margin-bottom:20px}
 .result-card h3{margin-bottom:16px}
+.summary-line{margin:0 0 10px;color:var(--muted);line-height:1.5}
+.summary-line strong{color:var(--plum)}
 .sym-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .sym-row label{flex:none;width:130px;font-size:.9rem;font-weight:600;color:var(--plum)}
 .sym-row .meter{flex:1;height:10px;border-radius:999px;background:var(--plum-100);overflow:hidden}

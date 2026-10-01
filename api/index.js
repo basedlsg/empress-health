@@ -44,5 +44,6 @@ try { fs.readFileSync(__dirname + "/../symptomsupport.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../communitystories.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../community.html"); } catch {}
 try { fs.readFileSync(__dirname + "/../dailyaffirmations.html"); } catch {}
+try { fs.readFileSync(__dirname + "/../prds/dist/index.html"); } catch {}
 
 module.exports = require("../server.js");

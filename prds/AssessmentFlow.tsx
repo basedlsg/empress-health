@@ -200,6 +200,40 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
   } = useAssessment()
 
   const [step, setStep] = useState<Step>("entry")
+  const [handoffLoading, setHandoffLoading] = useState(
+    () => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("intake"),
+  )
+  const [handoffError, setHandoffError] = useState("")
+
+  // The redesign intake was saved on the preview host. Once the same-email
+  // member reaches this gated page, load it and go straight to the first
+  // assessment questions rather than ask for their contact details again.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const token = params.get("intake")
+    if (!token) return
+    let cancelled = false
+    fetch("/api/assessment/intake-handoff?token=" + encodeURIComponent(token), { credentials: "include", cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Could not load your saved details.")
+        const data = await response.json()
+        if (!data?.ok || !data.intake) throw new Error("Could not load your saved details.")
+        return data.intake
+      })
+      .then((intake) => {
+        if (cancelled) return
+        setUser({ firstName: intake.firstName, age: Number(intake.age), email: intake.email,
+          usState: intake.usState, zip: intake.zip, phone: intake.phone || undefined })
+        setStep("staging")
+        params.delete("intake")
+        window.history.replaceState(null, "", window.location.pathname + (params.toString() ? "?" + params.toString() : ""))
+      })
+      .catch(() => {
+        if (!cancelled) setHandoffError("Your saved details could not be restored. Please enter them below to continue.")
+      })
+      .finally(() => { if (!cancelled) setHandoffLoading(false) })
+    return () => { cancelled = true }
+  }, [setUser])
 
   // ── DEMO MODE (?demo=1) ───────────────────────────────────────────────────
   // Renders a fully pre-filled sample report without taking the assessment,
@@ -623,7 +657,8 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
   ])
 
   if (step === "entry") {
-    return <AssessmentEntryScreen onBegin={handleBegin} />
+    if (handoffLoading) return <div role="status" style={{ padding: 40, textAlign: "center" }}>Loading your saved details…</div>
+    return <AssessmentEntryScreen onBegin={handleBegin} initialError={handoffError} />
   }
 
   if (step === "staging") {
