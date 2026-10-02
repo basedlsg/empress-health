@@ -1,11 +1,9 @@
 // scripts/copy-legacy-html-to-public.mjs
-// Vercel deploy helper. Copies every *.html at the repo root into public/
-// so Vercel serves them as static assets at canonical URLs (/signup, etc.).
+// Vercel deploy helper. Stages legacy account pages and the public redesign.
 // The paid Vite assessment is served by Express behind the membership gate.
-// Also stages the redesign bundle into public/pages/.
 // Run by vercel.json's buildCommand.
 
-import { readdir, copyFile, mkdir, cp, rm } from "node:fs/promises";
+import { readdir, readFile, writeFile, copyFile, mkdir, cp, rm } from "node:fs/promises";
 import path from "node:path";
 import fs from "node:fs";
 
@@ -55,3 +53,24 @@ for (const e of entries) {
 }
 
 console.log(`copy-legacy-html: ${copied} copied, ${skipped} skipped, ${entries.filter(e=>e.isFile()&&e.name.endsWith(".html")).length} total *.html`);
+
+// The public redesign lives in its own preview project in source control.
+// Overlay its pages and assets at the site root after staging legacy pages.
+// The preview calls its free quiz assessment.html; on this project /assessment
+// is the paid, gated flow, so publish the quiz at /free-assessment instead.
+const REDESIGN_DIR = path.join(ROOT, "redesign-preview");
+const FREE_ASSESSMENT_LINK = /(?<![A-Za-z0-9_-])assessment\.html/g;
+for (const entry of await readdir(REDESIGN_DIR, { withFileTypes: true })) {
+  if (entry.isDirectory() && entry.name === "assets") {
+    await cp(path.join(REDESIGN_DIR, "assets"), path.join(PUBLIC_DIR, "assets"), { recursive: true });
+    continue;
+  }
+  if (!entry.isFile() || !/\.(html|css|js)$/.test(entry.name)) continue;
+  const destination = entry.name === "assessment.html" ? "free-assessment.html" : entry.name;
+  const content = await readFile(path.join(REDESIGN_DIR, entry.name), "utf8");
+  await writeFile(path.join(PUBLIC_DIR, destination), content.replace(FREE_ASSESSMENT_LINK, "free-assessment.html"));
+}
+// Older builds may have left this static file behind. Never allow it to
+// shadow the paid /assessment route when Vercel applies clean URLs.
+await rm(path.join(PUBLIC_DIR, "assessment.html"), { force: true });
+console.log("staged redesign-preview/ → public/ (free quiz at /free-assessment)");

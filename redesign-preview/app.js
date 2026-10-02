@@ -67,10 +67,11 @@ function logoHTML(onDark) {
         html += '<a href="' + item.href + '"' + (item.href === page ? ' aria-current="page"' : '') + '>' + item.label + '</a>';
       }
     });
-    /* No "Log in" until Empress Health accounts exist (planned with memberships) — a dead link is worse than none */
     html += '<a class="mobile-only" href="faq.html">FAQ</a>' +
+      '<a class="mobile-only" href="/account">Sign in</a>' +
       '</nav>' +
       '<div class="header-cta">' +
+        '<a class="header-signin" href="/account">Sign in</a>' +
         '<a class="btn btn-gold btn-sm" href="assessment.html">Free assessment</a>' +
       '</div>' +
       '<button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu">☰</button>' +
