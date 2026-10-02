@@ -622,8 +622,10 @@ section{padding-block:var(--section)}
 .signup-msg{display:block;margin-top:14px;font-size:.85rem;color:rgba(255,255,255,.65)}
 .on-light-msg{color:var(--muted)}
 
-/* Membership is verified on the main site, so preview pages show join prompts. */
+/* members (health-intelligence.html?plan=...) see "begin" prompts; everyone else sees "join" prompts */
 .member-only{display:none}
+.is-member .member-only{display:block}
+.is-member .join-only{display:none}
 
 /* ---------- health intelligence intake (mirrors the live /assessment start page) ---------- */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}

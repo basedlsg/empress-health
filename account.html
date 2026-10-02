@@ -124,6 +124,10 @@
     .code-box .ghost { color: var(--color-gold); }
     .naturals .fine { font-size: 0.9rem; color: rgba(255,255,255,0.72); }
 
+    .interval { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--color-soft); border: 1px solid var(--color-card-border); border-radius: 999px; padding: 4px; margin: var(--space-xs) 0 0; }
+    .interval button { appearance: none; border: 0; background: transparent; border-radius: 999px; padding: 10px 16px; font: 600 0.875rem/1.1 var(--font-display); color: var(--color-muted); cursor: pointer; min-height: 44px; }
+    .interval button[aria-pressed="true"] { background: var(--color-plum); color: #fff; }
+    .plan .price-note { margin: -6px 0 0; font-size: 0.875rem; color: var(--color-muted); }
     .plans { display: grid; gap: var(--space-xs); margin: var(--space-xs) 0 var(--space-md); }
     .plan { padding: var(--space-sm); display: flex; flex-direction: column; gap: 14px; position: relative; }
     .plan.current { border: 2px solid var(--color-plum); }
@@ -272,7 +276,11 @@
       </section>
 
       <h2>Membership</h2>
-      <p class="lede" id="plans-lede" style="margin-bottom:0;">Change or cancel any time. Paid plans renew monthly.</p>
+      <p class="lede" id="plans-lede" style="margin-bottom:0;">Change or cancel any time. Paid plans renew monthly or yearly.</p>
+      <div class="interval" role="group" aria-label="Billing period">
+        <button type="button" id="interval-month" aria-pressed="true">Monthly</button>
+        <button type="button" id="interval-year" aria-pressed="false">Yearly · 2 months free</button>
+      </div>
       <div class="plans" id="plans"></div>
 
       <div class="acct-actions">
@@ -289,6 +297,8 @@
     "use strict";
     var $ = function (id) { return document.getElementById(id); };
     var state = null;
+    // Billing period chosen for new subscriptions ("month" | "year").
+    var interval = new URLSearchParams(location.search).get("interval") === "year" ? "year" : "month";
 
     function getCookie(name) {
       var m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
@@ -443,14 +453,17 @@
         var isCurrent = t.id === state.tier;
         var card = document.createElement("article");
         card.className = "card plan" + (isCurrent ? " current" : "");
-        var price = t.priceMonthlyUSD === 0 ? "$0" : "$" + t.priceMonthlyUSD;
+        var yearly = interval === "year" && t.priceYearlyUSD > 0;
+        var price = t.priceMonthlyUSD === 0 ? "$0" : "$" + (yearly ? t.priceYearlyUSD : t.priceMonthlyUSD);
         var items = BENEFITS[t.id].map(function (b) {
           return '<li' + (/Empress Naturals/.test(b) ? ' class="benefit"' : "") + ">" + b + "</li>";
         }).join("");
         card.innerHTML =
           (isCurrent ? '<span class="current-tag">Your plan</span>' : "") +
           "<h3>" + t.name + "</h3>" +
-          '<div class="price">' + price + (t.priceMonthlyUSD ? " <small>/ month</small>" : "") + "</div>" +
+          '<div class="price">' + price + (t.priceMonthlyUSD ? " <small>/ " + (yearly ? "year" : "month") + "</small>" : "") + "</div>" +
+          (yearly ? '<p class="price-note">Two months free — $' + t.priceMonthlyUSD + '/month billed yearly.</p>'
+            : (t.priceYearlyUSD ? '<p class="price-note">or $' + t.priceYearlyUSD + '/year — two months free</p>' : "")) +
           "<ul>" + items + "</ul>";
         var btn = document.createElement("button");
         btn.type = "button";
@@ -485,6 +498,9 @@
         $("code-box").hidden = false;
         $("naturals-code").textContent = d.code;
         $("naturals-copy").textContent = "Your membership carries over to the Empress Naturals shop. Use the button and your discount is applied at checkout automatically — or enter the code yourself.";
+      } else if (!state.naturalsConfigured) {
+        $("code-box").hidden = true;
+        $("naturals-copy").textContent = "Your " + d.percent + "% member discount is saved to your account. Your personal code will appear here as soon as the Empress Naturals shop connection goes live.";
       } else {
         $("code-box").hidden = true;
         $("naturals-copy").textContent = "Your member code is being set up — it's usually ready within a minute. The button below applies it as soon as it's ready.";
@@ -534,7 +550,7 @@
       $("acct-plan").className = "plan-pill" + (state.tier === "free" ? " free" : "");
       $("manage-billing").hidden = !state.canManageBilling;
       $("plans-lede").textContent = state.billingConfigured
-        ? "Change or cancel any time. Paid plans renew monthly."
+        ? "Change or cancel any time. Paid plans renew monthly or yearly."
         : "Essential and Premium open for sign-up very soon. Your account is ready for them.";
       renderResults();
       renderPlans();
@@ -553,7 +569,7 @@
       showNotice();
       setBusy(btn, true, "Opening secure checkout…");
       try {
-        var data = await postJson("/api/subscription/checkout", { tier: tier });
+        var data = await postJson("/api/subscription/checkout", { tier: tier, interval: interval });
         if (data.url) { location.assign(data.url); return; }
         await load();
         if (!data.pending && state.tier !== tier) {
@@ -595,6 +611,16 @@
       sessionStorage.removeItem("empress-assessment-next");
       await load();
     });
+
+    function setInterval_(next) {
+      interval = next;
+      $("interval-month").setAttribute("aria-pressed", String(next === "month"));
+      $("interval-year").setAttribute("aria-pressed", String(next === "year"));
+      if (state && state.authenticated) renderPlans();
+    }
+    $("interval-month").addEventListener("click", function () { setInterval_("month"); });
+    $("interval-year").addEventListener("click", function () { setInterval_("year"); });
+    setInterval_(interval);
 
     // Returning from Stripe Checkout: the webhook grants the plan, which can
     // lag the redirect by a few seconds — poll briefly.

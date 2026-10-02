@@ -79,7 +79,7 @@ try {
   await page.route('**/api/csrf', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ csrfToken: 'test-csrf' }) }));
   await page.route('**/api/assessment/intake-handoff', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, token: 'a'.repeat(64) }) }));
   await page.route('https://empresshealth.ai/assessment**', (route) => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Member assessment</title>' }));
-  await page.getByRole('button', { name: /Save details and continue/ }).click();
+  await page.locator('.intake-form button[type=submit]').click();
   await page.waitForURL('https://empresshealth.ai/assessment**');
   check(new URL(page.url()).searchParams.get('intake') === 'a'.repeat(64), 'Preview intake handoff token missing from redirect');
 

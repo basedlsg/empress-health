@@ -10,6 +10,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script>
+  /* arriving from a paid plan (?plan=essential|premium): hide "join" prompts, show "begin" ones instead */
+  if (/[?&]plan=(essential|premium)\b/i.test(location.search)) document.documentElement.classList.add('is-member');
+</script>
 </head>
 <body>
 <header id="site-header"></header>
@@ -32,15 +36,15 @@
 
     <div>
       <div class="intake" id="start">
-        <form class="intake-form js-signup" novalidate>
+        <form class="intake-form js-signup" data-thanks="Thank you — your Health Intelligence assessment is ready to begin." novalidate>
           <div class="fields">
             <div>
               <label for="hi-name">First name</label>
-              <input id="hi-name" type="text" autocomplete="given-name" placeholder="Maria" required>
+              <input id="hi-name" type="text" autocomplete="given-name" placeholder="Maria">
             </div>
             <div>
               <label for="hi-age">Age</label>
-              <input id="hi-age" type="number" inputmode="numeric" min="18" max="120" placeholder="48" required>
+              <input id="hi-age" type="text" inputmode="numeric" placeholder="48">
             </div>
             <div class="wide">
               <label for="hi-email">Email</label>
@@ -52,7 +56,7 @@
             </div>
             <div>
               <label for="hi-state">State</label>
-              <select id="hi-state" required>
+              <select id="hi-state">
                 <option value="">Select your state</option>
                 <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
                 <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
@@ -71,12 +75,12 @@
             </div>
             <div>
               <label for="hi-zip">ZIP code</label>
-              <input id="hi-zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" placeholder="90210" required>
+              <input id="hi-zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="90210">
             </div>
           </div>
-          <button class="btn btn-gold" type="submit">Save details and continue →</button>
+          <button class="btn btn-gold" type="submit">Begin my assessment →</button>
         </form>
-        <small class="signup-msg on-light-msg">We use your state and ZIP to suggest menopause-trained doctors near you. Sign in with this email and join Essential or Premium to continue.</small>
+        <small class="signup-msg on-light-msg">We use your state and ZIP to suggest menopause-trained doctors near you. Included with Essential and Premium — no separate charge.</small>
       </div>
     </div>
   </div>
@@ -120,7 +124,7 @@
       <div class="step reveal">
         <div class="num">2</div>
         <h3>Answer at your pace</h3>
-        <p>About 15 minutes in total. Set aside time to complete it in one sitting.</p>
+        <p>About 15 minutes in total. Stop whenever you like — your progress is saved for when you come back.</p>
       </div>
       <div class="step reveal">
         <div class="num">3</div>
@@ -147,7 +151,7 @@
         <li>A timeline of when things started and how they've changed</li>
         <li>Specific questions worth asking at your next appointment</li>
         <li>Which type of doctor, specialist or therapist may be the right one to see</li>
-        <li>Printable and yours to save as a PDF</li>
+        <li>Printable, and yours to download or email whenever you need it</li>
       </ul>
       <div class="cta-row join-only" style="margin-top:24px">
         <a class="btn btn-gold" href="pricing.html">See membership plans</a>
@@ -191,10 +195,11 @@
           <tr><td>Time it takes</td><td>3 minutes</td><td class="hl">About 15 minutes</td></tr>
           <tr><td>Questions</td><td>8 questions</td><td class="hl">120 health markers, 10 body systems</td></tr>
           <tr><td>Your personal snapshot</td><td class="yes">✓</td><td class="yes hl">✓</td></tr>
-          <tr><td>Print or save a copy</td><td class="yes">✓</td><td class="yes hl">✓</td></tr>
+          <tr><td>Emailed to you</td><td class="yes">✓</td><td class="yes hl">✓</td></tr>
           <tr><td>Consult Report for appointments</td><td class="no">—</td><td class="yes hl">✓</td></tr>
           <tr><td>Symptom timeline</td><td class="no">—</td><td class="yes hl">✓</td></tr>
           <tr><td>Doctors near you to consider</td><td class="no">—</td><td class="yes hl">✓</td></tr>
+          <tr><td>Save and come back later</td><td class="no">—</td><td class="yes hl">✓</td></tr>
           <tr><td>Cost</td><td>Free</td><td class="hl">Included with membership</td></tr>
         </tbody>
       </table>
@@ -213,7 +218,7 @@
       <ul class="ask-points">
         <li><span class="ico">🔒</span><span><strong>Encrypted</strong>Enterprise-grade encryption protects everything you share.</span></li>
         <li><span class="ico">✦</span><span><strong>Shared only with your consent</strong>Your personal health information is never shared without your explicit permission.</span></li>
-        <li><span class="ico">♡</span><span><strong>Yours to take with you</strong>Print your report or save it as a PDF.</span></li>
+        <li><span class="ico">♡</span><span><strong>Yours to take with you</strong>Download your report or email it to yourself at any time.</span></li>
       </ul>
     </div>
   </div>
@@ -229,7 +234,7 @@
     </div>
     <div class="member-only">
       <h2>Ready when you are.</h2>
-      <p class="lede">About 15 minutes, included with your membership.</p>
+      <p class="lede">About 15 minutes, and you can stop and come back. It's included with your membership.</p>
       <a class="btn btn-gold btn-lg" href="#start">Begin my assessment ↑</a>
     </div>
   </div>
