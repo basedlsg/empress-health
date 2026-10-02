@@ -9,7 +9,7 @@
     "api/index.js": {
       "maxDuration": 60,
       "includeFiles": "{prds/dist/**,node_modules/@sparticuz/chromium/bin/**}",
-      "excludeFiles": "{.env,.env.*,public/**,Hero Image/**,EmpressHealth logo - RGB - Modified/**,design-references/**,empress-free-trial-assessment.pdf,Health Assessment Report (1).pdf,pages/**,site-bots/**,scripts/**,docs/**,*.docx,*.csv,artifacts/**}"
+      "excludeFiles": "{.env,.env.*,public/**,redesign-preview/**,Hero Image/**,EmpressHealth logo - RGB - Modified/**,design-references/**,empress-free-trial-assessment.pdf,Health Assessment Report (1).pdf,pages/**,site-bots/**,scripts/**,docs/**,*.docx,*.csv,artifacts/**}"
     }
   },
   "crons": [
@@ -17,8 +17,6 @@
   ],
   "redirects": [
     { "source": "/sample-report", "destination": "/assessment/?tier=paid&demo=1", "permanent": false },
-    { "source": "/pricing", "destination": "/account", "permanent": false },
-    { "source": "/pricing.html", "destination": "/account", "permanent": false },
     { "source": "/membershipoptions", "destination": "/account", "permanent": false },
     { "source": "/membershipoptions.html", "destination": "/account", "permanent": false },
     { "source": "/start", "destination": "/free-assessment", "permanent": false }
