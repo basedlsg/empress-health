@@ -167,6 +167,7 @@
 
   <main id="main">
     <div id="notice" class="notice" role="status" hidden></div>
+    <div id="billing-test-mode" class="notice info" role="status" hidden>Stripe test mode is active. Checkout uses test cards and does not charge real money.</div>
     <p id="loading" class="loading">Loading your account…</p>
 
     <!-- ════════ SIGNED OUT ════════ -->
@@ -517,6 +518,7 @@
 
     function render() {
       $("loading").hidden = true;
+      $("billing-test-mode").hidden = !state.billingTestMode;
       if (!state.authenticated) {
         $("signed-in").hidden = true;
         $("signed-out").hidden = false;
