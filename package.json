@@ -24,7 +24,9 @@
     "retrieval:test": "node scripts/test-retrieval.mjs",
     "validate:catalog": "node scripts/validate-catalog.mjs",
     "test:daily": "MOCK_LLM=1 node scripts/test-daily-affirmations.mjs",
-    "design:snapshot": "node scripts/snapshot-design-references.mjs"
+    "design:snapshot": "node scripts/snapshot-design-references.mjs",
+    "test:report-pdf": "node scripts/test-report-pdf.mjs",
+    "test:members": "MOCK_LLM=1 node scripts/test-member-affirmations.mjs"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -34,6 +36,7 @@
   "license": "ISC",
   "dependencies": {
     "@pinecone-database/pinecone": "^7.2.0",
+    "@sparticuz/chromium": "^153.0.0",
     "bcryptjs": "^3.0.3",
     "connect-pg-simple": "^10.0.0",
     "cookie-parser": "^1.4.7",
@@ -47,6 +50,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^10.0.13",
     "pg": "^8.11.3",
+    "playwright-core": "^1.63.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

@@ -111,6 +111,17 @@
       color: var(--ink);
       opacity: 0.85;
     }
+    .waitlist {
+      margin: 0 auto var(--space-5);
+      max-width: 440px;
+    }
+    .waitlist-lead {
+      margin: 0 0 var(--space-2);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .waitlist form.eh-capture { text-align: center; }
     .actions {
       display: flex;
       gap: var(--space-2);
@@ -179,6 +190,11 @@
           and find support from women on the same journey. Check back soon — and in the
           meantime, our existing resources are here whenever you need them.
         </p>
+        <div class="waitlist">
+          <p class="waitlist-lead">Be first through the door. Leave your email and we&rsquo;ll tell you the moment the community opens.</p>
+          <div data-email-capture data-source="community-waitlist" data-variant="inline"
+               data-cta="Join the waitlist" data-label="Email address to join the community waitlist"><a href="/contact">Message us to join the waitlist</a></div>
+        </div>
         <div class="actions">
           <a class="btn primary" href="/">Back to Home</a>
           <a class="btn ghost" href="/communitystories">Read Community Stories</a>
@@ -194,5 +210,6 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+  <script src="/site-email-capture.js" defer></script>
 </body>
 </html>

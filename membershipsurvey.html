@@ -67,6 +67,7 @@
   .form-group label{display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--ink); font-size:16px}
   .form-group input[type="number"],
   .form-group input[type="text"],
+  .form-group input[type="email"],
   .form-group textarea,
   .form-group select{
     width:100%; padding:12px 16px; border:2px solid var(--border); border-radius:12px; font-size:16px; font-family:inherit; transition:border-color 0.2s ease; background:#fff
@@ -76,6 +77,8 @@
   .form-group select:focus{outline:none; border-color:var(--primary)}
   .form-group textarea{min-height:100px; resize:vertical}
   .form-group small{display:block; margin-top:var(--space-1); color:var(--muted); font-size:14px}
+  .form-group small.field-error{color:#c33; font-weight:600}
+  .form-group input[aria-invalid="true"]{border-color:#c33}
 
   /* Radio and Checkbox Groups */
   .radio-group,
@@ -136,6 +139,10 @@
   .brand-logo{height: clamp(56px, 7vw, 80px)}
   .brand a{display:flex; align-items:center}
   
+  /* The desktop mega-menu markup has no CSS on this page; without this it renders unstyled and
+     the fixed header covers the whole survey. The page's own header is brand + burger/drawer. */
+  .links.main-nav{display:none}
+
   /* Hamburger Menu Button */
   .burger{
     display:none; /* Hidden by default (desktop) */
@@ -233,6 +240,7 @@
     .survey-container{padding:var(--space-4)}
     .form-group input[type="number"],
     .form-group input[type="text"],
+    .form-group input[type="email"],
     .form-group textarea,
     .form-group select{font-size:16px} /* Prevent zoom on iOS */
     .survey-nav{flex-direction:column}
@@ -264,6 +272,7 @@
     .form-group label{font-size:17px; margin-bottom:var(--space-3)}
     .form-group input[type="number"],
     .form-group input[type="text"],
+    .form-group input[type="email"],
     .form-group textarea,
     .form-group select{
       padding:14px 18px; font-size:16px
@@ -602,7 +611,7 @@
         <div class="progress-fill" id="progress-fill" style="width:20%"></div>
       </div>
 
-      <div class="error-message" id="error-message"></div>
+      <div class="error-message" id="error-message" role="alert"></div>
 
       <!-- Page 1: Age -->
       <div class="survey-page active" id="page-1">
@@ -1112,6 +1121,12 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group" id="email-group">
+          <label for="survey-email">Email &mdash; so we can tell you the moment we open <span style="color:#c33">*</span></label>
+          <input type="email" id="survey-email" name="email" required autocomplete="email" inputmode="email" maxlength="200" placeholder="you@example.com" aria-describedby="survey-email-note">
+          <small id="survey-email-note" role="status" aria-live="polite">We&rsquo;ll use it to let you know when membership opens.</small>
+        </div>
       </div>
 
       <!-- Thank You Message -->
@@ -1177,7 +1192,7 @@
         <h2>We'd Love Your Feedback!</h2>
         <p class="lead">Help us improve EmpressHealth.ai by sharing your thoughts</p>
 
-        <div class="error-message" id="feedback-error-message"></div>
+        <div class="error-message" id="feedback-error-message" role="alert"></div>
 
         <div class="form-group">
           <label>How interested would you be in using EmpressHealth.ai? <span style="color:#c33">*</span></label>
@@ -1405,6 +1420,43 @@
       });
     }
 
+    // Email helpers (final step). The same address is sent with the survey and the feedback form.
+    const SURVEY_EMAIL_NOTE = "We'll use it to let you know when membership opens.";
+    function getSurveyEmail() {
+      const el = document.getElementById('survey-email');
+      return String(el ? el.value : (surveyData.email || '')).trim();
+    }
+
+    function setSurveyEmailNote(message, isError) {
+      const note = document.getElementById('survey-email-note');
+      const el = document.getElementById('survey-email');
+      if (note) {
+        note.textContent = message || SURVEY_EMAIL_NOTE;
+        note.classList.toggle('field-error', !!isError);
+      }
+      if (el) {
+        if (isError) el.setAttribute('aria-invalid', 'true');
+        else el.removeAttribute('aria-invalid');
+      }
+    }
+
+    function validateSurveyEmail() {
+      const el = document.getElementById('survey-email');
+      const value = getSurveyEmail();
+      if (!value) {
+        setSurveyEmailNote('Please add your email so we can tell you the moment we open.', true);
+        if (el) el.focus();
+        return false;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        setSurveyEmailNote("That email doesn't look quite right. Could you check it?", true);
+        if (el) el.focus();
+        return false;
+      }
+      setSurveyEmailNote('', false);
+      return true;
+    }
+
     // Validate current page
     function validatePage(pageNum) {
       debugLog('VALIDATION', `Starting validation for page ${pageNum}`);
@@ -1426,6 +1478,11 @@
         debugLog('VALIDATION', `Affirmations validation PASSED: ${affirmationsCheckboxes.length} selected`);
       }
       
+      // Final step: we need an email so we can tell people when we open.
+      if (pageNum === totalPages && !validateSurveyEmail()) {
+        return false;
+      }
+
       const requiredFields = page.querySelectorAll('[required]');
       debugLog('VALIDATION', `Found ${requiredFields.length} required fields on page ${pageNum}`);
       
@@ -1583,7 +1640,7 @@
     }
 
     // Show error message
-    function showError(message) {
+    function showError(message, sticky) {
       console.log('showError() called with message:', message);
       const errorEl = document.getElementById('error-message');
       if (!errorEl) {
@@ -1595,10 +1652,20 @@
       errorEl.classList.add('active');
       // Scroll to error message
       errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      // Keep error visible longer (10 seconds instead of 5)
-      setTimeout(() => {
-        errorEl.classList.remove('active');
-      }, 10000);
+      // Validation hints fade after 10 seconds; save failures (sticky) stay until the next attempt.
+      if (errorEl._hideTimer) clearTimeout(errorEl._hideTimer);
+      if (!sticky) {
+        errorEl._hideTimer = setTimeout(() => {
+          errorEl.classList.remove('active');
+        }, 10000);
+      }
+    }
+
+    function clearError() {
+      const errorEl = document.getElementById('error-message');
+      if (!errorEl) return;
+      if (errorEl._hideTimer) clearTimeout(errorEl._hideTimer);
+      errorEl.classList.remove('active');
     }
 
     // Show affirmation error message
@@ -2124,6 +2191,7 @@
       }
 
       // Set loading state
+      clearError();
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting...';
       debugLog('API', 'Submit button disabled and text changed to "Submitting..."');
@@ -2187,6 +2255,10 @@
           formattedData.medical_conditions = formattedData.medical_conditions.join(', ');
         }
         
+        // Always send the email entered on the final step so the answers can be tied to it.
+        formattedData.email = getSurveyEmail();
+        surveyData.email = formattedData.email;
+
         debugLog('COLLECTION', 'Data formatting complete', { 
           fieldsFormatted: formattingChanges.length,
           formattedFields: formattingChanges
@@ -2206,18 +2278,11 @@
 
         const requestStartTime = performance.now();
         
-        // Get token from localStorage to include in Authorization header
-        const authToken = getAuthToken();
-        const headers = {
-          'Content-Type': 'application/json'
-        };
-        if (authToken) {
-          headers['Authorization'] = `Bearer ${authToken}`;
-        }
-        
+        // Same-origin, session-cookie request. No CSRF token or bearer header needed.
         const response = await fetch('/api/survey/submit', {
           method: 'PUT',
-          headers: headers,
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
           body: JSON.stringify(formattedData)
         });
         const requestEndTime = performance.now();
@@ -2288,14 +2353,9 @@
             statusOk: response.ok
           });
           console.warn('Non-JSON response received:', responseText.substring(0, 200));
-          // If response is ok but not JSON, treat as success
-          if (response.ok) {
-            debugLog('API', 'Non-JSON response but status OK, treating as success');
-            console.log('Non-JSON response but status is OK, treating as success');
-            result = { success: true, message: 'Survey submitted successfully' };
-          } else {
-            throw new Error(`Server returned an invalid response (${response.status}). Please try again.`);
-          }
+          // The API always answers JSON. Anything else means the answers were NOT saved,
+          // so never report success for it.
+          throw new Error(`We couldn't confirm that your answers were saved (server response ${response.status}). Please try again.`);
         }
 
         // Check response status
@@ -2307,6 +2367,10 @@
           });
           console.error('Survey submission failed:', errorMessage);
           throw new Error(errorMessage);
+        }
+
+        if (!result || result.success !== true) {
+          throw new Error("We couldn't confirm that your answers were saved. Please try again.");
         }
 
         const totalDuration = performance.now() - startTime;
@@ -2336,8 +2400,10 @@
         console.error('Error stack:', error.stack);
         
         // Show detailed error message
-        const errorMessage = error.message || 'Failed to submit survey. Please try again.';
-        showError(errorMessage);
+        const errorMessage = (error instanceof TypeError)
+          ? "We couldn't reach the server. Please check your connection and try again."
+          : (error.message || 'Failed to submit survey. Please try again.');
+        showError(errorMessage, true);
         
         // Re-enable button
         if (submitBtn) {
@@ -2349,7 +2415,7 @@
     }
 
     // Show feedback error message
-    function showFeedbackError(message) {
+    function showFeedbackError(message, sticky) {
       debugLog('ERROR', 'Feedback error displayed', { message });
       const errorEl = document.getElementById('feedback-error-message');
       if (!errorEl) {
@@ -2359,14 +2425,18 @@
       }
       errorEl.textContent = message;
       errorEl.classList.add('active');
+      errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       debugLog('ERROR', 'Feedback error element visibility', { 
         visible: errorEl.classList.contains('active'),
         message
       });
-      setTimeout(() => {
-        errorEl.classList.remove('active');
-        debugLog('ERROR', 'Feedback error element hidden after timeout');
-      }, 5000);
+      if (errorEl._hideTimer) clearTimeout(errorEl._hideTimer);
+      if (!sticky) {
+        errorEl._hideTimer = setTimeout(() => {
+          errorEl.classList.remove('active');
+          debugLog('ERROR', 'Feedback error element hidden after timeout');
+        }, 5000);
+      }
     }
 
     // Submit feedback form
@@ -2438,6 +2508,11 @@
       debugLog('VALIDATION', 'Feedback validation SUCCESS');
 
       // Set loading state
+      const feedbackErrorEl = document.getElementById('feedback-error-message');
+      if (feedbackErrorEl) {
+        if (feedbackErrorEl._hideTimer) clearTimeout(feedbackErrorEl._hideTimer);
+        feedbackErrorEl.classList.remove('active');
+      }
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting...';
       debugLog('API', 'Feedback submit button disabled and text changed');
@@ -2450,7 +2525,8 @@
           likelihood_to_register: parseInt(likelihoodToRegister.value),
           would_recommend: wouldRecommend.value,
           willingness_to_pay: willingnessToPay.value,
-          lang: 'en'
+          lang: 'en',
+          email: getSurveyEmail()
         };
 
         debugFormData(feedbackData, 'Feedback Data');
@@ -2465,18 +2541,11 @@
 
         const requestStartTime = performance.now();
         
-        // Get token from localStorage to include in Authorization header
-        const authToken = getAuthToken();
-        const headers = {
-          'Content-Type': 'application/json'
-        };
-        if (authToken) {
-          headers['Authorization'] = `Bearer ${authToken}`;
-        }
-        
+        // Same-origin, session-cookie request. No CSRF token or bearer header needed.
         const response = await fetch('/api/feedback/submit', {
           method: 'POST',
-          headers: headers,
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
           body: JSON.stringify(feedbackData)
         });
         const requestEndTime = performance.now();
@@ -2524,6 +2593,10 @@
           throw new Error(errorMessage);
         }
 
+        if (!result || result.success !== true) {
+          throw new Error("We couldn't confirm that your feedback was saved. Please try again.");
+        }
+
         const totalDuration = performance.now() - startTime;
         debugLog('API', 'Feedback submission SUCCESS', {
           result,
@@ -2553,8 +2626,10 @@
         console.error('Feedback submission error:', error);
         
         // Show detailed error message
-        const errorMessage = error.message || 'Failed to submit feedback. Please try again.';
-        showFeedbackError(errorMessage);
+        const errorMessage = (error instanceof TypeError)
+          ? "We couldn't reach the server. Please check your connection and try again."
+          : (error.message || 'Failed to submit feedback. Please try again.');
+        showFeedbackError(errorMessage, true);
         
         // Re-enable button
         submitBtn.disabled = false;
@@ -2690,6 +2765,13 @@
       debugLog('ERROR', 'Feedback submit button not found');
     }
 
+    const surveyEmailInput = document.getElementById('survey-email');
+    if (surveyEmailInput) {
+      surveyEmailInput.addEventListener('input', () => {
+        if (surveyEmailInput.getAttribute('aria-invalid') === 'true') setSurveyEmailNote('', false);
+      });
+    }
+
     // Limit affirmations_inspire selections to exactly 3
     const affirmationsCheckboxes = document.querySelectorAll('input[name="affirmations_inspire"]');
     affirmationsCheckboxes.forEach(checkbox => {
@@ -2773,6 +2855,11 @@
         const data = JSON.parse(text);
         const logoutBtn = document.getElementById('logout-btn');
         
+        const emailInput = document.getElementById('survey-email');
+        if (data.authenticated && data.userEmail && emailInput && !emailInput.value) {
+          emailInput.value = data.userEmail;
+        }
+
         if (data.authenticated && logoutBtn) {
           logoutBtn.style.display = 'block';
         } else if (logoutBtn) {
@@ -2848,5 +2935,6 @@
     // Check auth status on page load
     checkAuthStatus();
   </script>
+  <script src="/site-email-capture.js" defer></script>
 </body>
 </html>

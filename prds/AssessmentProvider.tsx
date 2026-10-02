@@ -47,7 +47,7 @@ type AssessmentContextValue = {
   setMhtActive: (active: boolean) => void
   setAdditionalNotes: (text: string) => void
   setCurrentMedications: (text: string) => void
-  markCompleted: () => void
+  markCompleted: (completedAt?: string) => void
   resetAssessment: () => void
   totalQuestions: number
   answeredCount: number
@@ -131,8 +131,8 @@ export function AssessmentProvider({
     setCurrentMedicationsState(text)
   }, [])
 
-  const markCompleted = useCallback(() => {
-    setCompletedAt(new Date().toISOString())
+  const markCompleted = useCallback((at?: string) => {
+    setCompletedAt(typeof at === "string" ? at : new Date().toISOString())
   }, [])
 
   const resetAssessment = useCallback(() => {

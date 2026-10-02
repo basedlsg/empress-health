@@ -11,6 +11,7 @@ import { AssessmentSiteNav } from "./AssessmentSiteNav"
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FreeMiniAssessment } from "./FreeMiniAssessment"
 import { assessmentCategories } from "./assessmentQuestions"
+import { readPrintState } from "./printMode"
 import {
   calculateCategoryScores,
   calculateOverallScore,
@@ -260,6 +261,32 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
     setStep("report")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  // ── PRINT-RENDER MODE (window.__EMPRESS_PRINT_STATE__) ────────────────────
+  // The server renders the finished report headlessly to attach the full PDF
+  // to the results email (lib/report-pdf.js). It injects the member's saved
+  // answers and recommendation payload; we seed them and jump to the report.
+  useEffect(() => {
+    const printState = readPrintState()
+    if (!printState) return
+    setUser({ ...printState.user, stage: printState.stage ?? undefined, mhtActive: printState.mhtActive })
+    setStage(printState.stage)
+    setMhtActive(printState.mhtActive)
+    for (const [qid, value] of Object.entries(printState.responses)) {
+      setResponse(Number(qid), value)
+    }
+    markCompleted(printState.completedAt)
+    // Defaults first: the report reads these arrays unconditionally.
+    setApiResult({
+      affirmations: [],
+      recommendations: [],
+      products: [],
+      productsResponse: "",
+      errors: [],
+      ...printState.apiResult,
+    })
+    setStep("report")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const [currentCategoryId, setCurrentCategoryId] = useState(categories[0]?.id ?? 1)
   const [apiResult, setApiResult] = useState<AssessmentApiResult>({
     affirmations: [],
@@ -383,6 +410,16 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
     const overall = calculateOverallScore(responses, categories)
     const priorities = getPriorityAreas(responses, 3, categories)
 
+    // A slider the member never touched stays at its default 0 ("no symptom")
+    // and is not stored in `responses`. The recommendation endpoints reject a
+    // submission with fewer than 60% of the 120 items present (422), which
+    // silently dropped the affirmations, clinician match, providers and
+    // products for anyone who left 49+ sliders at 0. Send every item.
+    const completeResponses: Record<number, number> = {}
+    for (const cat of categories) {
+      for (const q of cat.questions) completeResponses[q.id] = responses[q.id] ?? 0
+    }
+
     // Top 10 high-pain question IDs (descending response score). Drives the
     // MARSHA matrix product matcher on the server (lib/catalog.js →
     // getMatrixProductsByQuestions). Scores ≥6 only — answers below that
@@ -427,7 +464,7 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       overall,
       categoryScores,
       priorities,
-      responses,
+      responses: completeResponses,
       profile,
       // Server reads these top-level too (server.js line 2734-2744 catalogProfile)
       state: user?.usState ?? null,
@@ -438,9 +475,12 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
     }
 
     // Each enrichment call gets a hard cap. The score itself is computed
-    // client-side, so a slow or overloaded LLM upstream must never hold the
-    // report hostage — past the cap we render without that section.
-    const FETCH_TIMEOUT_MS = 20000
+    // client-side, so a slow or overloaded upstream must never hold the
+    // report hostage — past the cap we render without that section. The cap
+    // is generous (the combined call can take 25s+ on a cold start) because
+    // a timeout silently drops the affirmations, clinician match, providers
+    // and products from both the report and the emailed PDF.
+    const FETCH_TIMEOUT_MS = 45000
     const fetchWithTimeout = (url: string, init: RequestInit) => {
       const ctrl = new AbortController()
       const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS)

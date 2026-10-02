@@ -748,7 +748,9 @@ app.use("/api/free-trial-report", llmLimiter);
 // Empress's sender reputation.
 const leadLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 5,
+  // Generous enough for an office/event/mobile-carrier network sharing one IP,
+  // tight enough that the endpoint is not an open relay.
+  max: 30,
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => res.status(429).json({
@@ -758,6 +760,16 @@ const leadLimiter = rateLimit({
   })
 });
 app.use("/api/free-score-lead", leadLimiter);
+
+// The waitlist survey endpoints are public and write to Postgres.
+const surveyLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({ error: "Too many submissions. Please try again in a few minutes." }),
+});
+app.use(["/api/survey/submit", "/api/feedback/submit"], surveyLimiter);
 
 // A completed paid assessment sends one transactional result summary to the
 // address the member entered at the start. Keep this separate from the free
@@ -1841,169 +1853,26 @@ const handleSurveySubmit = async (req, res) => {
       ...fastapiSnapshot
     };
 
-    // Forward request to backend server
-    try {
-      // Get authentication token from session
-      const authToken = requireAuthToken(req, res);
-      if (!authToken || typeof authToken !== 'string') {
-        return; // requireAuthToken already sent the error response
-      }
-
-      const hasToken = authToken.trim() !== "";
-
-      console.log('🔍 Backend API Request Details:');
-      console.log('  URL:', `${RENDER_BASE_URL}/api/v1/profile`);
-      console.log('  Method: PUT (backend API)');
-      console.log('  Frontend Method:', req.method);
-      console.log('  Auth Token Present:', hasToken);
-      console.log('  Auth Token Length:', authToken.length);
-      console.log('  Auth Token Preview:', hasToken ? `${authToken.substring(0, 10)}...` : 'N/A');
-      console.log('  Request Body:', JSON.stringify(surveyData, null, 2));
-
-      const backendResponse = await fetch(`${RENDER_BASE_URL}/api/v1/profile`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${authToken}`
-        },
-        body: JSON.stringify(surveyData)
-      });
-
-      console.log('🔍 Backend API Response Details:');
-      console.log('  Status:', backendResponse.status);
-      console.log('  Status Text:', backendResponse.statusText);
-      console.log('  OK:', backendResponse.ok);
-      console.log('  Headers:', Object.fromEntries(backendResponse.headers.entries()));
-
-      // Check content type before parsing
-      const contentType = backendResponse.headers.get('content-type');
-      let backendData;
-      const responseText = await backendResponse.text();
-
-      console.log('  Response Text Length:', responseText.length);
-      console.log('  Response Text:', responseText);
-
-      // Handle 405 Method Not Allowed specifically
-      if (backendResponse.status === 405) {
-        console.error('❌ 405 Method Not Allowed Error:');
-        console.error('  The backend endpoint may not accept POST requests.');
-        console.error('  Possible solutions:');
-        console.error('    1. Check if endpoint requires PUT or PATCH instead of POST');
-        console.error('    2. Verify the endpoint path is correct');
-        console.error('    3. Check if authentication token is valid');
-        console.error('    4. Verify CORS settings allow POST method');
-
-        return res.status(405).json({
-          error: "Backend endpoint does not accept POST method. Please contact support.",
-          detail: "The API endpoint may require a different HTTP method (PUT/PATCH) or the endpoint path may be incorrect.",
-          status: 405,
-          responseText: responseText
-        });
-      }
-
-      if (contentType && contentType.includes('application/json')) {
-        try {
-          if (!responseText || responseText.trim() === '') {
-            // Empty response - treat as success if status is ok
-            if (backendResponse.ok) {
-              console.log('✅ Survey submitted via backend (empty response):', user_id || 'anonymous');
-              return res.json({
-                success: true,
-                id: 'submitted',
-                message: "Survey submitted successfully"
-              });
-            } else {
-              throw new Error('Backend returned empty response');
-            }
-          }
-          backendData = JSON.parse(responseText);
-        } catch (jsonErr) {
-          console.error('❌ JSON parsing error from backend:', jsonErr.message);
-          return res.status(500).json({
-            error: "Invalid response from backend server. Please try again later.",
-            detail: jsonErr.message
-          });
-        }
-      } else {
-        // Non-JSON response
-        console.error('❌ Non-JSON response from backend:', responseText.substring(0, 200));
-
-        if (backendResponse.ok) {
-          // If status is ok but not JSON, treat as success
-          console.log('✅ Survey submitted via backend (non-JSON response):', user_id || 'anonymous');
-          return res.json({
-            success: true,
-            id: 'submitted',
-            message: "Survey submitted successfully"
-          });
-        } else {
-          return res.status(backendResponse.status).json({
-            error: "Backend server error. Please try again later.",
-            detail: responseText.substring(0, 200)
-          });
-        }
-      }
-
-      if (!backendResponse.ok) {
-        // Forward backend error to frontend
-        const errorMessage = backendData.error || backendData.message || `Backend error (${backendResponse.status})`;
-        console.error('❌ Backend API error:', errorMessage);
-        console.error('  Status:', backendResponse.status);
-        console.error('  Response Data:', backendData);
-
-        // Provide more specific error messages based on status code
-        let userFriendlyMessage = errorMessage;
-        if (backendResponse.status === 401) {
-          userFriendlyMessage = "Authentication failed. Please check your credentials.";
-        } else if (backendResponse.status === 403) {
-          userFriendlyMessage = "Access forbidden. You may not have permission to perform this action.";
-        } else if (backendResponse.status === 404) {
-          userFriendlyMessage = "Endpoint not found. The API endpoint may have changed.";
-        } else if (backendResponse.status === 405) {
-          userFriendlyMessage = "Method not allowed. The endpoint may require a different HTTP method.";
-        } else if (backendResponse.status === 500) {
-          userFriendlyMessage = "Server error. Please try again later.";
-        } else if (backendResponse.status >= 500) {
-          userFriendlyMessage = "Backend server error. Please try again later.";
-        }
-
-        return res.status(backendResponse.status).json({
-          error: userFriendlyMessage,
-          detail: errorMessage,
-          status: backendResponse.status
-        });
-      }
-
-      console.log('✅ Survey submitted via backend:', user_id || 'anonymous');
-
-      // Return success response
-      return res.json({
-        success: true,
-        id: backendData.id || backendData.profile_id || 'submitted',
-        message: backendData.message || "Survey submitted successfully"
-      });
-    } catch (fetchErr) {
-      console.error('❌ Backend API fetch error:', fetchErr.message);
-      console.error('  Error Type:', fetchErr.name);
-      console.error('  Error Code:', fetchErr.code);
-      console.error('  Stack:', fetchErr.stack);
-
-      // Handle network errors specifically
-      if (fetchErr.code === 'ECONNREFUSED' || fetchErr.code === 'ENOTFOUND' || fetchErr.message.includes('fetch failed')) {
-        console.error('  Network Error: Unable to connect to backend server');
-        return res.status(503).json({
-          error: "Unable to connect to backend server. Please try again later.",
-          detail: "Service temporarily unavailable",
-          code: fetchErr.code
-        });
-      }
-
-      return res.status(500).json({
-        error: "Failed to connect to backend server. Please try again later.",
-        detail: fetchErr.message,
-        code: fetchErr.code || 'UNKNOWN'
-      });
+    // Keep the answers in Postgres. (The survey used to be forwarded to the
+    // Render backend, which is suspended — anonymous visitors on the static
+    // waitlist page lost every submission.)
+    const surveyEmail = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+    const [surveyId] = await Promise.all([
+      captureStore.saveSubmission({
+        kind: "membership-survey",
+        email: surveyEmail,
+        userId: Number.isInteger(user_id) ? user_id : null,
+        scores: { ...surveyData, ...fastapiSnapshot },
+        responses: req.body,
+      }),
+      surveyEmail
+        ? captureStore.captureEmail({ email: surveyEmail, source: "waitlist-survey", userId: Number.isInteger(user_id) ? user_id : null })
+        : Promise.resolve(true),
+    ]);
+    if (!surveyId) {
+      return res.status(503).json({ error: "We could not save your answers right now. Please try again." });
     }
+    return res.json({ success: true, id: surveyId, message: "Survey submitted successfully" });
   } catch (err) {
     console.error("Survey submission error:", err);
     res.status(500).json({ error: "Failed to submit survey", detail: err.message });
@@ -2319,6 +2188,25 @@ app.get("/api/health/email", async (req, res) => {
   }
 });
 
+// PDF render check for operators: renders the sample report with the same
+// headless browser the results email uses and returns size/page count only —
+// nothing is emailed. Guarded by EMAIL_HEALTH_TOKEN like the email check.
+app.get("/api/health/report-pdf", async (req, res) => {
+  const token = process.env.EMAIL_HEALTH_TOKEN;
+  if (!token || req.get("x-health-token") !== token) return res.status(404).end();
+  try {
+    const { renderReportPdf } = require("./lib/report-pdf");
+    const { buildSampleState } = require("./lib/report-sample-state");
+    const out = await renderReportPdf({
+      state: buildSampleState(),
+      siteOrigin: process.env.PUBLIC_SITE_URL || (isProduction ? "https://empresshealth.ai" : `http://localhost:${PORT}`),
+    });
+    return res.json({ ok: true, pages: out.pages, bytes: out.pdf.length, ms: out.ms });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: String(err && err.message || err).slice(0, 400) });
+  }
+});
+
 /* -------------------- API: Feedback Submission -------------------- */
 
 app.post("/api/feedback/submit", async (req, res) => {
@@ -2385,112 +2273,26 @@ app.post("/api/feedback/submit", async (req, res) => {
       lang: lang || 'en'
     };
 
-    console.log('Feedback form submitted');
-    console.log('📤 Feedback data being sent:', JSON.stringify(feedbackData, null, 2));
-
-    // Forward request to backend server
-    try {
-      // Get authentication token from session
-      const authToken = requireAuthToken(req, res);
-      if (!authToken || typeof authToken !== 'string') {
-        return; // requireAuthToken already sent the error response
-      }
-
-      const backendResponse = await fetch(`${RENDER_BASE_URL}/api/v1/feedback/submit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${authToken}`
-        },
-        body: JSON.stringify(feedbackData)
-      });
-
-      // Check content type before parsing
-      const contentType = backendResponse.headers.get('content-type');
-      let backendData;
-      const responseText = await backendResponse.text();
-
-      if (contentType && contentType.includes('application/json')) {
-        try {
-          if (!responseText || responseText.trim() === '') {
-            // Empty response - treat as success if status is ok
-            if (backendResponse.ok) {
-              console.log('✅ Feedback submitted via backend');
-              return res.json({
-                success: true,
-                message: "Feedback submitted successfully"
-              });
-            } else {
-              throw new Error('Backend returned empty response');
-            }
-          }
-          backendData = JSON.parse(responseText);
-        } catch (jsonErr) {
-          console.error('❌ JSON parsing error from backend:', jsonErr.message);
-          return res.status(500).json({
-            error: "Invalid response from backend server. Please try again later.",
-            detail: jsonErr.message
-          });
-        }
-      } else {
-        // Non-JSON response
-        console.error('❌ Non-JSON response from backend:', responseText.substring(0, 200));
-
-        if (backendResponse.ok) {
-          // If status is ok but not JSON, treat as success
-          console.log('✅ Feedback submitted via backend (non-JSON response)');
-          return res.json({
-            success: true,
-            message: "Feedback submitted successfully"
-          });
-        } else {
-          return res.status(backendResponse.status).json({
-            error: "Backend server error. Please try again later.",
-            detail: responseText.substring(0, 200)
-          });
-        }
-      }
-
-      if (!backendResponse.ok) {
-        // Forward backend error to frontend
-        console.error('❌ Backend API error response:');
-        console.error('  Status:', backendResponse.status);
-        console.error('  Status Text:', backendResponse.statusText);
-        console.error('  Full error response:', JSON.stringify(backendData, null, 2));
-        console.error('  Raw response text:', responseText);
-
-        const errorMessage = backendData.error || backendData.message || backendData.detail || `Backend error (${backendResponse.status})`;
-        const errorDetail = backendData.errors || backendData.detail || backendData;
-
-        return res.status(backendResponse.status).json({
-          error: errorMessage,
-          detail: errorDetail
-        });
-      }
-
-      console.log('✅ Feedback submitted via backend');
-
-      // Return success response
-      return res.json({
-        success: true,
-        message: backendData.message || "Feedback submitted successfully"
-      });
-    } catch (fetchErr) {
-      console.error('❌ Backend API error:', fetchErr.message);
-
-      // Handle network errors specifically
-      if (fetchErr.code === 'ECONNREFUSED' || fetchErr.code === 'ENOTFOUND' || fetchErr.message.includes('fetch failed')) {
-        return res.status(503).json({
-          error: "Unable to connect to backend server. Please try again later.",
-          detail: "Service temporarily unavailable"
-        });
-      }
-
-      return res.status(500).json({
-        error: "Failed to connect to backend server. Please try again later.",
-        detail: fetchErr.message
-      });
+    // Keep it in Postgres (the old Render backend it was forwarded to is
+    // suspended, so every waitlist-survey answer used to be lost).
+    const feedbackEmail = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+    const feedbackUserId = Number.isInteger(req.session && req.session.userId) ? req.session.userId : null;
+    const [feedbackId] = await Promise.all([
+      captureStore.saveSubmission({
+        kind: "membership-feedback",
+        email: feedbackEmail,
+        userId: feedbackUserId,
+        scores: feedbackData,
+        responses: req.body,
+      }),
+      feedbackEmail
+        ? captureStore.captureEmail({ email: feedbackEmail, source: "waitlist-survey", userId: feedbackUserId })
+        : Promise.resolve(true),
+    ]);
+    if (!feedbackId) {
+      return res.status(503).json({ error: "We could not save your answers right now. Please try again." });
     }
+    return res.json({ success: true, message: "Feedback submitted successfully" });
   } catch (err) {
     console.error("Feedback submission error:", err);
     res.status(500).json({ error: "Failed to submit feedback", detail: err.message });
@@ -3299,9 +3101,9 @@ app.post("/api/free-score-lead", async (req, res) => {
 });
 
 /**
- * Email a concise, transactional copy of the completed paid assessment.
- * The full interactive report remains in the browser; this message preserves
- * the score, all ten domain scores, priorities, and personalised affirmations.
+ * Email the completed paid assessment: the full report as a PDF attachment
+ * plus a large-type HTML summary (score, all ten domain scores, priorities,
+ * affirmations, matched clinicians/providers and products) in the body.
  *
  * CSRF protection applies (the assessment client obtains /api/csrf first), and
  * the per-session delivery key makes React retries / page refreshes idempotent.
@@ -3330,7 +3132,11 @@ app.post("/api/assessment/report-email", async (req, res) => {
       captureStore.saveSubmission({
         kind: "paid-120", email: payload.to, firstName: payload.firstName, userId: sessionUserId,
         stage: payload.stage, score: payload.overall, band: payload.band,
-        scores: { categories: payload.categoryScores, priorities: payload.priorities, mhtActive: req.body && req.body.mhtActive === true },
+        scores: {
+          categories: payload.categoryScores, priorities: payload.priorities, mhtActive: req.body && req.body.mhtActive === true,
+          // Recommendations shown in the report, so the PDF can be re-rendered later.
+          apiResult: payload.report ? payload.report.apiResult : null,
+        },
         responses: req.body && req.body.responses && typeof req.body.responses === "object" ? req.body.responses : null,
       }),
     ]);
@@ -3351,12 +3157,42 @@ app.post("/api/assessment/report-email", async (req, res) => {
       });
     }
 
-    const message = renderAssessmentResultEmail(payload);
+    // The full report (the same ~35-page document shown on screen) rides along
+    // as a PDF. Rendering needs the member's answers and a signed-in session —
+    // each render spins up a headless browser. If it fails the email still goes
+    // out with every section of the results in the body.
+    let pdfAttachment = null;
+    let pdfPages = 0;
+    const entitled = req.session && (Number.isInteger(req.session.userId) || req.session.promoUnlocked === true);
+    if (payload.report && entitled) {
+      try {
+        const { renderReportPdf } = require("./lib/report-pdf");
+        const out = await renderReportPdf({
+          state: payload.report,
+          siteOrigin: process.env.PUBLIC_SITE_URL || (isProduction ? "https://empresshealth.ai" : `http://localhost:${PORT}`),
+        });
+        const safeName = (payload.firstName || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
+        pdfAttachment = {
+          filename: safeName ? `Empress-Health-Intelligence-Report-${safeName}.pdf` : "Empress-Health-Intelligence-Report.pdf",
+          content: out.pdf,
+          contentType: "application/pdf",
+        };
+        pdfPages = out.pages;
+      } catch (pdfErr) {
+        console.error("[assessment-email] PDF render failed, sending without attachment:", pdfErr && pdfErr.message);
+      }
+    }
+
+    const message = renderAssessmentResultEmail(payload, {
+      pdfName: pdfAttachment ? pdfAttachment.filename : "",
+      pdfPages,
+    });
     const result = await sendEmail({
       to: payload.to,
       subject: message.subject,
       html: message.html,
       text: message.text,
+      attachments: pdfAttachment ? [pdfAttachment] : [],
     });
 
     if (deliveryKey && req.session) {
@@ -3367,13 +3203,15 @@ app.post("/api/assessment/report-email", async (req, res) => {
     }
 
     console.log(
-      `[assessment-email] sender=${delivery.sender || "unconfigured"} surface=${result.mode} recipient=${payload.to}`
+      `[assessment-email] sender=${delivery.sender || "unconfigured"} surface=${result.mode} recipient=${payload.to} pdf=${pdfAttachment ? `${pdfPages}p/${pdfAttachment.content.length}B` : "none"}`
     );
     return res.json({
       ok: true,
       delivered: result.mode === "smtp",
       mode: result.mode,
       messageId: result.messageId,
+      pdfAttached: Boolean(pdfAttachment),
+      pdfPages,
     });
   } catch (err) {
     const message = err && err.message ? err.message : "Could not send assessment results.";
@@ -4505,6 +4343,27 @@ app.post("/api/affirmations/subscribe", express.json(), async (req, res) => {
   } catch (err) {
     console.error("[/api/affirmations/subscribe] error:", err.message);
     return res.status(500).json({ error: "Failed to subscribe", detail: err.message });
+  }
+});
+
+// GET /api/cron/member-affirmations — the daily delivery run for member plans
+// (Essential: two a week, Premium: every day). Vercel Cron calls this once a
+// day (vercel.json) with `Authorization: Bearer $CRON_SECRET`; nothing else may.
+app.get("/api/cron/member-affirmations", async (req, res) => {
+  const secret = process.env.CRON_SECRET || "";
+  const expected = Buffer.from(`Bearer ${secret}`);
+  const given = Buffer.from(req.get("authorization") || "");
+  const authorised = secret.length >= 16 && given.length === expected.length &&
+    require("crypto").timingSafeEqual(given, expected);
+  if (!authorised) return res.status(401).json({ error: "Unauthorized" });
+  try {
+    // Leave headroom under the function's 60s limit; anything left stays due.
+    const result = await dailyAffirmations.runMemberCycle({ budgetMs: 40000, concurrency: 3 });
+    console.log("[cron member-affirmations]", JSON.stringify(result));
+    return res.json({ ok: true, ...result });
+  } catch (err) {
+    console.error("[cron member-affirmations] failed:", err.message);
+    return res.status(500).json({ ok: false, error: "Cron run failed" });
   }
 });
 

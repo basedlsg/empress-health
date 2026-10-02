@@ -277,6 +277,25 @@
       background: var(--accent);
     }
 
+    .contact-status {
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: 0.5rem;
+    }
+    .contact-status:not(:empty) { margin-top: 1rem; }
+    .contact-status.is-success {
+      padding: 0.85rem 1rem;
+      background: #eef7ef;
+      border: 1px solid #b9dcbd;
+      color: #1f4d28;
+    }
+    .contact-status.is-error {
+      padding: 0.85rem 1rem;
+      background: #fdeeee;
+      border: 1px solid #f0b8b8;
+      color: #8a1f1f;
+    }
+
     footer {
       margin-top: 4rem;
       padding: 2rem 1rem;
@@ -502,13 +521,14 @@
     <label for="email">Email Address</label>
     <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" placeholder="you@example.com">
 
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="+1 (555) 555-5555" pattern="^\+?[0-9\s\-\(\)\.]{7,}$" title="Please enter a valid phone number (digits, spaces, dashes, parentheses, optional + prefix)">
+    <label for="phone">Phone Number (Optional)</label>
+    <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 555-5555" pattern="^\+?[0-9\s\-\(\)\.]{7,}$" title="Please enter a valid phone number (digits, spaces, dashes, parentheses, optional + prefix)">
 
-    <label for="message">Message (Optional)</label>
+    <label for="message">Message</label>
     <textarea id="message" name="message" rows="4" required autocomplete="off" placeholder="Tell us how we can help you..."></textarea>
 
-    <button type="submit">Send Message</button>
+    <button type="submit" id="contact-submit">Send Message</button>
+    <div id="contact-status" class="contact-status" role="status" aria-live="polite"></div>
   </form>
 
   <footer>
@@ -516,53 +536,62 @@
   </footer>
 
   <script>
-    // CSRF helper (mirrors login.html pattern)
-    function getCookie(name) {
-      const match = document.cookie.match(new RegExp('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)'));
-      return match ? decodeURIComponent(match[2]) : '';
+    // /api/contact is same-origin and CSRF-exempt, so a plain fetch works with no token.
+    function showContactStatus(kind, text) {
+      const box = document.getElementById('contact-status');
+      if (!box) return;
+      box.className = 'contact-status' + (kind ? ' is-' + kind : '');
+      box.textContent = text || '';
     }
-    function fetchWithCsrf(url, opts) {
-      opts = opts || {};
-      opts.headers = opts.headers || {};
-      const token = window.__csrfToken || getCookie('csrf_token') || '';
-      if (token) opts.headers['X-CSRF-Token'] = token;
-      opts.credentials = opts.credentials || 'include';
-      return fetch(url, opts);
+
+    function contactErrorMessage(status, data) {
+      if (data && typeof data.message === 'string' && data.message) return data.message;
+      if (data && typeof data.error === 'string' && data.error) return data.error;
+      if (status === 429) return 'Too many messages in a short time. Please wait about 10 minutes and try again.';
+      if (status === 503) return "We can't send messages right now. Please try again in a few minutes.";
+      return 'Something went wrong (error ' + status + '). Please try again.';
     }
 
     async function handleSubmit(event) {
       event.preventDefault();
+      const form = event.target;
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const message = document.getElementById('message').value.trim();
 
+      if (!message) {
+        showContactStatus('error', 'Please tell us how we can help in the message box.');
+        document.getElementById('message').focus();
+        return;
+      }
+
       // Show loading state
-      const submitButton = event.target.querySelector('button[type="submit"]');
+      const submitButton = document.getElementById('contact-submit');
       const originalText = submitButton.textContent;
       submitButton.textContent = 'Sending...';
       submitButton.disabled = true;
+      showContactStatus('', '');
 
       try {
-        // Send via server-side proxy (prevents direct Zapier webhook exposure)
-        const response = await fetchWithCsrf('/api/contact', {
+        const response = await fetch('/api/contact', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
           body: JSON.stringify({ name, email, phone, message })
         });
+        let data = null;
+        try { data = await response.json(); } catch (_) { data = null; }
 
-        if (response.ok) {
-          alert(`Thank you, ${name}! We've received your message and will get back to you soon.`);
-          event.target.reset();
+        if (response.ok && data && (data.ok === true || data.success === true)) {
+          form.reset();
+          showContactStatus('success', "Thank you, " + name + "! We've received your message and will get back to you soon.");
         } else {
-          const data = await response.json().catch(() => ({}));
-          throw new Error(data.error || 'Failed to send message');
+          showContactStatus('error', contactErrorMessage(response.status, data));
         }
       } catch (error) {
         console.error('Error sending message:', error);
-        alert('Sorry, there was an error sending your message. Please try again or contact us directly.');
+        showContactStatus('error', "We couldn't reach the server. Please check your connection and try again, or email hello@empresshealth.ai.");
       } finally {
         // Reset button state
         submitButton.textContent = originalText;
@@ -686,5 +715,6 @@
     })();
   </script>
 
+  <script src="/site-email-capture.js" defer></script>
 </body>
 </html>

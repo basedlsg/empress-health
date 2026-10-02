@@ -63,3 +63,6 @@ Thumbs.db
 # IDE settings
 .cursor/
 .vscode/
+
+# Dev/CI email outbox (attachment copies written by lib/email-sender.js log mode)
+email_outbox_attachments/

@@ -206,6 +206,42 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 }
 @media (max-width: 768px) { .main-wrap { padding: 0 20px 48px; } }
 
+/* Membership note + email capture */
+.member-note {
+  margin: 32px 0 0;
+  padding: 28px 32px;
+  background: var(--white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  border-top: 3px solid var(--gold);
+  text-align: center;
+}
+.member-note h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--plum);
+  margin: 0 0 10px;
+}
+.member-note p {
+  margin: 0 auto 16px;
+  max-width: 600px;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.member-note p a {
+  color: var(--plum);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+}
+.member-note p a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.member-note form.eh-capture { text-align: center; }
+@media (max-width: 768px) { .member-note { padding: 24px 20px; } }
+
 /* Toolbar (PRD 5.5) */
 .toolbar {
   display: flex;
@@ -645,6 +681,18 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   </section>
 
   <main id="main-content" class="main-wrap">
+    <section class="member-note" aria-labelledby="member-note-title">
+      <h2 id="member-note-title">Want affirmations delivered to you?</h2>
+      <p>
+        Essential members ($9/mo) receive <strong>two personalised affirmations a week</strong>,
+        and Premium members ($19/mo) receive <strong>one every day</strong>.
+        <a href="/account">Join as a member</a>, or leave your email and we&rsquo;ll keep you posted on new affirmations.
+      </p>
+      <div data-email-capture data-source="daily-affirmations-interest" data-variant="inline"
+           data-cta="Notify me" data-label="Email address for daily affirmation updates"
+           data-success="Thanks &mdash; you&rsquo;re on the list. We&rsquo;ll keep you posted on new affirmations."><a href="/account">Join as a member</a></div>
+    </section>
+
     <div class="toolbar" role="group" aria-label="Affirmation actions">
       <button class="tool" id="btn-daily"><span class="dot" aria-hidden="true"></span> Daily pick</button>
       <button class="tool" id="btn-shuffle">Shuffle</button>
@@ -940,5 +988,6 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
       randomBtn?.addEventListener('click', ()=> openReader(Math.floor(Math.random()*cards.length)));
     })();
   </script>
+  <script src="/site-email-capture.js" defer></script>
 </body>
 </html>

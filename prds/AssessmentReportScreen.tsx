@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useAssessment } from "./AssessmentProvider"
 import { AssessmentSiteNav } from "./AssessmentSiteNav"
+import { readPrintState } from "./printMode"
 import {
   calculateCategoryScores,
   calculateOverallScore,
@@ -461,6 +462,9 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
     message: "",
   })
   const emailAttempted = useRef(false)
+  // True while the server is rendering this report headlessly for the PDF
+  // attachment — the render must never trigger another email.
+  const isPrintRender = useMemo(() => readPrintState() !== null, [])
 
   const findCategory = (id: number): AssessmentCategory | undefined =>
     categories.find((c) => c.id === id)
@@ -479,7 +483,10 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
 
   const sendReportEmail = useCallback(async () => {
     if (isFree || !user?.email) return
-    setEmailDelivery({ status: "sending", message: `Emailing a copy to ${user.email}…` })
+    setEmailDelivery({
+      status: "sending",
+      message: `Preparing your full PDF report and emailing it to ${user.email} — this can take up to a minute…`,
+    })
 
     try {
       const csrfResponse = await fetch("/api/csrf", {
@@ -508,9 +515,34 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
           categoryScores,
           priorities,
           affirmations: affirmationItems.map((item) => item.text),
-          // Saved server-side with the result (not emailed).
+          // Saved server-side with the result and used to render the full
+          // PDF report that is attached to the email.
           responses,
           mhtActive,
+          report: {
+            user: {
+              firstName: user.firstName,
+              age: user.age,
+              usState: user.usState,
+              zip: user.zip,
+            },
+            stage,
+            mhtActive,
+            responses,
+            completedAt,
+            apiResult: {
+              affirmations: affirmationItems,
+              recommendations: apiResult.recommendations,
+              products: apiResult.products,
+              productsResponse: apiResult.productsResponse,
+              clinician: apiResult.clinician,
+              poi_flag: apiResult.poi_flag,
+              groundedProducts: apiResult.groundedProducts,
+              providers: apiResult.providers,
+              providersState: apiResult.providersState,
+              source: apiResult.source,
+            },
+          },
         }),
       })
       const data = await response.json().catch(() => ({}))
@@ -526,7 +558,9 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
       } else {
         setEmailDelivery({
           status: "sent",
-          message: `A copy of your results was emailed to ${user.email}.`,
+          message: data?.pdfAttached
+            ? `Your full report (PDF) was emailed to ${user.email}.`
+            : `A copy of your results was emailed to ${user.email}. Use Print / Save as PDF below to keep the full report.`,
         })
       }
     } catch (error) {
@@ -537,6 +571,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
     }
   }, [
     affirmationItems,
+    apiResult,
     categoryScores,
     completedAt,
     isFree,
@@ -554,13 +589,13 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
   // ref prevents React StrictMode's development-only effect replay from
   // producing duplicate messages; the server also deduplicates by session.
   useEffect(() => {
-    if (isFree || !user?.email || emailAttempted.current) return
+    if (isFree || isPrintRender || !user?.email || emailAttempted.current) return
     emailAttempted.current = true
     void sendReportEmail()
-  }, [isFree, sendReportEmail, user?.email])
+  }, [isFree, isPrintRender, sendReportEmail, user?.email])
 
   return (
-    <div style={s.page}>
+    <div style={s.page} data-empress-report="ready">
       <style>{printCSS}</style>
 
       {/* ─── COVER (page 1) ───
@@ -888,7 +923,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
         apiResult.recommendations.length === 0 && (
           <section style={s.section}>
             <p style={s.errorNote}>
-              Your personalised affirmations and clinician matches will arrive in your inbox shortly.
+              We couldn&rsquo;t load your personalised affirmations and clinician matches just now. Refresh this page in a minute to try again, or email hello@empresshealth.ai and we&rsquo;ll send them to you.
             </p>
           </section>
         )}
@@ -2541,6 +2576,7 @@ function GroundingDebugBadge({ apiResult }: { apiResult: AssessmentApiResult }) 
 
   const isDebug =
     typeof window !== "undefined" &&
+    readPrintState() === null &&
     (window.location.hostname === "localhost" ||
       window.location.hostname === "127.0.0.1" ||
       window.location.search.includes("debug=1"))
