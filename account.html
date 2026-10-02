@@ -554,6 +554,12 @@
         var data = await postJson("/api/subscription/checkout", { tier: tier });
         if (data.url) { location.assign(data.url); return; }
         await load();
+        if (!data.pending && state.tier !== tier) {
+          for (var attempt = 0; attempt < 10 && state.tier !== tier; attempt++) {
+            await new Promise(function (resolve) { setTimeout(resolve, 1500); });
+            await load();
+          }
+        }
         if (state.tier === tier) showNotice("ok", "Your plan is now " + (tier.charAt(0).toUpperCase() + tier.slice(1)) + ".");
         else showNotice("info", data.pending
           ? "Your plan change needs payment confirmation. Your current plan remains active until then."
@@ -597,7 +603,11 @@
       history.replaceState(null, "", location.pathname);
       if (result === "cancelled") { showNotice("info", "Checkout cancelled — you haven't been charged."); return; }
       if (result !== "success") return;
-      showNotice("info", "Payment received. Activating your membership…");
+      if (!state || !state.authenticated) {
+        showNotice("info", "Checkout completed. Sign in to view your membership.");
+        return;
+      }
+      showNotice("info", "Checkout completed. Activating your membership…");
       for (var i = 0; i < 10; i++) {
         if (state && state.tier !== "free" &&
             (!state.naturalsConfigured || (state.naturalsDiscount && state.naturalsDiscount.code))) break;
@@ -606,7 +616,7 @@
       }
       if (state.tier !== "free" && continueToAssessment()) return;
       if (state.tier !== "free") showNotice("ok", "Welcome to " + $("acct-plan").textContent + ". Your membership is active.");
-      else showNotice("info", "Payment received — your membership will appear here within a few minutes.");
+      else showNotice("info", "Checkout completed — your membership will appear here within a few minutes.");
     }
 
     if (new URLSearchParams(location.search).get("mode") === "signup") selectTab("signup");

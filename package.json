@@ -13,6 +13,7 @@
     "test:his": "tsx scripts/test-his-engine.ts",
     "test:assessment-flow": "node scripts/test-assessment-flow.mjs",
     "start": "node server.js",
+    "stripe:listen": "node scripts/stripe-listen-local.cjs",
     "test": "MOCK_LLM=1 node scripts/test-retrieval.mjs && MOCK_LLM=1 node scripts/test-qa.mjs && MOCK_LLM=1 node scripts/test-recommendations.mjs && MOCK_LLM=1 node scripts/test-affirmations.mjs && MOCK_LLM=1 node scripts/test-free-quiz-products.mjs && node scripts/test-assessment-email.mjs && npm run test:daily && npm run test:his",
     "test:site": "tsx site-bots/supervisor/supervisor.ts",
     "test:site:headed": "tsx site-bots/supervisor/supervisor.ts --headed",

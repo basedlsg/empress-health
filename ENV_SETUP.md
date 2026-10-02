@@ -42,6 +42,37 @@ SHOP_DOMAIN=your-shop.myshopify.com
 STOREFRONT_TOKEN=your_storefront_access_token
 ```
 
+## Local Stripe membership checkout
+
+The account page offers Essential ($9/month) and Premium ($19/month). The server
+creates Stripe Checkout Sessions and only activates a membership after a
+signature-verified webhook confirms the subscription. Store the test key and
+webhook secret in the ignored `.env` file, never in browser code:
+
+```env
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PORTAL_CONFIGURATION_ID=bpc_...
+PUBLIC_SITE_URL=http://localhost:3100
+DATABASE_URL=postgresql://localhost:5432/empress_health_local
+```
+
+The local Postgres database must exist before starting the server. On a Mac
+with Postgres running, `createdb empress_health_local` creates a separate
+development database. Start the site with `npm start`, then keep a second
+terminal open for the Stripe CLI listener:
+
+```bash
+npm run stripe:listen
+```
+
+Use the listener's `whsec_...` value for `STRIPE_WEBHOOK_SECRET` and restart
+the site. The CLI must keep running while testing Checkout locally. Set up a
+test billing portal configuration in the Stripe Dashboard (card updates,
+invoice history, and cancellation) and put its `bpc_...` ID in `.env`.
+Production requires its own Stripe credentials and a publicly accessible
+HTTPS webhook endpoint with its own signing secret.
+
 ## Affirmations fallback chain
 
 `GET /api/recommendations/affirmations/generate` follows this order:
@@ -146,4 +177,3 @@ The scheduler starts automatically at server boot — no external cron or queue 
 - Never commit `.env` files to version control
 - The `.env` file should be in the same directory as `server.js`
 - Restart the server after adding/modifying environment variables
-
