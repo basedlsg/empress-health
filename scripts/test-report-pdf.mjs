@@ -33,11 +33,23 @@ try {
   const dir = mkdtempSync(path.join(tmpdir(), 'report-pdf-'));
   const file = path.join(dir, 'large.pdf');
   writeFileSync(file, large.pdf);
-  const text = execFileSync('pdftotext', ['-layout', file, '-'], { encoding: 'utf8' });
-  for (const needle of ['Thank You, Maya', 'Menopause-Certified NAMS Practitioner', 'Magnesium Glycinate 400mg', 'Amy M. Stoddard', 'Your sleep domain score']) {
-    assert.ok(text.includes(needle), `PDF text contains "${needle}"`);
+  // Reading order (not -layout): two-column cards would otherwise interleave lines.
+  const flat = (t) => t.replace(/\s+/g, ' ');
+  const text = flat(execFileSync('pdftotext', [file, '-'], { encoding: 'utf8' }));
+  const sample = buildSampleState();
+  // Affirmation cards sit in two columns, so reading order interleaves them — match each caption's opening words.
+  const captionStarts = sample.apiResult.affirmations.map((a) => a.caption.split(' ').slice(0, 3).join(' '));
+  for (const needle of ['Thank You, Maya', 'Menopause-Certified NAMS Practitioner', 'Magnesium Glycinate 400mg', 'Amy M. Stoddard', 'Your sleep domain score',
+    ...captionStarts, 'YOU WILL GET A LUXURY GIFT WORTH $30', 'Premium plan receives a luxury gift']) {
+    assert.ok(text.includes(flat(needle)), `PDF text contains "${needle}"`);
   }
   assert.ok(!/Something went wrong displaying your report/.test(text), 'report did not hit the error boundary');
+  assert.ok(!/How does this report resonate|Tell us in your own words/.test(text), 'interactive feedback boxes are left out of the PDF');
+  const free = buildSampleState(); free.memberTier = 'essential';
+  const noGift = await renderReportPdf({ state: free, siteOrigin, largeType: false });
+  const noGiftFile = path.join(dir, 'essential.pdf'); writeFileSync(noGiftFile, noGift.pdf);
+  const essentialText = execFileSync('pdftotext', [noGiftFile, '-'], { encoding: 'utf8' });
+  assert.ok(!/LUXURY GIFT/.test(essentialText), 'Essential members do not get the Premium gift page');
 } catch (err) {
   if (err.code === 'ENOENT') console.log('  (pdftotext not installed — skipped text checks)');
   else throw err;

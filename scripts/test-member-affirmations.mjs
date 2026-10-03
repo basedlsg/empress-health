@@ -68,7 +68,7 @@ try {
   const now = Date.now();
   ok(['Mon', 'Thu'].includes(weekday(e2.next_send_at)), `essential next send is Mon/Thu (${weekday(e2.next_send_at)})`);
   ok(new Date(e2.next_send_at) > now, 'essential next send is in the future');
-  ok(new Date(p2.next_send_at) > now && new Date(p2.next_send_at) - now <= 24 * 3600e3, 'premium next send is within 24h (tomorrow 09:00 UTC)');
+  ok(new Date(p2.next_send_at) - now >= 12 * 3600e3 && new Date(p2.next_send_at) - now <= 36 * 3600e3, 'premium next send is the next 09:00 UTC slot, not later the same day');
 
   console.log('\nSecond cycle straight away — nobody is due');
   const second = await da.runMemberCycle({ concurrency: 1 });

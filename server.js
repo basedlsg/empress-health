@@ -3166,6 +3166,18 @@ app.post("/api/assessment/report-email", async (req, res) => {
     const entitled = req.session && (Number.isInteger(req.session.userId) || req.session.promoUnlocked === true);
     if (payload.report && entitled) {
       try {
+        // The member's real plan (Premium sees the welcome-gift page) comes from
+        // the database — never from the request body.
+        payload.report.memberTier = null;
+        if (pool && Number.isInteger(req.session.userId)) {
+          const t = await pool.query(
+            "SELECT subscription_tier, subscription_status FROM users WHERE id = $1 LIMIT 1", [req.session.userId]
+          );
+          const row = t.rows[0];
+          if (row && ["active", "trialing", "past_due"].includes(row.subscription_status)) {
+            payload.report.memberTier = row.subscription_tier;
+          }
+        }
         const { renderReportPdf } = require("./lib/report-pdf");
         const out = await renderReportPdf({
           state: payload.report,
@@ -3347,29 +3359,54 @@ app.post("/api/assessment/feedback", async (req, res) => {
  * the Empress team can fulfil the gift. Persists via lib/notify.js.
  */
 app.post("/api/gift/claim", async (req, res) => {
+  // The welcome gift is a Premium benefit, claimed once per member.
+  const userId = req.session && Number.isInteger(req.session.userId) ? req.session.userId : null;
+  if (!userId) return res.status(401).json({ error: "Please sign in to claim your gift." });
+  if (!pool) return res.status(503).json({ error: "Gift claims are temporarily unavailable." });
   try {
-    const { notify } = require("./lib/notify");
-    const { firstName, email, shippingAddress, tier } = req.body || {};
+    const found = await pool.query(
+      "SELECT email, first_name, subscription_tier, subscription_status FROM users WHERE id = $1 LIMIT 1",
+      [userId]
+    );
+    const member = found.rows[0];
+    const entitled = member && member.subscription_tier === "premium" &&
+      ["active", "trialing", "past_due"].includes(member.subscription_status);
+    if (!entitled) return res.status(403).json({ error: "Your welcome gift comes with the Premium plan." });
 
-    const e = typeof email === "string" ? email.trim() : "";
-    if (!e) return res.status(400).json({ error: "email is required" });
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
-      return res.status(400).json({ error: "email does not look valid" });
-    }
-    if (e.length > 200) return res.status(400).json({ error: "email too long" });
-
-    await notify("gift", {
-      firstName: typeof firstName === "string" ? firstName.slice(0, 80) : null,
-      email: e,
-      shippingAddress:
-        typeof shippingAddress === "string" ? shippingAddress.slice(0, 600) : null,
-      tier: tier === "free" || tier === "paid" ? tier : null,
+    const shippingAddress = typeof req.body?.shippingAddress === "string"
+      ? req.body.shippingAddress.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, " ").trim().slice(0, 600) : "";
+    const saved = await captureStore.saveGiftClaim({
+      userId, email: member.email, firstName: member.first_name, shippingAddress, tier: "premium",
     });
+    if (!saved) return res.status(503).json({ error: "We could not save your gift claim. Please try again." });
+    if (!saved.created) return res.json({ ok: true, already: true });
 
-    res.json({ ok: true });
+    // Tell the team. A delivery problem never loses the claim — it is saved above.
+    try {
+      const { sendEmail, getEmailDeliveryConfig } = require("./lib/email-sender");
+      const delivery = getEmailDeliveryConfig();
+      const inbox = process.env.CONTACT_INBOX || delivery.sender;
+      if (inbox) {
+        const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        await sendEmail({
+          to: inbox,
+          subject: `Premium welcome gift claim: ${String(member.first_name || member.email).slice(0, 60)}`,
+          headers: { "Reply-To": member.email },
+          html: `<div style="font-family:Arial,sans-serif;max-width:600px;color:#1f1b2d;font-size:16px;">
+            <h2 style="color:#3f1449;margin:0 0 12px;">Premium welcome gift claimed</h2>
+            <p><strong>Member:</strong> ${esc(member.first_name || "")} &lt;${esc(member.email)}&gt;</p>
+            <p><strong>Shipping address:</strong><br><span style="white-space:pre-wrap;">${esc(shippingAddress || "(not given — confirm by email)")}</span></p>
+          </div>`,
+          text: `Premium welcome gift claimed\nMember: ${member.first_name || ""} <${member.email}>\nShipping address: ${shippingAddress || "(not given — confirm by email)"}`,
+        });
+      }
+    } catch (mailErr) {
+      console.error("[gift] team email failed (claim is saved):", mailErr.message);
+    }
+    return res.json({ ok: true });
   } catch (err) {
-    console.error("[gift] persist failed:", err);
-    res.status(500).json({ error: "Could not save your gift claim.", detail: err.message });
+    console.error("[gift] claim failed:", err.message);
+    return res.status(500).json({ error: "Could not save your gift claim." });
   }
 });
 

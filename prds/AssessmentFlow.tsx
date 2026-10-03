@@ -33,6 +33,10 @@ export type AffirmationItem = {
   text: string
   focus_domain?: string
   evidence_refs?: string[]
+  /** From the curated affirmations library: short statement + supporting line. */
+  caption?: string
+  description?: string
+  theme?: string
 }
 
 /** Grounded clinician match returned by /api/recommendations/combined. */

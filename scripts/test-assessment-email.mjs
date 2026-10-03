@@ -3,6 +3,7 @@ import emailModule from "../lib/assessment-report-email.js"
 import sampleModule from "../lib/report-sample-state.js"
 
 const { buildSampleState } = sampleModule
+const escapeForHtml = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 
 const { normaliseAssessmentEmailPayload, normaliseReportState, renderAssessmentResultEmail } = emailModule
 
@@ -63,7 +64,8 @@ const full = normaliseAssessmentEmailPayload({
     },
   },
 })
-assert.equal(full.affirmations.length, 3)
+assert.equal(full.affirmations.length, 6)
+assert.ok(full.affirmationItems.every((a) => a.caption && a.description && a.theme), 'library affirmations keep caption, description and theme')
 assert.equal(full.providers.length, 3)
 assert.equal(full.products.length, 2)
 assert.equal(full.clinician.label, "Menopause-Certified NAMS Practitioner")
@@ -74,6 +76,7 @@ const withPdf = renderAssessmentResultEmail(full, { pdfName: "Empress-Report.pdf
 assert.match(withPdf.html, /attached to this\s+email as a PDF/)
 assert.match(withPdf.html, /49 pages/)
 assert.match(withPdf.html, /Magnesium Glycinate/)
+assert.ok(withPdf.html.includes(escapeForHtml(full.affirmationItems[0].caption)) && withPdf.html.includes(escapeForHtml(full.affirmationItems[0].description)), 'email shows each affirmation caption and its supporting line')
 assert.match(withPdf.html, /Amy M\. Stoddard/)
 assert.match(withPdf.html, /Menopause-Certified NAMS Practitioner/)
 assert.match(withPdf.html, /Premature Ovarian Insufficiency/)

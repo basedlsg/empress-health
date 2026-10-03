@@ -114,9 +114,9 @@ try {
 
   assert(result.sent === true, 'sent === true');
   assert(
-    Array.isArray(result.affirmation?.evidence_refs) && result.affirmation.evidence_refs.length > 0,
-    'affirmation has evidence_refs (grounded)',
-    JSON.stringify(result.affirmation?.evidence_refs)
+    Boolean(result.affirmation?.caption) && Boolean(result.affirmation?.description) && result.affirmation?.source === 'affirmations-library',
+    'affirmation comes from the curated library (caption + description)',
+    JSON.stringify(result.affirmation)
   );
   assert(typeof result.messageId === 'string' && result.messageId.length > 0,
     'messageId returned');

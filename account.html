@@ -90,7 +90,7 @@
     .field { margin-bottom: 16px; }
     .field label { display: block; font: 600 0.8125rem/1.3 var(--font-display); color: var(--color-ink); margin-bottom: 6px; }
     .field .opt { color: var(--color-muted); font-weight: 400; font-family: var(--font-body); }
-    .field input { width: 100%; font: 400 1rem/1.4 var(--font-body); color: var(--color-ink); background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 11px 12px; min-height: 46px; }
+    .field input, .field textarea { width: 100%; font: 400 1rem/1.4 var(--font-body); color: var(--color-ink); background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 11px 12px; min-height: 46px; }
     .field input:focus { outline: 2px solid var(--color-gold); outline-offset: 0; border-color: transparent; }
     .field small { display: block; color: var(--color-muted); font-size: 0.875rem; margin-top: 6px; }
     .row2 { display: grid; gap: 0 12px; grid-template-columns: 1fr 1fr; }
@@ -267,6 +267,21 @@
           <a class="btn gold block" id="shop-btn" href="/api/naturals/go">Shop Empress Naturals</a>
           <p class="fine" id="naturals-fine">Check out with <strong id="naturals-email"></strong> — the code is tied to that email.</p>
         </div>
+      </div>
+
+      <div id="gift" class="naturals" hidden>
+        <div>
+          <p class="eyebrow">A little thank you</p>
+          <h2>Your Premium welcome gift</h2>
+          <p id="gift-copy">Every Premium member receives a luxury gift from Empress Naturals. Tell us where to send it and we will confirm the details by email.</p>
+        </div>
+        <form id="gift-form" style="display:grid;gap:14px;" novalidate>
+          <div class="field">
+            <label for="gift-address">Shipping address <span class="opt">(optional — we'll confirm by email)</span></label>
+            <textarea id="gift-address" rows="3" maxlength="600" autocomplete="street-address"></textarea>
+          </div>
+          <button type="submit" class="btn gold block" id="gift-btn">Claim my gift</button>
+        </form>
       </div>
 
       <section id="results-wrap" hidden style="margin-bottom:var(--space-md);">
@@ -507,6 +522,30 @@
       }
     }
 
+    function renderGift() {
+      var box = $("gift");
+      var premium = state.tier === "premium";
+      box.hidden = !premium;
+      if (!premium) return;
+      var done = !!state.giftClaimed;
+      $("gift-form").hidden = done;
+      $("gift-copy").textContent = done
+        ? "Your gift is claimed — thank you. We will email you at " + state.user.email + " to confirm the details."
+        : "Every Premium member receives a luxury gift from Empress Naturals. Tell us where to send it and we will confirm the details by email.";
+    }
+    $("gift-form").addEventListener("submit", async function (ev) {
+      ev.preventDefault();
+      var btn = $("gift-btn");
+      setBusy(btn, true, "Claiming…");
+      try {
+        await postJson("/api/gift/claim", { shippingAddress: $("gift-address").value.trim() });
+        state.giftClaimed = true;
+        renderGift();
+        showNotice("ok", "Your welcome gift is claimed.");
+      } catch (e) { showNotice("err", e.message); }
+      finally { setBusy(btn, false); }
+    });
+
     var RETAKE = { "free-12q-screener": "/free-assessment", "free-sleep-score": "/sleep-assessment", "paid-120": "/assessment/?tier=paid" };
     function renderResults() {
       var list = state.results || [];
@@ -555,6 +594,7 @@
       renderResults();
       renderPlans();
       renderNaturals();
+      renderGift();
     }
 
     async function load() {

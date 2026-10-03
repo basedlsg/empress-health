@@ -895,59 +895,49 @@ export const ANTI_INFLAMMATION_ROWS_GUT: DoDontRow[] = [
 ]
 
 /* ───────────────────────── <LuxuryGiftHero> ─────────────────────────
- * The "Your free $75 luxury gift, on us." card from page 18 of the template.
- * Stand-alone component because the form/submit logic lives elsewhere.
+ * The "You will get a luxury gift" page from the template (page 21): the gift
+ * photo, then a card with the headline and — on screen — the claim form, passed
+ * in as children. Shown to Premium members only (see AssessmentReportScreen).
  */
 
 export function LuxuryGiftHero({
-  firstName,
-  slug = "luxury-gift",
+  imageSrc = "/report-heroes/egift.png",
+  children,
 }: {
-  firstName?: string | null
-  slug?: string
+  imageSrc?: string
+  children?: React.ReactNode
 }) {
-  const [extIndex, setExtIndex] = React.useState(0)
-  const imgFailed = extIndex >= REPORT_HERO_EXTENSIONS.length
+  const [imgFailed, setImgFailed] = React.useState(false)
   return (
     <section
       className="empress-report-section empress-section-hero"
       style={{ ...reportStyles.section, paddingTop: 24 }}
     >
-      <div
-        style={{
-          background: "#F3E5D3",
-          borderRadius: 18,
-          padding: 24,
-          display: "grid",
-          gridTemplateColumns: imgFailed ? "1fr" : "1fr 1fr",
-          gap: 24,
-          alignItems: "center",
-        }}
-      >
-        <div>
-          <span style={reportStyles.calloutOchreEyebrow}>A little thank you</span>
-          <h2 style={{ ...reportStyles.sectionHeading, marginBottom: 12 }}>
-            YOU WILL GET A LUXURY WELCOME GIFT
-          </h2>
-          <p style={{ margin: 0, fontSize: "0.92rem", color: "#5a4a14", lineHeight: 1.6 }}>
-            Free with your $129 personalised report — or any $12/month
-            installment plan. Hand-picked from the Empress wellness collection.
-            Drop your email below and we'll coordinate shipping personally.
-          </p>
-        </div>
-        {!imgFailed && (
-          <img
-            src={reportHeroSrc(slug, REPORT_HERO_EXTENSIONS[extIndex])}
-            alt="Empress wellness gift"
-            onError={() => setExtIndex((i) => i + 1)}
-            style={{
-              width: "100%",
-              borderRadius: 14,
-              display: "block",
-              boxShadow: "0 6px 20px rgba(63,20,73,0.15)",
-            }}
-          />
-        )}
+      {!imgFailed && (
+        <img
+          src={imageSrc}
+          alt="Empress Naturals luxury gift"
+          onError={() => setImgFailed(true)}
+          style={{
+            width: "100%",
+            height: 300,
+            objectFit: "cover",
+            borderRadius: 18,
+            display: "block",
+            marginBottom: 20,
+            boxShadow: "0 6px 20px rgba(63,20,73,0.15)",
+          }}
+        />
+      )}
+      <div style={{ background: "#F3E5D3", borderRadius: 18, padding: 24, border: "1px solid rgba(216,167,56,0.45)" }}>
+        <span style={reportStyles.calloutOchreEyebrow}>A little thank you</span>
+        <h2 style={{ ...reportStyles.sectionHeading, marginBottom: 12 }}>
+          YOU WILL GET A LUXURY GIFT WORTH $30
+        </h2>
+        <p style={{ margin: "0 0 16px", fontSize: "1rem", color: "#3F144A", lineHeight: 1.6 }}>
+          Every member who joins our Premium plan receives a luxury gift from Empress Naturals.
+        </p>
+        {children}
       </div>
     </section>
   )

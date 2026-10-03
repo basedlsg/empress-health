@@ -13,6 +13,8 @@ export type PrintRenderState = {
   mhtActive: boolean
   responses: Record<number, number>
   completedAt?: string
+  /** Set by the server from the member's real plan — never from the browser. */
+  memberTier?: "free" | "essential" | "premium" | null
   apiResult: AssessmentApiResult
 }
 

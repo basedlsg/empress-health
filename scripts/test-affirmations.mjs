@@ -16,6 +16,11 @@
  */
 
 import { createRequire } from "module";
+
+// This suite covers the retrieval-grounded (LLM) generator. The default source
+// is now the curated library (see test-affirmations-library.mjs), so ask for the
+// grounded path explicitly.
+process.env.AFFIRMATIONS_SOURCE = "llm";
 const require = createRequire(import.meta.url);
 const { generateAffirmations } = require("../lib/affirmations.js");
 

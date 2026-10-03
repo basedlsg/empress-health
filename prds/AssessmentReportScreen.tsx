@@ -36,6 +36,7 @@ import type {
 import {
   InterludeHero,
   NumberedSectionHero,
+  LuxuryGiftHero,
   DoDontTable,
   SLEEP_HYGIENE_BODY,
   SLEEP_HYGIENE_ROWS,
@@ -465,6 +466,23 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
   // True while the server is rendering this report headlessly for the PDF
   // attachment — the render must never trigger another email.
   const isPrintRender = useMemo(() => readPrintState() !== null, [])
+  // The member's plan decides whether the Premium welcome-gift page is shown.
+  // In the emailed PDF the server supplies it; on screen we ask the account API.
+  const [memberTier, setMemberTier] = useState<string | null>(() => readPrintState()?.memberTier ?? null)
+  const [giftClaimed, setGiftClaimed] = useState(false)
+  useEffect(() => {
+    if (isFree || isPrintRender) return
+    let cancelled = false
+    fetch("/api/account", { credentials: "include", cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled || !data || !data.authenticated) return
+        setMemberTier(typeof data.tier === "string" ? data.tier : null)
+        setGiftClaimed(data.giftClaimed === true)
+      })
+      .catch(() => { /* the gift page simply stays hidden */ })
+    return () => { cancelled = true }
+  }, [isFree, isPrintRender])
 
   const findCategory = (id: number): AssessmentCategory | undefined =>
     categories.find((c) => c.id === id)
@@ -915,6 +933,20 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
           intro={apiResult.productsResponse}
           feedbackCtx={feedbackCtx}
         />
+      )}
+
+      {/* ─── PREMIUM WELCOME GIFT (template page 21) ─── */}
+      {!isFree && memberTier === "premium" && (
+        <LuxuryGiftHero>
+          {isPrintRender ? (
+            <p style={{ margin: 0, fontSize: "0.95rem", color: "#5a4a14", lineHeight: 1.6 }}>
+              Claim your gift any time: sign in at <strong>empresshealth.ai/account</strong> and open
+              &ldquo;Your Premium welcome gift&rdquo;.
+            </p>
+          ) : (
+            <GiftClaimForm email={user?.email ?? ""} alreadyClaimed={giftClaimed} onClaimed={() => setGiftClaimed(true)} />
+          )}
+        </LuxuryGiftHero>
       )}
 
       {/* Non-fatal API errors: only surface when BOTH affirmations and recs are empty. */}
@@ -1614,6 +1646,83 @@ const fallbackAffirmations: AffirmationItem[] = [
   { text: "Tomorrow's version of me is already being shaped by the care I give today." },
 ]
 
+/** POST JSON with the CSRF token the API issues for this session. */
+async function postJsonWithCsrf(url: string, body: unknown): Promise<{ ok: boolean; data: Record<string, unknown> }> {
+  const csrf = await fetch("/api/csrf", { credentials: "include", headers: { Accept: "application/json" } })
+  const token = csrf.ok ? (await csrf.json())?.csrfToken : null
+  if (!token) throw new Error("Could not start a secure request.")
+  const res = await fetch(url, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json", "X-CSRF-Token": token },
+    body: JSON.stringify(body),
+  })
+  const data = await res.json().catch(() => ({}))
+  return { ok: res.ok, data }
+}
+
+/** Claim form on the Premium welcome-gift page (screen only — a PDF cannot submit it). */
+function GiftClaimForm({
+  email,
+  alreadyClaimed,
+  onClaimed,
+}: {
+  email: string
+  alreadyClaimed: boolean
+  onClaimed: () => void
+}) {
+  const [address, setAddress] = useState("")
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState("")
+
+  if (alreadyClaimed) {
+    return (
+      <p style={{ margin: 0, fontWeight: 600, color: "#3F144A" }}>
+        Your gift is claimed — thank you. We&rsquo;ll email you{email ? ` at ${email}` : ""} to confirm the details.
+      </p>
+    )
+  }
+  return (
+    <form
+      className="empress-no-print"
+      onSubmit={async (e) => {
+        e.preventDefault()
+        setBusy(true)
+        setError("")
+        try {
+          const { ok, data } = await postJsonWithCsrf("/api/gift/claim", { shippingAddress: address.trim() })
+          if (!ok) throw new Error(typeof data.error === "string" ? data.error : "We could not save your claim.")
+          onClaimed()
+        } catch (err) {
+          setError(err instanceof Error ? err.message : "We could not save your claim.")
+        } finally {
+          setBusy(false)
+        }
+      }}
+      style={{ display: "grid", gap: 12 }}
+    >
+      {email && <div style={{ fontSize: "0.95rem", color: "#3F144A" }}>We&rsquo;ll confirm by email at <strong>{email}</strong></div>}
+      <textarea
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder="Shipping address (optional — we'll confirm by email)"
+        rows={3}
+        maxLength={600}
+        aria-label="Shipping address"
+        style={{ width: "100%", boxSizing: "border-box", padding: 12, borderRadius: 10, border: "1px solid #D4C6E0", font: "inherit" }}
+      />
+      {error && <div role="alert" style={{ color: "#a3262a", fontWeight: 600 }}>{error}</div>}
+      <button
+        type="submit"
+        disabled={busy}
+        style={{ font: "inherit", fontWeight: 700, background: "#D8A738", color: "#3F144A", border: 0, borderRadius: 10, padding: "12px 18px", cursor: "pointer" }}
+      >
+        {busy ? "Claiming…" : "Claim my gift"}
+      </button>
+    </form>
+  )
+}
+
 function AffirmationsSection({
   affirmations,
   limit,
@@ -1635,8 +1744,8 @@ function AffirmationsSection({
       <div style={s.affirmationGrid}>
         {list.map((item, i) => (
           <blockquote key={i} style={s.affirmation}>
-            {/* Bug E: show focus_domain eyebrow when present (grounded affirmations) */}
-            {item.focus_domain && (
+            {/* Theme eyebrow for library affirmations; domain slug for grounded ones */}
+            {(item.theme || item.focus_domain) && (
               <span style={{
                 display: "block",
                 fontSize: "10px",
@@ -1647,10 +1756,19 @@ function AffirmationsSection({
                 marginBottom: "8px",
                 fontStyle: "normal",
               }}>
-                {item.focus_domain}
+                {item.theme || item.focus_domain}
               </span>
             )}
-            {item.text}
+            {item.caption ? (
+              <>
+                <strong style={{ display: "block", fontSize: "1.08em", fontStyle: "normal", marginBottom: 6 }}>
+                  {item.caption}
+                </strong>
+                {item.description}
+              </>
+            ) : (
+              item.text
+            )}
           </blockquote>
         ))}
       </div>
@@ -2878,6 +2996,7 @@ const printCSS = `
 
   /* Hide on-screen controls + the site nav in the printed output */
   .empress-report-cta { display: none !important; }
+  html.empress-emailed-pdf .empress-no-print { display: none !important; }
   .empress-report-pending { display: none !important; }
   .empress-cover-nav { display: none !important; }
 
