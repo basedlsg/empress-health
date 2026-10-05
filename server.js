@@ -3117,6 +3117,24 @@ app.post("/api/assessment/report-email", async (req, res) => {
     const { sendEmail, getEmailDeliveryConfig } = require("./lib/email-sender");
     const payload = normaliseAssessmentEmailPayload(req.body);
     const delivery = getEmailDeliveryConfig();
+    if (!payload.report) {
+      return res.status(400).json({ error: "The full report is required to email assessment results.", code: "REPORT_REQUIRED" });
+    }
+
+    const sessionUserId = req.session && Number.isInteger(req.session.userId) ? req.session.userId : null;
+    let memberTier = null;
+    if (sessionUserId && pool) {
+      const membership = await pool.query(
+        "SELECT subscription_tier, subscription_status FROM users WHERE id = $1 LIMIT 1", [sessionUserId]
+      );
+      const member = membership.rows[0];
+      if (member && ["active", "trialing", "past_due"].includes(member.subscription_status)) {
+        memberTier = member.subscription_tier;
+      }
+    }
+    if (!["essential", "premium"].includes(memberTier) && !(req.session && req.session.promoUnlocked === true)) {
+      return res.status(403).json({ error: "An active membership is required for the full report.", code: "REPORT_ACCESS_REQUIRED" });
+    }
 
     const deliveryKey = String(req.body && req.body.deliveryKey || "").slice(0, 160);
     if (deliveryKey && req.session) {
@@ -3126,7 +3144,6 @@ app.post("/api/assessment/report-email", async (req, res) => {
       }
     }
 
-    const sessionUserId = req.session && Number.isInteger(req.session.userId) ? req.session.userId : null;
     const [emailSaved, submissionId] = await Promise.all([
       captureStore.captureEmail({ email: payload.to, firstName: payload.firstName, source: "paid-assessment-complete", userId: sessionUserId }),
       captureStore.saveSubmission({
@@ -3157,32 +3174,23 @@ app.post("/api/assessment/report-email", async (req, res) => {
       });
     }
 
-    // The full report (the same ~35-page document shown on screen) rides along
-    // as a PDF. Rendering needs the member's answers and a signed-in session —
-    // each render spins up a headless browser. If it fails the email still goes
-    // out with every section of the results in the body.
+    // Render the complete member report before sending. A summary-only email
+    // must never be presented as delivery of the paid PDF.
     let pdfAttachment = null;
     let pdfPages = 0;
-    const entitled = req.session && (Number.isInteger(req.session.userId) || req.session.promoUnlocked === true);
-    if (payload.report && entitled) {
+    if (payload.report) {
       try {
         // The member's real plan (Premium sees the welcome-gift page) comes from
         // the database — never from the request body.
-        payload.report.memberTier = null;
-        if (pool && Number.isInteger(req.session.userId)) {
-          const t = await pool.query(
-            "SELECT subscription_tier, subscription_status FROM users WHERE id = $1 LIMIT 1", [req.session.userId]
-          );
-          const row = t.rows[0];
-          if (row && ["active", "trialing", "past_due"].includes(row.subscription_status)) {
-            payload.report.memberTier = row.subscription_tier;
-          }
-        }
+        payload.report.memberTier = memberTier;
         const { renderReportPdf } = require("./lib/report-pdf");
         const out = await renderReportPdf({
           state: payload.report,
           siteOrigin: process.env.PUBLIC_SITE_URL || (isProduction ? "https://empresshealth.ai" : `http://localhost:${PORT}`),
         });
+        if (out.pages < 30 || out.pdf.subarray(0, 5).toString() !== "%PDF-") {
+          throw new Error(`Incomplete report PDF (${out.pages} pages)`);
+        }
         const safeName = (payload.firstName || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
         pdfAttachment = {
           filename: safeName ? `Empress-Health-Intelligence-Report-${safeName}.pdf` : "Empress-Health-Intelligence-Report.pdf",
@@ -3191,7 +3199,11 @@ app.post("/api/assessment/report-email", async (req, res) => {
         };
         pdfPages = out.pages;
       } catch (pdfErr) {
-        console.error("[assessment-email] PDF render failed, sending without attachment:", pdfErr && pdfErr.message);
+        console.error("[assessment-email] PDF render failed; email was not sent:", pdfErr && pdfErr.message);
+        return res.status(502).json({
+          error: "Your results were saved, but we could not prepare the full PDF. Please use Print / Save as PDF and try emailing it again.",
+          code: "REPORT_PDF_FAILED",
+        });
       }
     }
 
