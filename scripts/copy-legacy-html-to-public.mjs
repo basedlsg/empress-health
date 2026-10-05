@@ -56,8 +56,8 @@ console.log(`copy-legacy-html: ${copied} copied, ${skipped} skipped, ${entries.f
 
 // The public redesign lives in its own preview project in source control.
 // Overlay its pages and assets at the site root after staging legacy pages.
-// The preview calls its free quiz assessment.html; on this project /assessment
-// is the paid, gated flow, so publish the quiz at /free-assessment instead.
+// /assessment is the paid, gated flow on this project; the redesigned free
+// quiz is published from its own free-assessment.html source file.
 const REDESIGN_DIR = path.join(ROOT, "redesign-preview");
 const FREE_ASSESSMENT_LINK = /(?<![A-Za-z0-9_-])assessment\.html/g;
 for (const entry of await readdir(REDESIGN_DIR, { withFileTypes: true })) {
@@ -66,7 +66,10 @@ for (const entry of await readdir(REDESIGN_DIR, { withFileTypes: true })) {
     continue;
   }
   if (!entry.isFile() || !/\.(html|css|js)$/.test(entry.name)) continue;
-  const destination = entry.name === "assessment.html" ? "free-assessment.html" : entry.name;
+  // Roshni's repository now has a dedicated 12-question free assessment.
+  // Keep the older eight-question prototype and logo review page internal.
+  if (entry.name === "assessment.html" || entry.name === "logo-options.html") continue;
+  const destination = entry.name;
   const content = await readFile(path.join(REDESIGN_DIR, entry.name), "utf8");
   await writeFile(path.join(PUBLIC_DIR, destination), content.replace(FREE_ASSESSMENT_LINK, "free-assessment.html"));
 }

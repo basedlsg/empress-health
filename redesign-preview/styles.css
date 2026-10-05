@@ -41,7 +41,7 @@
   --container:1180px;
   --gutter:24px;
   --section:clamp(64px,8vw,112px);
-  --header-h:96px;
+  --header-h:104px;   /* fits the logo lockup: mark + gap + script tagline */
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -128,8 +128,9 @@ section{padding-block:var(--section)}
 .logo-mark{display:block;width:var(--logo-w);aspect-ratio:513/378;overflow:hidden}
 .logo-mark img{width:100%;height:auto}
 .logo-tag{
-  font-family:var(--script);color:var(--gold);line-height:1;white-space:nowrap;   /* same golden yellow as the Free assessment button */
-  font-size:calc(var(--logo-w) * .30);margin-top:calc(var(--logo-w) * .02);       /* larger than the mark's own line so the script stays legible */
+  font-family:var(--script);color:var(--gold-deep);line-height:1;white-space:nowrap;   /* deep gold: readable on cream */
+  font-size:calc(var(--logo-w) * .30);margin-top:calc(var(--logo-w) * .10);       /* larger than the mark's own line so the script stays legible;
+     the gap clears the tall B/Y flourishes of Great Vibes, which otherwise graze "health.ai" */
 }
 .logo.on-dark .logo-mark img{filter:brightness(0) invert(1)}
 .logo.on-dark .logo-tag{color:var(--gold-bright)}
@@ -143,7 +144,7 @@ section{padding-block:var(--section)}
 }
 .header.is-scrolled{box-shadow:0 8px 24px -18px rgba(63,20,74,.35)}
 .header-inner{display:flex;align-items:center;gap:24px;height:var(--header-h);transition:height .25s ease}
-.header.is-scrolled .header-inner{height:78px}
+.header.is-scrolled .header-inner{height:84px}
 .header .logo-mark{transition:width .25s ease}
 .header.is-scrolled .logo{--logo-w:72px}
 .brand{flex:none;display:flex;align-items:center;text-decoration:none}   /* the link underline would otherwise strike through the script tagline */
@@ -174,8 +175,6 @@ section{padding-block:var(--section)}
 .nav .mobile-only{display:none}
 
 .header-cta{display:flex;align-items:center;gap:14px;flex:none}
-.header-signin{font-size:.92rem;font-weight:600;color:var(--plum);text-decoration:none;white-space:nowrap}
-.header-signin:hover{text-decoration:underline}
 .nav-toggle{display:none;background:none;border:0;padding:8px;cursor:pointer;color:var(--plum);font-size:1.6rem;line-height:1}
 
 @media (max-width:900px){
@@ -183,7 +182,7 @@ section{padding-block:var(--section)}
        background:var(--cream);border-bottom:1px solid rgba(63,20,74,.1);padding:8px 24px 24px;
        max-height:calc(100vh - var(--header-h));overflow-y:auto;
        transform:translateY(-120%);visibility:hidden;transition:transform .3s ease,visibility .3s;box-shadow:var(--shadow)}
-  .header.is-scrolled .nav{top:78px}
+  .header.is-scrolled .nav{top:84px}
   .nav[data-open="true"]{transform:translateY(0);visibility:visible}
   .nav > a,.menu-btn{padding:15px 0;border-bottom:1px solid rgba(63,20,74,.07);font-size:1.02rem;width:100%;text-align:left}
   .nav > a[aria-current="page"]{border-bottom-color:rgba(63,20,74,.07);color:var(--plum-600)}
@@ -196,10 +195,9 @@ section{padding-block:var(--section)}
   .nav .mobile-only{display:block}
   .nav-toggle{display:block;order:3}
   .header-cta{margin-left:auto}
-  .header-signin{display:none}
 }
 @media (max-width:520px){
-  :root{--header-h:84px}
+  :root{--header-h:96px}
   .header-cta .btn{display:none}
   .nav-toggle{margin-left:auto}
   .header .logo{--logo-w:80px}
@@ -232,12 +230,29 @@ section{padding-block:var(--section)}
     radial-gradient(120% 90% at 85% 10%,#F8ECDC 0%,rgba(248,236,220,0) 60%),
     linear-gradient(180deg,var(--cream),var(--sand));
   padding-block:clamp(40px,5vw,72px) 0;
+  overflow-x:clip;          /* belt and braces against the photo's negative margin */
 }
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:end}
 .hero-copy{padding-bottom:clamp(48px,6vw,84px)}
 .hero h1{margin-bottom:.35em}
 .hero h1 em{font-style:italic;color:var(--plum-600);display:block}
-.hero .lede{font-size:clamp(1.08rem,1.5vw,1.25rem);color:#5A4A5E}
+/* the home headline is a full sentence, not a two-beat line: at the default h1 size it
+   ran five lines and pushed "Be you again!" and the CTA below the fold */
+.hero .hero-h1{font-size:clamp(1.85rem,3.1vw,2.8rem);line-height:1.15}
+.hero .hero-h1 em{font-size:1.16em;margin-top:.12em}
+/* the hero lede does the selling, so it reads a step above the ledes elsewhere:
+   larger, medium weight, and a darker ink than the muted grey */
+.hero .lede{font-size:clamp(1.14rem,1.6vw,1.35rem);font-weight:500;color:#473A4C;line-height:1.6}
+/* the hero eyebrow carries the positioning line, so it is a solid plum pill rather than
+   plum text sitting in the same block as a much larger plum headline */
+.hero .eyebrow{
+  font-size:.9rem;letter-spacing:.11em;font-weight:700;color:#fff;
+  background:var(--plum);padding:9px 18px;border-radius:999px;margin-bottom:1.2rem;
+}
+.hero .eyebrow::before{color:var(--gold-bright)}
+/* the reassurance line under the CTA carries the three objections, so it is not a whisper */
+.hero .microcopy{font-weight:600;color:#5A4A5E}
+@media (max-width:420px){.hero .eyebrow{font-size:.82rem;padding:8px 14px;letter-spacing:.08em}}
 
 .chooser{margin-top:40px;padding-top:28px;border-top:1px solid rgba(63,20,74,.12)}
 .chooser p{font-size:.95rem;font-weight:600;color:var(--plum);margin-bottom:14px}
@@ -250,14 +265,25 @@ section{padding-block:var(--section)}
 }
 .chip:hover{background:var(--plum);color:#fff;border-color:var(--plum);transform:translateY(-2px)}
 
-.hero-figure{position:relative;align-self:end}
+/* The photo reaches into the margin on wide screens, so it can grow without taking
+   width from the headline or stacking the two buttons. Clamped so it never causes
+   a horizontal scrollbar, and zero below 1180px where there is no margin to use. */
+.hero-figure{position:relative;align-self:stretch;display:flex;align-items:flex-end;
+  margin-right:calc(-1 * clamp(0px, (100vw - 1180px) / 2 - 16px, 90px));}
 .hero-photo{
   position:relative;overflow:hidden;border-radius:var(--r-xl) var(--r-xl) 0 0;
-  aspect-ratio:69/84;max-height:620px;margin-inline:auto;max-width:500px;
+  /* fills the column instead of sitting in a fixed-ratio box with dead space above it */
+  width:100%;height:100%;min-height:clamp(420px,44vw,700px);margin-inline:auto;max-width:580px;
   -webkit-mask-image:linear-gradient(180deg,#000 80%,transparent 100%);
   mask-image:linear-gradient(180deg,#000 80%,transparent 100%);
 }
-.hero-photo img{width:262%;max-width:none;margin:-6.5% 0 0 -156%}   /* crop past the text baked into the source photo */
+/* The source photo carries a decorative band on its top and bottom edges and text on its
+   left, so the crop overshoots the frame by 6% top and bottom and sits hard right. Cover
+   keeps it filling whatever height the column takes. */
+.hero-photo img{
+  position:absolute;left:0;top:-6%;width:100%;height:112%;
+  object-fit:cover;object-position:96% 50%;
+}
 .floating{
   position:absolute;display:flex;align-items:center;gap:10px;
   background:rgba(255,255,255,.94);backdrop-filter:blur(6px);
@@ -265,15 +291,16 @@ section{padding-block:var(--section)}
   font-size:.88rem;font-weight:600;color:var(--plum);white-space:nowrap;
 }
 .floating .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
-.float-1{left:-10px;top:16%;animation:bob 6s ease-in-out infinite}
-.float-2{right:-10px;top:46%;animation:bob 7s ease-in-out .6s infinite}
+/* both on the right edge so they read as a pair: one above her face, one above the phone */
+.float-1{right:-10px;top:4%;animation:bob 6s ease-in-out infinite}
+.float-2{right:-10px;top:66%;animation:bob 7s ease-in-out .6s infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @media (prefers-reduced-motion:reduce){.floating{animation:none!important}}
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:8px}
   .hero-copy{padding-bottom:8px}
   .hero-photo{max-width:400px}
-  .float-1{left:0}.float-2{right:0}
+  .float-1{right:0}.float-2{right:0}
 }
 
 /* trust strip */
@@ -344,11 +371,12 @@ section{padding-block:var(--section)}
 .ask h2,.ask h3{color:#fff}
 .ask .lede{color:rgba(255,255,255,.78)}
 .ask .container{position:relative;z-index:1}
+/* solid gold, so the status still reads against a headline four times its size */
 .badge-soon{
-  display:inline-flex;align-items:center;gap:.5em;padding:7px 14px;border-radius:999px;
-  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
-  font-size:.76rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-soft);
-  margin-bottom:18px;
+  display:inline-flex;align-items:center;gap:.5em;padding:9px 18px;border-radius:999px;
+  background:linear-gradient(180deg,var(--gold-bright),var(--gold));border:0;
+  font-size:.84rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#3A2508;
+  margin-bottom:18px;box-shadow:0 10px 24px -12px rgba(216,167,56,.9);
 }
 .ask-points{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:18px}
 .ask-points li{display:flex;gap:14px;color:rgba(255,255,255,.82);font-size:.98rem;line-height:1.55}
@@ -501,6 +529,13 @@ section{padding-block:var(--section)}
 .story-feature figcaption{display:flex;align-items:center;gap:12px;font-weight:600;color:var(--plum)}
 .story-tag{align-self:flex-start;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}
 
+/* theme headings inside the Learn "More to explore" tab */
+.shelf-title{
+  font-size:1.25rem;margin:0 0 18px;padding-bottom:10px;
+  border-bottom:1px solid rgba(63,20,74,.12);
+}
+.shelf-title:not(:first-of-type){margin-top:44px}
+
 /* the "start here" article in each Learn topic: same size as its neighbours, picked out with a warm tint */
 .article-feature{background:linear-gradient(160deg,#FFFDF9,var(--sand));border-top:4px solid var(--gold)}
 .article-feature .meta{color:var(--plum);font-weight:600}
@@ -521,25 +556,28 @@ section{padding-block:var(--section)}
 }
 .plan h3{margin-bottom:0}
 .plan .price{font-family:var(--display);font-size:2.5rem;color:var(--plum);line-height:1.1;margin:10px 0 2px}
-.plan .price small{font-family:var(--sans);font-size:.95rem;color:var(--muted);font-weight:500}
-.plan .plan-for{font-size:.9rem;color:var(--muted);margin:0}
+.plan .price small{font-family:var(--sans);font-size:1.05rem;color:var(--muted);font-weight:500}
+.plan .plan-for{font-size:1.05rem;color:var(--muted);margin:0}
 .plan ul{list-style:none;margin:22px 0 26px;padding:0;display:grid;gap:11px}
-.plan li{display:flex;gap:10px;font-size:.94rem;color:#4A3A4E}
+.plan li{display:flex;gap:10px;font-size:1.1rem;color:#4A3A4E}
 .plan li::before{content:"\2713";color:var(--gold);font-weight:700}
 .plan .btn{margin-top:auto}
-.plan-note{text-align:center;margin-top:28px;font-size:.92rem;color:var(--muted)}
+.plan-note{text-align:center;margin-top:28px;font-size:1.05rem;color:var(--muted)}
 .plan-highlight{
   display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-top:34px;
   background:var(--sand);border-radius:var(--r-lg);padding:30px 34px;
 }
 .plan-highlight > div{flex:1;min-width:280px}
 .plan-highlight h3{margin:0 0 6px;font-size:1.45rem}
-.plan-highlight p{margin:0;color:#6A5A6E;font-size:.95rem}
+.plan-highlight p{margin:0;color:#6A5A6E;font-size:1.05rem}
 .plan-highlight .btn{flex:none}
+.plan-highlight-cta{flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.plan-highlight-cta .text-link{font-size:1rem}
+@media (max-width:640px){.plan-highlight-cta{width:100%}.plan-highlight-cta .btn{width:100%;text-align:center}}
 @media (max-width:640px){.plan-highlight{padding:26px 24px;gap:22px}.plan-highlight .btn{width:100%}}
 
 .table-wrap{overflow-x:auto;border-radius:var(--r-lg);border:1px solid rgba(63,20,74,.1);background:#fff}
-.compare{width:100%;border-collapse:collapse;min-width:760px;font-size:.93rem}
+.compare{width:100%;border-collapse:collapse;min-width:760px;font-size:1.05rem}
 .compare th,.compare td{padding:15px 18px;text-align:center;border-bottom:1px solid rgba(63,20,74,.08)}
 .compare th:first-child,.compare td:first-child{text-align:left;color:#4A3A4E}
 .compare thead th{background:var(--cream);font-family:var(--display);color:var(--plum);font-size:1.05rem;vertical-align:bottom}
@@ -688,6 +726,14 @@ section{padding-block:var(--section)}
 @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}}
 .footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .footer-brand .logo{--logo-w:132px;margin-bottom:18px}
+.footer .social{display:flex;gap:12px;list-style:none;margin:20px 0 0;padding:0}   /* beats .footer ul's grid */
+.social a{
+  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;
+  transition:background .2s,border-color .2s,color .2s;
+}
+.social a:hover{background:var(--gold);border-color:var(--gold);color:var(--plum)}
+.social a:focus-visible{outline:2px solid var(--gold-bright);outline-offset:2px}
 .footer-bottom{
   margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,.15);
   display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;font-size:.85rem;
@@ -698,3 +744,171 @@ section{padding-block:var(--section)}
 .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .js .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}}
+
+/* ---------- account / log in (mirrors the live /account page) ---------- */
+.login-link{
+  text-decoration:none;font-size:.95rem;font-weight:600;color:var(--plum);
+  padding:6px 0;border-bottom:2px solid transparent;transition:border-color .2s;white-space:nowrap;
+}
+.login-link:hover,.login-link[aria-current="page"]{border-bottom-color:var(--gold)}
+@media (max-width:520px){.header-cta .login-link{display:none}}
+
+/* the signed-out / signed-in blocks are nested <section>s — drop the global section padding */
+.ac section section{padding-block:0}
+.ac-grid{display:grid;grid-template-columns:1fr .9fr;gap:56px;align-items:start}
+@media (max-width:900px){.ac-grid{grid-template-columns:1fr;gap:36px}}
+.ac-intro ul{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:13px}
+.ac-intro li{position:relative;padding-left:1.7em;font-size:1.02rem;color:#4A3A4E}
+.ac-intro li::before{content:"\2726";color:var(--gold);font-weight:700;position:absolute;left:0;top:0}
+.ac-intro li strong{color:var(--plum)}
+
+.ac .auth-card{background:#fff;border:1px solid rgba(63,20,74,.1);border-radius:var(--r-lg);padding:32px;box-shadow:var(--shadow)}
+@media (max-width:560px){.ac .auth-card{padding:24px}}
+.ac .tabs{display:flex;gap:10px;margin-bottom:26px}
+.ac .tab{
+  flex:1;padding:11px 16px;border-radius:999px;border:1.5px solid rgba(63,20,74,.18);
+  background:#fff;color:var(--plum);font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s,border-color .2s;
+}
+.ac .tab:hover{background:var(--cream)}
+.ac .tab[aria-selected="true"]{background:var(--plum);border-color:var(--plum);color:#fff}
+.ac .field{margin-bottom:18px}
+.ac .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:560px){.ac .row2{grid-template-columns:1fr}}
+.ac label{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--plum);margin-bottom:7px}
+.ac .opt{text-transform:none;letter-spacing:0;font-weight:500;color:var(--muted)}
+.ac input[type=text],.ac input[type=email],.ac input[type=tel],.ac input[type=password],.ac textarea{
+  width:100%;padding:14px 16px;font:inherit;font-size:1rem;color:var(--ink);
+  border:1.5px solid rgba(63,20,74,.18);border-radius:var(--r-sm);background:var(--cream);
+}
+.ac input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.ac .field small,.ac .fine{display:block;margin-top:7px;font-size:.88rem;color:var(--muted);line-height:1.5}
+.ac .check{display:flex;gap:11px;align-items:flex-start;margin:4px 0 22px;font-size:.95rem;
+  text-transform:none;letter-spacing:0;font-weight:400;color:#4A3A4E}
+.ac .check input{margin-top:5px;width:18px;height:18px;accent-color:var(--plum);flex:none}
+.ac .check a{color:var(--plum);font-weight:600}
+.ac .form-foot{margin:18px 0 0;text-align:center;font-size:.95rem;color:var(--muted)}
+.ac .ghost{
+  background:none;border:0;padding:0;cursor:pointer;color:var(--plum);font-weight:600;font-size:inherit;
+  text-decoration:none;border-bottom:2px solid var(--gold-soft);transition:border-color .2s;
+}
+.ac .ghost:hover{border-bottom-color:var(--gold)}
+
+.ac .notice{border-radius:var(--r-sm);padding:14px 18px;margin-bottom:22px;font-size:.98rem;border:1px solid transparent}
+.ac .notice.ok{background:#EDF4EF;border-color:#BBD3C3;color:#2E5540}
+.ac .notice.err{background:#FAEAEA;border-color:#D9A3A3;color:#8B2E2E}
+.ac .notice.info{background:var(--sand);border-color:var(--sand-deep);color:#5B4425}
+.ac #loading{color:var(--muted)}
+
+.ac .acct-head{margin-bottom:var(--space-md,40px)}
+.ac .acct-meta{color:var(--muted);font-size:1rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0}
+.ac .plan-pill{background:var(--plum);color:#fff;border-radius:999px;padding:4px 14px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.ac .plan-pill.free{background:var(--sand-deep);color:#5B4425}
+
+.ac .naturals{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center;
+  background:var(--sand);border-radius:var(--r-lg);padding:30px 34px;margin-bottom:44px;
+}
+@media (max-width:760px){.ac .naturals{grid-template-columns:1fr;padding:26px 24px;gap:22px}}
+.ac .naturals h2{font-size:1.6rem;margin:0 0 8px}
+.ac .naturals p{margin:0;color:#5B4425;font-size:1rem}
+.ac .code-box{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px dashed var(--gold);border-radius:var(--r-sm);padding:13px 18px}
+.ac .code-box code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:1.05rem;font-weight:700;color:var(--plum);letter-spacing:.06em}
+.ac .code-box .ghost{margin-left:auto;white-space:nowrap}
+
+.ac .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px}
+@media (max-width:900px){.ac .plans{grid-template-columns:1fr}}
+.ac .plan.current{border:2px solid var(--plum);position:relative}
+.ac .current-tag{
+  position:absolute;top:-13px;left:32px;background:var(--gold);color:#3A2508;
+  font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px;
+}
+.ac .plan .price small{font-family:var(--sans);font-size:1rem;color:var(--muted);font-weight:500}
+.ac .plan li.benefit{font-weight:600;color:var(--plum)}
+.ac .price-note{font-size:.88rem;color:var(--muted);margin:0 0 14px}
+.ac .interval{display:inline-flex;gap:4px;padding:4px;margin-top:22px;background:var(--sand);border:1px solid var(--sand-deep);border-radius:999px}
+.ac .interval button{border:0;background:transparent;color:var(--plum);border-radius:999px;padding:10px 16px;font:600 .875rem/1.2 var(--sans);cursor:pointer;min-height:44px}
+.ac .interval button[aria-pressed="true"]{background:var(--plum);color:#fff}
+
+.ac .results{display:grid;gap:16px}
+.ac .result{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:24px 28px}
+.ac .result h3{margin:0 0 4px;font-size:1.2rem}
+.ac .r-meta{margin:0;color:var(--muted);font-size:.95rem}
+.ac .r-score{font-family:var(--display);font-size:1.9rem;color:var(--plum);line-height:1;font-variant-numeric:lining-nums}
+.ac .r-score small{font-family:var(--sans);font-size:.85rem;color:var(--muted);font-weight:500}
+
+.ac .acct-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:40px;
+  padding-top:28px;border-top:1px solid rgba(63,20,74,.1);font-size:.98rem}
+
+/* ---------- follow prompts ----------
+   The footer keeps bare icons with a label above them; everywhere else uses named chips,
+   because an icon alone asks people to recognise a glyph before they know what they're clicking. */
+.footer .follow-label{
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:var(--gold-bright);margin:0 0 10px;
+}
+.follow-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0}
+.follow-row.center{justify-content:center}
+.follow-lead{font-size:.95rem;color:var(--muted);font-weight:500}
+.follow-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 17px;border-radius:999px;text-decoration:none;
+  background:#fff;border:1.5px solid rgba(63,20,74,.18);
+  color:var(--plum);font-size:.92rem;font-weight:600;white-space:nowrap;
+  transition:background .2s,border-color .2s,color .2s,transform .2s;
+}
+.follow-chip svg{flex:none}
+/* on the sand and plum grounds the white pill would glare */
+.page-hero .follow-chip,.bg-sand .follow-chip{background:rgba(255,255,255,.75)}
+/* hover last, so it wins on every ground — plum fill, white text */
+.follow-chip:hover,.page-hero .follow-chip:hover,.bg-sand .follow-chip:hover{
+  background:var(--plum);border-color:var(--plum);color:#fff;transform:translateY(-1px);
+}
+.follow-row.on-dark .follow-lead{color:rgba(255,255,255,.75)}
+.follow-row.on-dark .follow-chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.follow-row.on-dark .follow-chip:hover{background:var(--gold);border-color:var(--gold);color:#3A2508}
+/* the line that appears after a newsletter sign-up succeeds */
+.footer .follow-after{margin-top:12px}
+.footer .follow-after .follow-lead{color:rgba(255,255,255,.75);font-size:.92rem}
+.footer .follow-after .follow-chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.footer .follow-after .follow-chip:hover{background:var(--gold);border-color:var(--gold);color:#3A2508}
+@media (max-width:520px){.follow-row{gap:8px}.follow-chip{padding:8px 14px;font-size:.88rem}}
+
+/* free assessment — first and last name share a line, stacking on narrow phones */
+.fa .name-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+@media (max-width:400px){.fa .name-row{grid-template-columns:1fr;gap:0}}
+
+/* "Waitlist" badge beside a nav item that is not open yet */
+.nav-tag{
+  display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;
+  background:var(--gold-soft);color:#6B5118;
+  font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  vertical-align:middle;position:relative;top:-1px;
+}
+.footer .nav-tag{background:rgba(240,199,90,.2);color:var(--gold-bright)}
+
+/* ---------- legal pages (privacy, cookies, accessibility) ---------- */
+.legal{max-width:760px;margin-inline:auto}
+.legal .updated{font-size:.95rem;color:var(--muted);margin:0 0 6px}
+.legal .legal-note{
+  font-size:.95rem;color:#6B5118;background:var(--sand);border-radius:var(--r-sm);
+  padding:12px 16px;margin:0 0 36px;display:inline-block;
+}
+.legal-toc{
+  background:#fff;border:1px solid rgba(63,20,74,.1);border-radius:var(--r);
+  padding:24px 28px;margin-bottom:44px;
+}
+.legal-toc h2{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum);margin:0 0 14px}
+.legal-toc ol{margin:0;padding-left:1.3em;display:grid;gap:7px}
+.legal-toc a{color:var(--plum);text-decoration:none;border-bottom:1px solid transparent;font-size:1rem}
+.legal-toc a:hover{border-bottom-color:var(--gold)}
+.legal section{padding:0;margin-bottom:36px;scroll-margin-top:calc(var(--header-h) + 20px)}
+.legal h2{font-size:1.4rem;margin-bottom:.5em}
+.legal p,.legal li{font-size:1.05rem;line-height:1.75;color:#4A3A4E}
+.legal p{margin:0 0 1em}
+.legal ul{margin:0 0 1em;padding:0;list-style:none;display:grid;gap:10px}
+/* the marker is absolute, not a flex item: a flex <li> turns every <strong>, <a> and
+   run of text inside it into its own column, which shredded the Your Rights list */
+.legal ul li{position:relative;padding-left:1.7em}
+.legal ul li::before{content:"\2726";color:var(--gold);position:absolute;left:0;top:0}
+.legal a{color:var(--plum);font-weight:600}
+@media (max-width:560px){.legal-toc{padding:20px 22px}}

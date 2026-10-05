@@ -32,7 +32,7 @@ function check(condition, message) {
 }
 
 try {
-  await page.goto(`${base}/free-assessment.html`);
+  await page.goto(`${base}/public/free-assessment.html`);
   await page.getByRole('button', { name: /Get My Free Score/ }).click();
   await page.getByRole('button', { name: /Perimenopause/ }).click();
   await page.locator('#s1n').click();
@@ -54,23 +54,7 @@ try {
   await page.locator('#story').getByText(/no symptoms across these 12 questions/i).waitFor();
   check((await page.locator('#prodSection').innerText()).includes('did not identify a priority'), 'Zero-symptom product state is incorrect');
 
-  await page.goto(`${base}/redesign-preview/assessment.html`);
-  for (let i = 0; i < 8; i++) {
-    await page.locator('#stage .opt').first().click();
-    if (i === 2 || i === 6) await page.locator('#stage .q-foot button').click();
-    else await page.waitForTimeout(260);
-  }
-  await page.locator('input[name=firstName]').fill('Taylor');
-  await page.locator('input[name=email]').fill('launch-test@example.invalid');
-  await page.route('**/api/preview-assessment', (route) => route.fulfill({
-    status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }),
-  }));
-  await page.getByRole('button', { name: /Save and view my snapshot/ }).click();
-  await page.getByRole('heading', { name: /Your appointment summary/ }).waitFor();
-  check((await page.locator('#stage').innerText()).includes('Taylor'), 'Preview name missing from result');
-  check((await page.locator('#stage').innerText()).includes('Age range'), 'Preview appointment summary missing');
-
-  await page.goto(`${base}/redesign-preview/health-intelligence.html`);
+  await page.goto(`${base}/public/health-intelligence.html`);
   await page.locator('#hi-name').fill('Taylor');
   await page.locator('#hi-age').fill('48');
   await page.locator('#hi-email').fill('launch-test@example.invalid');
@@ -78,18 +62,38 @@ try {
   await page.locator('#hi-zip').fill('10001');
   await page.route('**/api/csrf', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ csrfToken: 'test-csrf' }) }));
   await page.route('**/api/assessment/intake-handoff', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, token: 'a'.repeat(64) }) }));
-  await page.route('https://empresshealth.ai/assessment**', (route) => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Member assessment</title>' }));
+  await page.route('**/assessment?tier=paid&intake=*', (route) => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Member assessment</title>' }));
   await page.locator('.intake-form button[type=submit]').click();
-  await page.waitForURL('https://empresshealth.ai/assessment**');
-  check(new URL(page.url()).searchParams.get('intake') === 'a'.repeat(64), 'Preview intake handoff token missing from redirect');
+  await page.waitForURL('**/assessment?tier=paid&intake=*');
+  check(new URL(page.url()).searchParams.get('intake') === 'a'.repeat(64), 'Member intake handoff token missing from redirect');
 
   const next = `/assessment?tier=paid&intake=${'a'.repeat(64)}`;
   await page.route('**/api/account', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
     authenticated: false, tiers: [], billingConfigured: false, naturalsConfigured: false,
   }) }));
-  await page.goto(`${base}/account.html?next=${encodeURIComponent(next)}`);
+  await page.goto(`${base}/public/account.html?next=${encodeURIComponent(next)}`);
   check(await page.evaluate(() => sessionStorage.getItem('empress-assessment-next')) === next,
     'Account did not preserve the assessment handoff through sign-in and checkout');
+
+  await page.unroute('**/api/account');
+  await page.route('**/api/account', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+    authenticated: true, user: { firstName: 'Taylor', email: 'launch-test@example.invalid' }, tier: 'free',
+    tiers: [
+      { id: 'free', name: 'Free', priceMonthlyUSD: 0, priceYearlyUSD: 0 },
+      { id: 'essential', name: 'Essential', priceMonthlyUSD: 9, priceYearlyUSD: 90 },
+      { id: 'premium', name: 'Premium', priceMonthlyUSD: 19, priceYearlyUSD: 190 },
+    ], billingConfigured: true, billingTestMode: true, naturalsConfigured: false, results: [],
+  }) }));
+  let checkoutBody;
+  await page.route('**/api/subscription/checkout', async (route) => {
+    checkoutBody = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ pending: true }) });
+  });
+  const checkoutRequest = page.waitForRequest('**/api/subscription/checkout');
+  await page.goto(`${base}/public/account.html?mode=signup&plan=essential&interval=year`);
+  await checkoutRequest;
+  await page.getByText('Stripe test mode is active').waitFor();
+  check(checkoutBody?.tier === 'essential' && checkoutBody?.interval === 'year', 'Yearly plan did not reach the account checkout API');
 
   await page.route('**/api/assessment/intake-handoff?token=*', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
     ok: true, intake: { firstName: 'Taylor', age: 48, email: 'launch-test@example.invalid', usState: 'California', zip: '10001' },
@@ -97,7 +101,7 @@ try {
   await page.goto(`${base}/assessment/?tier=paid&intake=${'a'.repeat(64)}`);
   await page.getByRole('heading', { name: /Taylor, where are you in your transition/ }).waitFor();
   check(!new URL(page.url()).searchParams.has('intake'), 'Handoff token was not removed from browser URL');
-  console.log('PASS: free save gate, zero-symptom result, preview summary, intake handoff');
+  console.log('PASS: free save gate, zero-symptom result, intake handoff, account checkout');
 } finally {
   await browser.close();
   server.close();
