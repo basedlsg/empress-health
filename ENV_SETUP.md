@@ -149,6 +149,8 @@ Python with `openpyxl` and `pypdf`. It deduplicates CSV/XLSX copies and the comb
 workbook, splits long answers without truncation, and records original file,
 sheet/row or PDF page and source type. Provider emails and LinkedIn fields are
 omitted. Metadata-only and link-only files are reported, not treated as answers.
+The source panel's "Linked reference" opens an external reference supplied in the
+material, when present; raw archive files are not publicly hosted.
 
 ```bash
 python3 scripts/prepare-ask-empress-library.py /absolute/path/to/archive.zip

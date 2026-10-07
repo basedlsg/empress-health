@@ -37,7 +37,7 @@
             if ((url.protocol === 'https:' || url.protocol === 'http:') && !url.username && !url.password) {
               var link = document.createElement('a');
               link.href = url.href;
-              link.textContent = 'Open source';
+              link.textContent = 'Linked reference';
               link.target = '_blank';
               link.rel = 'noopener noreferrer';
               item.appendChild(link);
