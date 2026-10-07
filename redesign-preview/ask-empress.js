@@ -62,6 +62,8 @@
     var button = document.createElement('button');
     button.type = 'button';
     button.className = card.className + ' ask-suggestion';
+    // The shared reveal observer tracks the original card, not its replacement.
+    button.classList.remove('reveal', 'in');
     var question = card.firstChild.textContent.trim();
     while (card.firstChild) button.appendChild(card.firstChild);
     button.addEventListener('click', function () {
