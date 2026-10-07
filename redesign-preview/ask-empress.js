@@ -8,6 +8,11 @@
   var status = document.getElementById('ask-status');
   var busy = false;
 
+  function showInChat(element) {
+    var padding = parseFloat(getComputedStyle(messages).paddingTop) || 0;
+    messages.scrollTop += element.getBoundingClientRect().top - messages.getBoundingClientRect().top - padding;
+  }
+
   function addMessage(text, role, sources) {
     var bubble = document.createElement('div');
     bubble.className = 'bubble ' + role + ' show';
@@ -51,10 +56,19 @@
       note.className = 'ask-source-note';
       note.textContent = 'These are excerpts from the supplied library, not independent verification of every statement in the answer. Educational summaries and editorial material are labelled separately from original papers.';
       details.appendChild(note);
+      details.addEventListener('toggle', function () {
+        if (details.open) showInChat(details);
+      });
       bubble.appendChild(details);
     }
     messages.appendChild(bubble);
-    messages.scrollTop = messages.scrollHeight;
+    var style = getComputedStyle(messages);
+    var visibleHeight = messages.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+    if (role === 'bot' && bubble.offsetHeight > visibleHeight) {
+      showInChat(bubble);
+    } else {
+      messages.scrollTop = messages.scrollHeight;
+    }
   }
 
   // Keep the HTML buttons in place so the shared reveal observer retains them.
