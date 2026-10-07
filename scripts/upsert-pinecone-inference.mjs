@@ -1,7 +1,7 @@
 // scripts/upsert-pinecone-inference.mjs
 // Embeds the enriched seed chunks via Pinecone's Inference API and upserts
 // them into a Pinecone serverless index. No OpenAI key required — Pinecone
-// handles embedding with its hosted multilingual-e5-large model.
+// handles embedding with its hosted llama-text-embed-v2 model.
 //
 // Run: node scripts/upsert-pinecone-inference.mjs
 
@@ -9,18 +9,23 @@ import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { Pinecone } from "@pinecone-database/pinecone";
+import dotenv from "dotenv";
+import { createRequire } from "module";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
+dotenv.config({ path: join(ROOT, ".env") });
+const require = createRequire(import.meta.url);
+const config = require("../lib/pinecone-config");
 const ENRICHED = join(ROOT, "pinecone_data", "empress-120-symptom-biomarker-framework-records.enriched.json");
 
 const PINECONE_API_KEY    = process.env.PINECONE_API_KEY;
-const PINECONE_INDEX_NAME = process.env.PINECONE_INDEX_NAME || "empress";
+const PINECONE_INDEX_NAME = config.indexName;
 // Reuse the existing 768-dim "empress" index via a dedicated namespace so we
 // don't disturb any other data and don't burn one of the 5 serverless slots.
-const EMBED_MODEL         = "llama-text-embed-v2";    // supports 384/512/768/1024/2048
-const EMBED_DIM           = 768;
-const NAMESPACE           = "clinical-framework";
+const EMBED_MODEL         = config.embedModel;
+const EMBED_DIM           = config.embedDimension;
+const NAMESPACE           = config.namespace;
 
 if (!PINECONE_API_KEY) {
   console.error("ERROR: PINECONE_API_KEY not set.");
@@ -51,10 +56,15 @@ if (!indexNames.includes(PINECONE_INDEX_NAME)) {
   });
   console.log("  ✓ index created");
 } else {
+  const description = await pc.describeIndex(PINECONE_INDEX_NAME);
+  if (description.dimension !== EMBED_DIM || description.metric !== "cosine") {
+    throw new Error(`Index must use ${EMBED_DIM} dimensions and cosine similarity; check PINECONE_EMBED_DIM before upserting.`);
+  }
   console.log(`Index "${PINECONE_INDEX_NAME}" already exists.`);
 }
 
 const index = pc.index(PINECONE_INDEX_NAME);
+const ns = index.namespace(NAMESPACE);
 
 // ─── Sanitise metadata (Pinecone only accepts string/number/bool or arrays) ──
 function sanitise(meta) {
@@ -99,7 +109,7 @@ for (let i = 0; i < chunks.length; i += BATCH) {
       ...(c.metadata?.category_slugs || []),
       ...(c.metadata?.system_tags || []),
     ].join(" ");
-    return (c.content || "").slice(0, 2000) + " " + metaSignal;
+    return (c.content || "") + " " + metaSignal;
   });
   console.log(`Embedding batch ${i + 1}-${Math.min(i + BATCH, chunks.length)} of ${chunks.length}…`);
   const vectors = await embedBatch(texts, "passage");
@@ -110,7 +120,7 @@ for (let i = 0; i < chunks.length; i += BATCH) {
       values: vectors[j],
       metadata: {
         ...sanitise(c.metadata),
-        content: (c.content || "").slice(0, 4000),
+        content: c.content || "",
         doc_id: c.doc_id || "",
         chunk_index: String(c.chunk_index ?? ""),
       },

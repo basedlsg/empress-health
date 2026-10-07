@@ -1,0 +1,100 @@
+(function () {
+  'use strict';
+  var form = document.getElementById('ask-form');
+  if (!form) return;
+  var input = document.getElementById('ask-question');
+  var send = document.getElementById('ask-send');
+  var messages = document.getElementById('ask-messages');
+  var status = document.getElementById('ask-status');
+  var busy = false;
+
+  function addMessage(text, role, sources) {
+    var bubble = document.createElement('div');
+    bubble.className = 'bubble ' + role + ' show';
+    var content = document.createElement('div');
+    content.textContent = text;
+    bubble.appendChild(content);
+    if (Array.isArray(sources) && sources.length) {
+      var details = document.createElement('details');
+      details.className = 'ask-sources';
+      var summary = document.createElement('summary');
+      summary.textContent = 'Retrieved passages (' + sources.length + ')';
+      details.appendChild(summary);
+      var list = document.createElement('ol');
+      sources.forEach(function (source) {
+        var item = document.createElement('li');
+        var label = document.createElement('strong');
+        label.textContent = 'Empress clinical framework';
+        var id = document.createElement('small');
+        id.textContent = typeof source.id === 'string' ? source.id : '';
+        var excerpt = document.createElement('p');
+        excerpt.textContent = typeof source.snippet === 'string' ? source.snippet : '';
+        item.append(label, id, excerpt);
+        list.appendChild(item);
+      });
+      details.appendChild(list);
+      var note = document.createElement('p');
+      note.className = 'ask-source-note';
+      note.textContent = 'These are the retrieved framework excerpts, not a verification of every statement in the answer.';
+      details.appendChild(note);
+      bubble.appendChild(details);
+    }
+    messages.appendChild(bubble);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // Reuse the existing prompt cards as keyboard-accessible suggestions.
+  document.querySelectorAll('.prompt-grid .prompt').forEach(function (card) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = card.className + ' ask-suggestion';
+    var question = card.firstChild.textContent.trim();
+    while (card.firstChild) button.appendChild(card.firstChild);
+    button.addEventListener('click', function () {
+      if (busy) return;
+      input.value = question;
+      input.focus();
+      input.scrollIntoView({ block: 'center' });
+    });
+    card.replaceWith(button);
+  });
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var question = input.value.trim();
+    if (busy || !question || !form.reportValidity()) return;
+    busy = true;
+    send.disabled = true;
+    input.readOnly = true;
+    addMessage(question, 'user');
+    status.textContent = 'Looking up the Empress framework…';
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, 55000);
+    try {
+      var response = await fetch('/qa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: question }),
+        signal: controller.signal,
+      });
+      var data = await response.json();
+      if (!response.ok) {
+        if (response.status === 429) throw new Error('You’ve reached the question limit. Please try again in a few minutes.');
+        throw new Error(data.answer || data.response || 'Ask Empress is temporarily unavailable. Please try again shortly.');
+      }
+      var answer = data.answer || data.response;
+      if (typeof answer !== 'string' || !answer.trim()) throw new Error('No answer was returned. Please try again.');
+      addMessage(answer, 'bot', data.sources);
+      input.value = '';
+      status.textContent = data.status === 'no_evidence' ? 'The framework did not provide enough information for this question.' : '';
+    } catch (error) {
+      status.textContent = error.name === 'AbortError' ? 'This answer took too long. Your question is still here; please try again.' : error.message;
+    } finally {
+      clearTimeout(timer);
+      busy = false;
+      send.disabled = false;
+      input.readOnly = false;
+      input.focus({ preventScroll: true });
+    }
+  });
+})();

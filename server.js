@@ -19,6 +19,7 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 const { generateAffirmations: _generateAffirmationsGrounded } = require("./lib/affirmations");
 const { handleQA } = require("./lib/qa");
 const { callGemini } = require("./lib/gemini");
+const { callAskEmpressModel } = require("./lib/ask-empress-model");
 const retrieval = require("./lib/retrieval");
 const { issueCsrfToken, verifyCsrfMiddleware } = require("./lib/csrf");
 const dailyAffirmations = require("./lib/daily-affirmations");
@@ -835,42 +836,33 @@ function trimHistory(messages, maxTurns = 10) {
 
 /*----------------------Ask Empress Chat----------------------------------*/
 
-/**
- * Thin LLM caller injected into handleQA. Now routes through Gemini
- * (lib/gemini.js) using GOOGLE_API_KEY. Function name kept as
- * `_callOpenAIChat` only for backward-compat with the injected-dep shape
- * lib/qa.js expects; the actual provider is Google Gemini.
- */
-async function _callOpenAIChat(systemPrompt, userQuery, signal) {
-  return callGemini({
-    systemPrompt,
-    userPrompt: userQuery,
-    signal,
-    temperature: 0.3,
-    maxOutputTokens: 1024,
-  });
-}
-
 app.post("/qa", async (req, res) => {
   const requestId = `qa-${Date.now().toString(36)}`;
   try {
-    const rawQuery = String(req.body.query || "").trim();
+    if (typeof req.body?.query !== "string") {
+      return res.status(400).json({ response: "Enter a question as text." });
+    }
+    const rawQuery = req.body.query.trim();
     if (!rawQuery) return res.status(400).json({ response: "Ask a question to get started." });
+    if (rawQuery.length > 800) {
+      return res.status(400).json({ response: "Keep your question under 800 characters." });
+    }
 
     // Redact secrets from the stored/logged query
     const safeQuery = redactSecrets({ query: rawQuery }).query;
 
     const result = await handleQA({
       query: safeQuery,
-      callOpenAI: _callOpenAIChat,
+      callOpenAI: callAskEmpressModel,
       requestId,
     });
 
     // Emit both new shape and legacy `response` field for backward compat
-    res.json({
+    res.status(result.status === "unavailable" ? 503 : 200).json({
       response: result.answer,  // legacy field consumed by existing frontend
       answer:   result.answer,
       sources:  result.sources,
+      status:   result.status || "answered",
     });
   } catch (err) {
     console.error(`[${requestId}] Server exception in /qa:`, err.message);

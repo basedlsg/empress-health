@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ask Empress — your 24/7 menopause companion | Empress Health</title>
-<meta name="description" content="Ask Empress is an AI companion for perimenopause and menopause questions, available 24/7 and grounded in peer-reviewed research. Join the waitlist for early access.">
+<meta name="description" content="Ask Empress about perimenopause and menopause. Read answers grounded in the Empress clinical framework, with the retrieved passages shown alongside them.">
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="ask-empress.css">
 </head>
 <body>
 <header id="site-header"></header>
@@ -19,31 +20,30 @@
 <section class="page-hero dark">
   <div class="container page-hero-grid">
     <div>
-      <span class="badge-soon">✦ Waitlist — launching with our beta</span>
+      <span class="badge-soon">✦ Ask Empress — beta</span>
       <h1>Ask Empress</h1>
-      <p class="lede">A 24/7 AI companion for the questions that arrive at 3 a.m. Grounded in peer-reviewed menopause science, shaped by our experts, and honest about when you need a doctor instead.</p>
-
-      <form class="signup left js-signup" data-source="newsite-ask-empress-waitlist" data-thanks="You're on the Ask Empress waitlist. We'll email you when it opens." novalidate style="margin-top:32px">
-        <label class="visually-hidden" for="wait-email">Email address</label>
-        <input id="wait-email" type="email" placeholder="you@example.com" autocomplete="email" required>
-        <button class="btn btn-gold" type="submit">Get early access</button>
-      </form>
-      <small class="signup-msg">Waitlist members get in first. No spam.</small>
+      <p class="lede">A companion for the questions that arrive at 3 a.m. Ask about perimenopause and menopause, explore the passages behind each answer, and get honest guidance when a question needs a clinician.</p>
+      <a class="btn btn-gold" href="#ask-question">Ask your question ↓</a>
+      <p class="ask-intro-note">Educational guidance, not diagnosis or treatment. Each answer uses your current question and the Empress clinical framework.</p>
     </div>
 
     <div>
-      <div class="phone">
+      <div class="phone ask-phone">
         <div class="phone-top">
           <div class="phone-avatar">E</div>
-          <div><strong>Ask Empress</strong><span>● Preview</span></div>
+          <div><strong>Ask Empress</strong><span>Grounded in the Empress framework</span></div>
         </div>
-        <div class="chat" id="chat" aria-live="polite">
-          <div class="bubble user" data-delay="200">Why do I keep forgetting words mid-sentence? I'm 46 and it's scaring me.</div>
-          <div class="bubble bot" data-delay="1400">That's frightening to experience — and it's very common in perimenopause. Shifting estrogen affects the brain areas involved in word retrieval, and broken sleep makes it worse.</div>
-          <div class="bubble bot" data-delay="2800">For most women it improves after the transition. It's worth noting when it happens and how you slept the night before. Want me to add that to your tracker?</div>
-          <div class="bubble note" data-delay="4200">If memory changes are sudden, getting worse quickly, or come with other new symptoms, Empress will suggest seeing a clinician promptly.</div>
+        <div class="chat ask-chat" id="ask-messages" role="log" aria-label="Ask Empress conversation" aria-live="polite" aria-relevant="additions">
+          <div class="bubble bot show">Hello. What would you like to understand about perimenopause or menopause? I’ll show you the framework passages retrieved for your question.</div>
         </div>
-        <div class="phone-input">Ask anything… <span>↑</span></div>
+        <form class="ask-form" id="ask-form">
+          <label for="ask-question">Your question</label>
+          <textarea id="ask-question" name="query" rows="3" maxlength="800" placeholder="What is the link between estrogen and hot flashes?" aria-describedby="ask-privacy" required></textarea>
+          <button class="btn btn-gold" id="ask-send" type="submit">Ask Empress ↑</button>
+        </form>
+        <p class="ask-status" id="ask-status" role="status"></p>
+        <p class="ask-privacy" id="ask-privacy">Leave out names and identifying details. Your question is sent to our search and AI services to generate an answer.</p>
+        <noscript><p>Enable JavaScript to use Ask Empress.</p></noscript>
       </div>
     </div>
   </div>
@@ -77,7 +77,7 @@
       <div class="card reveal">
         <div class="card-icon">✦</div>
         <h3>Grounded in the evidence</h3>
-        <p>Answers draw on peer-reviewed menopause research, not forums, influencer advice or guesswork.</p>
+        <p>Answers draw on the Empress clinical framework. Open the retrieved passages beneath an answer to see the material it used.</p>
       </div>
       <div class="card reveal">
         <div class="card-icon">♡</div>
@@ -86,8 +86,8 @@
       </div>
       <div class="card reveal">
         <div class="card-icon">🔒</div>
-        <h3>Private by design</h3>
-        <p>Your conversations are encrypted and your health information is never shared without your explicit consent.</p>
+        <h3>Share thoughtfully</h3>
+        <p>You can ask without entering your name or email. Questions are processed by our search and AI services; avoid including identifying details.</p>
       </div>
       <div class="card reveal">
         <div class="card-icon">✧</div>
@@ -105,12 +105,12 @@
       <h2>About Ask Empress</h2>
     </div>
     <details class="reveal">
-      <summary>When will Ask Empress be available?</summary>
-      <p>Ask Empress is in preview and will open to members with our beta. Join the waitlist above and you'll be among the first invited.</p>
+      <summary>How do I use Ask Empress?</summary>
+      <p>Type a question above, or choose one of the suggested questions. Each answer is based on your current question. Include the relevant details each time, and open the retrieved passages to review the source material.</p>
     </details>
     <details class="reveal">
       <summary>Am I talking to AI? Who checks what it tells me?</summary>
-      <p>Yes — Ask Empress is AI, and we'd rather say so plainly. What makes it different from a general chatbot is what sits behind it: our clinical and wellness experts shape the guidance it draws on, and it is built on peer-reviewed menopause research rather than the open internet. It will not diagnose you or prescribe anything, and when a question needs a clinician it says so instead of guessing.</p>
+      <p>Yes — Ask Empress is AI. Its answers use the Empress clinical framework, and the retrieved passages appear beneath each answer. Those passages explain the material used; they do not independently verify every generated statement. Empress provides education and guidance, and cannot diagnose you or prescribe treatment.</p>
     </details>
     <details class="reveal">
       <summary>Is Ask Empress a doctor?</summary>
@@ -118,15 +118,15 @@
     </details>
     <details class="reveal">
       <summary>Which plans include Ask Empress?</summary>
-      <p>Unlimited Ask Empress is included in every paid membership, starting with Essential at $9/month. <a class="text-link" href="pricing.html">Compare plans</a>.</p>
+      <p>You can try this beta here. Questions are subject to usage limits. <a class="text-link" href="pricing.html">Explore membership options</a>.</p>
     </details>
   </div>
 </section>
 
 <section class="cta-band">
   <div class="container">
-    <h2>Don't want to wait?</h2>
-    <p class="lede">The free assessment is live now, and gives you a personal snapshot in three minutes.</p>
+    <h2>Explore your own symptoms</h2>
+    <p class="lede">The free assessment gives you a personal snapshot in three minutes.</p>
     <a class="btn btn-gold btn-lg" href="free-assessment.html">Take the free assessment →</a>
   </div>
 </section>
@@ -135,5 +135,6 @@
 
 <footer id="site-footer"></footer>
 <script src="app.js"></script>
+<script src="ask-empress.js"></script>
 </body>
 </html>

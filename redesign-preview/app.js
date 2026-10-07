@@ -244,7 +244,7 @@ function logoHTML(onDark) {
           socialHTML() + '</div>' +
         '<div><h4>How Empress works</h4><ul>' +
           '<li><a href="how-it-works.html">How it works</a></li>' +
-          '<li><a href="ask-empress.html">Ask Empress <span class="nav-tag">Waitlist</span></a></li>' +
+          '<li><a href="ask-empress.html">Ask Empress <span class="nav-tag">Beta</span></a></li>' +
           '<li><a href="pricing.html">Pricing</a></li></ul></div>' +
         '<div><h4>Explore</h4><ul>' +
           '<li><a href="free-assessment.html">Free assessment</a></li>' +

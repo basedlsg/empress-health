@@ -22,6 +22,7 @@
     "seed:embed": "node scripts/embed-pinecone-seed.mjs",
     "seed:upsert": "node scripts/upsert-pinecone-inference.mjs",
     "retrieval:test": "node scripts/test-retrieval.mjs",
+    "test:ask-empress": "node --test scripts/test-ask-empress.mjs",
     "validate:catalog": "node scripts/validate-catalog.mjs",
     "test:daily": "MOCK_LLM=1 node scripts/test-daily-affirmations.mjs",
     "design:snapshot": "node scripts/snapshot-design-references.mjs",
