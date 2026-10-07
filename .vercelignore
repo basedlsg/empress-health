@@ -11,6 +11,9 @@ node_modules
 .cursor
 /.env
 /.env.*
+/*.zip
+/*.crdownload
+/output
 
 # === Build artifacts (Vercel rebuilds via buildCommand) ===
 prds/dist

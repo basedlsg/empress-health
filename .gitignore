@@ -43,6 +43,8 @@ EmpressHealth logo - RGB - Modified/
 fwd1012minihealthintelligencereportenginewithchat/
 
 # Large or unnecessary public files
+/*.zip
+/*.crdownload
 public/*.zip
 public/**/*.zip
 public/Canva AI - Canva_files/

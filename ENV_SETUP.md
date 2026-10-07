@@ -134,12 +134,43 @@ URLs). Its source lives in `redesign-preview/ask-empress.html`, with companion
 JS/CSS. The build stages these files into `public/`. The legacy `/askempress`
 chat also uses the same `POST /qa` endpoint.
 
-Pipeline: question → Pinecone query embedding → `clinical-framework` passages
-→ grounded answer model → answer plus retrieved passage excerpts. The model
-cannot search the other namespaces or the internet. The 25 framework passages
+Pipeline: question → Pinecone query embedding → `clinical-framework` and
+`ask-empress-library` passages → grounded answer model → answer plus source-labelled
+excerpts. Other namespaces and the internet are not searched. These passages
 are reference material; retrieved excerpts are not independent validation of
 every generated claim. Each question is independent; there is no conversation
 memory or connection to a personal tracker.
+
+### Import a supplied ZIP
+
+The October 2026 archive contains CSV/XLSX Q&A, DOCX editorial material, PDFs,
+reference tables and a public provider directory. The read-only extractor uses
+Python with `openpyxl` and `pypdf`. It deduplicates CSV/XLSX copies and the combined
+workbook, splits long answers without truncation, and records original file,
+sheet/row or PDF page and source type. Provider emails and LinkedIn fields are
+omitted. Metadata-only and link-only files are reported, not treated as answers.
+
+```bash
+python3 scripts/prepare-ask-empress-library.py /absolute/path/to/archive.zip
+node scripts/upsert-ask-empress-library.mjs --dry-run
+node scripts/upsert-ask-empress-library.mjs
+```
+
+The ignored `artifacts/ask-empress-library/` holds the corpus, extraction report
+and resumable import checkpoint. The uploader uses the existing index/model,
+validates dimensions and passages, never creates or clears an index, and writes
+only `ASK_EMPRESS_LIBRARY_NAMESPACE` (default `ask-empress-library`). It checks
+every expected record after import. Keep the archive and these local artifacts
+for future reimports; they are excluded from Git and deployment bundles.
+
+Only Ask Empress searches the extra namespace. Assessment retrieval remains on
+the configured framework namespace. Results are merged by comparable cosine
+score, deduplicated, and capped at two passages per library file. Original papers,
+supplied research summaries, editorial material, planning compilations and
+business references have distinct source labels in the prompt and source panel.
+Business operations and the unverified MVP planning compilation are indexed for
+the import record but excluded from Ask Empress's patient education search.
+Importing material is not clinical verification of its contents.
 
 The default answer provider is the existing Gemini integration:
 

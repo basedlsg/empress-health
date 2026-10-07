@@ -24,18 +24,32 @@
       sources.forEach(function (source) {
         var item = document.createElement('li');
         var label = document.createElement('strong');
-        label.textContent = 'Empress clinical framework';
+        label.textContent = typeof source.title === 'string' ? source.title : 'Empress clinical framework';
         var id = document.createElement('small');
-        id.textContent = typeof source.id === 'string' ? source.id : '';
+        id.textContent = (typeof source.locator === 'string' && source.locator ? source.locator + ' · ' : '') +
+          (typeof source.sourceType === 'string' ? source.sourceType.replace(/_/g, ' ') : 'clinical framework');
         var excerpt = document.createElement('p');
         excerpt.textContent = typeof source.snippet === 'string' ? source.snippet : '';
         item.append(label, id, excerpt);
+        if (typeof source.url === 'string' && source.url) {
+          try {
+            var url = new URL(source.url);
+            if ((url.protocol === 'https:' || url.protocol === 'http:') && !url.username && !url.password) {
+              var link = document.createElement('a');
+              link.href = url.href;
+              link.textContent = 'Open source';
+              link.target = '_blank';
+              link.rel = 'noopener noreferrer';
+              item.appendChild(link);
+            }
+          } catch (_) {}
+        }
         list.appendChild(item);
       });
       details.appendChild(list);
       var note = document.createElement('p');
       note.className = 'ask-source-note';
-      note.textContent = 'These are the retrieved framework excerpts, not a verification of every statement in the answer.';
+      note.textContent = 'These are excerpts from the supplied library, not independent verification of every statement in the answer. Educational summaries and editorial material are labelled separately from original papers.';
       details.appendChild(note);
       bubble.appendChild(details);
     }
@@ -67,7 +81,7 @@
     send.disabled = true;
     input.readOnly = true;
     addMessage(question, 'user');
-    status.textContent = 'Looking up the Empress framework…';
+    status.textContent = 'Looking up the Empress library…';
     var controller = new AbortController();
     var timer = setTimeout(function () { controller.abort(); }, 55000);
     try {
@@ -86,7 +100,7 @@
       if (typeof answer !== 'string' || !answer.trim()) throw new Error('No answer was returned. Please try again.');
       addMessage(answer, 'bot', data.sources);
       input.value = '';
-      status.textContent = data.status === 'no_evidence' ? 'The framework did not provide enough information for this question.' : '';
+      status.textContent = data.status === 'no_evidence' ? 'The library did not provide enough information for this question.' : '';
     } catch (error) {
       status.textContent = error.name === 'AbortError' ? 'This answer took too long. Your question is still here; please try again.' : error.message;
     } finally {

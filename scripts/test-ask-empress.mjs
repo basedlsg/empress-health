@@ -12,6 +12,7 @@ process.env.ASK_EMPRESS_API_KEY = 'test-server-key';
 const require = createRequire(import.meta.url);
 const { callAskEmpressModel } = require('../lib/ask-empress-model');
 const { handleQA } = require('../lib/qa');
+const { mergeChunks, sourceDetails } = require('../lib/retrieval');
 
 let captured;
 let mode = 'answer';
@@ -89,4 +90,26 @@ test('unrelated questions do not call the answer model', async () => {
   });
   assert.equal(result.status, 'no_evidence');
   assert.deepEqual(result.sources, []);
+});
+
+test('namespace merge keeps score order while removing duplicate passages and diversifying files', () => {
+  const chunk = (id, score, file, content = id) => ({ id, score, content, metadata: { source_file: file } });
+  const result = mergeChunks([
+    chunk('a', .9, 'book.xlsx'), chunk('duplicate', .85, 'copy.xlsx', 'a'),
+    chunk('b', .8, 'book.xlsx'), chunk('c', .7, 'book.xlsx'),
+    chunk('d', .6, 'paper.pdf'), chunk('framework', .5, ''),
+    chunk('empty', .99, '', ''), chunk('bad', NaN, ''),
+  ], 5);
+  assert.deepEqual(result.map(c => c.id), ['a', 'b', 'd', 'framework']);
+});
+
+test('source provenance survives while unsafe links are omitted', () => {
+  const metadata = { source_title: 'Hot flashes', source_file: 'research.xlsx',
+    source_type: 'research_summary', source_locator: 'Q&A, row 4', source_url: 'https://pubmed.ncbi.nlm.nih.gov/123/' };
+  assert.deepEqual(sourceDetails({ metadata }), { title: 'Hot flashes', sourceFile: 'research.xlsx',
+    sourceType: 'research_summary', locator: 'Q&A, row 4', url: metadata.source_url });
+  for (const source_url of ['javascript:alert(1)', 'https://user:password@example.com', 'file:///tmp/file']) {
+    assert.equal(sourceDetails({ metadata: { ...metadata, source_url } }).url, '');
+  }
+  assert.equal(sourceDetails({}).title, 'Empress clinical framework');
 });
