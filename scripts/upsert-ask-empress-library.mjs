@@ -68,7 +68,7 @@ async function remoteIds(partition = false) {
 }
 // ID listing avoids downloading thousands of full vectors during resume checks.
 if (completed.size) {
-  const present = await remoteIds();
+  const present = await remoteIds(completed.size > 1000);
   for (const id of completed) if (!present.has(id)) completed.delete(id);
 }
 const pending = chunks.filter(c => !completed.has(c._id));
@@ -111,7 +111,8 @@ async function worker() {
  }
 }
 // Bounded concurrency speeds up document imports; retry handles service throttles.
-await Promise.all(Array.from({ length: 3 }, () => worker()));
+const workers = Math.max(1, Math.min(8, Number(process.env.ASK_EMPRESS_IMPORT_WORKERS) || 3));
+await Promise.all(Array.from({ length: workers }, () => worker()));
 // Verify all IDs and sample full metadata, allowing for eventual consistency.
 let present;
 for (let attempt = 0; attempt < 4; attempt++) {
