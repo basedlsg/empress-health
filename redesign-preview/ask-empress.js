@@ -57,22 +57,15 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
-  // Reuse the existing prompt cards as keyboard-accessible suggestions.
-  document.querySelectorAll('.prompt-grid .prompt').forEach(function (card) {
-    var button = document.createElement('button');
-    button.type = 'button';
-    button.className = card.className + ' ask-suggestion';
-    // The shared reveal observer tracks the original card, not its replacement.
-    button.classList.remove('reveal', 'in');
-    var question = card.firstChild.textContent.trim();
-    while (card.firstChild) button.appendChild(card.firstChild);
+  // Keep the HTML buttons in place so the shared reveal observer retains them.
+  document.querySelectorAll('.prompt-grid .ask-suggestion').forEach(function (button) {
+    var question = button.firstChild.textContent.trim();
     button.addEventListener('click', function () {
       if (busy) return;
       input.value = question;
       input.focus();
       input.scrollIntoView({ block: 'center' });
     });
-    card.replaceWith(button);
   });
 
   form.addEventListener('submit', async function (event) {
