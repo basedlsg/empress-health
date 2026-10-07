@@ -48,14 +48,22 @@ if (existsSync(checkpointFile)) {
   if (saved.identity === identity) checkpoint = saved;
 }
 const completed = new Set(checkpoint.completed);
-async function remoteIds() {
+async function remoteIds(partition = false) {
   const ids = new Set();
-  let paginationToken;
-  do {
-    const page = await retry(() => ns.listPaginated({ prefix: 'empress-library-', limit: 1000, paginationToken }));
-    for (const vector of page.vectors || []) ids.add(vector.id);
-    paginationToken = page.pagination?.next;
-  } while (paginationToken);
+  const prefixes = partition ? [...'0123456789abcdef'].map(c => 'empress-library-' + c) : ['empress-library-'];
+  let nextPrefix = 0;
+  async function listWorker() {
+    while (nextPrefix < prefixes.length) {
+      const prefix = prefixes[nextPrefix++];
+      let paginationToken;
+      do {
+        const page = await retry(() => ns.listPaginated({ prefix, limit: 100, paginationToken }));
+        for (const vector of page.vectors || []) ids.add(vector.id);
+        paginationToken = page.pagination?.next;
+      } while (paginationToken);
+    }
+  }
+  await Promise.all(Array.from({ length: partition ? 4 : 1 }, () => listWorker()));
   return ids;
 }
 // ID listing avoids downloading thousands of full vectors during resume checks.
@@ -107,7 +115,7 @@ await Promise.all(Array.from({ length: 3 }, () => worker()));
 // Verify all IDs and sample full metadata, allowing for eventual consistency.
 let present;
 for (let attempt = 0; attempt < 4; attempt++) {
-  present = await remoteIds();
+  present = await remoteIds(true);
   if (chunks.every(c => present.has(c._id))) break;
   await pause(5000);
 }
