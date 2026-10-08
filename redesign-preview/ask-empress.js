@@ -13,54 +13,12 @@
     messages.scrollTop += element.getBoundingClientRect().top - messages.getBoundingClientRect().top - padding;
   }
 
-  function addMessage(text, role, sources) {
+  function addMessage(text, role) {
     var bubble = document.createElement('div');
     bubble.className = 'bubble ' + role + ' show';
     var content = document.createElement('div');
     content.textContent = text;
     bubble.appendChild(content);
-    if (Array.isArray(sources) && sources.length) {
-      var details = document.createElement('details');
-      details.className = 'ask-sources';
-      var summary = document.createElement('summary');
-      summary.textContent = 'Retrieved passages (' + sources.length + ')';
-      details.appendChild(summary);
-      var list = document.createElement('ol');
-      sources.forEach(function (source) {
-        var item = document.createElement('li');
-        var label = document.createElement('strong');
-        label.textContent = typeof source.title === 'string' ? source.title : 'Empress clinical framework';
-        var id = document.createElement('small');
-        id.textContent = (typeof source.locator === 'string' && source.locator ? source.locator + ' · ' : '') +
-          (typeof source.sourceType === 'string' ? source.sourceType.replace(/_/g, ' ') : 'clinical framework');
-        var excerpt = document.createElement('p');
-        excerpt.textContent = typeof source.snippet === 'string' ? source.snippet : '';
-        item.append(label, id, excerpt);
-        if (typeof source.url === 'string' && source.url) {
-          try {
-            var url = new URL(source.url);
-            if ((url.protocol === 'https:' || url.protocol === 'http:') && !url.username && !url.password) {
-              var link = document.createElement('a');
-              link.href = url.href;
-              link.textContent = 'Linked reference';
-              link.target = '_blank';
-              link.rel = 'noopener noreferrer';
-              item.appendChild(link);
-            }
-          } catch (_) {}
-        }
-        list.appendChild(item);
-      });
-      details.appendChild(list);
-      var note = document.createElement('p');
-      note.className = 'ask-source-note';
-      note.textContent = 'These are excerpts from the supplied library, not independent verification of every statement in the answer. Educational summaries and editorial material are labelled separately from original papers.';
-      details.appendChild(note);
-      details.addEventListener('toggle', function () {
-        if (details.open) showInChat(details);
-      });
-      bubble.appendChild(details);
-    }
     messages.appendChild(bubble);
     var style = getComputedStyle(messages);
     var visibleHeight = messages.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
@@ -107,7 +65,7 @@
       }
       var answer = data.answer || data.response;
       if (typeof answer !== 'string' || !answer.trim()) throw new Error('No answer was returned. Please try again.');
-      addMessage(answer, 'bot', data.sources);
+      addMessage(answer, 'bot');
       input.value = '';
       status.textContent = data.status === 'no_evidence' ? 'The library did not provide enough information for this question.' : '';
     } catch (error) {

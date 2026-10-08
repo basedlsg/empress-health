@@ -619,6 +619,7 @@
           class="message-input" 
           placeholder="Ask me anything about menopause..."
           rows="1"
+          aria-describedby="ask-disclaimer"
         ></textarea>
         <button id="sendBtn" class="send-btn" disabled>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -627,6 +628,7 @@
           </svg>
         </button>
       </div>
+      <p id="ask-disclaimer" style="margin:12px 0 0;font-size:13px;line-height:1.6;color:#3f1449;"><strong>Disclaimer:</strong> Ask Empress shares general educational information, not medical advice. Please consult your doctor before taking any supplements or medicines.</p>
     </div>
   </div>
 
@@ -758,7 +760,7 @@
         this.showTyping();
         
         try {
-          // Send message to API — /qa returns { answer, sources: [{id, score, snippet}] }
+          // Send the question to Ask Empress.
           const response = await fetch('/qa', {
             method: 'POST',
             headers: {
@@ -774,18 +776,17 @@
           const data = await response.json();
           this.hideTyping();
 
-          // Handle grounded response shape { answer, sources }
+          // Show the answer in the conversation.
           const answerText = data.answer || data.response || data.message || 'I apologize, but I couldn\'t process your request.';
-          const sources = Array.isArray(data.sources) ? data.sources : [];
-          this.addMessage(answerText, 'assistant', sources);
+          this.addMessage(answerText, 'assistant');
         } catch (error) {
           console.error('Error sending message:', error);
           this.hideTyping();
-          this.addMessage('Sorry, I encountered an error. Please try again.', 'assistant', []);
+          this.addMessage('Sorry, I encountered an error. Please try again.', 'assistant');
         }
       }
       
-      addMessage(text, role, sources) {
+      addMessage(text, role) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${role}`;
 
@@ -796,60 +797,6 @@
         const content = document.createElement('div');
         content.className = 'message-content';
         content.textContent = text;
-
-        // Append grounded sources panel for assistant messages
-        if (role === 'assistant') {
-          const srcs = Array.isArray(sources) ? sources : [];
-          const sourcesWrap = document.createElement('div');
-          sourcesWrap.style.cssText = 'margin-top:10px; border-top:1px solid #ececf1; padding-top:8px;';
-
-          if (srcs.length === 0) {
-            const noSrc = document.createElement('p');
-            noSrc.style.cssText = 'font-size:11px; color:#6e6a7a; margin:0;';
-            noSrc.textContent = 'Sources: from Empress clinical framework — no specific chunk matched this query';
-            sourcesWrap.appendChild(noSrc);
-          } else {
-            const toggle = document.createElement('button');
-            toggle.type = 'button';
-            toggle.style.cssText = 'background:none; border:none; cursor:pointer; font-size:11px; color:#3f1449; font-weight:600; padding:0; display:flex; align-items:center; gap:4px;';
-            toggle.textContent = `Sources (${srcs.length}) ▸`;
-            let expanded = false;
-
-            const panel = document.createElement('div');
-            panel.style.cssText = 'display:none; margin-top:8px; display:flex; flex-direction:column; gap:6px;';
-            panel.style.display = 'none';
-
-            srcs.forEach(src => {
-              const row = document.createElement('div');
-              row.style.cssText = 'background:#faf8fc; border-radius:6px; border-left:3px solid #c4a4d0; padding:6px 10px;';
-
-              const idEl = document.createElement('code');
-              const idText = typeof src.id === 'string' && src.id.length > 12 ? src.id.slice(-12) : (src.id || '');
-              idEl.style.cssText = 'font-size:10px; color:#3f1449; font-weight:700; display:block; margin-bottom:3px;';
-              idEl.textContent = idText;
-
-              const snippetEl = document.createElement('p');
-              const snippet = typeof src.snippet === 'string' ? src.snippet.slice(0, 120) : '';
-              snippetEl.style.cssText = 'font-size:12px; color:#6e6a7a; margin:0;';
-              snippetEl.textContent = snippet + (snippet.length >= 120 ? '…' : '');
-
-              row.appendChild(idEl);
-              if (snippet) row.appendChild(snippetEl);
-              panel.appendChild(row);
-            });
-
-            toggle.addEventListener('click', () => {
-              expanded = !expanded;
-              panel.style.display = expanded ? 'flex' : 'none';
-              toggle.textContent = `Sources (${srcs.length}) ${expanded ? '▾' : '▸'}`;
-            });
-
-            sourcesWrap.appendChild(toggle);
-            sourcesWrap.appendChild(panel);
-          }
-
-          content.appendChild(sourcesWrap);
-        }
 
         messageDiv.appendChild(avatar);
         messageDiv.appendChild(content);

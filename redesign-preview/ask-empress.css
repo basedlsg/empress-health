@@ -10,14 +10,8 @@
 .ask-form button{justify-self:end}
 .ask-form button:disabled{opacity:.6;cursor:wait}
 .ask-status,.ask-privacy{font-size:.82rem;color:var(--muted);margin:12px 6px 0;line-height:1.5}
+.ask-disclaimer{font-size:.85rem;color:var(--ink);margin:16px 6px 0;padding-top:12px;border-top:1px solid var(--plum-300);line-height:1.6}
 .ask-status:empty{display:none}
-.ask-sources{font-size:.82rem;white-space:normal;border-top:1px solid var(--plum-300);margin-top:12px;padding-top:10px}
-.ask-sources summary{cursor:pointer;font-weight:600;color:var(--plum)}
-.ask-sources ol{padding-left:20px;margin:10px 0 0}
-.ask-sources li+li{margin-top:14px}
-.ask-sources p{margin:4px 0 0;font-size:.85rem;line-height:1.5}
-.ask-sources small{display:block;overflow-wrap:anywhere;color:var(--muted);font-size:.7rem}
-.ask-sources .ask-source-note{font-size:.75rem;margin-top:10px;color:var(--muted)}
 .ask-suggestion{text-align:left;cursor:pointer;font-family:var(--sans)}
 .ask-suggestion:hover{border-color:var(--gold);background:var(--cream)}
 @media(max-width:560px){.ask-form button{width:100%}.ask-chat{max-height:420px}}

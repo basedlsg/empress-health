@@ -135,8 +135,11 @@ JS/CSS. The build stages these files into `public/`. The legacy `/askempress`
 chat also uses the same `POST /qa` endpoint.
 
 Pipeline: question → Pinecone query embedding → `clinical-framework` and
-`ask-empress-library` passages → grounded answer model → answer plus source-labelled
-excerpts. Other namespaces and the internet are not searched. These passages
+`ask-empress-library` passages → grounded answer model → answer. The chat displays
+questions and answers only,
+with a persistent educational-information disclaimer beneath the form. Source
+metadata remains in the API response for internal provenance. Other namespaces
+and the internet are not searched. These passages
 are reference material; retrieved excerpts are not independent validation of
 every generated claim. Each question is independent; there is no conversation
 memory or connection to a personal tracker.
@@ -149,8 +152,7 @@ Python with `openpyxl` and `pypdf`. It deduplicates CSV/XLSX copies and the comb
 workbook, splits long answers without truncation, and records original file,
 sheet/row or PDF page and source type. Provider emails and LinkedIn fields are
 omitted. Metadata-only and link-only files are reported, not treated as answers.
-The source panel's "Linked reference" opens an external reference supplied in the
-material, when present; raw archive files are not publicly hosted.
+Raw archive files are not publicly hosted.
 
 ```bash
 python3 scripts/prepare-ask-empress-library.py /absolute/path/to/archive.zip
@@ -169,7 +171,7 @@ Only Ask Empress searches the extra namespace. Assessment retrieval remains on
 the configured framework namespace. Results are merged by comparable cosine
 score, deduplicated, and capped at two passages per library file. Original papers,
 supplied research summaries, editorial material, planning compilations and
-business references have distinct source labels in the prompt and source panel.
+business references have distinct source labels in the model prompt and API metadata.
 Business operations and the unverified MVP planning compilation are indexed for
 the import record but excluded from Ask Empress's patient education search.
 Importing material is not clinical verification of its contents.
