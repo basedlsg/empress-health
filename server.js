@@ -857,16 +857,81 @@ app.post("/qa", async (req, res) => {
       requestId,
     });
 
+    if (req.session && typeof result.answer === "string" && result.answer.trim()) {
+      req.session.askEmpressLatest = {
+        question: safeQuery.slice(0, 800),
+        answer: result.answer.slice(0, 12000),
+        createdAt: Date.now(),
+        token: require("crypto").randomBytes(24).toString("hex"),
+      };
+    }
+
     // Emit both new shape and legacy `response` field for backward compat
     res.status(result.status === "unavailable" ? 503 : 200).json({
       response: result.answer,  // legacy field consumed by existing frontend
       answer:   result.answer,
       sources:  result.sources,
       status:   result.status || "answered",
+      emailToken: req.session?.askEmpressLatest?.token || null,
     });
   } catch (err) {
     console.error(`[${requestId}] Server exception in /qa:`, err.message);
     res.status(500).json({ response: "Server error generating answer." });
+  }
+});
+
+// Email an answer only after the visitor submits their address. Keep this
+// transactional opt-in on the project's explicitly selected SMTP sender.
+app.post("/api/ask-empress/email-answer", captureLimiter, async (req, res) => {
+  const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase() : "";
+  const latest = req.session?.askEmpressLatest;
+  const fresh = latest && Date.now() - latest.createdAt < 30 * 60 * 1000;
+  const answerToken = typeof req.body?.answerToken === "string" ? req.body.answerToken : "";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255 || !fresh || answerToken !== latest.token) {
+    return res.status(400).json({ ok: false, error: "Enter a valid email address to receive this answer." });
+  }
+  const { question, answer } = latest;
+
+  const { sendEmail, getEmailDeliveryConfig } = require("./lib/email-sender");
+  const delivery = getEmailDeliveryConfig();
+  const expectedSender = "Empresshealthtech@gmail.com";
+  if (!delivery.smtpReady || String(delivery.sender || "").toLowerCase() !== expectedSender.toLowerCase()) {
+    return res.status(503).json({ ok: false, error: "Email delivery is temporarily unavailable. Please try again later." });
+  }
+
+  const escapeHtml = (value) => value.replace(/[&<>\"']/g, (char) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;",
+  })[char]);
+  const guideUrl = "https://empressnaturals.co/expertguidance";
+  const htmlAnswer = escapeHtml(answer).replace(/\r?\n/g, "<br>");
+  const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#2b1a2f;line-height:1.6"><h1 style="color:#3f1449">Your Ask Empress answer</h1><p><strong>Your question</strong><br>${escapeHtml(question)}</p><hr style="border:0;border-top:1px solid #e7dbea;margin:24px 0"><div>${htmlAnswer}</div><p style="margin-top:28px"><a href="${guideUrl}" style="display:inline-block;background:#3f1449;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none">Read a deeper guide</a></p><p style="font-size:12px;color:#665d68">Ask Empress provides general educational information, not medical advice.</p></div>`;
+  const text = `Your Ask Empress answer\n\nYour question:\n${question}\n\n${answer}\n\nRead a deeper guide: ${guideUrl}\n\nAsk Empress provides general educational information, not medical advice.`;
+  try {
+    const result = await sendEmail({ to: email, subject: "Your Ask Empress answer", html, text });
+    if (result.mode !== "smtp") {
+      return res.status(503).json({ ok: false, error: "Email delivery is temporarily unavailable. Please try again later." });
+    }
+    delete req.session.askEmpressLatest;
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("[ask-empress-email] SMTP delivery failed:", err.message);
+    return res.status(503).json({ ok: false, error: "We couldn't email this answer right now. Please try again later." });
+  }
+});
+
+// A small, public-safe slice of the curated catalog for the Ask Empress
+// answer carousel. Keep clinical matching and private catalog fields server-side.
+app.get("/api/ask-empress/products", (_req, res) => {
+  try {
+    const products = require("./lib/catalog").getAllProducts()
+      .filter((product) => product && product.name)
+      .slice(0, 8)
+      .map((product) => ({ name: String(product.name).slice(0, 120) }));
+    res.set("Cache-Control", "public, max-age=300");
+    return res.json({ products });
+  } catch (err) {
+    console.error("[ask-empress-products] catalog unavailable:", err.message);
+    return res.status(503).json({ products: [] });
   }
 });
 

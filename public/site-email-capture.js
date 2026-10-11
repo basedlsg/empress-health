@@ -251,9 +251,23 @@
     try {
       mountPlaceholders();
       replaceLinks();
+      mountAskEmpressShortcut();
     } catch (e) {
       if (window.console && console.warn) console.warn('[email-capture] init failed:', e);
     }
+  }
+
+  function mountAskEmpressShortcut() {
+    if (document.getElementById('ask-empress-shortcut')) return;
+    var style = document.createElement('style');
+    style.textContent = '#ask-empress-shortcut{position:fixed;right:22px;bottom:22px;z-index:900;display:flex;align-items:center;gap:9px;padding:10px 15px 10px 10px;border:1px solid rgba(63,20,74,.16);border-radius:999px;background:#fffaf1;color:#3f1449;box-shadow:0 8px 26px rgba(43,26,47,.18);font:600 14px/1 Inter,system-ui,sans-serif;text-decoration:none;transition:transform .18s,box-shadow .18s}#ask-empress-shortcut:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(43,26,47,.24)}#ask-empress-shortcut:focus-visible{outline:3px solid #d8a738;outline-offset:3px}#ask-empress-shortcut .ask-empress-mark{width:31px;height:31px;display:grid;place-items:center;border-radius:50%;background:#3f1449;color:#fff;font:italic 18px Georgia,serif}@media(max-width:600px){#ask-empress-shortcut{right:14px;bottom:14px;padding:9px}.ask-empress-shortcut-label{display:none}}';
+    document.head.appendChild(style);
+    var link = document.createElement('a');
+    link.id = 'ask-empress-shortcut';
+    link.href = '/askempress';
+    link.setAttribute('aria-label', 'Ask Empress');
+    link.innerHTML = '<span class="ask-empress-mark" aria-hidden="true">E</span><span class="ask-empress-shortcut-label">Ask Empress</span>';
+    document.body.appendChild(link);
   }
 
   window.EmpressEmailCapture = { mount: mount, init: init, pathSlug: pathSlug };

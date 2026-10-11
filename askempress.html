@@ -632,29 +632,28 @@
     </div>
   </div>
 
-  <!-- TODO: add integrity="sha384-..." crossorigin="anonymous" once vendor publishes SRI hash -->
-  <script src="https://backend.enterprisechai.com/chatbot/public/build/copilot/index.js" crossorigin="anonymous"></script>
+  <style>
+    .answer-save{margin:14px 0 4px;padding:18px;border:1px solid #e6dcea;border-radius:16px;background:#fffaf1}
+    .answer-save h3{margin:0 0 4px;color:#3f1449;font:600 20px/1.3 Poppins,Inter,sans-serif}
+    .answer-save p{margin:0 0 12px;color:#5a4a5e;font-size:14px;line-height:1.55}
+    .answer-save form{display:flex;gap:8px;flex-wrap:wrap}
+    .answer-save input{flex:1 1 220px;min-width:0;padding:11px 13px;border:1px solid #b79bc2;border-radius:10px;font:inherit}
+    .answer-save button,.answer-products button{border:0;border-radius:10px;background:#3f1449;color:#fff;padding:11px 16px;font:600 14px Inter,sans-serif;cursor:pointer}
+    .answer-save button:disabled{opacity:.6;cursor:wait}
+    .answer-save-status{margin:9px 0 0!important;font-size:13px!important}
+    .answer-products{margin:14px 0 6px;padding:18px;border-radius:16px;background:#f5efe6}
+    .answer-products-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .answer-products h3{margin:0;color:#3f1449;font:600 20px/1.3 Poppins,Inter,sans-serif}
+    .answer-products button{padding:8px 11px}
+    .answer-product-track{display:grid;grid-auto-columns:minmax(190px,1fr);grid-auto-flow:column;gap:12px;overflow:auto;scroll-snap-type:x mandatory;padding:2px 0 8px}
+    .answer-product{scroll-snap-align:start;min-height:136px;padding:15px;border-radius:13px;background:#fff;border:1px solid #ece6ee}
+    .answer-product .product-mark{width:34px;height:34px;margin-bottom:9px;display:grid;place-items:center;border-radius:50%;background:#efe1d3;color:#3f1449;font-size:18px}
+    .answer-product strong{display:block;color:#2b1a2f;font-size:15px;line-height:1.35}
+    .answer-product a{display:inline-block;margin-top:9px;color:#3f1449;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+    @media(max-width:600px){.answer-save form{display:grid}.answer-save button{width:100%}.answer-product-track{grid-auto-columns:minmax(190px,78%)}}
+  </style>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const EChaiBotConfig = { 
-          botName: 'Ask Empress',
-          EChaiServer: 'https://backend.enterprisechai.com/chatbot',
-          accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiMTA1IiwibWV0YWRhdGEiOnt9LCJleHAiOjE3NzMwMTAxOTZ9.gElFrJZti24LHL9VnXp5uhaaeCVAfjVK8qTb6viPWBo',
-          theme: 'light',
-          aiMessageIconHoverText: 'Ask Empress',
-          aiMessageIconUrl: 'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/thumbnail_Inside_chatbot-2.png?v=1741293804',
-          botAvatarUrl: 'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/chatbot_icon-20.png?v=1741033477',
-          button: {
-              imageUrl:
-              'https://cdn.shopify.com/s/files/1/0592/6823/5422/files/chatbot_icon-20.png?v=1741033477',  
-              className:
-              'w-20 h-20 bg-transparent p-0 m-0 text-primary hover:text-primary-dark hover:bg-transparent'
-          }
-      }; 
-      window.mountEChaiWidget(EChaiBotConfig);
-    });
-
     // Mobile navigation functionality
     const burger = document.getElementById('burger');
     const drawer = document.getElementById('drawer');
@@ -778,7 +777,8 @@
 
           // Show the answer in the conversation.
           const answerText = data.answer || data.response || data.message || 'I apologize, but I couldn\'t process your request.';
-          this.addMessage(answerText, 'assistant');
+          const answerMessage = this.addMessage(answerText, 'assistant');
+          this.addAnswerActions(answerMessage, answerText, message, data.emailToken);
         } catch (error) {
           console.error('Error sending message:', error);
           this.hideTyping();
@@ -803,6 +803,64 @@
 
         this.messagesContainer.appendChild(messageDiv);
         this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        return messageDiv;
+      }
+
+      addAnswerActions(messageDiv, answer, question, answerToken) {
+        const save = document.createElement('section');
+        save.className = 'answer-save';
+        save.innerHTML = '<h3>Want to keep this?</h3><p>Get a copy of this answer, plus a deeper guide on what can help, sent to your inbox.</p><form><label class="sr-only" for="answer-email-' + Date.now() + '">Email address</label><input type="email" autocomplete="email" required placeholder="you@example.com"><button type="submit">Email me the answer</button></form><p class="answer-save-status" role="status"></p>';
+        const form = save.querySelector('form');
+        const email = form.querySelector('input');
+        email.id = save.querySelector('label').htmlFor;
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const button = form.querySelector('button');
+          const status = save.querySelector('.answer-save-status');
+          button.disabled = true;
+          status.textContent = 'Sending your answer…';
+          try {
+            const response = await fetch('/api/ask-empress/email-answer', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: email.value.trim(), answerToken })
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'We could not email this answer. Please try again.');
+            status.textContent = 'Your answer and guide are on their way to your inbox.';
+            form.remove();
+          } catch (error) {
+            status.textContent = error.message;
+            button.disabled = false;
+          }
+        });
+        messageDiv.querySelector('.message-content').appendChild(save);
+        this.addProductCarousel(messageDiv);
+      }
+
+      async addProductCarousel(messageDiv) {
+        try {
+          const response = await fetch('/api/ask-empress/products');
+          if (!response.ok) return;
+          const data = await response.json();
+          if (!Array.isArray(data.products) || !data.products.length) return;
+          const section = document.createElement('section');
+          section.className = 'answer-products';
+          section.innerHTML = '<div class="answer-products-head"><h3>Explore supportive products</h3><div><button type="button" aria-label="Scroll products left">‹</button> <button type="button" aria-label="Scroll products right">›</button></div></div><div class="answer-product-track" aria-label="Product recommendations" tabindex="0"></div><p style="font-size:12px;color:#5a4a5e;margin:8px 0 0">Products are optional and are not a substitute for personalized medical advice.</p>';
+          const track = section.querySelector('.answer-product-track');
+          data.products.slice(0, 6).forEach((product) => {
+            const card = document.createElement('article');
+            card.className = 'answer-product';
+            const name = document.createElement('strong');
+            name.textContent = product.name;
+            const mark = document.createElement('div'); mark.className = 'product-mark'; mark.setAttribute('aria-hidden', 'true'); mark.textContent = '✦';
+            const link = document.createElement('a'); link.href = '/marketplace'; link.textContent = 'Explore in marketplace →';
+            card.append(mark, name, link); track.appendChild(card);
+          });
+          const controls = section.querySelectorAll('button');
+          controls[0].addEventListener('click', () => track.scrollBy({ left: -220, behavior: 'smooth' }));
+          controls[1].addEventListener('click', () => track.scrollBy({ left: 220, behavior: 'smooth' }));
+          messageDiv.querySelector('.message-content').appendChild(section);
+        } catch (_) { /* Keep the answer readable if the catalog is unavailable. */ }
       }
       
       showTyping() {
