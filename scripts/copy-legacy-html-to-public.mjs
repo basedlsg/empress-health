@@ -76,4 +76,18 @@ for (const entry of await readdir(REDESIGN_DIR, { withFileTypes: true })) {
 // Older builds may have left this static file behind. Never allow it to
 // shadow the paid /assessment route when Vercel applies clean URLs.
 await rm(path.join(PUBLIC_DIR, "assessment.html"), { force: true });
+
+// Keep the Ask Empress shortcut and shared email capture available on every
+// page, including redesign pages overlaid after the legacy HTML copy.
+for (const entry of await readdir(PUBLIC_DIR, { withFileTypes: true })) {
+  if (!entry.isFile() || !entry.name.endsWith(".html")) continue;
+  const htmlPath = path.join(PUBLIC_DIR, entry.name);
+  const html = await readFile(htmlPath, "utf8");
+  if (html.includes('src="/site-email-capture.js"')) continue;
+  const script = '  <script src="/site-email-capture.js" defer></script>\n';
+  const updated = /<\/body>/i.test(html)
+    ? html.replace(/<\/body>/i, `${script}</body>`)
+    : `${html}\n${script}`;
+  await writeFile(htmlPath, updated);
+}
 console.log("staged redesign-preview/ → public/ (free quiz at /free-assessment)");
