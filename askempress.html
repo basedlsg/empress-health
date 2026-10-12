@@ -637,8 +637,15 @@
     .answer-save h3{margin:0 0 4px;color:#3f1449;font:600 20px/1.3 Poppins,Inter,sans-serif}
     .answer-save p{margin:0 0 12px;color:#5a4a5e;font-size:14px;line-height:1.55}
     .answer-save form{display:flex;gap:8px;flex-wrap:wrap}
+    .answer-blog-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .answer-save .answer-blog-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .answer-save .answer-blog-form[hidden]{display:none}
+    .answer-blog-form label{display:block;color:#5a4a5e;font-size:12px;font-weight:600}
+    .answer-blog-form input{display:block;width:100%;margin-top:5px}
+    .answer-blog-form button{grid-column:1/-1}
     .answer-save input{flex:1 1 220px;min-width:0;padding:11px 13px;border:1px solid #b79bc2;border-radius:10px;font:inherit}
     .answer-save button,.answer-products button{border:0;border-radius:10px;background:#3f1449;color:#fff;padding:11px 16px;font:600 14px Inter,sans-serif;cursor:pointer}
+    .answer-save button.secondary{background:#fff;color:#3f1449;border:1px solid #b79bc2}
     .answer-save button:disabled{opacity:.6;cursor:wait}
     .answer-save-status{margin:9px 0 0!important;font-size:13px!important}
     .answer-products{margin:14px 0 6px;padding:18px;border-radius:16px;background:#f5efe6}
@@ -650,7 +657,7 @@
     .answer-product .product-mark{width:34px;height:34px;margin-bottom:9px;display:grid;place-items:center;border-radius:50%;background:#efe1d3;color:#3f1449;font-size:18px}
     .answer-product strong{display:block;color:#2b1a2f;font-size:15px;line-height:1.35}
     .answer-product a{display:inline-block;margin-top:9px;color:#3f1449;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
-    @media(max-width:600px){.answer-save form{display:grid}.answer-save button{width:100%}.answer-product-track{grid-auto-columns:minmax(190px,78%)}}
+    @media(max-width:600px){.answer-save form{display:grid}.answer-save .answer-blog-form{grid-template-columns:1fr}.answer-save button{width:100%}.answer-product-track{grid-auto-columns:minmax(190px,78%)}}
   </style>
 
   <script>
@@ -778,7 +785,7 @@
           // Show the answer in the conversation.
           const answerText = data.answer || data.response || data.message || 'I apologize, but I couldn\'t process your request.';
           const answerMessage = this.addMessage(answerText, 'assistant');
-          this.addAnswerActions(answerMessage, answerText, message, data.emailToken);
+          this.addAnswerActions(answerMessage, data.emailToken, data.blog);
         } catch (error) {
           console.error('Error sending message:', error);
           this.hideTyping();
@@ -806,31 +813,81 @@
         return messageDiv;
       }
 
-      addAnswerActions(messageDiv, answer, question, answerToken) {
+      addAnswerActions(messageDiv, answerToken, blog) {
+        if (!answerToken || !blog || !blog.title || !blog.url) return;
         const save = document.createElement('section');
         save.className = 'answer-save';
-        save.innerHTML = '<h3>Want to keep this?</h3><p>Get a copy of this answer, plus a deeper guide on what can help, sent to your inbox.</p><form><label class="sr-only" for="answer-email-' + Date.now() + '">Email address</label><input type="email" autocomplete="email" required placeholder="you@example.com"><button type="submit">Email me the answer</button></form><p class="answer-save-status" role="status"></p>';
-        const form = save.querySelector('form');
-        const email = form.querySelector('input');
-        email.id = save.querySelector('label').htmlFor;
+        const heading = document.createElement('h3');
+        heading.textContent = 'Would you like more detail in a blog?';
+        const prompt = document.createElement('p');
+        prompt.textContent = 'I found a blog that may give you more detail: ' + blog.title;
+        const actions = document.createElement('div');
+        actions.className = 'answer-blog-actions';
+        const yes = document.createElement('button');
+        yes.type = 'button';
+        yes.textContent = 'Yes, email it to me';
+        const no = document.createElement('button');
+        no.type = 'button';
+        no.className = 'secondary';
+        no.textContent = 'No thanks';
+        actions.append(yes, no);
+
+        const form = document.createElement('form');
+        form.className = 'answer-blog-form';
+        form.hidden = true;
+        const firstNameLabel = document.createElement('label');
+        firstNameLabel.textContent = 'Your name';
+        const firstName = document.createElement('input');
+        firstName.type = 'text';
+        firstName.name = 'name';
+        firstName.autocomplete = 'name';
+        firstName.placeholder = 'Your name';
+        firstName.maxLength = 120;
+        firstName.required = true;
+        firstNameLabel.appendChild(firstName);
+        const emailLabel = document.createElement('label');
+        emailLabel.textContent = 'Email address';
+        const email = document.createElement('input');
+        email.type = 'email';
+        email.name = 'email';
+        email.autocomplete = 'email';
+        email.placeholder = 'you@example.com';
+        email.required = true;
+        emailLabel.appendChild(email);
+        const submit = document.createElement('button');
+        submit.type = 'submit';
+        submit.textContent = 'Send me the blog';
+        form.append(firstNameLabel, emailLabel, submit);
+        const status = document.createElement('p');
+        status.className = 'answer-save-status';
+        status.setAttribute('role', 'status');
+        save.append(heading, prompt, actions, form, status);
+        yes.addEventListener('click', () => {
+          form.hidden = false;
+          yes.disabled = true;
+          no.disabled = true;
+          firstName.focus();
+        });
+        no.addEventListener('click', () => {
+          status.textContent = 'No problem. You can keep asking me questions here.';
+          actions.remove();
+        });
         form.addEventListener('submit', async (event) => {
           event.preventDefault();
-          const button = form.querySelector('button');
-          const status = save.querySelector('.answer-save-status');
-          button.disabled = true;
-          status.textContent = 'Sending your answer…';
+          submit.disabled = true;
+          status.textContent = 'Sending your blog…';
           try {
             const response = await fetch('/api/ask-empress/email-answer', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: email.value.trim(), answerToken })
+              body: JSON.stringify({ name: firstName.value.trim(), email: email.value.trim(), answerToken, blogSlug: blog.slug })
             });
             const result = await response.json();
-            if (!response.ok) throw new Error(result.error || 'We could not email this answer. Please try again.');
-            status.textContent = 'Your answer and guide are on their way to your inbox.';
+            if (!response.ok) throw new Error(result.error || 'We could not email this blog. Please try again.');
+            status.textContent = 'The blog and your Ask Empress answer are on their way to your inbox.';
             form.remove();
           } catch (error) {
             status.textContent = error.message;
-            button.disabled = false;
+            submit.disabled = false;
           }
         });
         messageDiv.querySelector('.message-content').appendChild(save);

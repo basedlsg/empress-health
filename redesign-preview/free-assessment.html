@@ -107,8 +107,13 @@
   <p style="font-size:.85rem;color:var(--txs);margin-bottom:1.1rem;">Your stage determines the weight matrix — clinical priorities shift across the menopause continuum.</p>
   <button class="sc" onclick="ps('perimenopause',this)">
     <span class="st" style="background:#534AB7;">Perimenopause</span>
+    <h3>My periods are still regular</h3>
+    <p>I'm still menstruating, but noticing symptoms that may be perimenopause. Age 35+.</p>
+  </button>
+  <button class="sc" onclick="ps('perimenopause',this)">
+    <span class="st" style="background:#534AB7;">Perimenopause</span>
     <h3>My periods have become irregular</h3>
-    <p>Still menstruating but experiencing symptoms. Ages 38–51. Mood, sleep and cognitive symptoms often dominate.</p>
+    <p>Cycle changes alongside symptoms that may be perimenopause. Ages 35–45.</p>
   </button>
   <button class="sc" onclick="ps('menopause',this)">
     <span class="st" style="background:#1D9E75;">Menopause</span>
@@ -116,9 +121,9 @@
     <p>Or surgical/medically-induced. Ages 45–55. Peak vasomotor burden. Metabolic changes beginning.</p>
   </button>
   <button class="sc" onclick="ps('post_menopause',this)">
-    <span class="st" style="background:#D8A738;">Post-menopause</span>
+    <span class="st" style="background:#D8A738;">Menopause &amp; Wellness</span>
     <h3>No period for 12 or more months</h3>
-    <p>Natural menopause confirmed. Typically 55+. Genitourinary, metabolic and bone health are the priorities.</p>
+    <p>Natural menopause confirmed. Typically 50+. Ongoing wellness and whole-body health are the priorities.</p>
   </button>
   <label style="display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--txs);cursor:pointer;padding:.7rem;background:var(--cm);border-radius:8px;margin:.625rem 0;">
     <input type="checkbox" id="mht" style="width:14px;height:14px;accent-color:var(--pm);">
@@ -604,7 +609,7 @@ function gen(){
   const dBands=dS.map(s=>getDB(s));
   const flags=detectFlags(resp);
   const wts=W[stage];
-  const stLbl={perimenopause:'Perimenopause',menopause:'Menopause',post_menopause:'Post-Menopause'}[stage];
+  const stLbl={perimenopause:'Perimenopause',menopause:'Menopause',post_menopause:'Menopause & Wellness'}[stage];
   const topC=dS.indexOf(Math.min(...dS));
   const topS=dS.indexOf(Math.max(...dS));
 

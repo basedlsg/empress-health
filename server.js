@@ -20,6 +20,7 @@ const { generateAffirmations: _generateAffirmationsGrounded } = require("./lib/a
 const { handleQA } = require("./lib/qa");
 const { callGemini } = require("./lib/gemini");
 const { callAskEmpressModel } = require("./lib/ask-empress-model");
+const { findAskEmpressBlog } = require("./lib/ask-empress-blog");
 const retrieval = require("./lib/retrieval");
 const { issueCsrfToken, verifyCsrfMiddleware } = require("./lib/csrf");
 const dailyAffirmations = require("./lib/daily-affirmations");
@@ -856,11 +857,13 @@ app.post("/qa", async (req, res) => {
       callOpenAI: callAskEmpressModel,
       requestId,
     });
+    const recommendedBlog = findAskEmpressBlog(safeQuery);
 
     if (req.session && typeof result.answer === "string" && result.answer.trim()) {
       req.session.askEmpressLatest = {
         question: safeQuery.slice(0, 800),
         answer: result.answer.slice(0, 12000),
+        blogSlug: recommendedBlog?.slug || null,
         createdAt: Date.now(),
         token: require("crypto").randomBytes(24).toString("hex"),
       };
@@ -872,6 +875,7 @@ app.post("/qa", async (req, res) => {
       answer:   result.answer,
       sources:  result.sources,
       status:   result.status || "answered",
+      blog:     recommendedBlog,
       emailToken: req.session?.askEmpressLatest?.token || null,
     });
   } catch (err) {
@@ -884,13 +888,19 @@ app.post("/qa", async (req, res) => {
 // transactional opt-in on the project's explicitly selected SMTP sender.
 app.post("/api/ask-empress/email-answer", captureLimiter, async (req, res) => {
   const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase() : "";
+  const name = typeof req.body?.name === "string" ? req.body.name.trim() : "";
+  const blogSlug = typeof req.body?.blogSlug === "string" ? req.body.blogSlug : "";
   const latest = req.session?.askEmpressLatest;
   const fresh = latest && Date.now() - latest.createdAt < 30 * 60 * 1000;
   const answerToken = typeof req.body?.answerToken === "string" ? req.body.answerToken : "";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255 || !fresh || answerToken !== latest.token) {
-    return res.status(400).json({ ok: false, error: "Enter a valid email address to receive this answer." });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255 || !name || name.length > 120 || !fresh || answerToken !== latest.token || !latest.blogSlug || blogSlug !== latest.blogSlug) {
+    return res.status(400).json({ ok: false, error: "Enter your name and a valid email address to receive the blog." });
   }
   const { question, answer } = latest;
+  const blog = findAskEmpressBlog(question);
+  if (!blog || blog.slug !== blogSlug) {
+    return res.status(400).json({ ok: false, error: "We couldn't find a matching blog for this question." });
+  }
 
   const { sendEmail, getEmailDeliveryConfig } = require("./lib/email-sender");
   const delivery = getEmailDeliveryConfig();
@@ -902,12 +912,12 @@ app.post("/api/ask-empress/email-answer", captureLimiter, async (req, res) => {
   const escapeHtml = (value) => value.replace(/[&<>\"']/g, (char) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;",
   })[char]);
-  const guideUrl = "https://empressnaturals.co/expertguidance";
   const htmlAnswer = escapeHtml(answer).replace(/\r?\n/g, "<br>");
-  const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#2b1a2f;line-height:1.6"><h1 style="color:#3f1449">Your Ask Empress answer</h1><p><strong>Your question</strong><br>${escapeHtml(question)}</p><hr style="border:0;border-top:1px solid #e7dbea;margin:24px 0"><div>${htmlAnswer}</div><p style="margin-top:28px"><a href="${guideUrl}" style="display:inline-block;background:#3f1449;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none">Read a deeper guide</a></p><p style="font-size:12px;color:#665d68">Ask Empress provides general educational information, not medical advice.</p></div>`;
-  const text = `Your Ask Empress answer\n\nYour question:\n${question}\n\n${answer}\n\nRead a deeper guide: ${guideUrl}\n\nAsk Empress provides general educational information, not medical advice.`;
+  const greeting = escapeHtml(name);
+  const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#2b1a2f;line-height:1.6"><h1 style="color:#3f1449">A little more for you, ${greeting}</h1><p>Here is the blog you asked for, based on your Ask Empress question.</p><p><a href="${blog.url}" style="display:inline-block;background:#3f1449;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none">${escapeHtml(blog.title)}</a></p><p><strong>Your question</strong><br>${escapeHtml(question)}</p><hr style="border:0;border-top:1px solid #e7dbea;margin:24px 0"><h2 style="color:#3f1449">Your Ask Empress answer</h2><div>${htmlAnswer}</div><p style="font-size:12px;color:#665d68;margin-top:24px">Ask Empress provides general educational information, not medical advice.</p></div>`;
+  const text = `A little more for you, ${name}\n\nHere is the blog you asked for, based on your Ask Empress question:\n${blog.title}\n${blog.url}\n\nYour question:\n${question}\n\nYour Ask Empress answer:\n${answer}\n\nAsk Empress provides general educational information, not medical advice.`;
   try {
-    const result = await sendEmail({ to: email, subject: "Your Ask Empress answer", html, text });
+    const result = await sendEmail({ to: email, subject: "A blog for your Ask Empress question", html, text });
     if (result.mode !== "smtp") {
       return res.status(503).json({ ok: false, error: "Email delivery is temporarily unavailable. Please try again later." });
     }
