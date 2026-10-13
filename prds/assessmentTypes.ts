@@ -13,6 +13,7 @@ export type MenopauseStage = "perimenopause" | "menopause" | "post_menopause"
 
 export type UserProfile = {
   firstName: string
+  lastName?: string
   age: number
   /** Contact + location captured on the intake screen. Used to email the
    *  report and to match doctor recommendations to the user's state / ZIP. */

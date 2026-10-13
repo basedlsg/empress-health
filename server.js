@@ -20,7 +20,9 @@ const { generateAffirmations: _generateAffirmationsGrounded } = require("./lib/a
 const { handleQA } = require("./lib/qa");
 const { callGemini } = require("./lib/gemini");
 const { callAskEmpressModel } = require("./lib/ask-empress-model");
-const { findAskEmpressBlog } = require("./lib/ask-empress-blog");
+const { findAskEmpressBlog, getAskEmpressBlog } = require("./lib/ask-empress-blog");
+const { normaliseHistory, retrievalQuestion } = require("./lib/ask-empress-history");
+const { getAskEmpressProducts } = require("./lib/ask-empress-products");
 const retrieval = require("./lib/retrieval");
 const { issueCsrfToken, verifyCsrfMiddleware } = require("./lib/csrf");
 const dailyAffirmations = require("./lib/daily-affirmations");
@@ -660,7 +662,10 @@ async function localSignup(req, res, { first_name, last_name, email, phone }, pa
     return res.status(500).json({ error: "Could not create your account right now. Please try again." });
   }
   console.log("✅ User registered (local auth):", normEmail);
-  await captureStore.captureEmail({ email: normEmail, firstName: row.first_name, source: "signup", userId: row.id });
+  await captureStore.captureEmail({
+    email: normEmail, firstName: row.first_name, lastName: row.last_name,
+    source: "signup", userId: row.id,
+  });
   return establishAuthSession(req, res, row, { message: "Account created successfully" });
 }
 
@@ -709,7 +714,7 @@ const contactLimiter = rateLimit({
 // Zapier contact webhook URL — read once at startup (avoids reading env per-request).
 const ZAPIER_CONTACT_WEBHOOK_URL = process.env.ZAPIER_CONTACT_WEBHOOK_URL || '';
 if (!ZAPIER_CONTACT_WEBHOOK_URL) {
-  console.warn('[contact] ZAPIER_CONTACT_WEBHOOK_URL not set — /api/contact will return 503');
+  console.info('[contact] Zapier not configured; contact messages use durable storage and the configured SMTP sender');
 }
 
 // (chatLimiter removed with the /api/chat route — /qa has its own llmLimiter.)
@@ -852,15 +857,20 @@ app.post("/qa", async (req, res) => {
 
     // Redact secrets from the stored/logged query
     const safeQuery = redactSecrets({ query: rawQuery }).query;
+    const history = normaliseHistory(req.body?.history);
 
     const result = await handleQA({
       query: safeQuery,
+      history,
       callOpenAI: callAskEmpressModel,
       requestId,
     });
-    const recommendedBlog = findAskEmpressBlog(safeQuery);
+    const answered = !result.status || result.status === "answered";
+    const contextualQuestion = retrievalQuestion(safeQuery, history);
+    const recommendedBlog = answered ? findAskEmpressBlog(contextualQuestion) : null;
 
-    if (req.session && typeof result.answer === "string" && result.answer.trim()) {
+    let emailToken = null;
+    if (answered && req.session && typeof result.answer === "string" && result.answer.trim()) {
       req.session.askEmpressLatest = {
         question: safeQuery.slice(0, 800),
         answer: result.answer.slice(0, 12000),
@@ -868,6 +878,12 @@ app.post("/qa", async (req, res) => {
         createdAt: Date.now(),
         token: require("crypto").randomBytes(24).toString("hex"),
       };
+      emailToken = req.session.askEmpressLatest.token;
+      // Preserve earlier answer tokens so asking another question doesn't
+      // invalidate an email form that is still visible in the conversation.
+      req.session.askEmpressAnswers = (req.session.askEmpressAnswers || [])
+        .filter(entry => Date.now() - entry.createdAt < 30 * 60 * 1000)
+        .concat(req.session.askEmpressLatest).slice(-12);
     }
 
     // Emit both new shape and legacy `response` field for backward compat
@@ -877,11 +893,40 @@ app.post("/qa", async (req, res) => {
       sources:  result.sources,
       status:   result.status || "answered",
       blog:     recommendedBlog,
-      emailToken: req.session?.askEmpressLatest?.token || null,
+      emailToken,
+      products: answered ? getAskEmpressProducts(contextualQuestion) : [],
     });
   } catch (err) {
     console.error(`[${requestId}] Server exception in /qa:`, err.message);
     res.status(500).json({ response: "Server error generating answer." });
+  }
+});
+
+// Explicit opt-in account continuity. Anonymous device history stays in the
+// browser; every database operation is scoped to the authenticated user.
+const askEmpressChats = require("./lib/ask-empress-chat-store").createChatStore(() => pool);
+app.get("/api/ask-empress/history", async (req, res) => {
+  res.set("Cache-Control", "no-store");
+  if (!req.session?.userId) return res.json({ authenticated: false, remember: false, history: [] });
+  try {
+    return res.json({ authenticated: true, ...await askEmpressChats.read(req.session.userId) });
+  } catch (error) {
+    console.error("[ask-empress-history] read failed:", error.message);
+    return res.status(503).json({ error: "Account chat history is temporarily unavailable." });
+  }
+});
+app.put("/api/ask-empress/history", captureLimiter, async (req, res) => {
+  res.set("Cache-Control", "no-store");
+  if (!req.session?.userId) return res.status(401).json({ error: "Sign in to save chat history in your account." });
+  if (typeof req.body?.remember !== "boolean" || !Array.isArray(req.body?.history)) {
+    return res.status(400).json({ error: "Choose whether to remember this conversation." });
+  }
+  try {
+    await askEmpressChats.write(req.session.userId, req.body.remember, req.body.history);
+    return res.json({ ok: true });
+  } catch (error) {
+    console.error("[ask-empress-history] save failed:", error.message);
+    return res.status(503).json({ error: "We couldn't save your chat. Please try again." });
   }
 });
 
@@ -891,19 +936,24 @@ app.post("/api/ask-empress/email-answer", captureLimiter, async (req, res) => {
   const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase() : "";
   const name = typeof req.body?.name === "string" ? req.body.name.trim() : "";
   const blogSlug = typeof req.body?.blogSlug === "string" ? req.body.blogSlug : "";
-  const latest = req.session?.askEmpressLatest;
-  const fresh = latest && Date.now() - latest.createdAt < 30 * 60 * 1000;
   const answerToken = typeof req.body?.answerToken === "string" ? req.body.answerToken : "";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255 || !name || name.length > 120 || !fresh || answerToken !== latest.token || !latest.blogSlug || blogSlug !== latest.blogSlug) {
-    return res.status(400).json({ ok: false, error: "Enter your name and a valid email address to receive the blog." });
+  const latest = req.session?.askEmpressAnswers?.find(entry => entry.token === answerToken)
+    || (req.session?.askEmpressLatest?.token === answerToken ? req.session.askEmpressLatest : null);
+  const fresh = latest && Date.now() - latest.createdAt < 30 * 60 * 1000;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255 || name.length > 120 || !fresh || blogSlug !== (latest.blogSlug || "")) {
+    return res.status(400).json({ ok: false, error: "Enter a valid email address. If this answer has expired, ask your question again." });
   }
   const { question, answer } = latest;
-  const blog = findAskEmpressBlog(question);
-  if (!blog || blog.slug !== blogSlug) {
-    return res.status(400).json({ ok: false, error: "We couldn't find a matching blog for this question." });
+  const blog = latest.blogSlug ? getAskEmpressBlog(latest.blogSlug) : null;
+  if (latest.blogSlug && !blog) {
+    return res.status(503).json({ ok: false, error: "This guide is temporarily unavailable. Please try again later." });
   }
 
   const { sendEmail, getEmailDeliveryConfig } = require("./lib/email-sender");
+  const stored = await captureStore.captureEmail({ email, firstName: name, source: "ask-empress-answer", userId: req.session?.userId, context: { blogSlug: latest.blogSlug, consent: "requested-answer-email" } });
+  if (!stored) {
+    return res.status(503).json({ ok: false, error: "We couldn't save your email request. Please try again later." });
+  }
   const delivery = getEmailDeliveryConfig();
   const expectedSender = "Empresshealthtech@gmail.com";
   if (!delivery.smtpReady || String(delivery.sender || "").toLowerCase() !== expectedSender.toLowerCase()) {
@@ -914,15 +964,17 @@ app.post("/api/ask-empress/email-answer", captureLimiter, async (req, res) => {
     "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;",
   })[char]);
   const htmlAnswer = escapeHtml(answer).replace(/\r?\n/g, "<br>");
-  const greeting = escapeHtml(name);
-  const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#2b1a2f;line-height:1.6"><h1 style="color:#3f1449">A little more for you, ${greeting}</h1><p>Here is the blog you asked for, based on your Ask Empress question.</p><p><a href="${blog.url}" style="display:inline-block;background:#3f1449;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none">${escapeHtml(blog.title)}</a></p><p><strong>Your question</strong><br>${escapeHtml(question)}</p><hr style="border:0;border-top:1px solid #e7dbea;margin:24px 0"><h2 style="color:#3f1449">Your Ask Empress answer</h2><div>${htmlAnswer}</div><p style="font-size:12px;color:#665d68;margin-top:24px">Ask Empress provides general educational information, not medical advice.</p></div>`;
-  const text = `A little more for you, ${name}\n\nHere is the blog you asked for, based on your Ask Empress question:\n${blog.title}\n${blog.url}\n\nYour question:\n${question}\n\nYour Ask Empress answer:\n${answer}\n\nAsk Empress provides general educational information, not medical advice.`;
+  const greeting = escapeHtml(name || "you");
+  const guideHtml = blog ? `<h2>${escapeHtml(blog.title)}</h2><p>${escapeHtml(blog.articleText).replace(/\n/g, "<br>")}</p><p><a href="${blog.url}">Read this guide on Empress Health</a></p>` : '';
+  const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#2b1a2f;line-height:1.6"><h1 style="color:#3f1449">A little more for ${greeting}</h1><p><strong>Your question</strong><br>${escapeHtml(question)}</p><h2 style="color:#3f1449">Your Ask Empress answer</h2><div>${htmlAnswer}</div>${guideHtml}<p style="font-size:12px;color:#665d68;margin-top:24px">Ask Empress provides general educational information, not medical advice.</p></div>`;
+  const text = `Your question:\n${question}\n\nYour Ask Empress answer:\n${answer}${blog ? `\n\n${blog.title}\n${blog.articleText}\n${blog.url}` : ''}\n\nAsk Empress provides general educational information, not medical advice.`;
   try {
-    const result = await sendEmail({ to: email, subject: "A blog for your Ask Empress question", html, text });
+    const result = await sendEmail({ to: email, subject: blog ? "Your Ask Empress answer and guide" : "Your Ask Empress answer", html, text });
     if (result.mode !== "smtp") {
       return res.status(503).json({ ok: false, error: "Email delivery is temporarily unavailable. Please try again later." });
     }
-    delete req.session.askEmpressLatest;
+    req.session.askEmpressAnswers = (req.session.askEmpressAnswers || []).filter(entry => entry.token !== answerToken);
+    if (req.session.askEmpressLatest?.token === answerToken) delete req.session.askEmpressLatest;
     return res.json({ ok: true });
   } catch (err) {
     console.error("[ask-empress-email] SMTP delivery failed:", err.message);
@@ -930,14 +982,10 @@ app.post("/api/ask-empress/email-answer", captureLimiter, async (req, res) => {
   }
 });
 
-// A small, public-safe slice of the curated catalog for the Ask Empress
-// answer carousel. Keep clinical matching and private catalog fields server-side.
-app.get("/api/ask-empress/products", (_req, res) => {
+// Existing marketplace products for the optional browsing carousel.
+app.get("/api/ask-empress/products", (req, res) => {
   try {
-    const products = require("./lib/catalog").getAllProducts()
-      .filter((product) => product && product.name)
-      .slice(0, 8)
-      .map((product) => ({ name: String(product.name).slice(0, 120) }));
+    const products = getAskEmpressProducts(typeof req.query.query === "string" ? req.query.query.slice(0, 800) : "");
     res.set("Cache-Control", "public, max-age=300");
     return res.json({ products });
   } catch (err) {
@@ -1924,20 +1972,25 @@ const handleSurveySubmit = async (req, res) => {
     // Keep the answers in Postgres. (The survey used to be forwarded to the
     // Render backend, which is suspended — anonymous visitors on the static
     // waitlist page lost every submission.)
-    const surveyEmail = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
-    const [surveyId] = await Promise.all([
+    const rawSurveyEmail = req.body.email;
+    const surveyEmail = typeof rawSurveyEmail === "string" ? rawSurveyEmail.trim().toLowerCase() : "";
+    const hasSurveyEmail = rawSurveyEmail !== undefined && rawSurveyEmail !== null && !(typeof rawSurveyEmail === "string" && surveyEmail === "");
+    if (hasSurveyEmail && (typeof rawSurveyEmail !== "string" || surveyEmail.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(surveyEmail))) {
+      return res.status(400).json({ error: "A valid email address is required." });
+    }
+    const [surveyId, emailSaved] = await Promise.all([
       captureStore.saveSubmission({
         kind: "membership-survey",
-        email: surveyEmail,
+        email: hasSurveyEmail ? surveyEmail : null,
         userId: Number.isInteger(user_id) ? user_id : null,
         scores: { ...surveyData, ...fastapiSnapshot },
         responses: req.body,
       }),
-      surveyEmail
+      hasSurveyEmail
         ? captureStore.captureEmail({ email: surveyEmail, source: "waitlist-survey", userId: Number.isInteger(user_id) ? user_id : null })
         : Promise.resolve(true),
     ]);
-    if (!surveyId) {
+    if (!surveyId || !emailSaved) {
       return res.status(503).json({ error: "We could not save your answers right now. Please try again." });
     }
     return res.json({ success: true, id: surveyId, message: "Survey submitted successfully" });
@@ -2058,10 +2111,16 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
 
   // 1. Keep it. The message is safe once it's in the database, whatever
   //    happens to delivery below.
-  const [messageId] = await Promise.all([
+  const [messageId, emailSaved] = await Promise.all([
     captureStore.saveContactMessage({ name, email, phone, message }),
-    captureStore.captureEmail({ email, firstName: name, source: "contact-form" }),
+    captureStore.captureEmail({
+      email, firstName: name, source: "contact-form",
+      context: { name, phone: phone || null, message },
+    }),
   ]);
+  if (!messageId && !emailSaved) {
+    return res.status(503).json({ error: "We could not save your message right now. Please try again." });
+  }
 
   // 2. Deliver to the team inbox over SMTP, Reply-To the visitor. (This used
   //    to depend solely on a Zapier webhook that was never configured in
@@ -2108,10 +2167,7 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   }
 
   if (delivered) await captureStore.markContactDelivered(messageId);
-  if (!delivered && !messageId) {
-    return res.status(502).json({ error: "We couldn't send your message. Please email hello@empresshealth.ai directly." });
-  }
-  return res.json({ ok: true });
+  return res.json({ ok: true, delivered, saved: Boolean(messageId || emailSaved) });
 });
 
 // Google Analytics loader. Every page includes <script src="/api/analytics">;
@@ -2141,6 +2197,7 @@ app.post("/api/capture/email", captureLimiter, async (req, res) => {
   const ok = await captureStore.captureEmail({
     email: typeof b.email === "string" ? b.email : "",
     firstName: typeof b.firstName === "string" ? b.firstName : null,
+    lastName: typeof b.lastName === "string" ? b.lastName : null,
     source,
     userId: req.session && Number.isInteger(req.session.userId) ? req.session.userId : null,
     context: ctx,
@@ -2156,6 +2213,7 @@ app.post("/api/assessment/intake-handoff", captureLimiter, async (req, res) => {
   const body = req.body || {};
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
   const firstName = typeof body.firstName === "string" ? body.firstName.trim() : "";
+  const lastName = typeof body.lastName === "string" ? body.lastName.trim() : "";
   const age = Number(body.age);
   const state = typeof body.state === "string" ? body.state.trim() : "";
   const zip = typeof body.zip === "string" ? body.zip.trim() : "";
@@ -2165,7 +2223,7 @@ app.post("/api/assessment/intake-handoff", captureLimiter, async (req, res) => {
       !state || state.length > 80 || !/^\d{5}$/.test(zip)) {
     return res.status(400).json({ ok: false, error: "Please enter your name, age, email, state, and five-digit ZIP code." });
   }
-  const token = await captureStore.createIntakeHandoff({ email, firstName, age, state, zip, phone });
+  const token = await captureStore.createIntakeHandoff({ email, firstName, lastName, age, state, zip, phone });
   if (!token) return res.status(503).json({ ok: false, error: "We cannot save your details right now. Please try again." });
   res.set("Cache-Control", "no-store");
   return res.json({ ok: true, token });
@@ -2221,9 +2279,10 @@ app.post("/api/preview-assessment", captureLimiter, async (req, res) => {
     }
   }
   const firstName = typeof body.firstName === "string" ? body.firstName.trim().slice(0, 80) : null;
+  const lastName = typeof body.lastName === "string" ? body.lastName.trim().slice(0, 80) : null;
   const [emailSaved, submissionId] = await Promise.all([
-    captureStore.captureEmail({ email, firstName, source: "preview-assessment", context: { phone: typeof body.phone === "string" ? body.phone.slice(0, 40) : null } }),
-    captureStore.saveSubmission({ kind: "preview-8q", email, firstName, stage: responses.cycle, band: responses.impact, responses }),
+    captureStore.captureEmail({ email, firstName, lastName, source: "preview-assessment", context: { phone: typeof body.phone === "string" ? body.phone.slice(0, 40) : null } }),
+    captureStore.saveSubmission({ kind: "preview-8q", email, firstName, lastName, stage: responses.cycle, band: responses.impact, responses }),
   ]);
   if (!emailSaved || !submissionId) {
     return res.status(503).json({ ok: false, error: "We could not save your answers right now. Please try again." });
@@ -2342,21 +2401,26 @@ app.post("/api/feedback/submit", async (req, res) => {
 
     // Keep it in Postgres (the old Render backend it was forwarded to is
     // suspended, so every waitlist-survey answer used to be lost).
-    const feedbackEmail = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+    const rawFeedbackEmail = req.body.email;
+    const feedbackEmail = typeof rawFeedbackEmail === "string" ? rawFeedbackEmail.trim().toLowerCase() : "";
+    const hasFeedbackEmail = rawFeedbackEmail !== undefined && rawFeedbackEmail !== null && !(typeof rawFeedbackEmail === "string" && feedbackEmail === "");
+    if (hasFeedbackEmail && (typeof rawFeedbackEmail !== "string" || feedbackEmail.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(feedbackEmail))) {
+      return res.status(400).json({ error: "A valid email address is required." });
+    }
     const feedbackUserId = Number.isInteger(req.session && req.session.userId) ? req.session.userId : null;
-    const [feedbackId] = await Promise.all([
+    const [feedbackId, emailSaved] = await Promise.all([
       captureStore.saveSubmission({
         kind: "membership-feedback",
-        email: feedbackEmail,
+        email: hasFeedbackEmail ? feedbackEmail : null,
         userId: feedbackUserId,
         scores: feedbackData,
         responses: req.body,
       }),
-      feedbackEmail
+      hasFeedbackEmail
         ? captureStore.captureEmail({ email: feedbackEmail, source: "waitlist-survey", userId: feedbackUserId })
         : Promise.resolve(true),
     ]);
-    if (!feedbackId) {
+    if (!feedbackId || !emailSaved) {
       return res.status(503).json({ error: "We could not save your answers right now. Please try again." });
     }
     return res.json({ success: true, message: "Feedback submitted successfully" });
@@ -3087,9 +3151,14 @@ app.post("/api/free-score-lead", async (req, res) => {
       return res.status(400).json({ error: "A valid email is required." });
     }
     const firstName = typeof b.firstName === "string" ? b.firstName.slice(0, 80) : null;
+    const lastName = typeof b.lastName === "string" ? b.lastName.slice(0, 80) : null;
     const stage     = typeof b.stage === "string" ? b.stage.slice(0, 40) : null;
     const his       = Number.isFinite(Number(b.his)) ? Number(b.his) : null;
     const gcs       = Number.isFinite(Number(b.gcs)) ? Number(b.gcs) : null;
+    const responses = Array.isArray(b.responses) ? b.responses : null;
+    if (!responses || responses.length !== 12 || responses.some((v) => !Number.isInteger(v) || v < 0 || v > 3)) {
+      return res.status(400).json({ ok: false, error: "Please complete all 12 questions before saving your results." });
+    }
 
     // Track config — one 12-question score per symptom (sleep first). Unknown or
     // absent track falls back to the menopause Health Intelligence Score. Add a
@@ -3124,16 +3193,16 @@ app.post("/api/free-score-lead", async (req, res) => {
     const report = normaliseReport(b.report);
     const [emailSaved, submissionId] = await Promise.all([
       capture.captureEmail({
-        email, firstName, source: T.source, userId: sessionUserId,
+        email, firstName, lastName, source: T.source, userId: sessionUserId,
         context: {
           zip: typeof b.zip === "string" ? b.zip.replace(/[^\d]/g, "").slice(0, 5) : null,
           phone: typeof b.phone === "string" ? b.phone.slice(0, 40) : null,
         },
       }),
       capture.saveSubmission({
-        kind: T.source, email, firstName, userId: sessionUserId, stage, score: his, band: hisBand,
+        kind: T.source, email, firstName, lastName, userId: sessionUserId, stage, score: his, band: hisBand,
         scores: { burden: gcs, burdenBand: gcsBand, hrt: b.hrt === true, domains: report.domains, flags: report.flags },
-        responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
+        responses,
       }),
     ]);
     if (!emailSaved || !submissionId) {
@@ -3141,8 +3210,8 @@ app.post("/api/free-score-lead", async (req, res) => {
     }
 
     await require("./lib/notify").notify("lead", {
-      source: T.source, track: trackKey, firstName, email: email.slice(0, 200), stage,
-      his, gcs, responses: Array.isArray(b.responses) ? b.responses.slice(0, 12).map(Number) : null,
+      source: T.source, track: trackKey, firstName, lastName, email: email.slice(0, 200), stage,
+      his, gcs, responses,
     });
 
     // The saved result is available even when email delivery is unavailable.
@@ -3212,12 +3281,13 @@ app.post("/api/assessment/report-email", async (req, res) => {
     }
 
     const [emailSaved, submissionId] = await Promise.all([
-      captureStore.captureEmail({ email: payload.to, firstName: payload.firstName, source: "paid-assessment-complete", userId: sessionUserId }),
+      captureStore.captureEmail({ email: payload.to, firstName: payload.firstName, lastName: payload.lastName, source: "paid-assessment-complete", userId: sessionUserId }),
       captureStore.saveSubmission({
-        kind: "paid-120", email: payload.to, firstName: payload.firstName, userId: sessionUserId,
+        kind: "paid-120", email: payload.to, firstName: payload.firstName, lastName: payload.lastName, userId: sessionUserId,
         stage: payload.stage, score: payload.overall, band: payload.band,
         scores: {
           categories: payload.categoryScores, priorities: payload.priorities, mhtActive: req.body && req.body.mhtActive === true,
+          user: payload.report ? payload.report.user : null,
           // Recommendations shown in the report, so the PDF can be re-rendered later.
           apiResult: payload.report ? payload.report.apiResult : null,
         },
@@ -3341,11 +3411,11 @@ app.post("/api/assessment/feedback", async (req, res) => {
     // Email is optional, but if provided it must look valid.
     let cleanEmail = null;
     if (email !== undefined && email !== null && email !== "") {
-      const e = typeof email === "string" ? email.trim() : "";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+      const e = typeof email === "string" ? email.trim().toLowerCase() : "";
+      if (e.length > 200 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
         return res.status(400).json({ error: "email does not look valid" });
       }
-      cleanEmail = e.slice(0, 200);
+      cleanEmail = e;
     }
 
     const cleanSectionId = String(sectionId).slice(0, 80);
@@ -3357,7 +3427,7 @@ app.post("/api/assessment/feedback", async (req, res) => {
     const cleanCompletedAt =
       typeof completedAt === "string" ? completedAt.slice(0, 60) : null;
 
-    await notify("feedback", {
+    const feedback = {
       sectionId: cleanSectionId,
       sectionTitle: cleanSectionTitle,
       comment: trimmed,
@@ -3365,7 +3435,18 @@ app.post("/api/assessment/feedback", async (req, res) => {
       firstName: cleanFirstName,
       email: cleanEmail,
       completedAt: cleanCompletedAt,
-    });
+    };
+    // JSONL is best-effort on serverless hosts. A submitted email and its
+    // reflection must be durable before reporting success or notifying support.
+    if (cleanEmail) {
+      const saved = await captureStore.captureEmail({
+        email: cleanEmail, firstName: cleanFirstName, source: "form-feedback",
+        userId: Number.isInteger(req.session?.userId) ? req.session.userId : null,
+        context: feedback,
+      });
+      if (!saved) return res.status(503).json({ error: "We could not save your reflection right now. Please try again." });
+    }
+    await notify("feedback", feedback, { captureEmails: false });
 
     // Best-effort email to the support team. A delivery failure must NOT
     // 500 the request — the feedback is already captured via notify() above.
@@ -3501,7 +3582,7 @@ app.post("/api/referral/submit", async (req, res) => {
     const { friendName, friendEmail, referrerFirstName, tier, note } = req.body || {};
 
     const name = typeof friendName === "string" ? friendName.trim() : "";
-    const email = typeof friendEmail === "string" ? friendEmail.trim() : "";
+    const email = typeof friendEmail === "string" ? friendEmail.trim().toLowerCase() : "";
 
     if (!name) return res.status(400).json({ error: "friendName is required" });
     if (!email) return res.status(400).json({ error: "friendEmail is required" });
@@ -3513,14 +3594,20 @@ app.post("/api/referral/submit", async (req, res) => {
       return res.status(400).json({ error: "friendName or friendEmail too long" });
     }
 
-    await notify("referral", {
+    const referral = {
       friendName: name,
       friendEmail: email,
       referrerFirstName:
         typeof referrerFirstName === "string" ? referrerFirstName.slice(0, 80) : null,
       tier: tier === "free" || tier === "paid" ? tier : null,
       note: typeof note === "string" ? note.slice(0, 500) : null,
+    };
+    const saved = await captureStore.captureEmail({
+      email, firstName: name, source: "referral-friend", context: referral,
+      userId: Number.isInteger(req.session?.userId) ? req.session.userId : null,
     });
+    if (!saved) return res.status(503).json({ error: "We could not save your referral right now. Please try again." });
+    await notify("referral", referral, { captureEmails: false });
 
     res.json({ ok: true });
   } catch (err) {
@@ -4202,8 +4289,9 @@ app.get("/contact", (_req, res) =>
 app.get("/account", (_req, res) =>
   res.sendFile(path.join(__dirname, "account.html"))
 );
-app.get("/askempress", (_req, res) =>
-  res.sendFile(path.join(__dirname, "askempress.html"))
+app.get("/askempress", (_req, res) => res.redirect(302, "/ask-empress"));
+app.get("/ask-empress", (_req, res) =>
+  res.sendFile(path.join(__dirname, "public", "ask-empress.html"))
 );
 app.get("/free-assessment", (_req, res) =>
   res.sendFile(path.join(__dirname, "free-assessment.html"))
@@ -4447,11 +4535,21 @@ app.post("/api/affirmations/subscribe", express.json(), async (req, res) => {
   }
 
   try {
-    await captureStore.captureEmail({
-      email, firstName: profile && profile.name, source: "daily-affirmations",
+    const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail) || normalizedEmail.length > 255) {
+      return res.status(400).json({ error: "A valid email address is required." });
+    }
+    const captured = await captureStore.captureEmail({
+      email: normalizedEmail,
+      firstName: profile && profile.name,
+      lastName: profile && profile.lastName,
+      source: "daily-affirmations",
       userId: Number.isInteger(req.session && req.session.userId) ? req.session.userId : null,
     });
-    const result = await dailyAffirmations.subscribe({ ...profile, email });
+    if (!captured) {
+      return res.status(503).json({ error: "We cannot save your email right now. Please try again." });
+    }
+    const result = await dailyAffirmations.subscribe({ ...profile, email: normalizedEmail });
     return res.json({
       subscriberId: result.subscriberId,
       nextSendAt: result.nextSendAt,

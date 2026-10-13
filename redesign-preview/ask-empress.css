@@ -1,4 +1,7 @@
-.ask-phone{max-width:520px}
+.ask-phone{width:100%;max-width:520px;min-width:0}
+.ask-brand-avatar{width:58px;height:58px;flex:none;border-radius:12px;background:var(--white);overflow:hidden}
+.ask-brand-avatar img{width:100%;height:auto;object-fit:contain}
+.page-hero-grid>div{min-width:0}
 .ask-intro-note{max-width:48ch;margin-top:20px;font-size:1rem;color:var(--sand)}
 .ask-chat{max-height:480px;overflow-y:auto;min-height:210px;overscroll-behavior:contain}
 .ask-chat .bubble{max-width:96%;white-space:pre-wrap;overflow-wrap:anywhere}
@@ -15,3 +18,28 @@
 .ask-suggestion{text-align:left;cursor:pointer;font-family:var(--sans)}
 .ask-suggestion:hover{border-color:var(--gold);background:var(--cream)}
 @media(max-width:560px){.ask-form button{width:100%}.ask-chat{max-height:420px}}
+.ask-memory{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 6px;border-bottom:1px solid var(--plum-300);color:var(--ink);font-size:.82rem}
+.ask-memory label{display:flex;align-items:center;gap:8px;flex:1}
+.ask-memory input{accent-color:var(--plum);width:16px;height:16px}
+.ask-memory button{background:none;border:0;text-decoration:underline;color:var(--plum);font:inherit;cursor:pointer;min-height:36px}
+.ask-memory p{width:100%;margin:0;color:var(--muted);line-height:1.5}
+.ask-save,.ask-products{border-top:1px solid var(--plum-300);margin:16px 6px 0;padding:16px 0 0;white-space:normal}
+.ask-save-prompt{font-size:.95rem;font-weight:600;line-height:1.5;margin:0 0 8px;color:var(--plum)}
+.ask-action-note,.ask-email-status{font-size:.82rem;line-height:1.5;color:var(--muted);margin:8px 0}
+.ask-email-status:empty{display:none}
+.ask-email-form{display:grid;gap:10px;margin:12px 0}
+.ask-email-form label{font-size:.85rem;font-weight:600;color:var(--plum)}
+.ask-email-form input{display:block;width:100%;min-height:44px;margin-top:6px;padding:10px 12px;font:inherit;background:var(--cream);color:var(--ink);border:1px solid var(--plum-300);border-radius:var(--r-sm)}
+.ask-email-form .btn{font-size:.85rem;padding:10px 14px}
+.ask-products-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.ask-products-head h2{font-family:var(--sans);font-size:1rem;font-weight:600;margin:0;color:var(--plum)}
+.ask-products-head>div{display:flex;gap:6px}
+.ask-products-head button{width:36px;height:36px;border:1px solid var(--plum-300);border-radius:50%;background:var(--cream);color:var(--plum);font-size:1.3rem;cursor:pointer}
+.ask-product-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding-bottom:8px}
+.ask-product{flex:0 0 190px;display:flex;flex-direction:column;gap:8px;background:var(--cream);border:1px solid var(--plum-300);border-radius:var(--r-sm);padding:12px;scroll-snap-align:start;color:var(--plum);text-decoration:none}
+.ask-product img{width:100%;height:120px;object-fit:contain;background:var(--white);border-radius:var(--r-sm)}
+.ask-product strong{font-size:.85rem;line-height:1.45}
+.ask-product span{font-size:.8rem;margin-top:auto;text-decoration:underline}
+.ask-memory button:focus-visible,.ask-email-form input:focus-visible,.ask-product:focus-visible,.ask-product-track:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.ask-email-form button:disabled{opacity:.6;cursor:wait}
+@media(max-width:560px){.ask-product{flex-basis:170px}.ask-memory{font-size:.8rem}}

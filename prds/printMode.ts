@@ -8,7 +8,7 @@ import type { MenopauseStage } from "./assessmentTypes"
  * report screen with this data and the report must not email anything itself.
  */
 export type PrintRenderState = {
-  user: { firstName: string; age: number; usState?: string; zip?: string }
+  user: { firstName: string; lastName?: string; age: number; usState?: string; zip?: string }
   stage: MenopauseStage | null
   mhtActive: boolean
   responses: Record<number, number>

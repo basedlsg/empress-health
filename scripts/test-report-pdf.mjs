@@ -12,7 +12,7 @@
 import { createRequire } from 'module';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { writeFileSync, mkdtempSync } from 'node:fs';
+import { writeFileSync, mkdtempSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 const require = createRequire(import.meta.url);
@@ -27,6 +27,12 @@ const large = await renderReportPdf({ state: buildSampleState(), siteOrigin, lar
 assert.ok(normal.pages >= 30, `normal report is the full document (${normal.pages} pages)`);
 assert.ok(large.pages > normal.pages, `large type is larger (${large.pages} > ${normal.pages} pages)`);
 assert.ok(normal.pdf.subarray(0, 5).toString() === '%PDF-', 'output is a PDF');
+if (process.env.REPORT_ARTIFACT_DIR) {
+  const dir = path.resolve(process.env.REPORT_ARTIFACT_DIR);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(path.join(dir, 'maya-patel-health-intelligence-report.pdf'), normal.pdf);
+  writeFileSync(path.join(dir, 'maya-patel-health-intelligence-report-large-type.pdf'), large.pdf);
+}
 
 // Text check via pdftotext when available.
 try {
@@ -39,7 +45,7 @@ try {
   const sample = buildSampleState();
   // Affirmation cards sit in two columns, so reading order interleaves them — match each caption's opening words.
   const captionStarts = sample.apiResult.affirmations.map((a) => a.caption.split(' ').slice(0, 3).join(' '));
-  for (const needle of ['Thank You, Maya', 'Menopause-Certified NAMS Practitioner', 'Magnesium Glycinate 400mg', 'Amy M. Stoddard', 'Your sleep domain score',
+  for (const needle of ['Maya Patel', 'Thank You, Maya', 'Menopause-Certified NAMS Practitioner', 'Magnesium Glycinate 400mg', 'Amy M. Stoddard', 'Your sleep domain score',
     ...captionStarts, 'YOU WILL GET A LUXURY GIFT WORTH $30', 'Premium plan receives a luxury gift']) {
     assert.ok(text.includes(flat(needle)), `PDF text contains "${needle}"`);
   }

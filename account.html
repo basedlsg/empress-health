@@ -549,6 +549,7 @@
     var RETAKE = { "free-12q-screener": "/free-assessment", "free-sleep-score": "/sleep-assessment", "paid-120": "/assessment/?tier=paid" };
     function renderResults() {
       var list = state.results || [];
+      var restoreShown = false;
       $("results-wrap").hidden = list.length === 0;
       var wrap = $("results"); wrap.innerHTML = "";
       list.forEach(function (r) {
@@ -561,9 +562,15 @@
         meta.textContent = [when, r.band, r.stage ? String(r.stage).replace(/_/g, " ") : ""].filter(Boolean).join(" · ");
         left.appendChild(meta);
         var right = document.createElement("div");
-        right.style.cssText = "display:flex;align-items:center;gap:16px;";
+        right.style.cssText = "display:flex;align-items:center;gap:16px;flex-wrap:wrap;";
         var sc = document.createElement("div"); sc.className = "r-score";
         sc.innerHTML = (r.score == null ? "—" : String(Number(r.score))) + " <small>/ 100</small>";
+        if (r.kind === "paid-120" && !restoreShown) {
+          restoreShown = true;
+          var restore = document.createElement("a"); restore.className = "ghost";
+          restore.href = "/assessment/?tier=paid&restore=latest"; restore.textContent = "Restore saved report";
+          right.appendChild(restore);
+        }
         var again = document.createElement("a"); again.className = "ghost"; again.href = RETAKE[r.kind] || "/"; again.textContent = "Take again";
         right.appendChild(sc); right.appendChild(again);
         card.appendChild(left); card.appendChild(right);

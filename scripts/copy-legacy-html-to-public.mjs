@@ -79,9 +79,9 @@ await rm(path.join(PUBLIC_DIR, "assessment.html"), { force: true });
 
 // Keep the Ask Empress shortcut and shared email capture available on every
 // page, including redesign pages overlaid after the legacy HTML copy.
-for (const entry of await readdir(PUBLIC_DIR, { withFileTypes: true })) {
+for (const entry of await readdir(PUBLIC_DIR, { recursive: true, withFileTypes: true })) {
   if (!entry.isFile() || !entry.name.endsWith(".html")) continue;
-  const htmlPath = path.join(PUBLIC_DIR, entry.name);
+  const htmlPath = path.join(entry.parentPath || entry.path, entry.name);
   const html = await readFile(htmlPath, "utf8");
   if (html.includes('src="/site-email-capture.js"')) continue;
   const script = '  <script src="/site-email-capture.js" defer></script>\n';
@@ -90,4 +90,7 @@ for (const entry of await readdir(PUBLIC_DIR, { withFileTypes: true })) {
     : `${html}\n${script}`;
   await writeFile(htmlPath, updated);
 }
+// Both public chat URLs use the same implementation; old navigation links
+// must not strand visitors on a separate chat without memory or email actions.
+await copyFile(path.join(PUBLIC_DIR, "ask-empress.html"), path.join(PUBLIC_DIR, "askempress.html"));
 console.log("staged redesign-preview/ → public/ (free quiz at /free-assessment)");

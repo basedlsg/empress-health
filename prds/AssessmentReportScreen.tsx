@@ -49,6 +49,7 @@ import {
 } from "./reportDesignSystem"
 
 type Props = {
+  restoredResult?: boolean
   onRetake: () => void
   apiResult: AssessmentApiResult
 }
@@ -343,7 +344,7 @@ function StageOverviewCard({ stage }: { stage: string | null | undefined }) {
 
 /* ───── Component ───── */
 
-export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
+export function AssessmentReportScreen({ onRetake, apiResult, restoredResult = false }: Props) {
   const {
     user,
     responses,
@@ -526,6 +527,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
           deliveryKey: `${completedAt || "completed"}:${user.email.toLowerCase()}`,
           email: user.email,
           firstName: user.firstName,
+          lastName: user.lastName,
           overall,
           band: overallBandLabel || overallStatus,
           stage,
@@ -540,6 +542,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
           report: {
             user: {
               firstName: user.firstName,
+              lastName: user.lastName,
               age: user.age,
               usState: user.usState,
               zip: user.zip,
@@ -607,10 +610,10 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
   // ref prevents React StrictMode's development-only effect replay from
   // producing duplicate messages; the server also deduplicates by session.
   useEffect(() => {
-    if (isFree || isPrintRender || !user?.email || emailAttempted.current) return
+    if (isFree || isPrintRender || restoredResult || !user?.email || emailAttempted.current) return
     emailAttempted.current = true
     void sendReportEmail()
-  }, [isFree, isPrintRender, sendReportEmail, user?.email])
+  }, [isFree, isPrintRender, restoredResult, sendReportEmail, user?.email])
 
   return (
     <div style={s.page} data-empress-report="ready">
@@ -642,7 +645,7 @@ export function AssessmentReportScreen({ onRetake, apiResult }: Props) {
           </h1>
           <p style={s.coverMeta}>
             {[
-              user?.firstName ?? null,
+              [user?.firstName, user?.lastName].filter(Boolean).join(' ') || null,
               user?.age ? `Age ${user.age}` : null,
               completedLabel,
               isFree ? "Free Preview" : null,

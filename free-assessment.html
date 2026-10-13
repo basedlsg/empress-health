@@ -485,6 +485,8 @@ footer{background:var(--plum);color:rgba(255,255,255,.38);padding:1.5rem 1.25rem
   <p style="font-size:.85rem;color:var(--txs);margin-bottom:1.1rem;">Enter your details to reveal your Health Intelligence Score and get a copy emailed to you.</p>
   <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">First name</label>
   <input id="se-name" type="text" placeholder="e.g. Sarah" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
+  <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">Last name</label>
+  <input id="se-last" type="text" placeholder="e.g. Mitchell" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
   <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">Email</label>
   <input id="se-email" type="email" placeholder="you@example.com" autocomplete="email" required style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border-radius:10px;border:1px solid var(--bd);font-size:1rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;">
   <label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txs);margin-bottom:.3rem;">ZIP code</label>
@@ -805,6 +807,7 @@ function goEmail(){
 }
 async function submitEmail(){
   var name=(document.getElementById('se-name').value||'').trim();
+  var lastName=(document.getElementById('se-last').value||'').trim();
   var email=(document.getElementById('se-email').value||'').trim();
   var zip=(document.getElementById('se-zip').value||'').replace(/[^\d]/g,'').slice(0,5);
   var phone=(document.getElementById('se-phone').value||'').trim();
@@ -831,7 +834,7 @@ async function submitEmail(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       credentials:'same-origin',
-      body:JSON.stringify({firstName:name,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:hisV,gcs:gcsV,responses:resp,report:reportPayload(resp,dS)})
+      body:JSON.stringify({firstName:name,lastName:lastName||null,email:email,zip:zip,phone:phone||null,stage:stage,hrt:mht,his:hisV,gcs:gcsV,responses:resp,report:reportPayload(resp,dS)})
     });
     const result=await response.json();
     if(!response.ok||!result.ok) throw new Error(result.error||'We could not save your results. Please try again.');

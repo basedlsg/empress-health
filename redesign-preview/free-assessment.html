@@ -298,7 +298,7 @@
 </div>
 
 <div class="dlb"><div class="dlbi">
-  <p>Your personalised report is ready</p>
+  <p id="deliveryStatus">Your personalised report is ready</p>
   <div class="bts">
     <button class="btd" onclick="window.print()">⬇ Save as PDF</button>
     <button class="btr" onclick="retake()">↺ Retake</button>
@@ -597,6 +597,9 @@ async function submitEmail(){
   window.__empressLeadName = name;
   window.__empressLeadEmail = email;
   gen();
+  document.getElementById('deliveryStatus').textContent=saved.emailSent
+    ? 'Your personalised report is ready and a copy was emailed to you.'
+    : 'Your personalised report is ready. Email delivery is unavailable; please save a PDF copy.';
 }
 
 /* ── GENERATE REPORT ── */

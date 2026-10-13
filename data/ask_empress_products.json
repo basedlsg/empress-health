@@ -1,0 +1,128 @@
+[
+  {
+    "id": "anti-aging-face-serum-am-serum-cica-hydration-rosehip-radiance-hydrating-nourishing-renewing",
+    "name": "AM Serum — Morning Radiance",
+    "category": "skin",
+    "image": "/assets/shop/naturals/amproductimage1.jpg",
+    "url": "https://empressnaturals.co/products/anti-aging-face-serum-am-serum-cica-hydration-rosehip-radiance-hydrating-nourishing-renewing"
+  },
+  {
+    "id": "luxe-night-elixir-pm-serum-postbiotic-restoration-licorice-renewal-detoxifying-rejuvenating-restoring",
+    "name": "PM Serum — Luxe Night Elixir",
+    "category": "skin",
+    "image": "/assets/shop/naturals/pmproductimage1.jpg",
+    "url": "https://empressnaturals.co/products/luxe-night-elixir-pm-serum-postbiotic-restoration-licorice-renewal-detoxifying-rejuvenating-restoring"
+  },
+  {
+    "id": "nourishing-body-oil",
+    "name": "Nourishing Body Oil",
+    "category": "skin",
+    "image": "/assets/shop/naturals/nourishingmockup.jpg",
+    "url": "https://empressnaturals.co/products/nourishing-body-oil"
+  },
+  {
+    "id": "uplifting-body-oil",
+    "name": "Uplifting Body Oil",
+    "category": "skin",
+    "image": "/assets/shop/naturals/upliftingmockup.jpg",
+    "url": "https://empressnaturals.co/products/uplifting-body-oil"
+  },
+  {
+    "id": "relaxing-body-oil",
+    "name": "Relaxing Body Oil",
+    "category": "skin",
+    "image": "/assets/shop/naturals/relaxingmockup.jpg",
+    "url": "https://empressnaturals.co/products/relaxing-body-oil"
+  },
+  {
+    "id": "calming-massage-oil",
+    "name": "Calming Massage Oil",
+    "category": "wellness",
+    "image": "/assets/shop/naturals/calming-bottle-with-white-background.jpg",
+    "url": "https://empressnaturals.co/products/calming-massage-oil"
+  },
+  {
+    "id": "circulaton-massage-oil",
+    "name": "Circulation Massage Oil",
+    "category": "wellness",
+    "image": "/assets/shop/naturals/circulation-bottle-with-white-background.jpg",
+    "url": "https://empressnaturals.co/products/circulaton-massage-oil"
+  },
+  {
+    "id": "lymphatic-detox-dry-brush",
+    "name": "Lymphatic Dry Brush",
+    "category": "self-care",
+    "image": "/assets/shop/naturals/drybrushwithwhitebackground.jpg",
+    "url": "https://empressnaturals.co/products/lymphatic-detox-dry-brush"
+  },
+  {
+    "id": "bronze-kansa-wand-purifying-massage-tool",
+    "name": "Kansa Wand — Face & Body",
+    "category": "self-care",
+    "image": "/assets/shop/naturals/kansa-wand-body-with-white-background.jpg",
+    "url": "https://empressnaturals.co/products/bronze-kansa-wand-purifying-massage-tool"
+  },
+  {
+    "id": "kansa-wand-face-bundle",
+    "name": "The Radiance Restore Kit",
+    "category": "bundles",
+    "image": "/assets/shop/naturals/the-radiance-restore-kit.jpg",
+    "url": "https://empressnaturals.co/products/kansa-wand-face-bundle"
+  },
+  {
+    "id": "the-de-stress-kit",
+    "name": "The De-Stress Kit",
+    "category": "bundles",
+    "image": "/assets/shop/naturals/the-de-stress-kit.jpg",
+    "url": "https://empressnaturals.co/products/the-de-stress-kit"
+  },
+  {
+    "id": "the-self-massage-bundle",
+    "name": "The Self-Massage Bundle",
+    "category": "bundles",
+    "image": "/assets/shop/naturals/massage-oil-set-with-white-background.jpg",
+    "url": "https://empressnaturals.co/products/the-self-massage-bundle"
+  },
+  {
+    "id": "naked-collection-set",
+    "name": "Naked Collection Set",
+    "category": "bundles",
+    "image": "/assets/shop/naturals/naked-collection.jpg",
+    "url": "https://empressnaturals.co/products/naked-collection-set"
+  },
+  {
+    "id": "body-oil-gift-set",
+    "name": "Body Oil Gift Set",
+    "category": "bundles",
+    "image": "/assets/shop/naturals/giftsetwithoutbackground.jpg",
+    "url": "https://empressnaturals.co/products/body-oil-gift-set"
+  },
+  {
+    "id": "empress-naturals-pure-argan-oil",
+    "name": "Moroccan Gold Argan Oil",
+    "category": "hair",
+    "image": "/assets/shop/naturals/naked-arganoil-30mlformockup-1024x1024-c7087cb2-e52e-4f55-bb.jpg",
+    "url": "https://empressnaturals.co/products/empress-naturals-pure-argan-oil"
+  },
+  {
+    "id": "empress-naturals-rosehip-seed-oil",
+    "name": "Rosehip Seed Oil",
+    "category": "hair",
+    "image": "/assets/shop/naturals/naked-rosehipseedoilformockup-1024x1024-14ec338f-0140-4d71-9.jpg",
+    "url": "https://empressnaturals.co/products/empress-naturals-rosehip-seed-oil"
+  },
+  {
+    "id": "prickly-pear-seed-oil",
+    "name": "Prickly Pear Seed Oil",
+    "category": "hair",
+    "image": "/assets/shop/naturals/naked-pricklypear-30mlformockup-1024x1024-282c8025-582d-45f5.jpg",
+    "url": "https://empressnaturals.co/products/prickly-pear-seed-oil"
+  },
+  {
+    "id": "wabi-sabi-scalp-scrubber-by-masami",
+    "name": "Wabi Sabi Scalp Scrubber",
+    "category": "hair",
+    "image": "/assets/shop/naturals/white-wabi-sabi-scalp-scrubber.jpg",
+    "url": "https://empressnaturals.co/products/wabi-sabi-scalp-scrubber-by-masami"
+  }
+]

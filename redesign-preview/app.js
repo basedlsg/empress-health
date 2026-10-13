@@ -309,6 +309,63 @@ function logoHTML(onDark) {
   items.forEach(function (el) { io.observe(el); });
 })();
 
+/* ---------- featured products carousel ----------
+   The track remains a native touch-scroll row without JavaScript. This enhancement only
+   adds arrow controls, position feedback, and left/right keyboard movement. */
+(function () {
+  document.querySelectorAll('[data-carousel]').forEach(function (carousel) {
+    var track = carousel.querySelector('.product-track');
+    if (!track) return;
+    var cards = Array.prototype.slice.call(track.querySelectorAll('.product-card'));
+    var previous = carousel.querySelector('[data-carousel-prev]');
+    var next = carousel.querySelector('[data-carousel-next]');
+    var status = carousel.querySelector('[data-carousel-status]');
+    if (!track || !cards.length || !previous || !next || !status) return;
+
+    function update() {
+      var left = track.getBoundingClientRect().left + 2;
+      var right = track.getBoundingClientRect().right - 2;
+      var first = 0;
+      var last = cards.length - 1;
+      for (var i = 0; i < cards.length; i += 1) {
+        var rect = cards[i].getBoundingClientRect();
+        if (rect.right > left) { first = i; break; }
+      }
+      for (var j = first; j < cards.length; j += 1) {
+        if (cards[j].getBoundingClientRect().left < right) last = j;
+        else break;
+      }
+      previous.disabled = track.scrollLeft <= 3;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 3;
+      status.textContent = (first + 1) + '–' + (last + 1) + ' of ' + cards.length;
+    }
+
+    function move(direction) {
+      var card = cards[0];
+      var styles = window.getComputedStyle(track);
+      var gap = parseFloat(styles.columnGap || styles.gap) || 0;
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      track.scrollBy({ left: direction * (card.getBoundingClientRect().width + gap), behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+
+    previous.addEventListener('click', function () { move(-1); });
+    next.addEventListener('click', function () { move(1); });
+    track.addEventListener('keydown', function (event) {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      move(event.key === 'ArrowRight' ? 1 : -1);
+    });
+    var updateQueued = false;
+    track.addEventListener('scroll', function () {
+      if (updateQueued) return;
+      updateQueued = true;
+      window.requestAnimationFrame(function () { updateQueued = false; update(); });
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  });
+})();
+
 /* ---------- Ask Empress chat animation ---------- */
 (function () {
   var chat = document.getElementById('chat');

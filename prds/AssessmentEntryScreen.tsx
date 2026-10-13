@@ -24,6 +24,7 @@ const US_STATES = [
 export function AssessmentEntryScreen({ onBegin, initialError = "" }: Props) {
   const { setUser, totalQuestions, categories, tier } = useAssessment()
   const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [age, setAge] = useState("")
@@ -40,6 +41,7 @@ export function AssessmentEntryScreen({ onBegin, initialError = "" }: Props) {
       .then((acct) => {
         if (cancelled || !acct?.authenticated || !acct.user) return
         setFirstName((v) => v || acct.user.firstName || "")
+        setLastName((v) => v || acct.user.lastName || "")
         setEmail((v) => v || acct.user.email || "")
       })
       .catch(() => {})
@@ -106,6 +108,7 @@ export function AssessmentEntryScreen({ onBegin, initialError = "" }: Props) {
           body: JSON.stringify({
             email: addr,
             firstName: firstName.trim(),
+            lastName: lastName.trim() || null,
             source: tier === "free" ? "free-assessment-intake" : "paid-assessment-intake",
             context: { age: parsedAge, state: usState.trim() || null, zip: zip.trim() || null, phone: phone.trim() || null },
           }),
@@ -122,6 +125,7 @@ export function AssessmentEntryScreen({ onBegin, initialError = "" }: Props) {
       await captureIntake()
       setUser({
         firstName: firstName.trim(),
+        lastName: lastName.trim() || undefined,
         age: parsedAge,
         email: email.trim() || undefined,
         phone: phone.trim() || undefined,
@@ -181,6 +185,20 @@ export function AssessmentEntryScreen({ onBegin, initialError = "" }: Props) {
               autoComplete="given-name"
               required
               aria-label="First name"
+            />
+          </label>
+          <label className="aes-field" style={styles.field}>
+            <span style={styles.fieldLabel}>Last name <span style={styles.optional}>(optional)</span></span>
+            <input
+              className="aes-input"
+              type="text"
+              placeholder="e.g. Rivera"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              maxLength={80}
+              style={styles.input}
+              autoComplete="family-name"
+              aria-label="Last name (optional)"
             />
           </label>
           <label className="aes-field aes-field-age" style={{ ...styles.field, ...styles.fieldAge }}>

@@ -24,14 +24,19 @@
       <h1>Ask Empress</h1>
       <p class="lede">A companion for the questions that arrive at 3 a.m. Ask about perimenopause and menopause, get clear answers and honest guidance when a question needs a clinician.</p>
       <a class="btn btn-gold" href="#ask-question">Ask your question ↓</a>
-      <p class="ask-intro-note">Educational guidance, not diagnosis or treatment. Each answer uses your current question and the Empress knowledge library.</p>
+      <p class="ask-intro-note">Educational guidance, not diagnosis or treatment. Ask a follow-up and Empress can use the context you've shared in this conversation.</p>
     </div>
 
     <div>
       <div class="phone ask-phone">
         <div class="phone-top">
-          <div class="phone-avatar">E</div>
+          <div class="phone-avatar ask-brand-avatar"><img src="assets/logo.png" alt="Empress Health"></div>
           <div><strong>Ask Empress</strong><span>Grounded in the Empress library</span></div>
+        </div>
+        <div class="ask-memory">
+          <label><input type="checkbox" id="ask-remember"> <span id="ask-memory-label">Remember this chat on this device</span></label>
+          <button type="button" id="ask-clear">Clear chat</button>
+          <p id="ask-memory-note">Optional. Saves up to eight exchanges in this browser for 30 days. Sign in to save to your account. Avoid using this on a shared device.</p>
         </div>
         <div class="chat ask-chat" id="ask-messages" role="log" aria-label="Ask Empress conversation" aria-live="polite" aria-relevant="additions">
           <div class="bubble bot show">Hello. What would you like to understand about perimenopause or menopause?</div>
@@ -44,6 +49,7 @@
         <p class="ask-status" id="ask-status" role="status"></p>
         <p class="ask-disclaimer" id="ask-disclaimer"><strong>Disclaimer:</strong> Ask Empress shares general educational information, not medical advice. Please consult your doctor before taking any supplements or medicines.</p>
         <p class="ask-privacy" id="ask-privacy">Leave out names and identifying details. Your question is sent to our search and AI services to generate an answer.</p>
+        <div id="ask-answer-actions"></div>
         <noscript><p>Enable JavaScript to use Ask Empress.</p></noscript>
       </div>
     </div>
@@ -107,7 +113,7 @@
     </div>
     <details class="reveal">
       <summary>How do I use Ask Empress?</summary>
-      <p>Type a question above, or choose one of the suggested questions. Each answer is based on your current question. Include the relevant details each time.</p>
+      <p>Type a question above, or choose one of the suggested questions. You can ask follow-up questions within the conversation. Choose “Remember this chat on this device” to return to it in the same browser for up to 30 days. Turn it off to remove the saved copy, or use “Clear chat” to start fresh. Chat history doesn't sync between devices or connect to your assessment.</p>
     </details>
     <details class="reveal">
       <summary>Am I talking to AI? Who checks what it tells me?</summary>

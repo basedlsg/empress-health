@@ -125,6 +125,7 @@ function isDemoFromUrl(): boolean {
    domains. raw 0=mild .. 10=severe → category score = (10 − avg) × 10. */
 const DEMO = {
   firstName: "Maya",
+  lastName: "Sample",
   age: 47,
   rawBySlug: {
     "vasomotor-temperature":             7,  // ~Priority (hot flashes, night sweats)
@@ -205,8 +206,12 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
   } = useAssessment()
 
   const [step, setStep] = useState<Step>("entry")
+  const [restoredResult, setRestoredResult] = useState(false)
   const [handoffLoading, setHandoffLoading] = useState(
-    () => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("intake"),
+    () => typeof window !== "undefined" && (
+      new URLSearchParams(window.location.search).has("intake") ||
+      new URLSearchParams(window.location.search).get("restore") === "latest"
+    ),
   )
   const [handoffError, setHandoffError] = useState("")
 
@@ -227,7 +232,7 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
       })
       .then((intake) => {
         if (cancelled) return
-        setUser({ firstName: intake.firstName, age: Number(intake.age), email: intake.email,
+        setUser({ firstName: intake.firstName, lastName: intake.lastName, age: Number(intake.age), email: intake.email,
           usState: intake.usState, zip: intake.zip, phone: intake.phone || undefined })
         setStep("staging")
         params.delete("intake")
@@ -240,6 +245,61 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
     return () => { cancelled = true }
   }, [setUser])
 
+  // Restore only after the member explicitly follows the account-page link.
+  // The server verifies the HttpOnly session and scopes the saved health data
+  // to its user id; browser storage is never treated as an ownership check.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("restore") !== "latest") return
+    let cancelled = false
+    fetch("/api/account/continuity", { credentials: "include", cache: "no-store" })
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({}))
+        if (!response.ok || data.authenticated !== true || !data.assessment) {
+          throw new Error(data.error || "No saved full assessment was found for this account.")
+        }
+        return data.assessment
+      })
+      .then((saved) => {
+        if (cancelled) return
+        const profile = saved.user || {}
+        const savedScores = saved.scores || {}
+        const savedResponses = saved.responses && typeof saved.responses === "object" ? saved.responses : {}
+        const knownIds = new Set(categories.flatMap((category) => category.questions.map((question) => question.id)))
+        setUser({
+          firstName: typeof profile.firstName === "string" ? profile.firstName : "",
+          lastName: typeof profile.lastName === "string" ? profile.lastName : undefined,
+          age: Number(profile.age) || 0,
+          email: typeof profile.email === "string" ? profile.email : undefined,
+          usState: typeof profile.usState === "string" ? profile.usState : undefined,
+          zip: typeof profile.zip === "string" ? profile.zip : undefined,
+          stage: saved.stage,
+        })
+        const rawStage = saved.stage === "menopause" || saved.stage === "post_menopause" ? saved.stage : "perimenopause"
+        setStage(rawStage)
+        setMhtActive(savedScores.mhtActive === true)
+        for (const [qid, rawValue] of Object.entries(savedResponses)) {
+          const id = Number(qid)
+          const value = Number(rawValue)
+          if (knownIds.has(id) && Number.isFinite(value) && value >= 0 && value <= 10) setResponse(id, value)
+        }
+        markCompleted(saved.completedAt)
+        setApiResult({
+          affirmations: [], recommendations: [], products: [], productsResponse: "", errors: [],
+          ...(savedScores.apiResult && typeof savedScores.apiResult === "object" ? savedScores.apiResult : {}),
+        } as AssessmentApiResult)
+        params.delete("restore")
+        window.history.replaceState(null, "", window.location.pathname + (params.toString() ? "?" + params.toString() : ""))
+        setRestoredResult(true)
+        setStep("report")
+      })
+      .catch((err) => {
+        if (!cancelled) setHandoffError(err instanceof Error ? err.message : "Could not restore your saved assessment.")
+      })
+      .finally(() => { if (!cancelled) setHandoffLoading(false) })
+    return () => { cancelled = true }
+  }, [categories, markCompleted, setMhtActive, setResponse, setStage, setUser])
+
   // ── DEMO MODE (?demo=1) ───────────────────────────────────────────────────
   // Renders a fully pre-filled sample report without taking the assessment,
   // so the report layout can be previewed at a shareable URL. Seeds a realistic
@@ -248,7 +308,7 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
   useEffect(() => {
     if (!isDemoFromUrl()) return
     // Persona
-    setUser({ firstName: DEMO.firstName, age: DEMO.age, stage: "perimenopause", mhtActive: false })
+    setUser({ firstName: DEMO.firstName, lastName: DEMO.lastName, age: DEMO.age, stage: "perimenopause", mhtActive: false })
     setStage("perimenopause")
     setMhtActive(false)
     // Seed all 120 responses by category target (0=mild .. 10=severe; score=(10-avg)*10)
@@ -378,6 +438,7 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
   }, [currentCategoryId, step])
 
   const handleRetake = useCallback(() => {
+    setRestoredResult(false)
     setStep("entry")
     setCurrentCategoryId(firstCategoryId)
     setApiResult({
@@ -738,7 +799,7 @@ function AssessmentFlowInner({ tier }: { tier: AssessmentTier }) {
     return <LoadingScreen tier={tier} />
   }
 
-  return <AssessmentReportScreen onRetake={handleRetake} apiResult={apiResult} />
+  return <AssessmentReportScreen onRetake={handleRetake} apiResult={apiResult} restoredResult={restoredResult} />
 }
 
 export function AssessmentFlow() {

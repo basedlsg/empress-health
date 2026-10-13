@@ -134,15 +134,41 @@ URLs). Its source lives in `redesign-preview/ask-empress.html`, with companion
 JS/CSS. The build stages these files into `public/`. The legacy `/askempress`
 chat also uses the same `POST /qa` endpoint.
 
-Pipeline: question → Pinecone query embedding → `clinical-framework` and
-`ask-empress-library` passages → grounded answer model → answer. The chat displays
-questions and answers only,
+Menopause and health questions use Pinecone passages from `clinical-framework`
+and `ask-empress-library` to ground the answer. Ordinary conversation, writing
+requests, general knowledge and follow-ups use the same server-side model with
+recent turns as context. General chat has no live web access and does not answer
+medical questions without verified passages. Retrieved excerpts are reference
+material, not independent validation of every generated claim. Other namespaces
+and the internet are not searched. The chat displays questions and answers only,
 with a persistent educational-information disclaimer beneath the form. Source
-metadata remains in the API response for internal provenance. Other namespaces
-and the internet are not searched. These passages
-are reference material; retrieved excerpts are not independent validation of
-every generated claim. Each question is independent; there is no conversation
-memory or connection to a personal tracker.
+metadata remains in the API response for internal provenance. Follow-ups use up
+to eight bounded conversation exchanges as context, never as clinical evidence.
+Remembering is off by default.
+Guests can remember eight exchanges in their browser for 30 days. Signed-in
+users can opt in to account history through `/api/ask-empress/history`, scoped
+strictly to their authenticated session's user ID. Guest conversations are never
+silently uploaded to an account. Clearing or disabling account memory deletes
+that user's stored conversation. Expired history is not returned after 30 days.
+Server email copies expire after 30 minutes.
+Guests can remember eight exchanges in their browser for 30 days. Signed-in
+users can opt in to account history through `/api/ask-empress/history`, scoped
+strictly to their authenticated session's user ID. Guest conversations are never
+silently uploaded to an account. Clearing or disabling account memory deletes
+that user's stored conversation. Expired history is not returned after 30 days.
+Server email copies expire after 30 minutes.
+
+Answered questions offer a copy by email; matching guides include the article
+text and a link to the site's reader. The browser obtains a CSRF token before
+submitting. The route uses the existing SMTP sender `empresshealthtech@gmail.com`
+and fails visibly if delivery is unavailable. Requesting an answer email does
+not subscribe the visitor to marketing. Successful requests record the address
+and this transactional consent in `email_captures`.
+
+The product carousel is independent of email capture and uses existing Empress
+Naturals marketplace products, images and product links. It shows browsing
+suggestions without generating treatment claims. The site shortcut and legacy
+`/askempress` URL both open the current chat.
 
 ### Import a supplied ZIP
 
@@ -206,8 +232,10 @@ model on a separate reachable server and configure its authenticated HTTPS
 endpoint and model in the deployment environment, or retain Gemini. Configure
 Pinecone credentials there too; the ignored local `.env` is not deployed.
 
-`POST /qa` accepts `{ "query": "..." }` (1–800 characters). It returns
-`{ answer, response, sources, status }`; `response` is the legacy answer alias.
+`POST /qa` accepts `{ "query": "...", "history": [{ "question": "...", "answer": "..." }] }`
+(query: 1–800 characters; history is optional and bounded). It returns
+`{ answer, response, sources, status, blog, emailToken, products }`;
+`response` is the legacy answer alias.
 Infrastructure/model failures return HTTP 503 with `status: "unavailable"`,
 distinct from an evidence gap (`status: "no_evidence"`). Existing public API
 rate limits still apply. Do not set `MOCK_LLM=1` in production.

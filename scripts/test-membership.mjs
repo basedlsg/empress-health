@@ -76,6 +76,10 @@ try {
   check("yearly checkout creates a $190/year price", priceCreate && priceCreate.form.unit_amount === "19000" && priceCreate.form["recurring[interval]"] === "year" && priceCreate.form.lookup_key === "empress_premium_yearly");
   const session = seen.find((r) => r.path === "/v1/checkout/sessions");
   check("yearly checkout line item uses the yearly price", session && session.form["line_items[0][price]"] === "price_empress_premium_yearly" && session.form["metadata[interval]"] === "year" && urlYear.startsWith("https://checkout.example"));
+  check("subscription checkout uses dynamic payment methods and stable app ownership", session &&
+    !Object.keys(session.form).some((key) => key.startsWith("payment_method_types")) &&
+    session.form.client_reference_id === "7" && session.form["subscription_data[metadata][user_id]"] === "7" &&
+    /^empress-health-membership-[a-z]{8}$/.test(session.form.integration_identifier));
   seen.length = 0;
   await stripeBilling.createCheckoutSession({ tier: "essential", userId: 7, email: "a@example.test", successUrl: "https://x/s", cancelUrl: "https://x/c" });
   const monthly = seen.find((r) => r.method === "POST" && r.path === "/v1/prices");
