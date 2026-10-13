@@ -48,6 +48,7 @@ function isSafeRedirectTarget(value) {
 }
 
 const app = express();
+const captureLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
 
 process.on('unhandledRejection', (reason) => console.error('Unhandled rejection:', reason));
 process.on('uncaughtException', (err) => console.error('Uncaught exception:', err));
@@ -2127,7 +2128,6 @@ app.get("/api/analytics", (_req, res) => {
 
 // Save an email the moment it's entered (e.g. the assessment intake), so it is
 // kept even if the visitor stops before the end.
-const captureLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
 app.post("/api/capture/email", captureLimiter, async (req, res) => {
   const b = req.body || {};
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(b.email || ""))) {
