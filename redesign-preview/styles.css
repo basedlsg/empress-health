@@ -128,7 +128,10 @@ section{padding-block:var(--section)}
 .logo-mark{display:block;width:var(--logo-w);aspect-ratio:513/378;overflow:hidden}
 .logo-mark img{width:100%;height:auto}
 .logo-tag{
-  font-family:var(--script);color:var(--gold-deep);line-height:1;white-space:nowrap;   /* deep gold: readable on cream */
+  font-family:var(--script);color:var(--gold);line-height:1;white-space:nowrap;   /* the gold the Free assessment button settles on */
+  /* Great Vibes ships one weight only, so bold would be synthetic and smeared.
+     A stroke in em thickens the script evenly and scales with the logo. */
+  -webkit-text-stroke:.025em currentColor;
   font-size:calc(var(--logo-w) * .30);margin-top:calc(var(--logo-w) * .10);       /* larger than the mark's own line so the script stays legible;
      the gap clears the tall B/Y flourishes of Great Vibes, which otherwise graze "health.ai" */
 }
@@ -592,7 +595,7 @@ section{padding-block:var(--section)}
 
 /* ---------- pricing ---------- */
 .plan{
-  background:#fff;border:1px solid rgba(63,20,74,.1);border-radius:var(--r-lg);
+  background:#fff;border:1.5px solid rgba(63,20,74,.26);border-radius:var(--r-lg);   /* visible enough to read as a card; Premium still outranks it at 2px plum */
   padding:32px;display:flex;flex-direction:column;
 }
 .plan.featured{border:2px solid var(--plum);box-shadow:var(--shadow);position:relative}

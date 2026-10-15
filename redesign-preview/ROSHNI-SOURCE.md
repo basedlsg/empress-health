@@ -2,7 +2,7 @@
 
 The public design in this directory was synced from the private GitHub repository
 `roshniempress/EmpAINewWebsite`, branch `main`, commit
-`fbedf5cc62757720d4f9b7975ec0e61e8e48e838` (October 5, 2026).
+`0333f2c1a4cbb75847d2e166e5bf4dc9bb3943da` (October 14, 2026).
 
 The production integration keeps the site's existing backend and applies these
 necessary adaptations to Roshni's source:
@@ -22,3 +22,7 @@ necessary adaptations to Roshni's source:
 
 When syncing a newer upstream revision, preserve these integration behaviors
 and run `node scripts/test-launch-red-flows.mjs` after the build staging step.
+
+The October 14 sync applies the brighter logo tagline, stronger shared plan-card
+borders, larger free-assessment stage text, and red irregular-cycle stage pill.
+Production-specific styles and assessment/report behavior are preserved.
