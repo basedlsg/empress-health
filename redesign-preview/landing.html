@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3f144a">
+  <meta name="description" content="A little gift for you from Empress Health. Join us for midlife support and discover your free Empress Naturals Calming Massage Oil mini.">
+  <link rel="canonical" href="https://empresshealth.ai/landing">
+  <link rel="icon" href="/assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <title>A little gift for you | Empress Health</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --plum: #3f144a;
+      --plum-deep: #2a0d31;
+      --blush: #f8edee;
+      --gold: #f0c35c;
+      --ink: #2b1a29;
+      --body: #4e3d4b;
+      --muted: #6b5a67;
+      --line: #e3cdd6;
+      --white: #fff;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background: #f5e9ec;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; scroll-behavior: smooth; }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 14% 13%, rgba(255,255,255,.72), transparent 33rem),
+        #f5e9ec;
+    }
+    a { color: var(--plum); }
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid #bc8d28;
+      outline-offset: 3px;
+    }
+    .skip-link {
+      position: absolute;
+      z-index: 3;
+      top: 8px;
+      left: 8px;
+      transform: translateY(-150%);
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: var(--white);
+      font-weight: 700;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .page-shell {
+      width: min(100%, 560px);
+      min-height: 100vh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 18px 60px rgba(63, 20, 74, .12);
+    }
+    .brandbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 20px;
+      background: var(--plum);
+    }
+    .brandbar img {
+      display: block;
+      width: auto;
+      height: 62px;
+      max-width: 100%;
+    }
+    .gift-section {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 126px;
+      align-items: center;
+      gap: 18px 16px;
+      padding: 28px 28px 24px;
+      background: var(--blush);
+    }
+    .gift-copy { min-width: 0; }
+    .eyebrow {
+      margin: 0 0 9px;
+      color: #6e3f63;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      color: var(--plum);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.8rem, 7vw, 2.18rem);
+      font-weight: 500;
+      letter-spacing: -.025em;
+      line-height: 1.14;
+    }
+    h1 em { font-weight: 500; }
+    .lede {
+      margin: 14px 0 0;
+      color: var(--body);
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+    .gift-product {
+      position: relative;
+      min-width: 0;
+      margin: 0;
+      padding: 8px 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--white);
+      text-align: center;
+    }
+    .gift-product img {
+      display: block;
+      width: 100%;
+      height: 174px;
+      border-radius: 14px;
+      object-fit: contain;
+    }
+    .gift-product figcaption {
+      display: grid;
+      gap: 2px;
+      padding-top: 4px;
+      color: var(--plum);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: .86rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .gift-product figcaption span {
+      color: var(--muted);
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: .55rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+    }
+    .instagram-link {
+      grid-column: 1 / -1;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border-radius: 16px;
+      padding: 12px 18px;
+      background: var(--plum);
+      color: var(--white);
+      font-size: 1.12rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color .18s ease, transform .18s ease;
+    }
+    .instagram-link:hover { background: var(--plum-deep); transform: translateY(-1px); }
+    .instagram-link svg { flex: none; }
+    .signup-block {
+      grid-column: 1 / -1;
+      margin-top: 2px;
+    }
+    .signup-title {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    #landing-capture.eh-capture-host--inline {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+    }
+    #landing-capture .eh-capture__row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: stretch;
+    }
+    #landing-capture .eh-capture__input {
+      min-width: 0;
+      min-height: 58px;
+      padding: 10px 17px;
+      border: 1.5px solid #c9b3bf;
+      border-radius: 16px;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 1rem;
+    }
+    #landing-capture .eh-capture__input::placeholder { color: #8a7a86; opacity: 1; }
+    #landing-capture .eh-capture__btn {
+      min-height: 58px;
+      padding: 10px 24px;
+      border: 2px solid var(--plum);
+      border-radius: 16px;
+      background: var(--white);
+      color: var(--plum);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    #landing-capture .eh-capture__btn:hover:not(:disabled) {
+      background: var(--plum);
+      color: var(--white);
+    }
+    #landing-capture .eh-capture__status { padding-top: 7px; color: var(--muted); }
+    .privacy-note {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: .85rem;
+      line-height: 1.5;
+    }
+    .privacy-note a { text-underline-offset: 3px; }
+    .circulation-note {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      align-items: center;
+      gap: 14px;
+      margin: 20px 28px 4px;
+      padding: 12px;
+      border: 1px solid #eee3e7;
+      border-radius: 18px;
+      background: #fffdfd;
+    }
+    .circulation-note img {
+      display: block;
+      width: 82px;
+      height: 112px;
+      border-radius: 12px;
+      background: var(--white);
+      object-fit: contain;
+    }
+    .circulation-note .eyebrow { margin-bottom: 4px; font-size: .62rem; }
+    .circulation-note h2 {
+      margin: 0 0 4px;
+      color: var(--plum);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .circulation-note p:last-child {
+      margin: 0;
+      color: var(--body);
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+    .assessment-section {
+      margin-top: 18px;
+      padding: 23px 28px 25px;
+      border-top: 1px solid #efe3e6;
+      text-align: center;
+    }
+    .assessment-link {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 17px;
+      padding: 14px 20px;
+      background: var(--gold);
+      color: var(--plum);
+      font-size: 1.08rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-decoration: none;
+      transition: filter .18s ease, transform .18s ease;
+    }
+    .assessment-link:hover { filter: brightness(.96); transform: translateY(-1px); }
+    .assessment-link svg { flex: none; }
+    .assessment-section > p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+    .site-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border-top: 1px solid #efe3e6;
+      font-size: .88rem;
+    }
+    .site-footer a { text-underline-offset: 3px; }
+    body.landing-campaign #ask-empress-shortcut { display: none !important; }
+
+    @media (min-width: 700px) {
+      .page-shell { min-height: calc(100vh - 48px); margin: 24px auto; border-radius: 24px; }
+      .gift-section { grid-template-columns: minmax(0, 1fr) 142px; padding: 34px 34px 28px; }
+      .gift-product img { height: 188px; }
+      .circulation-note { margin-right: 34px; margin-left: 34px; }
+      .assessment-section { padding-right: 34px; padding-left: 34px; }
+    }
+    @media (max-width: 390px) {
+      .gift-section { grid-template-columns: minmax(0, 1fr) 106px; gap: 15px 12px; padding: 22px 18px 20px; }
+      .eyebrow { font-size: .66rem; letter-spacing: .13em; }
+      h1 { font-size: 1.68rem; }
+      .lede { margin-top: 11px; font-size: .93rem; }
+      .gift-product { padding: 6px 6px 8px; border-radius: 17px; }
+      .gift-product img { height: 148px; }
+      .instagram-link { min-height: 54px; gap: 8px; padding-right: 10px; padding-left: 10px; font-size: 1rem; }
+      .circulation-note { grid-template-columns: 70px minmax(0, 1fr); gap: 11px; margin-right: 18px; margin-left: 18px; }
+      .circulation-note img { width: 70px; height: 100px; }
+      .assessment-section { padding-right: 18px; padding-left: 18px; }
+      #landing-capture .eh-capture__row { gap: 7px; }
+      #landing-capture .eh-capture__input { padding-right: 11px; padding-left: 11px; }
+      #landing-capture .eh-capture__btn { padding-right: 16px; padding-left: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body class="landing-campaign">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-shell">
+    <header class="brandbar">
+      <a href="/" aria-label="Empress Health home">
+        <img src="/assets/landing/brand-lockup.png" alt="Empress Health — Be You Again!">
+      </a>
+    </header>
+
+    <main id="main">
+      <section class="gift-section" aria-labelledby="gift-heading">
+        <div class="gift-copy">
+          <p class="eyebrow">A little gift for you</p>
+          <h1 id="gift-heading">Your midlife, <em>seen and heard.</em></h1>
+          <p class="lede">Enjoy your free Calming Massage Oil mini. Join the list for 20% off Empress Naturals products with a Premium subscription plan.</p>
+        </div>
+
+        <figure class="gift-product">
+          <img src="/assets/landing/calming-massage-oil-5ml.jpg" alt="Empress Naturals Calming Relaxing Massage Oil mini, 5 ml" fetchpriority="high">
+          <figcaption><span>YOUR 5 ML MINI</span>CALMING</figcaption>
+        </figure>
+
+        <a class="instagram-link" href="https://www.instagram.com/empresshealth.ai/" target="_blank" rel="noopener noreferrer">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+          </svg>
+          <span>Follow @empresshealth.ai</span>
+        </a>
+
+        <div class="signup-block">
+          <p class="signup-title">Email address</p>
+          <div id="landing-capture"
+               data-email-capture
+               data-source="empress-naturals-qr"
+               data-variant="inline"
+               data-cta="Join"
+               data-label="Email address"
+               data-placeholder="you@example.com"
+               data-success="Thanks — your email has been saved. We're glad you're here."></div>
+          <p class="privacy-note">No spam. Unsubscribe anytime. <a href="/privacypolicy">Privacy policy</a></p>
+        </div>
+      </section>
+
+      <aside class="circulation-note" aria-labelledby="circulation-heading">
+        <img src="/assets/landing/circulation-massage-oil-5ml.jpg" alt="Empress Naturals Circulation Invigorating Massage Oil mini, 5 ml" loading="lazy">
+        <div>
+          <p class="eyebrow">From Empress Naturals</p>
+          <h2 id="circulation-heading">A ritual for your rhythm.</h2>
+          <p>Circulation Invigorating Massage Oil with restorative sage and healing juniper berry.</p>
+        </div>
+      </aside>
+
+      <section class="assessment-section" aria-labelledby="assessment-heading">
+        <a class="assessment-link" href="/free-assessment">
+          <span id="assessment-heading">Take the free assessment</span>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path>
+          </svg>
+        </a>
+        <p>12 questions, about 3 minutes. A symptom screener developed with physicians. Get your score across four areas and see what to focus on next.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="/">empresshealth.ai</a>
+      <span aria-hidden="true">·</span>
+      <a href="/privacypolicy">Privacy</a>
+    </footer>
+  </div>
+  <script src="/site-email-capture.js" defer></script>
+</body>
+</html>
