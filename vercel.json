@@ -31,10 +31,10 @@
     { "source": "/r", "destination": "/pages/home" },
     { "source": "/r/:slug", "destination": "/pages/:slug" },
     { "source": "/public/(.*)", "destination": "/$1" },
-    { "source": "/PeakIT", "destination": "/peakit.html" },
-    { "source": "/PeakIt", "destination": "/peakit.html" },
-    { "source": "/Peakit", "destination": "/peakit.html" },
-    { "source": "/PEAKIT", "destination": "/peakit.html" }
+    { "source": "/PeakIT", "destination": "/peakit" },
+    { "source": "/PeakIt", "destination": "/peakit" },
+    { "source": "/Peakit", "destination": "/peakit" },
+    { "source": "/PEAKIT", "destination": "/peakit" }
   ],
   "env": {
     "NODE_ENV": "production",
