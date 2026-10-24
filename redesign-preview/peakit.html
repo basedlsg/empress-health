@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f1740">
+  <meta name="description" content="PeakIT is proud to sponsor Empress Naturals. Leave your details to stay connected.">
+  <link rel="canonical" href="https://empresshealth.ai/PeakIT">
+  <link rel="icon" href="/assets/peakit/peakit-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <title>PeakIT × Empress Naturals</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --cream: #f8f0d9;
+      --cream-deep: #efe2bf;
+      --indigo: #1f1740;
+      --indigo-2: #2d1f5c;
+      --violet: #6a2f8f;
+      --gold: #c79b67;
+      --gold-soft: #e2c49b;
+      --ink: #1d1733;
+      --body: #4a4260;
+      --muted: #6d6680;
+      --line: #e3d6b8;
+      --white: #fffdf7;
+      --error: #a3243b;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 1px 1px, rgba(199,155,103,.28) 1px, transparent 1.5px) 0 0 / 18px 18px,
+        radial-gradient(ellipse at 50% -10%, #fffaf0, transparent 60%),
+        var(--cream);
+    }
+    a { color: var(--indigo-2); text-underline-offset: 3px; }
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .shell {
+      width: min(100% - 32px, 520px);
+      margin: 0 auto;
+      padding: 28px 0 32px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      display: block;
+      width: min(240px, 64%);
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .card {
+      position: relative;
+      margin-top: 18px;
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 24px 60px -24px rgba(31,23,64,.35);
+      overflow: hidden;
+    }
+    .card-head {
+      position: relative;
+      padding: 28px 26px 26px;
+      color: #f7efe0;
+      background:
+        linear-gradient(135deg, rgba(106,47,143,.0) 40%, rgba(106,47,143,.55) 100%),
+        linear-gradient(160deg, var(--indigo-2), var(--indigo));
+    }
+    /* Mountain ridge echoing the PeakIT mark, with its gold edge. */
+    .card-head::after {
+      content: "";
+      position: absolute;
+      right: 0; bottom: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold-soft) 50%, var(--gold) 80%, transparent);
+    }
+    .ridge {
+      position: absolute;
+      right: 18px;
+      bottom: 3px;
+      width: 132px;
+      height: 64px;
+      opacity: .9;
+    }
+    .eyebrow {
+      position: relative;
+      margin: 0 0 12px;
+      color: var(--gold-soft);
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h1 {
+      position: relative;
+      max-width: 15ch;
+      margin: 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.9rem, 8vw, 2.4rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+    }
+    h1 em { color: var(--gold-soft); }
+    .lede {
+      position: relative;
+      max-width: 30ch;
+      margin: 14px 0 0;
+      color: rgba(247,239,224,.86);
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    form { padding: 24px 26px 26px; }
+    .field + .field { margin-top: 16px; }
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--ink);
+      font-size: .9rem;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px;
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      background: #fffefb;
+      color: var(--ink);
+      font: 500 1rem/1.2 "DM Sans", system-ui, sans-serif;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    input::placeholder { color: #a39cb0; }
+    input:hover { border-color: #d3c19b; }
+    input:focus { border-color: var(--indigo-2); box-shadow: 0 0 0 4px rgba(45,31,92,.1); outline: none; }
+    input[aria-invalid="true"] { border-color: var(--error); }
+    .field-error {
+      min-height: 0;
+      margin: 6px 0 0;
+      color: var(--error);
+      font-size: .84rem;
+    }
+    .field-error:empty { display: none; }
+
+    button {
+      width: 100%;
+      min-height: 56px;
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--indigo-2), var(--violet));
+      color: #fff;
+      font: 700 1.05rem/1 "DM Sans", system-ui, sans-serif;
+      letter-spacing: .01em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px -10px rgba(45,31,92,.7);
+      transition: transform .15s ease, filter .15s ease;
+    }
+    button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    button:disabled { cursor: progress; filter: saturate(.6); transform: none; }
+    .form-error {
+      margin: 14px 0 0;
+      color: var(--error);
+      font-size: .9rem;
+      text-align: center;
+    }
+    .form-error:empty { display: none; }
+    .fine {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .thanks {
+      padding: 36px 26px 34px;
+      text-align: center;
+    }
+    .thanks[hidden] { display: none; }
+    .check {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo-2), var(--violet));
+      color: #fff;
+      box-shadow: 0 0 0 6px rgba(199,155,103,.25);
+    }
+    .thanks h2 {
+      margin: 0;
+      color: var(--indigo);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 500;
+    }
+    .thanks p { margin: 10px auto 0; max-width: 30ch; color: var(--body); line-height: 1.55; }
+
+    footer {
+      margin-top: auto;
+      padding-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    body.landing-campaign #ask-empress-shortcut { display: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body class="landing-campaign">
+  <main class="shell">
+    <img class="logo" src="/assets/peakit/peakit-logo.png" alt="PeakIT" width="615" height="326">
+
+    <section class="card" aria-labelledby="heading">
+      <div class="card-head">
+        <svg class="ridge" viewBox="0 0 132 64" aria-hidden="true">
+          <path d="M0 64 30 30 52 52 78 16 104 44 132 64Z" fill="rgba(255,255,255,.06)"/>
+          <path d="M30 30 52 52M78 16 104 44 132 64M0 64 30 30M52 52 78 16" fill="none" stroke="#c79b67" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+        <p class="eyebrow">PeakIT × Empress Naturals</p>
+        <h1 id="heading">Let’s stay <em>connected.</em></h1>
+        <p class="lede">PeakIT is proud to sponsor Empress Naturals. Leave your details and we’ll keep in touch.</p>
+      </div>
+
+      <form id="peakit-form" novalidate>
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="First and last name" maxlength="120" required aria-describedby="name-error">
+          <p class="field-error" id="name-error" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" maxlength="255" required aria-describedby="email-error">
+          <p class="field-error" id="email-error" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567" maxlength="40" required aria-describedby="phone-error">
+          <p class="field-error" id="phone-error" aria-live="polite"></p>
+        </div>
+
+        <button type="submit">
+          <span>Count me in</span>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </button>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <p class="fine">By submitting, you agree to be contacted by PeakIT and Empress Naturals. No spam. <a href="/privacypolicy">Privacy policy</a></p>
+      </form>
+
+      <div class="thanks" id="thanks" hidden tabindex="-1">
+        <div class="check" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+        </div>
+        <h2>You’re in.</h2>
+        <p>Thanks for connecting with PeakIT and Empress Naturals. We’ll be in touch soon.</p>
+      </div>
+    </section>
+
+    <footer>
+      <span>Sponsored by PeakIT</span>
+      <span aria-hidden="true">·</span>
+      <a href="/">empresshealth.ai</a>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById("peakit-form");
+      var thanks = document.getElementById("thanks");
+      var formError = document.getElementById("form-error");
+      var button = form.querySelector("button");
+      var nameInput = document.getElementById("name");
+      var emailInput = document.getElementById("email");
+      var phoneInput = document.getElementById("phone");
+      var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function setError(input, message) {
+        input.setAttribute("aria-invalid", message ? "true" : "false");
+        document.getElementById(input.id + "-error").textContent = message;
+        return !message;
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        formError.textContent = "";
+        var name = nameInput.value.trim().replace(/\s+/g, " ");
+        var email = emailInput.value.trim();
+        var phone = phoneInput.value.trim();
+        var ok = [
+          setError(nameInput, name.length >= 2 ? "" : "Please enter your name."),
+          setError(emailInput, EMAIL.test(email) ? "" : "Please enter a valid email."),
+          setError(phoneInput, phone.replace(/\D/g, "").length >= 7 ? "" : "Please enter a valid phone number."),
+        ];
+        var firstInvalid = form.querySelector('[aria-invalid="true"]');
+        if (ok.indexOf(false) !== -1) { firstInvalid.focus(); return; }
+
+        var parts = name.split(" ");
+        button.disabled = true;
+        button.firstElementChild.textContent = "Saving…";
+        fetch("/api/capture/email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            email: email,
+            firstName: parts[0],
+            lastName: parts.slice(1).join(" ") || null,
+            source: "peakit",
+            context: { fullName: name, phone: phone, sponsor: "PeakIT", campaign: "peakit-empress-naturals" },
+          }),
+        })
+          .then(function (res) { return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; }); })
+          .then(function (r) {
+            if (!r.res.ok || !r.data.ok) throw new Error(r.res.status === 400 && r.data.error ? r.data.error : "We couldn’t save your details just now. Please try again.");
+            form.hidden = true;
+            thanks.hidden = false;
+            thanks.focus();
+          })
+          .catch(function (err) {
+            formError.textContent = err.message || "We couldn’t save your details just now. Please try again.";
+            button.disabled = false;
+            button.firstElementChild.textContent = "Count me in";
+          });
+      });
+    })();
+  </script>
+  <script src="/site-email-capture.js" defer></script>
+</body>
+</html>
